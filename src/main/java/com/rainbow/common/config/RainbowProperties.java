@@ -27,6 +27,15 @@ public class RainbowProperties {
 
     private boolean openAOPLog = true;
 
+    private String uploadFolder;
+
+    public String getUploadFolder() {
+        return uploadFolder;
+    }
+
+    public void setUploadFolder(String uploadFolder) {
+        this.uploadFolder = uploadFolder;
+    }
 
     public String getTimeFormat() {
         return timeFormat;

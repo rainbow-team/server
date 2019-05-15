@@ -6,7 +6,7 @@ spring:
       driverClassName: com.mysql.jdbc.Driver
       url: jdbc:mysql://localhost:3306/rainbow?useUnicode=true&characterEncoding=utf8&&serverTimezone=UTC
       username: root
-      password: 123456
+      password: 88888888
       # 连接池配置
       initial-size: 5
       min-idle: 5
@@ -65,6 +65,9 @@ rainbow:
   timeFormat: yyyy-MM-dd HH:mm:ss
   # 是否开启AOP日志，默认开启
   openAOPLog: true
+
+  uploadFolder: C:\\Attachment
+
   shiro:
     #shiro redis缓存时长,默认1800秒
     expireIn: 1800

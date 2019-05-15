@@ -1,0 +1,94 @@
+package com.rainbow.attachment.service.impl;
+
+import com.rainbow.attachment.dao.FileInfoMapper;
+import com.rainbow.attachment.domain.FileInfo;
+import com.rainbow.attachment.service.FileInfoService;
+import com.rainbow.common.config.RainbowProperties;
+import com.rainbow.common.domain.ResponseBo;
+import com.rainbow.common.service.impl.BaseService;
+import com.rainbow.common.util.Multipart;
+import com.rainbow.common.util.StrUtil;
+import com.sun.xml.internal.ws.api.message.Attachment;
+import org.apache.commons.io.FilenameUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.UUID;
+
+
+/**
+ * Created by 13260 on 2019/5/16.
+ */
+@Service("FileInfoService")
+public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileInfoService {
+
+    @Autowired
+    private FileInfoMapper fileInfoMapper;
+
+    @Override
+    public ResponseBo upload(MultipartFile multifile){
+
+        String guid = UUID.randomUUID().toString();
+
+//        Multipart part = new Multipart();
+//        MultipartFile multifile = part.getUploadFile(request);
+        if (null == multifile) {
+            return ResponseBo.error();
+        }
+        String ext = null;
+        String storeFile = null;
+        String fileName =null;
+        String fileSavePath ="";
+
+        try {
+            fileName = StrUtil.isNullOrEmpty(fileName) ? multifile.getOriginalFilename() : fileName;
+            fileName = new String(fileName.getBytes("ISO8859-1"), "UTF-8");
+            ext = FilenameUtils.getExtension(fileName); //fileName.split("\\.")[1];
+            storeFile = guid + "." + ext;
+
+            // 保存文件
+            String storageFolder = GetFileStorageFolder(guid);
+            fileSavePath = storageFolder + storeFile; // guid + "." +
+            // ext;
+            File file = new File(fileSavePath);
+
+            if (!file.exists()) {
+                file.mkdirs();
+            }
+            multifile.transferTo(file);
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        FileInfo fileInfo = new FileInfo();
+        fileInfo.setFileinfoId(guid);
+        fileInfo.setFileinfoFileType(ext);
+        fileInfo.setFileinfoServerFileName(storeFile);
+        fileInfo.setFileinfoClientFileName(fileName);
+        fileInfo.setFileinfoServerPath(fileSavePath);
+
+        fileInfoMapper.insert(fileInfo);
+
+
+        return ResponseBo.ok();
+    }
+
+    public static String GetFileStorageFolder(String actualFile) {
+        RainbowProperties rp = new RainbowProperties();
+
+        String  webInfPath = rp.getUploadFolder();
+
+        String path = String.format("%s%s/%s/", webInfPath, actualFile.charAt(0), actualFile.charAt(1));
+        return path;
+    }
+
+
+}
