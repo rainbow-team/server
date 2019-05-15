@@ -9,7 +9,7 @@ import java.util.HashMap;
  **/
 public class ResponseBo extends HashMap<String,Object> {
     // 成功
-    private static final Integer SUCCESS = 0;
+    private static final Integer SUCCESS = 200;
     // 警告
     private static final Integer WARN = 1;
     // 异常 失败

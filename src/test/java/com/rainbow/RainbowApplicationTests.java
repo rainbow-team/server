@@ -1,5 +1,6 @@
 package com.rainbow;
 
+import com.rainbow.common.util.GuidHelper;
 import com.rainbow.config.domain.SystemConfig;
 import com.rainbow.config.service.SystemConfigService;
 import com.rainbow.system.domain.User;
@@ -21,6 +22,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -96,10 +98,17 @@ public class RainbowApplicationTests {
 	private SystemConfigService systemConfigService;
 
 	@Test
-	public void testGetAllSystemConfig()
-	{
-		Map<String, List<SystemConfig>> map;
+	public void testGetAllSystemConfig() {
+		/*Map<String, List<SystemConfig>> map;
 		map = systemConfigService.getAllSystemConfigList();
+
+		int a=5;*/
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("tableName","config_political");
+		map.put("id", "640c55a746b847d89cc36886b8af4702");
+		map.put("value","modify2");
+		//map.put("order","5");
+		systemConfigService.modifyConfig(map);
 
 		int a=5;
 	}

@@ -1,6 +1,7 @@
 package com.rainbow.config.service.impl;
 
 import com.rainbow.common.service.impl.BaseService;
+import com.rainbow.common.util.GuidHelper;
 import com.rainbow.config.dao.SystemConfigMapper;
 import com.rainbow.config.domain.SystemConfig;
 import com.rainbow.config.service.SystemConfigService;
@@ -21,6 +22,11 @@ public class SystemConfigServiceImpl extends BaseService<SystemConfig> implement
     @Autowired
     SystemConfigMapper systemConfigMapper;
 
+
+    /**
+     * 获取所有的配置，表名是key，值列表是List
+     * @return
+     */
     @Override
     public Map<String, List<SystemConfig>> getAllSystemConfigList() {
 
@@ -35,5 +41,31 @@ public class SystemConfigServiceImpl extends BaseService<SystemConfig> implement
             }
         });
         return map;
+    }
+
+    /**
+     * 根据表名和值，插入数据
+     * @param insertMap
+     * @return
+     */
+    @Override
+    public int saveConfigByTableNameAndValue(Map<String, String> insertMap) {
+
+        insertMap.put("id", GuidHelper.getGuid());
+
+        int order = systemConfigMapper.getOrderByTableName(insertMap.get("tableName"));
+
+        insertMap.put("order", String.valueOf(order + 1));
+
+        return systemConfigMapper.saveConfigByTableNameAndValues(insertMap);
+    }
+
+    /**
+     * 根据表名，ID和值，修改数据
+     * @param map
+     */
+    @Override
+    public void modifyConfig(Map<String, String> map) {
+        systemConfigMapper.modifyConfigByTableNameAndValue(map);
     }
 }

@@ -1,6 +1,8 @@
 package com.rainbow.config.controller;
 
 import com.rainbow.common.controller.BaseController;
+import com.rainbow.common.domain.ResponseBo;
+import com.rainbow.common.util.GuidHelper;
 import com.rainbow.config.domain.SystemConfig;
 import com.rainbow.config.service.SystemConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +21,34 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/config")
-public class SystemConfigController extends BaseController{
+public class SystemConfigController extends BaseController {
 
     @Autowired
     SystemConfigService systemConfigService;
 
-    @RequestMapping("/getAllSystemConfig")
-    public Map<String,List<SystemConfig>> getAllSystemConfig() {
-        Map<String, List<SystemConfig>> map;
-        map = systemConfigService.getAllSystemConfigList();
+    @RequestMapping("/getAllConfig")
+    public Map<String, List<SystemConfig>> getAllSystemConfig() {
+        return systemConfigService.getAllSystemConfigList();
+    }
 
-        return map;
+    /**
+     *
+     * @param map map要存需要新增的表名字，value分别作为主键，他们的值作为Value
+     * @return
+     */
+    @RequestMapping("/addConfig")
+    public ResponseBo addConfig(Map<String, String> map) {
+        if (map != null) {
+            systemConfigService.saveConfigByTableNameAndValue(map);
+        }
+        return ResponseBo.ok("保存成功");
+    }
+
+    @RequestMapping("/modifyConfig")
+    public ResponseBo modifyConfig(Map<String,String> map) {
+        if (map != null) {
+            systemConfigService.modifyConfig(map);
+        }
+        return ResponseBo.ok("修改成功");
     }
 }

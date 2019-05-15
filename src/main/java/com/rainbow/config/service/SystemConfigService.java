@@ -13,7 +13,10 @@ import java.util.Map;
  **/
 public interface SystemConfigService extends IService<SystemConfig> {
 
+
     Map<String,List<SystemConfig>>  getAllSystemConfigList();
 
+    int saveConfigByTableNameAndValue(Map<String,String> insertMap);
 
+    void modifyConfig(Map<String,String> map);
 }

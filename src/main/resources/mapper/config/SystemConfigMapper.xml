@@ -18,4 +18,16 @@
     select * from ${_parameter}
   </select>
 
+
+  <insert id="saveConfigByTableNameAndValues" parameterType="java.util.Map">
+    insert into ${tableName}(id,`value`,`order`) values(#{id},#{value},#{order})
+  </insert>
+
+  <select id="getOrderByTableName" resultType="java.lang.Integer" statementType="STATEMENT">
+    select max(`order`) from ${_parameter}
+  </select>
+
+  <update id="modifyConfigByTableNameAndValue" parameterType="java.util.Map">
+    update ${map.tableName} set `value`= #{map.value} where id = #{map.id}
+  </update>
 </mapper>
