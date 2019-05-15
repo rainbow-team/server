@@ -9,10 +9,26 @@ import java.util.Map;
 
 public interface SystemConfigMapper extends MyMapper<SystemConfig> {
 
+
+    /**
+     * 获取所有的表名
+     * @return
+     */
     List<String> getAllTables();
 
+
+    /**
+     * 根据表名获取配置数据列表
+     * @param tableName
+     * @return
+     */
     List<SystemConfig> getSystemConfigByTableName(String tableName);
 
+    /**
+     * 根据配置表名和值保存数据
+     * @param insertMap
+     * @return
+     */
     int saveConfigByTableNameAndValues(Map<String,String> insertMap);
 
     int deleteConfigByTableNameAndKey(String tableName,String key);
