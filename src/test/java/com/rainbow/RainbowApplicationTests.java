@@ -1,5 +1,7 @@
 package com.rainbow;
 
+import com.rainbow.config.domain.SystemConfig;
+import com.rainbow.config.service.SystemConfigService;
 import com.rainbow.system.domain.User;
 import com.rainbow.system.service.UserService;
 import org.junit.*;
@@ -19,6 +21,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -86,5 +90,17 @@ public class RainbowApplicationTests {
 	@Test
 	public void testDeleUser() throws Exception{
 //		userService.deleteByKey(10);
+	}
+
+	@Autowired
+	private SystemConfigService systemConfigService;
+
+	@Test
+	public void testGetAllSystemConfig()
+	{
+		Map<String, List<SystemConfig>> map;
+		map = systemConfigService.getAllSystemConfigList();
+
+		int a=5;
 	}
 }

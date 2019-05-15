@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.config.dao.SystemConfigMapper">
+  <resultMap id="SystemConfigResultMap" type="com.rainbow.config.domain.SystemConfig">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="value" jdbcType="VARCHAR" property="value" />
+    <result column="order" jdbcType="INTEGER" property="order" />
+  </resultMap>
+
+  <select id="getAllTables" resultType="java.lang.String">
+       select TABLE_NAME from information_schema.TABLES where TABLE_SCHEMA=(select database())
+  </select>
+
+  <select id="getSystemConfigByTableName" resultType="SystemConfig" statementType="STATEMENT">
+    select * from ${_parameter}
+  </select>
+
+</mapper>
