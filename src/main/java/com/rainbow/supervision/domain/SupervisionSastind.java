@@ -1,7 +1,11 @@
 package com.rainbow.supervision.domain;
 
-import java.util.Date;
+import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
+import org.springframework.beans.factory.annotation.Value;
+
+
 import javax.persistence.*;
+import java.util.Date;
 
 @Table(name = "supervision_sastind")
 public class SupervisionSastind {
