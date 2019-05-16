@@ -20,8 +20,7 @@ public class FileInfoController {
     private FileInfoService fileInfoService;
 
     @PostMapping(value = "/upload")
-    @ResponseBody
-    public ResponseBo upload(@RequestParam("uploadFile") MultipartFile file){
+    public ResponseBo upload(@RequestParam("file") MultipartFile file){
         return fileInfoService.upload(file);
     }
 }

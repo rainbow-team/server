@@ -1,4 +1,8 @@
 spring:
+  servlet:
+       multipart:
+         max-file-size: 10MB
+         max-request-size: 100MB
   datasource:
     druid:
       # 数据库访问配置, 使用druid数据源
@@ -65,8 +69,8 @@ rainbow:
   timeFormat: yyyy-MM-dd HH:mm:ss
   # 是否开启AOP日志，默认开启
   openAOPLog: true
-
-  uploadFolder: C:\\Attachment
+  # 上传路径
+  uploadFolder: C://Attachment/
 
   shiro:
     #shiro redis缓存时长,默认1800秒

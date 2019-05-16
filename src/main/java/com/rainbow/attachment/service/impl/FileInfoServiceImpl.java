@@ -30,10 +30,15 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
     @Autowired
     private FileInfoMapper fileInfoMapper;
 
+    @Autowired
+    private RainbowProperties rainbowProperties;
+
     @Override
     public ResponseBo upload(MultipartFile multifile){
 
         String guid = UUID.randomUUID().toString();
+
+//        String fromID = request.getParameter("id");
 
 //        Multipart part = new Multipart();
 //        MultipartFile multifile = part.getUploadFile(request);
@@ -53,14 +58,15 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
 
             // 保存文件
             String storageFolder = GetFileStorageFolder(guid);
-            fileSavePath = storageFolder + storeFile; // guid + "." +
-            // ext;
-            File file = new File(fileSavePath);
+            fileSavePath = storageFolder + storeFile;
+            File file = new File(storageFolder);
 
             if (!file.exists()) {
                 file.mkdirs();
             }
-            multifile.transferTo(file);
+
+            File file1 = new File(fileSavePath);
+            multifile.transferTo(file1);
 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -81,10 +87,10 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
         return ResponseBo.ok();
     }
 
-    public static String GetFileStorageFolder(String actualFile) {
-        RainbowProperties rp = new RainbowProperties();
+    public  String GetFileStorageFolder(String actualFile) {
+//        RainbowProperties rp = new RainbowProperties();
 
-        String  webInfPath = rp.getUploadFolder();
+        String  webInfPath = rainbowProperties.getUploadFolder();
 
         String path = String.format("%s%s/%s/", webInfPath, actualFile.charAt(0), actualFile.charAt(1));
         return path;
