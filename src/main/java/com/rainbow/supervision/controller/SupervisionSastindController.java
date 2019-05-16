@@ -33,18 +33,12 @@ public class SupervisionSastindController {
      */
     @PostMapping("/add")
     public ResponseBo addSastind(@RequestBody SupervisionSastind sastind) {
+        int result = sastindService.saveSastind(sastind);
 
-        List<SupervisionSastind> list = sastindService.selectAll();
-        if (list.size() > 0) {
-            return ResponseBo.error("不能添加多于一个");
+        if (result == 1) {
+            return ResponseBo.ok("保存成功");
         } else {
-            int result = sastindService.saveSastind(sastind);
-
-            if (result == 1) {
-                return ResponseBo.ok("保存成功");
-            } else {
-                return ResponseBo.error("保存失败");
-            }
+            return ResponseBo.error("保存失败");
         }
     }
 
