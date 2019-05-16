@@ -16,4 +16,5 @@ public interface SupervisionSastindService extends IService<SupervisionSastind> 
     int saveSastind(SupervisionSastind sastind);
 
     int modifySastind(SupervisionSastind sastind);
+
 }

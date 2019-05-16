@@ -1,8 +1,14 @@
 package com.rainbow;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.rainbow.common.util.GuidHelper;
 import com.rainbow.config.domain.SystemConfig;
 import com.rainbow.config.service.SystemConfigService;
+import com.rainbow.supervision.domain.SupervisionSastind;
+import com.rainbow.supervision.service.SupervisionSastindService;
 import com.rainbow.system.domain.User;
 import com.rainbow.system.service.UserService;
 import org.junit.*;
@@ -47,18 +53,23 @@ public class RainbowApplicationTests {
 //		params.add("password", "123456");
 //		params.add("code", "test");
 //		params.add("rememberMe", "true");
-//		mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+		mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
 ///*		session = new MockHttpSession();
 //		User user = new User();
 //		user.setUsername("MrBird");
 //		user.setPassword("42ee25d1e43e9f57119a00d0a39e5250");
 //		session.setAttribute("user", user);*/
 //
-//		try {
-//			mockMvc.perform(MockMvcRequestBuilders.get("/login1").params(params)).andExpect(MockMvcResultMatchers.status().isOk());
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+		SupervisionSastind sastind = new SupervisionSastind();
+		sastind.setId("111");
+		String requestJson =JSONObject.toJSONString(sastind);
+
+		try {
+			mockMvc.perform(MockMvcRequestBuilders.get("/sastind/delete").contentType(MediaType.APPLICATION_JSON).content(requestJson)).andExpect(MockMvcResultMatchers.status().isOk());
+			//mockMvc.perform(MockMvcRequestBuilders.get("/test")).andExpect(MockMvcResultMatchers.status().isOk());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
@@ -92,6 +103,7 @@ public class RainbowApplicationTests {
 	@Test
 	public void testDeleUser() throws Exception{
 //		userService.deleteByKey(10);
+		System.out.println("test");
 	}
 
 	@Autowired

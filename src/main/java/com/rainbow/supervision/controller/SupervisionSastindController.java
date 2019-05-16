@@ -7,10 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -28,6 +25,7 @@ public class SupervisionSastindController {
 
     /**
      * 保存国防科工局信息
+     *
      * @param sastind
      * @return
      */
@@ -42,6 +40,12 @@ public class SupervisionSastindController {
         }
     }
 
+    /**
+     * 修改国防科工局信息
+     *
+     * @param sastind
+     * @return
+     */
     @PostMapping("/modify")
     public ResponseBo modifySastind(@RequestBody SupervisionSastind sastind) {
         int result = sastindService.modifySastind(sastind);
@@ -49,6 +53,22 @@ public class SupervisionSastindController {
             return ResponseBo.ok("修改成功");
         } else {
             return ResponseBo.error("修改失败");
+        }
+    }
+
+    /**
+     * 删除国防科工局信息
+     *
+     * @param sastind
+     * @return
+     */
+    @PostMapping("/delete")
+    public ResponseBo deleteSastind(@RequestBody SupervisionSastind sastind) {
+        int result = sastindService.deleteByKey(sastind.getId());
+        if (result == 1) {
+            return ResponseBo.ok("删除成功");
+        } else {
+            return ResponseBo.error("删除失败");
         }
     }
 }
