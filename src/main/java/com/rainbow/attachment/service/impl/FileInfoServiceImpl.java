@@ -84,7 +84,7 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
         fileInfoMapper.insert(fileInfo);
 
 
-        return ResponseBo.ok();
+        return ResponseBo.ok(guid);
     }
 
     public  String GetFileStorageFolder(String actualFile) {

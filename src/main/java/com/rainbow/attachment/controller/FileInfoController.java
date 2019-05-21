@@ -23,4 +23,10 @@ public class FileInfoController {
     public ResponseBo upload(@RequestParam("file") MultipartFile file){
         return fileInfoService.upload(file);
     }
+
+    @GetMapping("/delete")
+    public ResponseBo deleteFileById(String id){
+        int num= fileInfoService.deleteByKey(id);
+        return ResponseBo.ok();
+    }
 }

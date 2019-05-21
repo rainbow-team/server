@@ -1,6 +1,10 @@
 package com.rainbow.supervision.domain;
 
+import com.rainbow.attachment.domain.FileInfo;
+import jdk.nashorn.internal.ir.annotations.Ignore;
+
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
 @Table(name = "supervision_supervisor")
@@ -138,6 +142,16 @@ public class SupervisionSupervisor {
      * 备注
      */
     private String note;
+
+    private List<FileInfo> attachmentList;
+
+    public List<FileInfo> getAttachmentList() {
+        return attachmentList;
+    }
+
+    public void setAttachmentList(List<FileInfo> attachmentList) {
+        this.attachmentList = attachmentList;
+    }
 
     /**
      * 获取主键

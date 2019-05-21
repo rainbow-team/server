@@ -15,4 +15,13 @@
     <result column="fileinfo_upload_date" jdbcType="TIMESTAMP" property="fileinfoUploadDate" />
     <result column="fileinfo_content" jdbcType="LONGVARCHAR" property="fileinfoContent" />
   </resultMap>
+
+
+  <update id="updateFileInfoByIds" parameterType="map">
+    UPDATE file_info t set t.fileinfo_ref_id = #{id} where t.fileinfo_id IN
+    <foreach collection="fileIds" item="item" open="(" close=")" separator=",">
+      #{item.fileinfoId}
+    </foreach>
+  </update>
+
 </mapper>

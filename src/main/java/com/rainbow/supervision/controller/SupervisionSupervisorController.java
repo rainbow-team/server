@@ -1,5 +1,7 @@
 package com.rainbow.supervision.controller;
 
+import com.rainbow.attachment.domain.FileInfo;
+import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.util.StrUtil;
 import com.rainbow.supervision.domain.SupervisionSupervisor;
@@ -23,8 +25,10 @@ public class SupervisionSupervisorController {
     @Autowired
     public SupervisionSupervisorService supervisionSupervisorService;
 
+    @Autowired
+    public FileInfoService fileInfoService;
+
     @PostMapping("getSupervisionSupervisorList")
-    @ResponseBody
     public ResponseBo getSupervisionSupervisorList(@RequestBody  SupervisionSupervisor supervisionSupervisor) {
 
         if(!StrUtil.isNullOrEmpty(supervisionSupervisor.getName())){
@@ -47,26 +51,11 @@ public class SupervisionSupervisorController {
     }
 
     @PostMapping("saveOrUpdateSupervisionSupervisor")
-    @ResponseBody
     public ResponseBo saveOrUpdateSupervisionSupervisor(@RequestBody  SupervisionSupervisor supervisionSupervisor){
-
-        if(supervisionSupervisor!=null){
-
-            if(StrUtil.isNullOrEmpty(supervisionSupervisor.getId())){
-
-                supervisionSupervisor.setId(UUID.randomUUID().toString());
-                supervisionSupervisorService.save(supervisionSupervisor);
-
-            }else{
-                supervisionSupervisorService.updateAll(supervisionSupervisor);
-            }
-        }
-
-        return ResponseBo.ok();
+        return supervisionSupervisorService.saveOrUpdateSupervisionSupervisor(supervisionSupervisor);
     }
 
     @GetMapping("deleteSupervisionSupervisorById")
-    @ResponseBody
     public ResponseBo deleteSupervisionSupervisorById(String id){
 
         supervisionSupervisorService.deleteByKey(id);
@@ -75,10 +64,15 @@ public class SupervisionSupervisorController {
     }
 
     @GetMapping("getSupervisionSupervisorById")
-    @ResponseBody
     public ResponseBo getSupervisionSupervisorById(String id){
 
         SupervisionSupervisor supervisionSupervisor=supervisionSupervisorService.selectByKey(id);
+
+        Example example = new Example(FileInfo.class);
+        example.createCriteria().andEqualTo("fileinfoRefId",id);
+        List<FileInfo> list =fileInfoService.selectByExample(example);
+        supervisionSupervisor.setAttachmentList(list);
+
         return  ResponseBo.ok(supervisionSupervisor);
     }
 }
