@@ -71,4 +71,9 @@ public class SupervisionSastindController {
             return ResponseBo.error("删除失败");
         }
     }
+
+    @PostMapping("/getaAll")
+    public List<SupervisionSastind> selectAllSastind(){
+        return null;
+    }
 }

@@ -3,6 +3,7 @@ package com.rainbow.system.controller;
 import com.rainbow.common.controller.BaseController;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.util.MD5Utils;
+import com.rainbow.system.domain.User;
 import com.rainbow.system.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.*;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import tk.mybatis.mapper.util.StringUtil;
 
 /**
  * @Author:deepblue
@@ -23,7 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @Description:
  **/
 @Controller
-public class LoginController extends BaseController{
+public class LoginController extends BaseController {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -38,10 +40,15 @@ public class LoginController extends BaseController{
         return "login";
     }
 
-    @PostMapping("/login1")
+    @PostMapping("/login")
     @ResponseBody
-    public ResponseBo login(String username, String password, String code, Boolean rememberMe){
-       /* if (!StringUtils.isNotBlank(code)) {
+    public ResponseBo login(String username, String password, String code, Boolean rememberMe) {
+        if ((!StringUtils.isNotBlank(username)) || (!StringUtils.isNotBlank(password))) {
+            return ResponseBo.error("用户名或密码不能为空");
+        }
+
+
+        /* if (!StringUtils.isNotBlank(code)) {
             return ResponseBo.warn("验证码不能为空！");
         }
 
@@ -54,13 +61,20 @@ public class LoginController extends BaseController{
 //        password = MD5Utils.encrypt(username.toLowerCase(), password);
 //        UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
         try {
+
+            User user = userService.findByName(username);
+            if (user == null) {
+                return ResponseBo.error("用户名或者密码错误");
+            } else {
+                this.userService.updateLoginTime(username);
+                return ResponseBo.ok();
+            }
           /*  Subject subject = getSubject();
             if (subject != null) {
                 subject.logout();
             }
             super.login(token);*/
 //            this.userService.updateLoginTime(username);
-            return ResponseBo.ok(111);
         } catch (UnknownAccountException | IncorrectCredentialsException | LockedAccountException e) {
             return ResponseBo.error(e.getMessage());
         } catch (AuthenticationException e) {

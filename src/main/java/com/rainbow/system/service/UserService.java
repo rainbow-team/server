@@ -15,9 +15,22 @@ import java.util.List;
  * @Description:
  **/
 public interface UserService extends IService<User>{
+    /**
+     * 根据用户名查找用户
+     * @param userName
+     * @return
+     */
+    User findByName(String userName);
+
+    /**
+     * 更新用户的最后登录时间
+     * @param userName
+     */
+    void updateLoginTime(String userName);
+
     UserWithRole findById(Long userId);
 
-    User findByName(String userName);
+
 
     @Cacheable(key = "#p0.toString() + (#p1 != null ? #p1.toString() : '')")
     List<User> findUserWithDept(User user, QueryRequest request);
@@ -36,11 +49,13 @@ public interface UserService extends IService<User>{
     @CacheEvict(key = "#p0", allEntries = true)
     void deleteUsers(String userIds);
 
-    void updateLoginTime(String userName);
+
 
     void updatePassword(String password);
 
     User findUserProfile(User user);
 
     void updateUserProfile(User user);
+
+
 }

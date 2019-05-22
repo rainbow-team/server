@@ -45,6 +45,27 @@ public class UserServiceImpl extends BaseService<User> implements UserService{
     @Autowired
     private UserRoleService userRoleService;
 
+
+    @Override
+    public User findByName(String userName) {
+        Example example = new Example(User.class);
+        example.createCriteria().andCondition("lower(username)=", userName.toLowerCase());
+        List<User> list = this.selectByExample(example);
+        return list.isEmpty() ? null : list.get(0);
+    }
+
+
+    @Override
+    @Transactional
+    public void updateLoginTime(String userName) {
+        Example example = new Example(User.class);
+        example.createCriteria().andCondition("lower(username)=", userName.toLowerCase());
+        User user = new User();
+        user.setLastLoginTime(new Date());
+        this.userMapper.updateByExampleSelective(user, example);
+    }
+
+
     @Override
     public UserWithRole findById(Long userId) {
         List<UserWithRole> list = this.userMapper.findUserWithRole(userId);
@@ -57,13 +78,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService{
         return userWithRole;
     }
 
-    @Override
-    public User findByName(String userName) {
-        Example example = new Example(User.class);
-        example.createCriteria().andCondition("lower(username)=", userName.toLowerCase());
-        List<User> list = this.selectByExample(example);
-        return list.isEmpty() ? null : list.get(0);
-    }
+
 
     @Override
     public List<User> findUserWithDept(User user, QueryRequest request) {
@@ -142,15 +157,7 @@ public class UserServiceImpl extends BaseService<User> implements UserService{
         this.userRoleService.deleteUserRolesByUserId(userIds);
     }
 
-    @Override
-    @Transactional
-    public void updateLoginTime(String userName) {
-        Example example = new Example(User.class);
-        example.createCriteria().andCondition("lower(username)=", userName.toLowerCase());
-        User user = new User();
-        user.setLastLoginTime(new Date());
-        this.userMapper.updateByExampleSelective(user, example);
-    }
+
 
     @Override
     public void updatePassword(String password) {
