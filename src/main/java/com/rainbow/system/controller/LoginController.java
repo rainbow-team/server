@@ -2,27 +2,34 @@ package com.rainbow.system.controller;
 
 import com.rainbow.common.controller.BaseController;
 import com.rainbow.common.domain.ResponseBo;
-import com.rainbow.common.util.MD5Utils;
+
 import com.rainbow.common.util.VeriyCode;
+import com.rainbow.system.domain.User;
 import com.rainbow.system.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.*;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+
+
 import org.springframework.web.bind.annotation.*;
+
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Map;
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+
 
 /**
  * @Author:deepblue
@@ -42,6 +49,7 @@ public class LoginController extends BaseController{
 
 
     @PostMapping("/login")
+
     public ResponseBo login(@RequestBody Map<String,String> map, HttpServletRequest  request){
 
 //        String code = request.getSession(true).getAttribute(CODE_KEY).toString();
@@ -54,7 +62,6 @@ public class LoginController extends BaseController{
         return userService.login(map);
     }
     /* 获取验证码图片*/
-
     @RequestMapping("/getVerifyCode")
     public void getVerificationCode(HttpServletResponse response, HttpServletRequest  request) {
 
@@ -79,6 +86,5 @@ public class LoginController extends BaseController{
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }
