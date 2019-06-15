@@ -1,6 +1,7 @@
 package com.rainbow.system.service;
 
 import com.rainbow.common.domain.QueryRequest;
+import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.IService;
 import com.rainbow.system.domain.User;
 import com.rainbow.system.domain.UserWithRole;
@@ -8,6 +9,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author:liuhao
@@ -43,4 +45,6 @@ public interface UserService extends IService<User>{
     User findUserProfile(User user);
 
     void updateUserProfile(User user);
+
+    ResponseBo login(Map<String,String> map );
 }

@@ -53,19 +53,19 @@ public class RainbowApplicationTests {
 //		params.add("password", "123456");
 //		params.add("code", "test");
 //		params.add("rememberMe", "true");
-		mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+//		mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
 ///*		session = new MockHttpSession();
 //		User user = new User();
 //		user.setUsername("MrBird");
 //		user.setPassword("42ee25d1e43e9f57119a00d0a39e5250");
 //		session.setAttribute("user", user);*/
 //
-		SupervisionSastind sastind = new SupervisionSastind();
-		sastind.setId("111");
-		String requestJson =JSONObject.toJSONString(sastind);
+//		SupervisionSastind sastind = new SupervisionSastind();
+//		sastind.setId("111");
+//		String requestJson =JSONObject.toJSONString(sastind);
 
 		try {
-			mockMvc.perform(MockMvcRequestBuilders.get("/sastind/delete").contentType(MediaType.APPLICATION_JSON).content(requestJson)).andExpect(MockMvcResultMatchers.status().isOk());
+//			mockMvc.perform(MockMvcRequestBuilders.get("/sastind/delete").contentType(MediaType.APPLICATION_JSON).content(requestJson)).andExpect(MockMvcResultMatchers.status().isOk());
 			//mockMvc.perform(MockMvcRequestBuilders.get("/test")).andExpect(MockMvcResultMatchers.status().isOk());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -103,7 +103,7 @@ public class RainbowApplicationTests {
 	@Test
 	public void testDeleUser() throws Exception{
 //		userService.deleteByKey(10);
-		System.out.println("test");
+//		System.out.println("test");
 	}
 
 	@Autowired
@@ -115,13 +115,13 @@ public class RainbowApplicationTests {
 		map = systemConfigService.getAllSystemConfigList();
 
 		int a=5;*/
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("tableName","config_political");
-		map.put("id", "640c55a746b847d89cc36886b8af4702");
-		map.put("value","modify2");
-		//map.put("order","5");
-		systemConfigService.modifyConfig(map);
+//		Map<String, String> map = new HashMap<String, String>();
+//		map.put("tableName","config_political");
+//		map.put("id", "640c55a746b847d89cc36886b8af4702");
+//		map.put("value","modify2");
+//		//map.put("order","5");
+//		systemConfigService.modifyConfig(map);
 
-		int a=5;
+//		int a=5;
 	}
 }

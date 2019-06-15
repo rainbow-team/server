@@ -16,9 +16,9 @@ public class CorsFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Methods", "*");
-        response.addHeader("Access-Control-Max-Age", "100");
+        response.addHeader("Access-Control-Max-Age", "3600");
         response.addHeader("Access-Control-Allow-Headers", "Content-Type");
-        response.addHeader("Access-Control-Allow-Credentials", "false");
+        response.addHeader("Access-Control-Allow-Credentials", "true");
         System.out.println("*********************************过滤器被使用**************************");
         chain.doFilter(req, res);
     }

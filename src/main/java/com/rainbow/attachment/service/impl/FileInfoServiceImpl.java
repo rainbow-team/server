@@ -6,15 +6,12 @@ import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.common.config.RainbowProperties;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
-import com.rainbow.common.util.Multipart;
 import com.rainbow.common.util.StrUtil;
-import com.sun.xml.internal.ws.api.message.Attachment;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

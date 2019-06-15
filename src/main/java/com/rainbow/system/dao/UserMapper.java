@@ -5,6 +5,7 @@ import com.rainbow.system.domain.User;
 import com.rainbow.system.domain.UserWithRole;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author:liuhao
@@ -18,4 +19,6 @@ public interface UserMapper extends MyMapper<User> {
     List<UserWithRole> findUserWithRole(Long userId);
 
     User findUserProfile(User user);
+
+    Map<String,Object> login(Map<String,String> map );
 }

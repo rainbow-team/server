@@ -1,6 +1,7 @@
 package com.rainbow.system.service.impl;
 
 import com.rainbow.common.domain.QueryRequest;
+import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
 import com.rainbow.common.util.MD5Utils;
 import com.rainbow.system.dao.UserMapper;
@@ -19,10 +20,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -175,5 +173,16 @@ public class UserServiceImpl extends BaseService<User> implements UserService{
             user.setDeptId(0L);
         }
         this.updateNotNull(user);
+    }
+
+    @Override
+    public ResponseBo login(Map<String,String> map){
+
+        Map<String,Object> result = userMapper.login(map);
+
+        if(result==null){
+            return ResponseBo.warn("用户名或密码错误!");
+        }
+        return  ResponseBo.ok();
     }
 }

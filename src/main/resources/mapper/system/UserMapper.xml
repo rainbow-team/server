@@ -48,4 +48,10 @@
     left join t_user_role ur on (u.user_id = ur.user_id)
     where u.user_id = #{userId}
   </select>
+
+
+  <select id="login" parameterType="map" resultType="map">
+    SELECT t.id,t.name,t.realname from system_user t where t.name =#{username} and  t.password=#{password}
+  </select>
+
 </mapper>
