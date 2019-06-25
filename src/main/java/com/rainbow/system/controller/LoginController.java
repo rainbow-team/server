@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -59,6 +60,7 @@ public class LoginController extends BaseController{
 //            return ResponseBo.warn("验证码不正确!");
 //        }
 
+
         return userService.login(map);
     }
     /* 获取验证码图片*/
@@ -74,7 +76,11 @@ public class LoginController extends BaseController{
             String randomText = VeriyCode.drawRandomText(width, height, verifyImg);
 
             //功能是生成验证码字符并加上噪点，干扰线，返回值为验证码字符
-            request.getSession().setAttribute(CODE_KEY, randomText);
+//            request.getSession().setAttribute(CODE_KEY, randomText);
+            Cookie cookie = new Cookie(CODE_KEY, randomText);
+//            cookie.setMaxAge(24 * 60 * 60);
+            response.addCookie(cookie);
+
             response.setContentType("image/png");//必须设置响应内容类型为图片，否则前台不识别
             OutputStream os = response.getOutputStream(); //获取文件输出流
 

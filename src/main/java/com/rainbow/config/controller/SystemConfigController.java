@@ -19,7 +19,7 @@ import java.util.Map;
  * @Description:
  **/
 
-@Controller
+@RestController
 @RequestMapping("/config")
 public class SystemConfigController extends BaseController {
 

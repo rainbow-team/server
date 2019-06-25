@@ -58,7 +58,7 @@ public interface UserService extends IService<User>{
     User findUserProfile(User user);
 
     void updateUserProfile(User user);
-    
+
     ResponseBo login(Map<String,String> map );
 
 }
