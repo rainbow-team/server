@@ -72,7 +72,7 @@ public class SupervisionSastindController {
         }
     }
 
-    @PostMapping("/getaAll")
+    @PostMapping("/getAll")
     public List<SupervisionSastind> selectAllSastind(){
         return null;
     }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.SupervisionMonitorTrainMapper">
+  <resultMap id="BaseResultMap" type="com.rainbow.supervision.domain.SupervisionMonitorTrain">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="batch" jdbcType="VARCHAR" property="batch" />
+    <result column="begin_date" jdbcType="DATE" property="beginDate" />
+    <result column="end_date" jdbcType="DATE" property="endDate" />
+    <result column="place" jdbcType="VARCHAR" property="place" />
+    <result column="number" jdbcType="INTEGER" property="number" />
+    <result column="is_import" jdbcType="INTEGER" property="isImport" />
+    <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="note" jdbcType="LONGVARCHAR" property="note" />
+  </resultMap>
+</mapper>
