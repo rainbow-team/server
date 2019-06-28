@@ -9,4 +9,8 @@ import com.rainbow.supervision.domain.SupervisionMonitorTrain;
  * @Description:
  **/
 public interface SupervisionMonitorTrainService extends IService<SupervisionMonitorTrain> {
+
+    int addTrainRecord(SupervisionMonitorTrain trainRecord);
+
+    int modifyTrainRecord(SupervisionMonitorTrain trainRecord);
 }

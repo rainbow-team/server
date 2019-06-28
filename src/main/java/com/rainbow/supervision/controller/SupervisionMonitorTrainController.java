@@ -26,15 +26,14 @@ public class SupervisionMonitorTrainController {
     SupervisionMonitorTrainService supervisionMonitorTrainService;
 
     /**
-     * 保存核安全监督员培训信息
+     * 保存核安全监督培训信息
      *
      * @param supervisionMonitorTrain
      * @return
      */
-    @PostMapping("/add")
+    @PostMapping("/addTrainRecord")
     public ResponseBo add(@RequestBody SupervisionMonitorTrain supervisionMonitorTrain) {
-        supervisionMonitorTrain.setId(GuidHelper.getGuid());
-        int result = supervisionMonitorTrainService.save(supervisionMonitorTrain);
+        int result = supervisionMonitorTrainService.addTrainRecord(supervisionMonitorTrain);
 
         if (result == 1) {
             return ResponseBo.ok("保存成功");
@@ -49,10 +48,10 @@ public class SupervisionMonitorTrainController {
      * @param supervisionMonitorTrain
      * @return
      */
-    @PostMapping("/modify")
+    @PostMapping("/modifyTrainRecord")
     public ResponseBo modify(@RequestBody SupervisionMonitorTrain supervisionMonitorTrain) {
 
-        int result = supervisionMonitorTrainService.updateAll(supervisionMonitorTrain);
+        int result = supervisionMonitorTrainService.modifyTrainRecord(supervisionMonitorTrain);
         if (result == 1) {
             return ResponseBo.ok("修改成功");
         } else {
@@ -66,7 +65,7 @@ public class SupervisionMonitorTrainController {
      * @param supervisionMonitorTrain
      * @return
      */
-    @PostMapping("/delete")
+    @PostMapping("/deleteTrainRecordById")
     public ResponseBo delete(@RequestBody SupervisionMonitorTrain supervisionMonitorTrain) {
         int result = supervisionMonitorTrainService.deleteByKey(supervisionMonitorTrain.getId());
         if (result == 1) {
@@ -76,9 +75,16 @@ public class SupervisionMonitorTrainController {
         }
     }
 
-    @PostMapping("/getAll")
-    public List<SupervisionMonitorTrain> selectAllTrainRecord(){
 
-        return null;
+    /**
+     * 返回所有的培训记录信息
+     * @return
+     */
+    @PostMapping("/getAllTrainRecords")
+    public List<SupervisionMonitorTrain> selectAllTrainRecord() {
+
+        List<SupervisionMonitorTrain> trainRecords = supervisionMonitorTrainService.selectAll();
+
+        return trainRecords;
     }
 }
