@@ -1,5 +1,10 @@
 package com.rainbow.supervision.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.rainbow.common.domain.Page;
+import com.rainbow.common.domain.PagingEntity;
+import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
 import com.rainbow.common.util.GuidHelper;
 import com.rainbow.supervision.dao.SupervisionMonitorTrainMapper;
@@ -12,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Author:deepblue
@@ -36,5 +43,19 @@ public class SupervisionMonitorTrainServiceImpl extends BaseService<SupervisionM
     public int modifyTrainRecord(SupervisionMonitorTrain trainRecord) {
         trainRecord.setModifyDate(new Date());
         return monitorTrainMapper.updateByPrimaryKey(trainRecord);
+    }
+
+    @Override
+    public ResponseBo getTrainRecordList(Page page){
+
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
+        Map<String, Object> map = page.getQueryParameter();
+        List<SupervisionMonitorTrain> list = monitorTrainMapper.getTrainRecordList(map);
+
+        PageInfo<SupervisionMonitorTrain> pageInfo = new PageInfo<SupervisionMonitorTrain>(list);
+
+        PagingEntity<SupervisionMonitorTrain> result = new PagingEntity<>(pageInfo);
+
+        return ResponseBo.ok(result);
     }
 }

@@ -1,5 +1,7 @@
 package com.rainbow.supervision.service;
 
+import com.rainbow.common.domain.Page;
+import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.IService;
 import com.rainbow.supervision.domain.SupervisionMonitorTrain;
 
@@ -13,4 +15,6 @@ public interface SupervisionMonitorTrainService extends IService<SupervisionMoni
     int addTrainRecord(SupervisionMonitorTrain trainRecord);
 
     int modifyTrainRecord(SupervisionMonitorTrain trainRecord);
+
+    ResponseBo getTrainRecordList(Page page);
 }

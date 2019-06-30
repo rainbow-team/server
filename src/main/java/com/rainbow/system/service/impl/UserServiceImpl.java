@@ -190,6 +190,6 @@ public class UserServiceImpl extends BaseService<User> implements UserService{
         if(result==null){
             return ResponseBo.warn("用户名或密码错误!");
         }
-        return  ResponseBo.ok();
+        return  ResponseBo.ok(result);
     }
 }

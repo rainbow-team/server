@@ -1,6 +1,7 @@
 package com.rainbow.supervision.controller;
 
 
+import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.util.GuidHelper;
 import com.rainbow.supervision.domain.SupervisionMonitorTrain;
@@ -8,16 +9,15 @@ import com.rainbow.supervision.service.SupervisionMonitorTrainService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
  * Created by 13260 on 2019/5/11.
  */
-@RestController("/supervisiontrain")
+@RestController
+@RequestMapping("supervisiontrain")
 public class SupervisionMonitorTrainController {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
@@ -86,5 +86,38 @@ public class SupervisionMonitorTrainController {
         List<SupervisionMonitorTrain> trainRecords = supervisionMonitorTrainService.selectAll();
 
         return trainRecords;
+    }
+
+    /**
+     * 获取培训列表
+     * @param page
+     * @return
+     */
+    @PostMapping("/getTrainRecordList")
+    public ResponseBo getTrainRecordList(@RequestBody Page page){
+
+        return supervisionMonitorTrainService.getTrainRecordList(page);
+    }
+
+    /**
+     * 获取培训详情
+     * @param id
+     * @return
+     */
+    @GetMapping("/getTrainRecordById")
+    public ResponseBo getTrainRecordById(String id){
+        SupervisionMonitorTrain result =  supervisionMonitorTrainService.selectByKey(id);
+        return ResponseBo.ok(result);
+    }
+
+    /**
+     * 删除培训信息
+     * @param ids
+     * @return
+     */
+    @PostMapping("/deleteTrainRecordByIds")
+    public ResponseBo deleteTrainRecordByIds(@RequestBody List<String> ids){
+        supervisionMonitorTrainService.batchDelete(ids,"id",SupervisionMonitorTrain.class);
+        return ResponseBo.ok();
     }
 }
