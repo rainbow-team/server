@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.SupervisionExpertMapper">
+  <resultMap id="BaseResultMap" type="com.rainbow.supervision.domain.SupervisionExpert">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="identity" jdbcType="VARCHAR" property="identity" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="major" jdbcType="VARCHAR" property="major" />
+    <result column="title_id" jdbcType="VARCHAR" property="titleId" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="contact" jdbcType="VARCHAR" property="contact" />
+    <result column="org" jdbcType="VARCHAR" property="org" />
+    <result column="is_import" jdbcType="INTEGER" property="isImport" />
+    <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="note" jdbcType="LONGVARCHAR" property="note" />
+  </resultMap>
+
+  <select id="getExpertList" parameterType="map" resultMap="BaseResultMap">
+
+    select  * from supervision_expert t
+    where 1=1
+
+    <if test="name != null and name != ''">
+      and instr(t.name,#{name})>0
+    </if>
+
+    <if test="major != null and major != ''">
+      and instr(t.major,#{major})>0
+    </if>
+
+    <if test="age != null and age != ''">
+      and t.age <![CDATA[  =  ]]> #{age}
+    </if>
+
+  </select>
+
+</mapper>

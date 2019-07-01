@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.OperatorLisenceMapper">
+  <resultMap id="BaseResultMap" type="com.rainbow.supervision.domain.OperatorLisence">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="identity" jdbcType="VARCHAR" property="identity" />
+    <result column="employ_depart" jdbcType="VARCHAR" property="employDepart" />
+    <result column="heap_name" jdbcType="VARCHAR" property="heapName" />
+    <result column="license_type_id" jdbcType="VARCHAR" property="licenseTypeId" />
+    <result column="license_number" jdbcType="VARCHAR" property="licenseNumber" />
+    <result column="cert_depart" jdbcType="VARCHAR" property="certDepart" />
+    <result column="cert_date" jdbcType="DATE" property="certDate" />
+    <result column="expire_date" jdbcType="DATE" property="expireDate" />
+    <result column="is_import" jdbcType="INTEGER" property="isImport" />
+    <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="note" jdbcType="LONGVARCHAR" property="note" />
+  </resultMap>
+
+  <select id="getOperatorLisenceList" parameterType="map" resultMap="BaseResultMap">
+
+    select  * from supervision_operator t
+    where 1=1
+
+    <if test="name != null and name != ''">
+      and instr(t.name,#{name})>0
+    </if>
+
+    <if test="employ_depart != null and employ_depart != ''">
+      and instr(t.employ_depart,#{employ_depart})>0
+    </if>
+
+    <if test="heap_name != null and heap_name != ''">
+      and instr(t.heap_name,#{heap_name})>0
+    </if>
+
+    <if test="license_type_id != null and license_type_id != ''">
+      and t.license_type_id = #{license_type_id}
+    </if>
+
+    <if test="expire_date != null and expire_date != ''">
+      and t.expire_date <![CDATA[  =>  ]]> #{expire_date}
+    </if>
+
+
+  </select>
+
+</mapper>

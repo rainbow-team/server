@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.BreakCheckerMapper">
+  <resultMap id="BaseResultMap" type="com.rainbow.supervision.domain.BreakChecker">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="identity" jdbcType="VARCHAR" property="identity" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="employ_depart" jdbcType="VARCHAR" property="employDepart" />
+    <result column="check_method_id" jdbcType="VARCHAR" property="checkMethodId" />
+    <result column="check_level_id" jdbcType="VARCHAR" property="checkLevelId" />
+    <result column="valid_start" jdbcType="DATE" property="validStart" />
+    <result column="valid_end" jdbcType="DATE" property="validEnd" />
+    <result column="cert_number" jdbcType="VARCHAR" property="certNumber" />
+    <result column="cert_depart" jdbcType="VARCHAR" property="certDepart" />
+    <result column="cert_date" jdbcType="DATE" property="certDate" />
+    <result column="is_import" jdbcType="INTEGER" property="isImport" />
+    <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="note" jdbcType="LONGVARCHAR" property="note" />
+  </resultMap>
+
+  <select id="getBreakCheckerList" parameterType="map" resultMap="BaseResultMap">
+
+    select  * from supervision_break_checker t
+    where 1=1
+
+    <if test="name != null and name != ''">
+      and instr(t.name,#{name})>0
+    </if>
+
+    <if test="check_method_id != null and check_method_id != ''">
+      and t.check_method_id = #{check_method_id}
+    </if>
+
+    <if test="check_level_id != null and check_level_id != ''">
+      and t.check_level_id = #{check_level_id}
+    </if>
+
+    <if test="employ_depart != null and employ_depart != ''">
+      and instr(t.employ_depart,#{employ_depart})>0
+    </if>
+
+    <if test="valid_date != null and valid_date != ''">
+      and t.valid_date <![CDATA[  <=  ]]> #{valid_date}
+    </if>
+
+    <if test="cert_number != null and cert_number != ''">
+      and instr(t.cert_number,#{cert_number})>0
+    </if>
+
+  </select>
+</mapper>

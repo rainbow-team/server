@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.SupervisionWelderMapper">
+  <resultMap id="BaseResultMap" type="com.rainbow.supervision.domain.SupervisionWelder">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="identity" jdbcType="VARCHAR" property="identity" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="employ_depart" jdbcType="VARCHAR" property="employDepart" />
+    <result column="cert_depart" jdbcType="VARCHAR" property="certDepart" />
+    <result column="cert_number" jdbcType="VARCHAR" property="certNumber" />
+    <result column="steel_number" jdbcType="VARCHAR" property="steelNumber" />
+    <result column="valid_start" jdbcType="DATE" property="validStart" />
+    <result column="valid_end" jdbcType="DATE" property="validEnd" />
+    <result column="is_import" jdbcType="INTEGER" property="isImport" />
+    <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="exam_project" jdbcType="LONGVARCHAR" property="examProject" />
+    <result column="note" jdbcType="LONGVARCHAR" property="note" />
+  </resultMap>
+
+  <select id="getWelderList" parameterType="map" resultMap="BaseResultMap">
+
+    select  * from supervision_expert t
+    where 1=1
+
+    <if test="name != null and name != ''">
+      and instr(t.name,#{name})>0
+    </if>
+
+    <if test="employ_depart != null and employ_depart != ''">
+      and instr(t.employ_depart,#{employ_depart})>0
+    </if>
+
+    <if test="exam_project != null and exam_project != ''">
+      and instr(t.exam_project,#{exam_project})>0
+    </if>
+
+
+    <if test="begin_date != null and begin_date != ''">
+      and t.age <![CDATA[  =>  ]]> #{begin_date}
+    </if>
+
+    <if test="end_date != null and end_date != ''">
+      and t.age <![CDATA[  <=  ]]> #{end_date}
+    </if>
+
+  </select>
+</mapper>
