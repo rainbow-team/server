@@ -33,7 +33,6 @@ public interface UserService extends IService<User>{
     UserWithRole findById(Long userId);
 
 
-
     @Cacheable(key = "#p0.toString() + (#p1 != null ? #p1.toString() : '')")
     List<User> findUserWithDept(User user, QueryRequest request);
 

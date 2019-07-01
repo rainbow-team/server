@@ -29,7 +29,7 @@ public class SupervisionSastindController {
      * @param sastind
      * @return
      */
-    @PostMapping("/add")
+    @PostMapping("/addSastind")
     public ResponseBo addSastind(@RequestBody SupervisionSastind sastind) {
         int result = sastindService.saveSastind(sastind);
 
@@ -46,7 +46,7 @@ public class SupervisionSastindController {
      * @param sastind
      * @return
      */
-    @PostMapping("/modify")
+    @PostMapping("/modifySastind")
     public ResponseBo modifySastind(@RequestBody SupervisionSastind sastind) {
         int result = sastindService.modifySastind(sastind);
         if (result == 1) {
@@ -62,7 +62,7 @@ public class SupervisionSastindController {
      * @param sastind
      * @return
      */
-    @PostMapping("/delete")
+    @PostMapping("/deleteSastind")
     public ResponseBo deleteSastind(@RequestBody SupervisionSastind sastind) {
         int result = sastindService.deleteByKey(sastind.getId());
         if (result == 1) {
@@ -72,8 +72,9 @@ public class SupervisionSastindController {
         }
     }
 
-    @PostMapping("/getAll")
+    @PostMapping("/getAllSastinds")
     public List<SupervisionSastind> selectAllSastind(){
-        return null;
+        return sastindService.selectAll();
+        //return null;
     }
 }

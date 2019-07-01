@@ -73,6 +73,12 @@ public class UserController extends BaseController{
         }
     }
 
+
+    /**
+     * 获取用户(包含他的角色)
+     * @param userId
+     * @return
+     */
     @RequestMapping("user/getUser")
     @ResponseBody
     public ResponseBo getUser(Long userId) {
@@ -82,6 +88,23 @@ public class UserController extends BaseController{
         } catch (Exception e) {
             log.error("获取用户失败", e);
             return ResponseBo.error("获取用户失败，请联系网站管理员！");
+        }
+    }
+
+    /**
+     * 获取用户(不包含他的角色)
+     * @param userId
+     * @return
+     */
+    @RequestMapping("user/getUserInfo")
+    @ResponseBody
+    public ResponseBo getUserInfo(Long userId) {
+        try {
+            User user = this.userService.selectByKey(userId);
+            return ResponseBo.ok(user);
+        } catch (Exception e) {
+            log.error("获取用户失败", e);
+            return ResponseBo.error("获取用户信息失败！");
         }
     }
 }

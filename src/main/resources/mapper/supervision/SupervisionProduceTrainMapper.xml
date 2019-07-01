@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.rainbow.supervision.dao.SupervisionMonitorTrainMapper">
-  <resultMap id="BaseResultMap" type="com.rainbow.supervision.domain.SupervisionMonitorTrain">
+<mapper namespace="dao.SupervisionProduceTrainMapper">
+  <resultMap id="BaseResultMap" type="domain.SupervisionProduceTrain">
     <!--
       WARNING - @mbg.generated
     -->
@@ -15,33 +15,32 @@
     <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
-    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="rmodifyDate" />
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
     <result column="note" jdbcType="LONGVARCHAR" property="note" />
   </resultMap>
 
   <select id="getTrainRecordList" parameterType="map" resultMap="BaseResultMap">
 
-     select  * from supervision_monitor_train t
-     where 1=1
+    select  * from supervision_produce_train t
+    where 1=1
 
-     <if test="startTime != null and startTime != ''">
-          and t.begin_date <![CDATA[  >=  ]]> #{startTime}
-     </if>
+    <if test="startTime != null and startTime != ''">
+      and t.begin_date <![CDATA[  >=  ]]> #{startTime}
+    </if>
 
-     <if test="endTime != null and endTime != ''">
-          and t.end_date <![CDATA[  <=  ]]> #{endTime}
-     </if>
+    <if test="endTime != null and endTime != ''">
+      and t.end_date <![CDATA[  <=  ]]> #{endTime}
+    </if>
 
-      <if test="pxbc != null and pxbc != ''">
-          and instr(t.batch,#{pxbc})>0
-      </if>
+    <if test="pxbc != null and pxbc != ''">
+      and instr(t.batch,#{pxbc})>0
+    </if>
 
-      <if test="pxdd != null and pxdd != ''">
-          and instr(t.place,#{pxdd})>0
-      </if>
+    <if test="pxdd != null and pxdd != ''">
+      and instr(t.place,#{pxdd})>0
+    </if>
 
 
   </select>
-
 </mapper>
