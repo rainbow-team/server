@@ -30,7 +30,7 @@ public class OrgController {
     /**
      * 新增授权监管机构信息
      *
-     * @param sastind
+     * @param
      * @return
      */
     @PostMapping("/addOrg")

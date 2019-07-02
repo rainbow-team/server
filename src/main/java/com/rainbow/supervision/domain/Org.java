@@ -71,7 +71,6 @@ public class Org {
      */
     private String note;
 
-
     /**
      * 机构性质
      */
