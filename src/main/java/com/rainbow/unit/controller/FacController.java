@@ -3,9 +3,9 @@ package com.rainbow.unit.controller;
 
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
-import com.rainbow.supervision.domain.BreakChecker;
-import com.rainbow.supervision.service.BreakCheckerService;
+import com.rainbow.unit.domain.Fac;
 import com.rainbow.unit.domain.Group;
+import com.rainbow.unit.service.FacService;
 import com.rainbow.unit.service.GroupService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,26 +16,26 @@ import java.util.List;
 
 /**
  * Created by 13260 on 2019/5/11.
- * 集团信息管理
+ * 核设施信息管理
  */
 @RestController
-@RequestMapping("group")
-public class GroupController {
+@RequestMapping("fac")
+public class FacController {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    GroupService groupService;
+    FacService facService;
 
     /**
-     * 添加集团信息
+     * 添加核设施信息
      *
      * @param
      * @return
      */
-    @PostMapping("/addGroup")
-    public ResponseBo add(@RequestBody Group group) {
-        int result = groupService.addGroup(group);
+    @PostMapping("/addFac")
+    public ResponseBo add(@RequestBody Fac fac) {
+        int result = facService.addFac(fac);
 
         if (result == 1) {
             return ResponseBo.ok("保存成功");
@@ -45,15 +45,15 @@ public class GroupController {
     }
 
     /**
-     * 修改集团信息
+     * 修改核设施信息
      *
      * @param
      * @return
      */
     @PostMapping("/modifyGroup")
-    public ResponseBo modify(@RequestBody Group group) {
+    public ResponseBo modify(@RequestBody Fac fac) {
 
-        int result = groupService.modifyGroup(group);
+        int result = facService.modifyFac(fac);
         if (result == 1) {
             return ResponseBo.ok("修改成功");
         } else {
@@ -63,35 +63,35 @@ public class GroupController {
 
 
     /**
-     * 获取集团信息列表
+     * 获取核设施信息列表
      * @param page
      * @return
      */
-    @PostMapping("/getGroupList")
-    public ResponseBo getGroupList(@RequestBody Page page){
+    @PostMapping("/getFacList")
+    public ResponseBo getFacList(@RequestBody Page page){
 
-        return groupService.getGroupList(page);
+        return facService.getFacList(page);
     }
 
     /**
-     * 获取集团信息详情
+     * 获取核设施信息详情
      * @param id
      * @return
      */
-    @GetMapping("/getGroupById")
-    public ResponseBo getGroupById(String id){
-        Group result =  groupService.selectByKey(id);
+    @GetMapping("/getFacById")
+    public ResponseBo getFacById(String id){
+        Fac result =  facService.selectByKey(id);
         return ResponseBo.ok(result);
     }
 
     /**
-     * 删除集团信息
+     * 删除核设施信息
      * @param ids
      * @return
      */
-    @PostMapping("/deleteGroupByIds")
-    public ResponseBo deleteGroupByIds(@RequestBody List<String> ids){
-        groupService.batchDelete(ids,"id",Group.class);
+    @PostMapping("/deleteFacByIds")
+    public ResponseBo deleteFacByIds(@RequestBody List<String> ids){
+        facService.batchDelete(ids,"id",Fac.class);
         return ResponseBo.ok();
     }
 }

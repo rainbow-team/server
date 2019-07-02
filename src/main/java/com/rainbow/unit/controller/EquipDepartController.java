@@ -3,9 +3,9 @@ package com.rainbow.unit.controller;
 
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
-import com.rainbow.supervision.domain.BreakChecker;
-import com.rainbow.supervision.service.BreakCheckerService;
+import com.rainbow.unit.domain.EquipDepart;
 import com.rainbow.unit.domain.Group;
+import com.rainbow.unit.service.EquipDepartService;
 import com.rainbow.unit.service.GroupService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,26 +16,26 @@ import java.util.List;
 
 /**
  * Created by 13260 on 2019/5/11.
- * 集团信息管理
+ * 核设备单位管理
  */
 @RestController
-@RequestMapping("group")
-public class GroupController {
+@RequestMapping("equipdepart")
+public class EquipDepartController {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    GroupService groupService;
+    EquipDepartService equipDepartService;
 
     /**
-     * 添加集团信息
+     * 添加核设备单位信息
      *
      * @param
      * @return
      */
-    @PostMapping("/addGroup")
-    public ResponseBo add(@RequestBody Group group) {
-        int result = groupService.addGroup(group);
+    @PostMapping("/addEquipDepart")
+    public ResponseBo add(@RequestBody EquipDepart equipDepart) {
+        int result = equipDepartService.addEquipDepart(equipDepart);
 
         if (result == 1) {
             return ResponseBo.ok("保存成功");
@@ -45,15 +45,15 @@ public class GroupController {
     }
 
     /**
-     * 修改集团信息
+     * 修改核设备单位信息
      *
      * @param
      * @return
      */
-    @PostMapping("/modifyGroup")
-    public ResponseBo modify(@RequestBody Group group) {
+    @PostMapping("/modifyEquipDepart")
+    public ResponseBo modify(@RequestBody EquipDepart equipDepart) {
 
-        int result = groupService.modifyGroup(group);
+        int result = equipDepartService.modifyEquipDepart(equipDepart);
         if (result == 1) {
             return ResponseBo.ok("修改成功");
         } else {
@@ -63,35 +63,35 @@ public class GroupController {
 
 
     /**
-     * 获取集团信息列表
+     * 获取核设备单位信息列表
      * @param page
      * @return
      */
-    @PostMapping("/getGroupList")
-    public ResponseBo getGroupList(@RequestBody Page page){
+    @PostMapping("/getEquipDepartList")
+    public ResponseBo getEquipDepartList(@RequestBody Page page){
 
-        return groupService.getGroupList(page);
+        return equipDepartService.getEquipDepartList(page);
     }
 
     /**
-     * 获取集团信息详情
+     * 获取核设备单位信息详情
      * @param id
      * @return
      */
-    @GetMapping("/getGroupById")
-    public ResponseBo getGroupById(String id){
-        Group result =  groupService.selectByKey(id);
+    @GetMapping("/getEquipDepartById")
+    public ResponseBo getEquipDepartById(String id){
+        EquipDepart result =  equipDepartService.selectByKey(id);
         return ResponseBo.ok(result);
     }
 
     /**
-     * 删除集团信息
+     * 删除核设备单位信息
      * @param ids
      * @return
      */
-    @PostMapping("/deleteGroupByIds")
+    @PostMapping("/deleteEquipDepartByIds")
     public ResponseBo deleteGroupByIds(@RequestBody List<String> ids){
-        groupService.batchDelete(ids,"id",Group.class);
+        equipDepartService.batchDelete(ids,"id",EquipDepart.class);
         return ResponseBo.ok();
     }
 }

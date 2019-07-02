@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.EquipDepartMapper">
+  <resultMap id="BaseResultMap" type="com.rainbow.unit.domain.EquipDepart">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="emergency_tel" jdbcType="VARCHAR" property="emergencyTel" />
+    <result column="fax" jdbcType="VARCHAR" property="fax" />
+    <result column="owner" jdbcType="VARCHAR" property="owner" />
+    <result column="leader" jdbcType="VARCHAR" property="leader" />
+    <result column="leader_tel" jdbcType="VARCHAR" property="leaderTel" />
+    <result column="depart_quality_leader" jdbcType="VARCHAR" property="departQualityLeader" />
+    <result column="depart_quality_leader_tel" jdbcType="VARCHAR" property="departQualityLeaderTel" />
+    <result column="is_import" jdbcType="INTEGER" property="isImport" />
+    <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="survey" jdbcType="LONGVARCHAR" property="survey" />
+    <result column="product" jdbcType="LONGVARCHAR" property="product" />
+    <result column="note" jdbcType="LONGVARCHAR" property="note" />
+  </resultMap>
+</mapper>

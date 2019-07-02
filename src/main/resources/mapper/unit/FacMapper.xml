@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.FacMapper">
+  <resultMap id="BaseResultMap" type="com.rainbow.unit.domain.Fac">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="service_id" jdbcType="VARCHAR" property="serviceId" />
+    <result column="builder" jdbcType="VARCHAR" property="builder" />
+    <result column="build_year" jdbcType="DATE" property="buildYear" />
+    <result column="supervision_category_id" jdbcType="VARCHAR" property="supervisionCategoryId" />
+    <result column="type_id" jdbcType="VARCHAR" property="typeId" />
+    <result column="status_id" jdbcType="VARCHAR" property="statusId" />
+    <result column="review_status_id" jdbcType="VARCHAR" property="reviewStatusId" />
+    <result column="fac_permit_situation_id" jdbcType="VARCHAR" property="facPermitSituationId" />
+    <result column="is_earthquake" jdbcType="INTEGER" property="isEarthquake" />
+    <result column="is_flood" jdbcType="INTEGER" property="isFlood" />
+    <result column="is_import" jdbcType="INTEGER" property="isImport" />
+    <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="survey" jdbcType="LONGVARCHAR" property="survey" />
+    <result column="feature" jdbcType="LONGVARCHAR" property="feature" />
+    <result column="tech_des" jdbcType="LONGVARCHAR" property="techDes" />
+    <result column="design_standard_accident" jdbcType="LONGVARCHAR" property="designStandardAccident" />
+    <result column="measure" jdbcType="LONGVARCHAR" property="measure" />
+    <result column="note" jdbcType="LONGVARCHAR" property="note" />
+  </resultMap>
+
+  <select id="getFacList" parameterType="map" resultMap="BaseResultMap">
+
+    select  * from unit_fac t
+    where 1=1
+
+    <if test="name != null and name != ''">
+      and instr(t.name,#{name})>0
+    </if>
+
+    <if test="service_id != null and service_id != ''">
+      and t.service_id = #{service_id}
+    </if>
+  </select>
+</mapper>

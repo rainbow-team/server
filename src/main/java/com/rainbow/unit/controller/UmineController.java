@@ -3,10 +3,10 @@ package com.rainbow.unit.controller;
 
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
-import com.rainbow.supervision.domain.BreakChecker;
-import com.rainbow.supervision.service.BreakCheckerService;
 import com.rainbow.unit.domain.Group;
+import com.rainbow.unit.domain.Umine;
 import com.rainbow.unit.service.GroupService;
+import com.rainbow.unit.service.UmineService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,26 +16,26 @@ import java.util.List;
 
 /**
  * Created by 13260 on 2019/5/11.
- * 集团信息管理
+ * 铀矿冶单位管理
  */
 @RestController
-@RequestMapping("group")
-public class GroupController {
+@RequestMapping("umine")
+public class UmineController {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    GroupService groupService;
+    UmineService umineService;
 
     /**
-     * 添加集团信息
+     * 添加铀矿冶单位信息
      *
      * @param
      * @return
      */
-    @PostMapping("/addGroup")
-    public ResponseBo add(@RequestBody Group group) {
-        int result = groupService.addGroup(group);
+    @PostMapping("/addUmine")
+    public ResponseBo add(@RequestBody Umine umine) {
+        int result = umineService.addUmine(umine);
 
         if (result == 1) {
             return ResponseBo.ok("保存成功");
@@ -45,15 +45,15 @@ public class GroupController {
     }
 
     /**
-     * 修改集团信息
+     * 修改铀矿冶单位信息
      *
      * @param
      * @return
      */
-    @PostMapping("/modifyGroup")
-    public ResponseBo modify(@RequestBody Group group) {
+    @PostMapping("/modifyUmine")
+    public ResponseBo modify(@RequestBody Umine umine) {
 
-        int result = groupService.modifyGroup(group);
+        int result = umineService.modifyUmine(umine);
         if (result == 1) {
             return ResponseBo.ok("修改成功");
         } else {
@@ -63,35 +63,35 @@ public class GroupController {
 
 
     /**
-     * 获取集团信息列表
+     * 获取铀矿冶单位信息列表
      * @param page
      * @return
      */
-    @PostMapping("/getGroupList")
-    public ResponseBo getGroupList(@RequestBody Page page){
+    @PostMapping("/getUmineList")
+    public ResponseBo getUmineList(@RequestBody Page page){
 
-        return groupService.getGroupList(page);
+        return umineService.getUmineList(page);
     }
 
     /**
-     * 获取集团信息详情
+     * 获取铀矿冶单位信息详情
      * @param id
      * @return
      */
-    @GetMapping("/getGroupById")
-    public ResponseBo getGroupById(String id){
-        Group result =  groupService.selectByKey(id);
+    @GetMapping("/getUmineById")
+    public ResponseBo getUmineById(String id){
+        Umine result =  umineService.selectByKey(id);
         return ResponseBo.ok(result);
     }
 
     /**
-     * 删除集团信息
+     * 删除铀矿冶单位信息
      * @param ids
      * @return
      */
-    @PostMapping("/deleteGroupByIds")
-    public ResponseBo deleteGroupByIds(@RequestBody List<String> ids){
-        groupService.batchDelete(ids,"id",Group.class);
+    @PostMapping("/deleteUmineByIds")
+    public ResponseBo deleteUmineByIds(@RequestBody List<String> ids){
+        umineService.batchDelete(ids,"id",Umine.class);
         return ResponseBo.ok();
     }
 }
