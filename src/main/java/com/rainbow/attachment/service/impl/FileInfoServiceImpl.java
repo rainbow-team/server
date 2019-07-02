@@ -11,10 +11,12 @@ import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import tk.mybatis.mapper.entity.Example;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -91,6 +93,16 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
 
         String path = String.format("%s%s/%s/", webInfPath, actualFile.charAt(0), actualFile.charAt(1));
         return path;
+    }
+
+    @Override
+    public ResponseBo getFileList(String id){
+
+        Example example = new Example(FileInfo.class);
+        example.createCriteria().andEqualTo("fileinfoRefId",id);
+        List<FileInfo> list =fileInfoMapper.selectByExample(example);
+        return ResponseBo.ok(list);
+
     }
 
 

@@ -2,6 +2,7 @@ package com.rainbow.supervision.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.attachment.dao.FileInfoMapper;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,18 +30,35 @@ public class SupervisionMonitorTrainServiceImpl extends BaseService<SupervisionM
     @Autowired
     SupervisionMonitorTrainMapper monitorTrainMapper;
 
+    @Autowired
+    private com.rainbow.attachment.dao.FileInfoMapper FileInfoMapper;
+
     @Override
     public int addTrainRecord(SupervisionMonitorTrain trainRecord) {
         trainRecord.setId(GuidHelper.getGuid());
         trainRecord.setCreateDate(new Date());
         trainRecord.setModifyDate(new Date());
+
+        updateFileInfoByIds(trainRecord);
+
         return monitorTrainMapper.insert(trainRecord);
     }
 
     @Override
     public int modifyTrainRecord(SupervisionMonitorTrain trainRecord) {
         trainRecord.setModifyDate(new Date());
+
+        updateFileInfoByIds(trainRecord);
         return monitorTrainMapper.updateByPrimaryKey(trainRecord);
+    }
+
+    public void updateFileInfoByIds(SupervisionMonitorTrain trainRecord){
+        if(trainRecord.getAttachmentList().size()>0){
+            Map<String,Object> map = new HashMap<>();
+            map.put("id",trainRecord.getId());
+            map.put("fileIds",trainRecord.getAttachmentList());
+            FileInfoMapper.updateFileInfoByIds(map);
+        }
     }
 
     @Override

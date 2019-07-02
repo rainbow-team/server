@@ -13,4 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 public interface FileInfoService extends IService<FileInfo> {
 
     ResponseBo upload(MultipartFile file);
+
+    ResponseBo getFileList(String id);
 }
