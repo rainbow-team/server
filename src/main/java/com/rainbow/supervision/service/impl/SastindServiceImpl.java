@@ -1,18 +1,14 @@
 package com.rainbow.supervision.service.impl;
 
-import com.rainbow.common.domain.ResponseBo;
-import com.rainbow.common.service.IService;
 import com.rainbow.common.service.impl.BaseService;
 import com.rainbow.common.util.GuidHelper;
 import com.rainbow.supervision.dao.SupervisionSastindMapper;
 import com.rainbow.supervision.domain.SupervisionSastind;
-import com.rainbow.supervision.service.SupervisionSastindService;
+import com.rainbow.supervision.service.SastindService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.Map;
 
 /**
  * @Author:deepblue
@@ -20,7 +16,7 @@ import java.util.Map;
  * @Description:
  **/
 @Service("SupervisionSastindService")
-public class SupervisionSastindServiceImpl extends BaseService<SupervisionSastind> implements SupervisionSastindService {
+public class SastindServiceImpl extends BaseService<SupervisionSastind> implements SastindService {
 
     @Autowired
     SupervisionSastindMapper sastindMapper;
@@ -30,7 +26,7 @@ public class SupervisionSastindServiceImpl extends BaseService<SupervisionSastin
      * @return
      */
     @Override
-    public int saveSastind(SupervisionSastind sastind) {
+    public int addSastind(SupervisionSastind sastind) {
       sastind.setId(GuidHelper.getGuid());
       sastind.setCreateDate(new Date());
       sastind.setModifyDate(new Date());

@@ -11,9 +11,9 @@ import java.util.Map;
  * @Date:2019/5/5 13:10
  * @Description:
  **/
-public interface SupervisionSastindService extends IService<SupervisionSastind> {
+public interface SastindService extends IService<SupervisionSastind> {
 
-    int saveSastind(SupervisionSastind sastind);
+    int addSastind(SupervisionSastind sastind);
 
     int modifySastind(SupervisionSastind sastind);
 
