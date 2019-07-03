@@ -17,4 +17,6 @@ public interface SupervisionMonitorTrainService extends IService<SupervisionMoni
     int modifyTrainRecord(SupervisionMonitorTrain trainRecord);
 
     ResponseBo getTrainRecordList(Page page);
+
+    ResponseBo getTrainRecordById(String id);
 }

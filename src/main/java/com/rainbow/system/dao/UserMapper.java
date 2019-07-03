@@ -21,4 +21,6 @@ public interface UserMapper extends MyMapper<User> {
     User findUserProfile(User user);
 
     Map<String,Object> login(Map<String,String> map );
+
+    String getUserNameById(String id);
 }
