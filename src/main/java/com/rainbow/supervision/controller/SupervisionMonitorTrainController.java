@@ -6,6 +6,7 @@ import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.util.GuidHelper;
 import com.rainbow.supervision.domain.SupervisionMonitorTrain;
 import com.rainbow.supervision.service.SupervisionMonitorTrainService;
+import com.rainbow.system.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,7 +85,6 @@ public class SupervisionMonitorTrainController {
     public List<SupervisionMonitorTrain> selectAllTrainRecord() {
 
         List<SupervisionMonitorTrain> trainRecords = supervisionMonitorTrainService.selectAll();
-
         return trainRecords;
     }
 
@@ -95,7 +95,6 @@ public class SupervisionMonitorTrainController {
      */
     @PostMapping("/getTrainRecordList")
     public ResponseBo getTrainRecordList(@RequestBody Page page){
-
         return supervisionMonitorTrainService.getTrainRecordList(page);
     }
 
@@ -106,8 +105,7 @@ public class SupervisionMonitorTrainController {
      */
     @GetMapping("/getTrainRecordById")
     public ResponseBo getTrainRecordById(String id){
-        SupervisionMonitorTrain result =  supervisionMonitorTrainService.selectByKey(id);
-        return ResponseBo.ok(result);
+        return supervisionMonitorTrainService.getTrainRecordById(id);
     }
 
     /**

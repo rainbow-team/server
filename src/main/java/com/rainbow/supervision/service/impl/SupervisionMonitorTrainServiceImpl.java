@@ -11,6 +11,9 @@ import com.rainbow.common.util.GuidHelper;
 import com.rainbow.supervision.dao.SupervisionMonitorTrainMapper;
 import com.rainbow.supervision.domain.SupervisionMonitorTrain;
 import com.rainbow.supervision.service.SupervisionMonitorTrainService;
+import com.rainbow.system.dao.UserMapper;
+import com.rainbow.system.domain.User;
+import com.rainbow.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +35,9 @@ public class SupervisionMonitorTrainServiceImpl extends BaseService<SupervisionM
 
     @Autowired
     private com.rainbow.attachment.dao.FileInfoMapper FileInfoMapper;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public int addTrainRecord(SupervisionMonitorTrain trainRecord) {
@@ -71,6 +77,17 @@ public class SupervisionMonitorTrainServiceImpl extends BaseService<SupervisionM
         PageInfo<SupervisionMonitorTrain> pageInfo = new PageInfo<SupervisionMonitorTrain>(list);
 
         PagingEntity<SupervisionMonitorTrain> result = new PagingEntity<>(pageInfo);
+
+        return ResponseBo.ok(result);
+    }
+
+    @Override
+    public ResponseBo getTrainRecordById(String id){
+
+        SupervisionMonitorTrain result =  monitorTrainMapper.selectByPrimaryKey(id);
+        //创建人
+        String name = userMapper.getUserNameById(result.getCreatorId());
+        result.setCreatorName(name);
 
         return ResponseBo.ok(result);
     }

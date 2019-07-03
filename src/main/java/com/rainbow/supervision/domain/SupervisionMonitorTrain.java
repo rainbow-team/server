@@ -1,6 +1,7 @@
 package com.rainbow.supervision.domain;
 
 import com.rainbow.attachment.domain.FileInfo;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 
 import java.util.Date;
 import java.util.List;
@@ -88,6 +89,17 @@ public class SupervisionMonitorTrain {
     private String note;
 
     private List<FileInfo> attachmentList;
+
+    @Transient
+    private String creatorName;
+
+    public String getCreatorName() {
+        return creatorName;
+    }
+
+    public void setCreatorName(String creatorName) {
+        this.creatorName = creatorName;
+    }
 
     public List<FileInfo> getAttachmentList() {
         return attachmentList;
