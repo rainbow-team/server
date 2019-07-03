@@ -25,22 +25,33 @@
      select  * from supervision_monitor_train t
      where 1=1
 
-     <if test="startTime != null and startTime != ''">
-          and t.begin_date <![CDATA[  >=  ]]> #{startTime}
+     <if test="beginDate != null and beginDate != ''">
+          and t.begin_date <![CDATA[  >=  ]]> #{beginDate}
      </if>
 
-     <if test="endTime != null and endTime != ''">
-          and t.end_date <![CDATA[  <=  ]]> #{endTime}
+     <if test="endDate != null and endDate != ''">
+          and t.end_date <![CDATA[  <=  ]]> #{endDate}
      </if>
 
-      <if test="pxbc != null and pxbc != ''">
-          and instr(t.batch,#{pxbc})>0
+      <if test="batch != null and batch != ''">
+          and instr(t.batch,#{batch})>0
       </if>
 
-      <if test="pxdd != null and pxdd != ''">
-          and instr(t.place,#{pxdd})>0
+      <if test="place != null and place != ''">
+          and instr(t.place,#{place})>0
       </if>
 
+      <choose>
+          <when test="sortValue != null and sortValue != ''">
+              order by ${sortName}
+              <if test="sortValue=='descend'.toString()">
+                  desc
+              </if>
+          </when>
+          <otherwise>
+              order by t.begin_date,t.batch
+          </otherwise>
+      </choose>
 
 
 
