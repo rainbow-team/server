@@ -1,5 +1,6 @@
 package com.rainbow.supervision.controller;
 
+import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.supervision.domain.OperatorLisence;
 import com.rainbow.supervision.domain.Org;
@@ -63,12 +64,26 @@ public class OrgController {
 
     /**
      * 删除授权监管机构信息
+     *
      * @param ids
      * @return
      */
     @PostMapping("/deleteOrgByIds")
-    public ResponseBo deleteOrgByIds(@RequestBody List<String> ids){
-        orgService.batchDelete(ids,"id",Org.class);
+    public ResponseBo deleteOrgByIds(@RequestBody List<String> ids) {
+        if ((ids != null) && (ids.size() > 0)) {
+            orgService.deleteOrgByIds(ids);
+        }
         return ResponseBo.ok();
+    }
+
+    /**
+     * 获取授权监管机构列表
+     * @param page
+     * @return
+     */
+    @PostMapping("/getOrgList")
+    public ResponseBo getOrgList(@RequestBody Page page){
+
+        return orgService.getOrgList(page);
     }
 }

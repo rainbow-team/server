@@ -1,5 +1,10 @@
 package com.rainbow.supervision.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.rainbow.common.domain.Page;
+import com.rainbow.common.domain.PagingEntity;
+import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
 import com.rainbow.common.util.GuidHelper;
 import com.rainbow.config.domain.SystemConfig;
@@ -8,6 +13,7 @@ import com.rainbow.supervision.dao.RelationOrgNatureMapper;
 import com.rainbow.supervision.dao.SupervisionSastindMapper;
 import com.rainbow.supervision.domain.Org;
 import com.rainbow.supervision.domain.RelationOrgNature;
+import com.rainbow.supervision.domain.SupervisionMonitorTrain;
 import com.rainbow.supervision.domain.SupervisionSastind;
 import com.rainbow.supervision.service.OrgService;
 import com.rainbow.supervision.service.SastindService;
@@ -16,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author:deepblue
@@ -40,14 +47,7 @@ public class OrgServiceImpl extends BaseService<Org> implements OrgService {
         org.setCreateDate(new Date());
         org.setModifyDate(new Date());
         if (org.getNature() != null) {
-            List<SystemConfig> natureList = org.getNature();
-            for (SystemConfig systemConfig : natureList) {
-                RelationOrgNature relationOrgNature = new RelationOrgNature();
-                relationOrgNature.setId(GuidHelper.getGuid());
-                relationOrgNature.setOrgId(org.getId());
-                relationOrgNature.setNatureId(systemConfig.getId());
-                relationOrgNatureMapper.insert(relationOrgNature);
-            }
+            insertRelation(org);
         }
         return orgMapper.insert(org);
     }
@@ -55,7 +55,51 @@ public class OrgServiceImpl extends BaseService<Org> implements OrgService {
     @Override
     public int modifyOrg(Org org) {
         org.setModifyDate(new Date());
+        //根据监督机构的ID，删除关联表中的关系
+        relationOrgNatureMapper.deleteRelationByOrgId(org.getId());
+
+        if (org.getNature() != null) {
+            insertRelation(org);
+        }
         return orgMapper.updateByPrimaryKey(org);
     }
 
+    @Override
+    public void deleteOrgByIds(List<String> ids) {
+        for(String id:ids){
+            //删除对应关系，然后再删除监管机构信息
+            relationOrgNatureMapper.deleteRelationByOrgId(id);
+            orgMapper.deleteByPrimaryKey(id);
+        }
+    }
+
+
+    @Override
+    public ResponseBo getOrgList(Page page) {
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
+        Map<String, Object> map = page.getQueryParameter();
+        List<Org> list = orgMapper.getOrgList(map);
+
+        PageInfo<Org> pageInfo = new PageInfo<Org>(list);
+
+        PagingEntity<Org> result = new PagingEntity<>(pageInfo);
+
+        return ResponseBo.ok(result);
+    }
+
+    /**
+     * 建立授权监管机构单位信息关系
+     *
+     * @param org
+     */
+    private void insertRelation(Org org) {
+        List<SystemConfig> natureList = org.getNature();
+        for (SystemConfig systemConfig : natureList) {
+            RelationOrgNature relationOrgNature = new RelationOrgNature();
+            relationOrgNature.setId(GuidHelper.getGuid());
+            relationOrgNature.setOrgId(org.getId());
+            relationOrgNature.setNatureId(systemConfig.getId());
+            relationOrgNatureMapper.insert(relationOrgNature);
+        }
+    }
 }

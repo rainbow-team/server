@@ -9,4 +9,6 @@ import com.rainbow.supervision.domain.RelationOrgNature;
  * @Description:
  **/
 public interface RelationOrgNatureService extends IService<RelationOrgNature> {
+
+
 }

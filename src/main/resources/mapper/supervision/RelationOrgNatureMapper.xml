@@ -9,4 +9,9 @@
     <result column="org_id" jdbcType="VARCHAR" property="orgId" />
     <result column="nature_id" jdbcType="VARCHAR" property="natureId" />
   </resultMap>
+
+
+  <delete id="deleteRelationByOrgId">
+    delete from relation_supervision_org_nature where org_id = #{orgId}
+  </delete>
 </mapper>

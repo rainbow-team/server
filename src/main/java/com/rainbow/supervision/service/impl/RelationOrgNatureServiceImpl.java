@@ -22,5 +22,4 @@ import java.util.List;
  **/
 @Service("RelationOrgNatureService")
 public class RelationOrgNatureServiceImpl extends BaseService<RelationOrgNature> implements RelationOrgNatureService {
-
 }

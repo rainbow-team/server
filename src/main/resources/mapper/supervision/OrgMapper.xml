@@ -17,4 +17,16 @@
     <result column="duty" jdbcType="LONGVARCHAR" property="duty" />
     <result column="note" jdbcType="LONGVARCHAR" property="note" />
   </resultMap>
+
+<!--  <resultMap id="OrgRelationMap" extends="OrgBaseResultMap" type="com.rainbow.supervision.domain.Org">
+    <collection property="nature" resultMap="com.rainbow.config.domain.SystemConfig" select="">
+
+    </collection>
+  </resultMap>-->
+
+  <select id="getOrgList" parameterType="map" resultMap="OrgBaseResultMap">
+
+    select  * from supervision_org t
+
+  </select>
 </mapper>

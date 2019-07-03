@@ -1,8 +1,12 @@
 package com.rainbow.supervision.service;
 
+import com.rainbow.common.domain.Page;
+import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.IService;
 import com.rainbow.supervision.domain.Org;
 import com.rainbow.supervision.domain.SupervisionSastind;
+
+import java.util.List;
 
 /**
  * @Author:deepblue
@@ -15,4 +19,7 @@ public interface OrgService extends IService<Org> {
 
     int modifyOrg(Org org);
 
+    void deleteOrgByIds(List<String> ids);
+
+    ResponseBo getOrgList(Page page);
 }
