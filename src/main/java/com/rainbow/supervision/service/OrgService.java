@@ -22,4 +22,6 @@ public interface OrgService extends IService<Org> {
     void deleteOrgByIds(List<String> ids);
 
     ResponseBo getOrgList(Page page);
+
+    ResponseBo getOrgById(String id);
 }

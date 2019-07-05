@@ -27,7 +27,7 @@ public class SupervisionProduceTrainController {
     SupervisionProduceTrainService supervisionProduceTrainService;
 
     /**
-     * 保存核安全监督培训信息
+     * 保存安全生产培训信息
      *
      * @param
      * @return
@@ -44,7 +44,7 @@ public class SupervisionProduceTrainController {
     }
 
     /**
-     * 修改核安全监督培训信息
+     * 修改安全生产培训信息
      *
      * @param
      * @return
@@ -61,18 +61,6 @@ public class SupervisionProduceTrainController {
     }
 
     /**
-     * 获取培训列表
-     *
-     * @param page
-     * @return
-     */
-    @PostMapping("/getTrainRecordList")
-    public ResponseBo getTrainRecordList(@RequestBody Page page) {
-
-        return supervisionProduceTrainService.getTrainRecordList(page);
-    }
-
-    /**
      * 获取培训详情
      *
      * @param id
@@ -85,7 +73,7 @@ public class SupervisionProduceTrainController {
     }
 
     /**
-     * 删除培训信息
+     * 删除安全生产培训
      *
      * @param ids
      * @return
@@ -94,5 +82,15 @@ public class SupervisionProduceTrainController {
     public ResponseBo deleteTrainRecordByIds(@RequestBody List<String> ids) {
         supervisionProduceTrainService.batchDelete(ids, "id", SupervisionProduceTrain.class);
         return ResponseBo.ok();
+    }
+
+    /**
+     * 获取培训列表
+     * @param page
+     * @return
+     */
+    @PostMapping("/getProduceTrainList")
+    public ResponseBo getProduceTrainList(@RequestBody Page page){
+        return supervisionProduceTrainService.getTrainRecordList(page);
     }
 }

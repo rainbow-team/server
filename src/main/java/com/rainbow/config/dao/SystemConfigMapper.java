@@ -25,6 +25,15 @@ public interface SystemConfigMapper extends MyMapper<SystemConfig> {
     List<SystemConfig> getSystemConfigByTableName(String tableName);
 
     /**
+     * 根据表名和主键名获取配置数据列表
+     * @param tableName
+     * @param id
+     * @return
+     */
+    List<SystemConfig> getSystemConfigByTableNameAndID(String tableName,String id);
+
+
+    /**
      * 根据配置表名和值保存数据
      * @param insertMap
      * @return

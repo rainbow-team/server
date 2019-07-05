@@ -17,4 +17,6 @@ public interface SupervisionProduceTrainService extends IService<SupervisionProd
     int modifyTrainRecord(SupervisionProduceTrain trainRecord);
 
     ResponseBo getTrainRecordList(Page page);
+
+    ResponseBo getTrainRecordById(String id);
 }

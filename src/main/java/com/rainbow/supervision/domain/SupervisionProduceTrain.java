@@ -79,6 +79,18 @@ public class SupervisionProduceTrain {
      */
     private String note;
 
+
+    @Transient
+    private String creatorName;
+
+    public String getCreatorName() {
+        return creatorName;
+    }
+
+    public void setCreatorName(String creatorName) {
+        this.creatorName = creatorName;
+    }
+
     /**
      * 获取主键
      *

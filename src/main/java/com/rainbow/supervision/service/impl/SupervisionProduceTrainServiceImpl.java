@@ -11,6 +11,7 @@ import com.rainbow.supervision.dao.SupervisionProduceTrainMapper;
 import com.rainbow.supervision.domain.SupervisionMonitorTrain;
 import com.rainbow.supervision.domain.SupervisionProduceTrain;
 import com.rainbow.supervision.service.SupervisionProduceTrainService;
+import com.rainbow.system.dao.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,9 @@ public class SupervisionProduceTrainServiceImpl extends BaseService<SupervisionP
     @Autowired
     SupervisionProduceTrainMapper produceTrainMapper;
 
+    @Autowired
+    private UserMapper userMapper;
+
     @Override
     public int addTrainRecord(SupervisionProduceTrain trainRecord) {
         trainRecord.setId(GuidHelper.getGuid());
@@ -41,6 +45,16 @@ public class SupervisionProduceTrainServiceImpl extends BaseService<SupervisionP
     public int modifyTrainRecord(SupervisionProduceTrain trainRecord) {
         trainRecord.setModifyDate(new Date());
         return produceTrainMapper.updateByPrimaryKey(trainRecord);
+    }
+
+    @Override
+    public ResponseBo getTrainRecordById(String id) {
+        SupervisionProduceTrain result =  produceTrainMapper.selectByPrimaryKey(id);
+        //创建人
+        String name = userMapper.getUserNameById(result.getCreatorId());
+        result.setCreatorName(name);
+
+        return ResponseBo.ok(result);
     }
 
     @Override

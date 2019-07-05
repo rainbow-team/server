@@ -8,9 +8,9 @@ spring:
       # 数据库访问配置, 使用druid数据源
       db-type: com.alibaba.druid.pool.DruidDataSource
       driverClassName: com.mysql.jdbc.Driver
-      url: jdbc:mysql://192.168.5.100:3306/test20190509?useUnicode=true&characterEncoding=utf8&&serverTimezone=UTC
-      username: leak
-      password: 8888888
+      url: jdbc:mysql://localhost:3306/rainbow?useUnicode=true&characterEncoding=utf8&&serverTimezone=UTC
+      username: root
+      password: 123456
       # 连接池配置
       initial-size: 5
       min-idle: 5

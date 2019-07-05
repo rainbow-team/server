@@ -1,6 +1,9 @@
 package com.rainbow;
 
+import com.rainbow.common.domain.Condition;
+import com.rainbow.common.domain.Page;
 import com.rainbow.config.service.SystemConfigService;
+import com.rainbow.supervision.service.OrgService;
 import com.rainbow.system.service.UserService;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -10,6 +13,10 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -102,5 +109,32 @@ public class RainbowApplicationTests {
 //		systemConfigService.modifyConfig(map);
 
 //		int a=5;
+	}
+
+	@Autowired
+	private OrgService orgService;
+
+	@Test
+	public void testOrg() {
+		Page page = new Page();
+		page.pageNo = 1;
+		page.pageSize = 10;
+
+		List<Condition> conditions = new ArrayList<Condition>();
+		List<String> values = new ArrayList<String>();
+		values.add("1");
+		Condition condition1 = new Condition();
+		condition1.setKey("natureIds");
+		condition1.setValue(values);
+
+	/*	Condition condition2=new Condition();
+		condition2.setKey("name");
+		condition2.setValue("李");
+		conditions.add(condition2);*/
+
+	conditions.add(condition1);
+		page.conditions=conditions;
+
+		orgService.getOrgList(page);
 	}
 }

@@ -85,7 +85,16 @@ public class Org {
     }
 
 
+    @Transient
+    private String creatorName;
 
+    public String getCreatorName() {
+        return creatorName;
+    }
+
+    public void setCreatorName(String creatorName) {
+        this.creatorName = creatorName;
+    }
 
     /**
      * 获取授权监管机构基本信息主键

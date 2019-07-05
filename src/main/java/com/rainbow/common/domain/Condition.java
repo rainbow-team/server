@@ -9,7 +9,7 @@ public class Condition implements Serializable {
 
     private String Key;
 
-    private String Value;
+    private Object Value;
 
     public Condition() {
         super();
@@ -29,11 +29,11 @@ public class Condition implements Serializable {
         Key = key;
     }
 
-    public String getValue() {
+    public Object getValue() {
         return Value;
     }
 
-    public void setValue(String value) {
+    public void setValue(Object value) {
         Value = value;
     }
 }

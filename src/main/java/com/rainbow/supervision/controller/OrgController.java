@@ -10,6 +10,7 @@ import com.rainbow.supervision.service.SastindService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -85,5 +86,15 @@ public class OrgController {
     public ResponseBo getOrgList(@RequestBody Page page){
 
         return orgService.getOrgList(page);
+    }
+
+    /**
+     * 获取授权监管机构详情
+     * @param id
+     * @return
+     */
+    @GetMapping("/getOrgById")
+    public ResponseBo getOrgById(String id){
+        return orgService.getOrgById(id);
     }
 }

@@ -8,4 +8,6 @@ import java.util.Map;
 
 public interface OrgMapper extends MyMapper<Org> {
     List<Org> getOrgList(Map<String,Object> map);
+
+    Org getOrgById(String id);
 }

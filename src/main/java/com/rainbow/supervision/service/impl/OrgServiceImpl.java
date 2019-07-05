@@ -17,6 +17,7 @@ import com.rainbow.supervision.domain.SupervisionMonitorTrain;
 import com.rainbow.supervision.domain.SupervisionSastind;
 import com.rainbow.supervision.service.OrgService;
 import com.rainbow.supervision.service.SastindService;
+import com.rainbow.system.dao.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,10 +36,11 @@ public class OrgServiceImpl extends BaseService<Org> implements OrgService {
     @Autowired
     OrgMapper orgMapper;
 
-
     @Autowired
     RelationOrgNatureMapper relationOrgNatureMapper;
 
+    @Autowired
+    UserMapper userMapper;
 
     @Override
     public int addOrg(Org org) {
@@ -85,6 +87,17 @@ public class OrgServiceImpl extends BaseService<Org> implements OrgService {
         PagingEntity<Org> result = new PagingEntity<>(pageInfo);
 
         return ResponseBo.ok(result);
+    }
+
+
+    @Override
+    public ResponseBo getOrgById(String id) {
+        Org result = orgMapper.getOrgById(id);
+        String name = userMapper.getUserNameById(result.getCreaterId());
+        result.setCreatorName(name);
+
+        return ResponseBo.ok(result);
+        //return null;
     }
 
     /**

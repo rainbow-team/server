@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="dao.OrgMapper">
+<mapper namespace="com.rainbow.supervision.dao.OrgMapper">
   <resultMap id="OrgBaseResultMap" type="com.rainbow.supervision.domain.Org">
     <!--
       WARNING - @mbg.generated
@@ -18,15 +18,62 @@
     <result column="note" jdbcType="LONGVARCHAR" property="note" />
   </resultMap>
 
-<!--  <resultMap id="OrgRelationMap" extends="OrgBaseResultMap" type="com.rainbow.supervision.domain.Org">
-    <collection property="nature" resultMap="com.rainbow.config.domain.SystemConfig" select="">
+  <resultMap id="OrgRelationMap" extends="OrgBaseResultMap" type="com.rainbow.supervision.domain.Org">
+    <collection property="nature" resultMap="com.rainbow.config.dao.SystemConfigMapper.SystemConfigResultMap" columnPrefix="config_" >
 
     </collection>
-  </resultMap>-->
+  </resultMap>
 
-  <select id="getOrgList" parameterType="map" resultMap="OrgBaseResultMap">
+  <select id="getOrgList" resultMap="OrgRelationMap">
 
-    select  * from supervision_org t
+    select
+      org.id,
+      org.name,
+      org.duty,
+      org.leader,
+      org.leader_tel,
+      org.note,
+      nature.id config_id,
+      nature.value config_value,
+      nature.order config_order
+    from supervision_org org
+    left join relation_supervision_org_nature relation on relation.org_id = org.id
+    left join config_supervision_org_nature nature on nature.id = relation.nature_id
+    where 1=1
+
+    <if test="name != null and name != ''">
+      and instr(org.name,#{name})>0
+    </if>
+
+    <if test="duty != null and duty != ''">
+      and instr(org.duty,#{duty})>0
+    </if>
+
+    <if test="natureIds != null">
+      and nature.id in (
+      <foreach item="item" index="index" collection="natureIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+  </select>
+
+  <select id="getOrgById" resultMap="OrgRelationMap">
+
+    select
+     org.id,
+     org.name,
+     org.duty,
+     org.leader,
+     org.leader_tel,
+     org.note,
+     nature.id config_id,
+     nature.value config_value,
+     nature.order config_order
+    from supervision_org org
+    left join relation_supervision_org_nature relation on relation.org_id = org.id
+    left join config_supervision_org_nature nature on nature.id = relation.nature_id
+    where org.id = #{id}
 
   </select>
 </mapper>

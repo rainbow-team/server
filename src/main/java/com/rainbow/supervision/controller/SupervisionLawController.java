@@ -74,7 +74,7 @@ public class SupervisionLawController {
     }
 
     /**
-     * 获取培训详情
+     * 获取法规详情
      * @param id
      * @return
      */
@@ -85,7 +85,7 @@ public class SupervisionLawController {
     }
 
     /**
-     * 删除培训信息
+     * 删除法规信息
      * @param ids
      * @return
      */
