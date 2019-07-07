@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="dao.BreakCheckerMapper">
+<mapper namespace="com.rainbow.supervision.dao.BreakCheckerMapper">
   <resultMap id="BaseBreakCheckerResultMap" type="com.rainbow.supervision.domain.BreakChecker">
     <!--
       WARNING - @mbg.generated
@@ -31,7 +31,7 @@
   </resultMap>
 
 
-  <select id="getBreakCheckerList" parameterType="map" resultMap="BaseResultMap">
+  <select id="getBreakCheckerList" parameterType="map" resultMap="BreakCheckerExtendMap">
 
     select  * from supervision_break_checker t
     where 1=1
