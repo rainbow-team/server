@@ -83,7 +83,19 @@
     ct.value titleValue
     from supervision_expert t
     left join config_title ct on t.title_id = ct.id
-    where t.id = #{id}
+    where t.id =
+
+    <if test="name != null and name != ''">
+      and instr(t.name,#{name})>0
+    </if>
+
+    <if test="major != null and major != ''">
+      and instr(t.major,#{major})>0
+    </if>
+
+    <if test="age != null and age != ''">
+      and t.age <![CDATA[  =  ]]> #{age}
+    </if>
 
   </select>
 

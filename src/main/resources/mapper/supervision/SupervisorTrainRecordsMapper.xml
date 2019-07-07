@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.supervision.dao.SupervisorTrainRecordsMapper">
+  <resultMap id="BaseTrainRecordResultMap" type="com.rainbow.supervision.domain.SupervisorTrainRecords">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="supervisor_id" jdbcType="VARCHAR" property="supervisorId" />
+    <result column="class_id" jdbcType="VARCHAR" property="classId" />
+    <result column="score" jdbcType="VARCHAR" property="score" />
+    <result column="number" jdbcType="VARCHAR" property="number" />
+    <result column="issue_date" jdbcType="DATE" property="issueDate" />
+    <result column="expire_date" jdbcType="DATE" property="expireDate" />
+  </resultMap>
+
+  <resultMap id="TrainRecordExtendMap" extends="BaseTrainRecordResultMap" type="com.rainbow.supervision.domain.SupervisionTrainRecordExtend">
+    <result column="trainClass" jdbcType="VARCHAR" property="trainClass" />
+    <result column="trainStartDate" jdbcType="DATE" property="trainStartDate" />
+    <result column="trainEndDate" jdbcType="DATE" property="trainEndDate" />
+  </resultMap>
+
+  <select id="getTrainRecordList" parameterType="map" resultMap="TrainRecordExtendMap">
+
+    select
+     t.id,
+     t.supervisor_id,
+     t.class_id,
+     t.score,
+     t.number,
+     t.issue_date,
+     t.expire_date,
+     mt.batch trainClass,
+     mt.begin_date trainStartDate,
+     mt.end_date trainEndDate
+    from supervisor_train_records t
+    left join supervision_monitor_train mt on t.class_id = mt.id
+    where 1=1
+
+    <if test="batch != null and batch != ''">
+      and instr(mt.batch,#{batch})>0
+    </if>
+  </select>
+</mapper>
