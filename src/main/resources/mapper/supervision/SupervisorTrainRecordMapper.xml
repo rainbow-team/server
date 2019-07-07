@@ -35,7 +35,7 @@
      mt.end_date trainEndDate
     from supervisor_train_records t
     left join supervision_monitor_train mt on t.class_id = mt.id
-    where 1=1
+    where 1=1 and t.supervisor_id = #{supervisorId}
 
     <if test="batch != null and batch != ''">
       and instr(mt.batch,#{batch})>0
