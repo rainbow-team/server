@@ -33,19 +33,29 @@
   <resultMap id="SupervisionSupervisorListMap" extends="BaseResultMap" type="com.rainbow.supervision.controller.domain.SupervisionSupervisorResponse">
     <result column="orgName" jdbcType="VARCHAR" property="orgName" />
     <result column="titleName" jdbcType="VARCHAR" property="titleName" />
+      <result column="valid" jdbcType="INTEGER" property="valid" />
   </resultMap>
 
   <select id="getSupervisionSupervisorList" parameterType="map" resultMap="SupervisionSupervisorListMap">
-      SELECT ss.id,ss.name,ss.birthday,so.name as orgName,ss.entry_date,ct.value as titleName from supervision_supervisor ss
+      select m.id,m.name,m.birthday,m.orgName,m.entry_date,titleName,case when m.expire_date>=CURDATE() then 1 else 0 END as valid from (
+      SELECT ss.id,ss.name,ss.birthday,ss.org_id,so.name as orgName,ss.entry_date,ct.value as titleName,
+      (select max(str.expire_date) from supervisor_train_records str
+      where str.supervisor_id = ss.id ) as expire_date
+      from supervision_supervisor ss
       left JOIN supervision_org so on ss.org_id = so.id
       left join config_title ct on ss.title_id = ct.id
+      ) m
       where 1=1
       <if test="name != null and name != ''">
-         and instr(ss.name,#{name})>0
+         and instr(m.name,#{name})>0
       </if>
 
       <if test="orgId != null and orgId != ''">
-         and ss.orgId = #{orgId}
+         and m.org_id = #{orgId}
+      </if>
+
+      <if test="expireDate != null and expireDate != ''">
+          and m.expire_date >=#{expireDate}
       </if>
 
   </select>

@@ -11,6 +11,16 @@ public class SupervisionSupervisorResponse extends SupervisionSupervisor{
 
     public String titleName;
 
+    public int valid;
+
+    public int getValid() {
+        return valid;
+    }
+
+    public void setValid(int valid) {
+        this.valid = valid;
+    }
+
     public String getOrgName() {
         return orgName;
     }

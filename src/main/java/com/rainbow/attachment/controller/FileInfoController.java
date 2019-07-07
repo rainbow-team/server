@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -23,8 +24,8 @@ public class FileInfoController {
     private FileInfoService fileInfoService;
 
     @PostMapping(value = "/upload")
-    public ResponseBo upload(@RequestParam("file") MultipartFile file){
-        return fileInfoService.upload(file);
+    public ResponseBo upload(@RequestParam("file") MultipartFile file,HttpServletRequest request){
+        return fileInfoService.upload(file,request);
     }
 
     @GetMapping("/delete")
@@ -36,5 +37,10 @@ public class FileInfoController {
     @GetMapping("/getFileListById")
     public ResponseBo getFileList(String id){
         return fileInfoService.getFileList(id);
+    }
+
+    @GetMapping("/download")
+    public void downloadAccessoryByid(String id,HttpServletResponse response){
+        fileInfoService.downloadAccessoryByid(id,response);
     }
 }

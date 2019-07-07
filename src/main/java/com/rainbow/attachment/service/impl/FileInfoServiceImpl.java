@@ -7,15 +7,20 @@ import com.rainbow.common.config.RainbowProperties;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
 import com.rainbow.common.util.StrUtil;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import tk.mybatis.mapper.entity.Example;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,11 +38,11 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
     private RainbowProperties rainbowProperties;
 
     @Override
-    public ResponseBo upload(MultipartFile multifile){
+    public ResponseBo upload(MultipartFile multifile,HttpServletRequest request){
 
         String guid = UUID.randomUUID().toString();
 
-//        String fromID = request.getParameter("id");
+        String fromID = request.getParameter("refid");
 
 //        Multipart part = new Multipart();
 //        MultipartFile multifile = part.getUploadFile(request);
@@ -74,6 +79,7 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
         }
 
         FileInfo fileInfo = new FileInfo();
+        fileInfo.setFileinfoRefId(fromID);
         fileInfo.setFileinfoId(guid);
         fileInfo.setFileinfoFileType(ext);
         fileInfo.setFileinfoServerFileName(storeFile);
@@ -102,6 +108,30 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
         example.createCriteria().andEqualTo("fileinfoRefId",id);
         List<FileInfo> list =fileInfoMapper.selectByExample(example);
         return ResponseBo.ok(list);
+
+    }
+
+    public  void downloadAccessoryByid(String id,HttpServletResponse response){
+
+        FileInfo fileInfo = fileInfoMapper.selectByPrimaryKey(id);
+
+        if(fileInfo!=null){
+            String path  = fileInfo.getFileinfoServerPath();
+            File file = new File(path);
+
+            if (!file.exists()) {
+                return;
+            }
+
+            try {
+                response.setHeader("content-disposition", "Attachment;filename=" + URLEncoder.encode(fileInfo.getFileinfoClientFileName(), "utf-8"));
+                OutputStream out = response.getOutputStream();
+                out.write(FileUtils.readFileToByteArray(file));
+                out.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 
