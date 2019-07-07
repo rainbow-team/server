@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="dao.UmineMapper">
+<mapper namespace="com.rainbow.unit.dao.UmineMapper">
   <resultMap id="BaseResultMap" type="com.rainbow.unit.domain.Umine">
     <!--
       WARNING - @mbg.generated
@@ -26,4 +26,11 @@
     <result column="feature" jdbcType="LONGVARCHAR" property="feature" />
     <result column="note" jdbcType="LONGVARCHAR" property="note" />
   </resultMap>
+
+  <select id="getSumByGroupId" parameterType="java.lang.String" resultType="int">
+    select
+      ifnull(sum(id),0)
+    from unit_umine t
+    where t.group_id = #{groupId}
+  </select>
 </mapper>

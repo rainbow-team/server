@@ -4,6 +4,7 @@ import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.IService;
 import com.rainbow.unit.domain.Group;
+import com.rainbow.unit.domain.GroupExtend;
 
 /**
  * @Author:deepblue
@@ -17,4 +18,6 @@ public interface GroupService extends IService<Group> {
     int modifyGroup(Group group);
 
     ResponseBo getGroupList(Page page);
+
+    GroupExtend getGroupById(String id);
 }

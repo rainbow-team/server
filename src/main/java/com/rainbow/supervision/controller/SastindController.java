@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by 13260 on 2019/5/11.
  */
-@RestController("/sastind")
+@RestController("sastind")
 public class SastindController {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());

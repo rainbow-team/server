@@ -6,6 +6,7 @@ import com.rainbow.config.service.SystemConfigService;
 import com.rainbow.supervision.service.OrgService;
 import com.rainbow.supervision.service.SupervisionExpertService;
 import com.rainbow.system.service.UserService;
+import com.rainbow.unit.service.GroupService;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,7 +114,7 @@ public class RainbowApplicationTests {
 	}
 
 	@Autowired
-	private SupervisionExpertService supervisionExpertService;
+	private GroupService groupService;
 
 	@Test
 	public void testOrg() {
@@ -138,6 +139,6 @@ public class RainbowApplicationTests {
 		page.conditions=conditions;
     */
 
-		supervisionExpertService.getExpertById("1");
+		groupService.getGroupById("1");
 	}
 }

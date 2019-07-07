@@ -7,5 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface UmineMapper extends MyMapper<Umine> {
+
     List<Umine> getUmineList(Map<String,Object> map);
+
+    int getSumByGroupId(String groupId);
 }

@@ -18,4 +18,5 @@ public interface ServiceDepartService extends IService<ServiceDepart> {
     int modifyServiceDepart(ServiceDepart serviceDepart);
 
     ResponseBo getServiceDepartList(Page page);
+
 }

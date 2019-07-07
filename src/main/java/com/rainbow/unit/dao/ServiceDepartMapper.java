@@ -10,4 +10,6 @@ import java.util.Map;
 public interface ServiceDepartMapper extends MyMapper<ServiceDepart> {
 
     List<ServiceDepart> getUmineList(Map<String,Object> map);
+
+    int getSumByGroupId(String groupId);
 }

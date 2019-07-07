@@ -21,7 +21,7 @@ import java.util.List;
  * Created by 13260 on 2019/5/11.
  * 授权监管机构管理
  */
-@RestController("/org")
+@RestController("org")
 public class OrgController {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());

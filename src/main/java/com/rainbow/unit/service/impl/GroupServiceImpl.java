@@ -11,7 +11,10 @@ import com.rainbow.supervision.dao.BreakCheckerMapper;
 import com.rainbow.supervision.domain.BreakChecker;
 import com.rainbow.supervision.service.BreakCheckerService;
 import com.rainbow.unit.dao.GroupMapper;
+import com.rainbow.unit.dao.ServiceDepartMapper;
+import com.rainbow.unit.dao.UmineMapper;
 import com.rainbow.unit.domain.Group;
+import com.rainbow.unit.domain.GroupExtend;
 import com.rainbow.unit.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +34,13 @@ public class GroupServiceImpl extends BaseService<Group> implements GroupService
 
     @Autowired
     GroupMapper groupMapper;
+
+    @Autowired
+    ServiceDepartMapper serviceDepartMapper;
+
+    @Autowired
+    UmineMapper umineMapper;
+
 
     @Override
     public int addGroup(Group group) {
@@ -57,5 +67,19 @@ public class GroupServiceImpl extends BaseService<Group> implements GroupService
         PagingEntity<Group> result = new PagingEntity<>(pageInfo);
 
         return ResponseBo.ok(result);
+    }
+
+    @Override
+    public GroupExtend getGroupById(String id) {
+        GroupExtend result = groupMapper.getGroupById(id);
+
+        int serviceDepartNum = serviceDepartMapper.getSumByGroupId(result.getId());
+
+        int umineNum = umineMapper.getSumByGroupId(result.getId());
+
+        result.setServiceDepartNum(serviceDepartNum);
+        result.setUmineNum(umineNum);
+        return result;
+        //return null;
     }
 }
