@@ -31,7 +31,7 @@ public class BreakCheckerController {
      * @param
      * @return
      */
-    @PostMapping("/addBreakCheckerBreakChecker")
+    @PostMapping("/addBreakChecker")
     public ResponseBo add(@RequestBody BreakChecker breakChecker) {
         int result = breakCheckerService.addBreakChecker(breakChecker);
 
@@ -76,10 +76,9 @@ public class BreakCheckerController {
      * @param id
      * @return
      */
-    @GetMapping("/getExpertById")
-    public ResponseBo getExpertById(String id){
-        BreakChecker result =  breakCheckerService.selectByKey(id);
-        return ResponseBo.ok(result);
+    @GetMapping("/getBreakCheckertById")
+    public ResponseBo getBreakCheckerById(String id) {
+        return breakCheckerService.getBreakCheckerById(id);
     }
 
     /**

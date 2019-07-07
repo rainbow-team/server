@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dao.BreakCheckerMapper">
-  <resultMap id="BaseResultMap" type="com.rainbow.supervision.domain.BreakChecker">
+  <resultMap id="BaseBreakCheckerResultMap" type="com.rainbow.supervision.domain.BreakChecker">
     <!--
       WARNING - @mbg.generated
     -->
@@ -24,6 +24,12 @@
     <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
     <result column="note" jdbcType="LONGVARCHAR" property="note" />
   </resultMap>
+
+  <resultMap id="BreakCheckerExtendMap" extends="BaseBreakCheckerResultMap" type="com.rainbow.supervision.domain.BreakCheckExtend">
+    <result column="checkMethodValue" jdbcType="VARCHAR" property="checkMethodValue" />
+    <result column="checkLevelValue" jdbcType="VARCHAR" property="checkLevelValue" />
+  </resultMap>
+
 
   <select id="getBreakCheckerList" parameterType="map" resultMap="BaseResultMap">
 

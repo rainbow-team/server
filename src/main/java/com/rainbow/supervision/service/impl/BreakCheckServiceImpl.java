@@ -9,6 +9,7 @@ import com.rainbow.common.service.impl.BaseService;
 import com.rainbow.common.util.GuidHelper;
 import com.rainbow.supervision.dao.BreakCheckerMapper;
 import com.rainbow.supervision.domain.BreakChecker;
+import com.rainbow.supervision.domain.SupervisionWelder;
 import com.rainbow.supervision.service.BreakCheckerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,5 +54,13 @@ public class BreakCheckServiceImpl extends BaseService<BreakChecker> implements 
         PagingEntity<BreakChecker> result = new PagingEntity<>(pageInfo);
 
         return ResponseBo.ok(result);
+    }
+
+    @Override
+    public ResponseBo getBreakCheckerById(String id) {
+        BreakChecker breakChecker = breakCheckerMapper.getBreakCheckerById(id);
+
+        return ResponseBo.ok(breakChecker);
+        //return null;
     }
 }

@@ -8,5 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface BreakCheckerMapper extends MyMapper<BreakChecker> {
+
     List<BreakChecker> getBreakCheckerList(Map<String,Object> map);
+
+    BreakChecker getBreakCheckerById(String id);
 }

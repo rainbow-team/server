@@ -18,4 +18,6 @@ public interface BreakCheckerService extends IService<BreakChecker> {
     int modifyBreakChecker(BreakChecker breakChecker);
 
     ResponseBo getBreakCheckerList(Page page);
+
+    ResponseBo getBreakCheckerById(String id);
 }
