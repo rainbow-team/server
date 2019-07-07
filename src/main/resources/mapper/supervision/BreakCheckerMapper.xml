@@ -33,7 +33,13 @@
 
   <select id="getBreakCheckerList" parameterType="map" resultMap="BreakCheckerExtendMap">
 
-    select  * from supervision_break_checker t
+    select
+      t.*,
+      cm.value checkMethodValue,
+      cl.value checkLevelValue
+    from supervision_break_checker t
+    left join config_check_method cm on t.check_method_id = cm.id
+    left join config_check_level cl on t.check_level_id = cl.id
     where 1=1
 
     <if test="name != null and name != ''">
@@ -61,4 +67,19 @@
     </if>
 
   </select>
+
+
+  <select id="getBreakCheckerById" parameterType="map" resultMap="BreakCheckerExtendMap">
+
+    select
+    t.*,
+    cm.value checkMethodValue,
+    cl.value checkLevelValue
+    from supervision_break_checker t
+    left join config_check_method cm on t.check_method_id = cm.id
+    left join config_check_level cl on t.check_level_id = cl.id
+    where t.id = #{id}
+
+  </select>
+
 </mapper>
