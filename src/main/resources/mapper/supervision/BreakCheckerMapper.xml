@@ -25,7 +25,7 @@
     <result column="note" jdbcType="LONGVARCHAR" property="note" />
   </resultMap>
 
-  <resultMap id="BreakCheckerExtendMap" extends="BaseBreakCheckerResultMap" type="com.rainbow.supervision.domain.BreakCheckExtend">
+  <resultMap id="BreakCheckerExtendMap" extends="BaseBreakCheckerResultMap" type="com.rainbow.supervision.domain.BreakCheckerExtend">
     <result column="checkMethodValue" jdbcType="VARCHAR" property="checkMethodValue" />
     <result column="checkLevelValue" jdbcType="VARCHAR" property="checkLevelValue" />
   </resultMap>

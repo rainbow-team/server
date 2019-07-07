@@ -5,7 +5,7 @@ package com.rainbow.supervision.domain;
  * @Date:2019/7/7 11:07
  * @Description:
  **/
-public class BreakCheckExtend extends BreakChecker {
+public class BreakCheckerExtend extends BreakChecker {
     private String checkMethodValue;
 
     private String checkLevelValue;
