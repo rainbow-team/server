@@ -2,6 +2,7 @@ package com.rainbow.supervision.controller;
 
 import com.rainbow.attachment.domain.FileInfo;
 import com.rainbow.attachment.service.FileInfoService;
+import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.util.StrUtil;
 import com.rainbow.supervision.domain.SupervisionSupervisor;
@@ -29,25 +30,9 @@ public class SupervisionSupervisorController {
     public FileInfoService fileInfoService;
 
     @PostMapping("getSupervisionSupervisorList")
-    public ResponseBo getSupervisionSupervisorList(@RequestBody  SupervisionSupervisor supervisionSupervisor) {
+    public ResponseBo getSupervisionSupervisorList(@RequestBody Page page) {
 
-        if(!StrUtil.isNullOrEmpty(supervisionSupervisor.getName())){
-            String name = supervisionSupervisor.getName();
-            Example example = new Example(SupervisionSupervisor.class);
-            example.createCriteria().andLike("name",name);
-
-            List<SupervisionSupervisor> list = supervisionSupervisorService.selectByExample(example);
-
-            return ResponseBo.ok(list);
-        }
-        String name = supervisionSupervisor.getName();
-        Example example = new Example(SupervisionSupervisor.class);
-        example.createCriteria().andLike("name",name);
-
-
-        List<SupervisionSupervisor> list = supervisionSupervisorService.selectAll();
-
-        return ResponseBo.ok(list);
+        return supervisionSupervisorService.getSupervisionSupervisorList(page);
     }
 
     @PostMapping("saveOrUpdateSupervisionSupervisor")
@@ -55,10 +40,10 @@ public class SupervisionSupervisorController {
         return supervisionSupervisorService.saveOrUpdateSupervisionSupervisor(supervisionSupervisor);
     }
 
-    @GetMapping("deleteSupervisionSupervisorById")
-    public ResponseBo deleteSupervisionSupervisorById(String id){
+    @PostMapping("deleteSupervisionSupervisorByIds")
+    public ResponseBo deleteSupervisionSupervisorById(@RequestBody List<String> ids){
 
-        supervisionSupervisorService.deleteByKey(id);
+        supervisionSupervisorService.batchDelete(ids,"id",SupervisionSupervisor.class);
 
         return  ResponseBo.ok();
     }
