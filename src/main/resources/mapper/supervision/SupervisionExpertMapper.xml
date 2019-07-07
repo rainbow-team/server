@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.supervision.dao.SupervisionExpertMapper">
-  <resultMap id="BaseResultMap" type="com.rainbow.supervision.domain.SupervisionExpert">
+  <resultMap id="BaseExpertResultMap" type="com.rainbow.supervision.domain.SupervisionExpert">
     <!--
       WARNING - @mbg.generated
     -->
@@ -22,9 +22,30 @@
     <result column="note" jdbcType="LONGVARCHAR" property="note" />
   </resultMap>
 
-  <select id="getExpertList" parameterType="map" resultMap="BaseResultMap">
+  <resultMap id="ExpertExtendMap" extends="BaseExpertResultMap" type="com.rainbow.supervision.domain.SupervisionExpertExtend">
+    <result column="titleValue" jdbcType="VARCHAR" property="titleValue" />
+  </resultMap>
 
-    select  * from supervision_expert t
+  <select id="getExpertList" parameterType="map" resultMap="ExpertExtendMap">
+
+    select
+      t.id,
+      t.name,
+      t.identity,
+      t.sex,
+      t.major,
+      t.title_id,
+      t.contact,
+      t.org,
+      t.note,
+      t.is_import,
+      t.creator_id,
+      t.create_date,
+      t.modify_id,
+      t.modify_date,
+      ct.value titleValue
+    from supervision_expert t
+    left join config_title ct on t.title_id = ct.id
     where 1=1
 
     <if test="name != null and name != ''">
@@ -38,6 +59,31 @@
     <if test="age != null and age != ''">
       and t.age <![CDATA[  =  ]]> #{age}
     </if>
+
+  </select>
+
+
+  <select id="getExpertById" parameterType="map" resultMap="ExpertExtendMap">
+
+    select
+    t.id,
+    t.name,
+    t.identity,
+    t.sex,
+    t.major,
+    t.title_id,
+    t.contact,
+    t.org,
+    t.note,
+    t.is_import,
+    t.creator_id,
+    t.create_date,
+    t.modify_id,
+    t.modify_date,
+    ct.value titleValue
+    from supervision_expert t
+    left join config_title ct on t.title_id = ct.id
+    where t.id = #{id}
 
   </select>
 

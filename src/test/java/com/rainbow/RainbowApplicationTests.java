@@ -4,6 +4,7 @@ import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.config.service.SystemConfigService;
 import com.rainbow.supervision.service.OrgService;
+import com.rainbow.supervision.service.SupervisionExpertService;
 import com.rainbow.system.service.UserService;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -112,7 +113,7 @@ public class RainbowApplicationTests {
 	}
 
 	@Autowired
-	private OrgService orgService;
+	private SupervisionExpertService supervisionExpertService;
 
 	@Test
 	public void testOrg() {
@@ -131,10 +132,12 @@ public class RainbowApplicationTests {
 		condition2.setKey("name");
 		condition2.setValue("李");
 		conditions.add(condition2);*/
+    /*
 
 	conditions.add(condition1);
 		page.conditions=conditions;
+    */
 
-		orgService.getOrgList(page);
+		supervisionExpertService.getExpertById("1");
 	}
 }

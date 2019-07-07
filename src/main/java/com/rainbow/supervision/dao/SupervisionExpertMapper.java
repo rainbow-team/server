@@ -11,4 +11,5 @@ public interface SupervisionExpertMapper extends MyMapper<SupervisionExpert> {
 
     List<SupervisionExpert> getExpertList(Map<String,Object> map);
 
+    SupervisionExpert getExpertById(String id);
 }

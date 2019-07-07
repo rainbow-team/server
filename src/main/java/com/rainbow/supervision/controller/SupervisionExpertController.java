@@ -4,9 +4,7 @@ package com.rainbow.supervision.controller;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.supervision.domain.SupervisionExpert;
-import com.rainbow.supervision.domain.SupervisionLaw;
-import com.rainbow.supervision.service.SupervisionExportService;
-import com.rainbow.supervision.service.SupervisionLawService;
+import com.rainbow.supervision.service.SupervisionExpertService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +23,7 @@ public class SupervisionExpertController {
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    SupervisionExportService supervisionExportService;
+    SupervisionExpertService supervisionExportService;
 
     /**
      * 添加核安全监督专家信息
@@ -80,8 +78,7 @@ public class SupervisionExpertController {
      */
     @GetMapping("/getExpertById")
     public ResponseBo getLawById(String id){
-        SupervisionExpert result =  supervisionExportService.selectByKey(id);
-        return ResponseBo.ok(result);
+        return supervisionExportService.getExpertById(id);
     }
 
     /**

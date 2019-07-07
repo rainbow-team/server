@@ -8,11 +8,9 @@ import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
 import com.rainbow.common.util.GuidHelper;
 import com.rainbow.supervision.dao.SupervisionExpertMapper;
-import com.rainbow.supervision.dao.SupervisionLawMapper;
 import com.rainbow.supervision.domain.SupervisionExpert;
-import com.rainbow.supervision.domain.SupervisionLaw;
-import com.rainbow.supervision.service.SupervisionExportService;
-import com.rainbow.supervision.service.SupervisionLawService;
+import com.rainbow.supervision.domain.SupervisionMonitorTrain;
+import com.rainbow.supervision.service.SupervisionExpertService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +24,7 @@ import java.util.Map;
  * @Description:
  **/
 @Service("SupervisionExpertService")
-public class SupervisionExpertServiceImpl extends BaseService<SupervisionExpert> implements SupervisionExportService {
+public class SupervisionExpertServiceImpl extends BaseService<SupervisionExpert> implements SupervisionExpertService {
 
     @Autowired
     SupervisionExpertMapper supervisionExpertMapper;
@@ -54,6 +52,17 @@ public class SupervisionExpertServiceImpl extends BaseService<SupervisionExpert>
         PageInfo<SupervisionExpert> pageInfo = new PageInfo<SupervisionExpert>(list);
 
         PagingEntity<SupervisionExpert> result = new PagingEntity<>(pageInfo);
+
+        return ResponseBo.ok(result);
+    }
+
+    @Override
+    public ResponseBo getExpertById(String id){
+
+        SupervisionExpert result =  supervisionExpertMapper.getExpertById(id);
+        //创建人
+        //String name = userMapper.getUserNameById(result.getCreatorId());
+        //result.setCreatorName(name);
 
         return ResponseBo.ok(result);
     }

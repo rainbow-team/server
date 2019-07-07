@@ -11,11 +11,13 @@ import com.rainbow.supervision.domain.SupervisionLaw;
  * @Date:2019/6/27 17:08
  * @Description:
  **/
-public interface SupervisionExportService extends IService<SupervisionExpert> {
+public interface SupervisionExpertService extends IService<SupervisionExpert> {
 
     int addExpert(SupervisionExpert expert);
 
     int modifyExpert(SupervisionExpert expert);
 
     ResponseBo getExpertList(Page page);
+
+    ResponseBo getExpertById(String id);
 }
