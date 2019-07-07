@@ -9,6 +9,6 @@ import java.util.Map;
 
 public interface SupervisionMonitorTrainMapper extends MyMapper<SupervisionMonitorTrain> {
 
-    List<SupervisionMonitorTrain> getTrainRecordList(Map<String,Object> map);
+    List<SupervisionMonitorTrain> getMonitorTrainList(Map<String,Object> map);
 
 }

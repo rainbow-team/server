@@ -6,7 +6,9 @@ import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.util.StrUtil;
 import com.rainbow.supervision.domain.SupervisionSupervisor;
+import com.rainbow.supervision.domain.SupervisionTrainRecord;
 import com.rainbow.supervision.service.SupervisionSupervisorService;
+import com.rainbow.supervision.service.SupervisionTrainRecordService;
 import com.rainbow.system.domain.Menu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,6 +31,9 @@ public class SupervisionSupervisorController {
     @Autowired
     public FileInfoService fileInfoService;
 
+    @Autowired
+    SupervisionTrainRecordService supervisionTrainRecordService;
+
     @PostMapping("getSupervisionSupervisorList")
     public ResponseBo getSupervisionSupervisorList(@RequestBody Page page) {
 
@@ -43,6 +48,7 @@ public class SupervisionSupervisorController {
     @PostMapping("deleteSupervisionSupervisorByIds")
     public ResponseBo deleteSupervisionSupervisorById(@RequestBody List<String> ids){
 
+        supervisionTrainRecordService.batchDelete(ids,"supervisorId", SupervisionTrainRecord.class);
         supervisionSupervisorService.batchDelete(ids,"id",SupervisionSupervisor.class);
 
         return  ResponseBo.ok();

@@ -19,7 +19,7 @@ import java.util.List;
  * 核安全监督员培训记录管理
  */
 @RestController
-@RequestMapping("supervisionlaw")
+@RequestMapping("SupervisionTrainRecord")
 public class SupervisionTrainRecordController {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());

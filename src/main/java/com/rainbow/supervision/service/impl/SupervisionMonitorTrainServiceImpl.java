@@ -40,7 +40,7 @@ public class SupervisionMonitorTrainServiceImpl extends BaseService<SupervisionM
     private UserMapper userMapper;
 
     @Override
-    public int addTrainRecord(SupervisionMonitorTrain trainRecord) {
+    public int addMonitorTrain(SupervisionMonitorTrain trainRecord) {
         trainRecord.setId(GuidHelper.getGuid());
         trainRecord.setCreateDate(new Date());
         trainRecord.setModifyDate(new Date());
@@ -51,7 +51,7 @@ public class SupervisionMonitorTrainServiceImpl extends BaseService<SupervisionM
     }
 
     @Override
-    public int modifyTrainRecord(SupervisionMonitorTrain trainRecord) {
+    public int modifyMonitorTrain(SupervisionMonitorTrain trainRecord) {
         trainRecord.setModifyDate(new Date());
 
         updateFileInfoByIds(trainRecord);
@@ -68,11 +68,11 @@ public class SupervisionMonitorTrainServiceImpl extends BaseService<SupervisionM
     }
 
     @Override
-    public ResponseBo getTrainRecordList(Page page){
+    public ResponseBo getMonitorTrainList(Page page){
 
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
-        List<SupervisionMonitorTrain> list = monitorTrainMapper.getTrainRecordList(map);
+        List<SupervisionMonitorTrain> list = monitorTrainMapper.getMonitorTrainList(map);
 
         PageInfo<SupervisionMonitorTrain> pageInfo = new PageInfo<SupervisionMonitorTrain>(list);
 
@@ -82,7 +82,7 @@ public class SupervisionMonitorTrainServiceImpl extends BaseService<SupervisionM
     }
 
     @Override
-    public ResponseBo getTrainRecordById(String id){
+    public ResponseBo getMonitorTrainById(String id){
 
         SupervisionMonitorTrain result =  monitorTrainMapper.selectByPrimaryKey(id);
         //创建人

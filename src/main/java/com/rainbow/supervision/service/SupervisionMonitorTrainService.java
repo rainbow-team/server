@@ -12,11 +12,11 @@ import com.rainbow.supervision.domain.SupervisionMonitorTrain;
  **/
 public interface SupervisionMonitorTrainService extends IService<SupervisionMonitorTrain> {
 
-    int addTrainRecord(SupervisionMonitorTrain trainRecord);
+    int addMonitorTrain(SupervisionMonitorTrain trainRecord);
 
-    int modifyTrainRecord(SupervisionMonitorTrain trainRecord);
+    int modifyMonitorTrain(SupervisionMonitorTrain trainRecord);
 
-    ResponseBo getTrainRecordList(Page page);
+    ResponseBo getMonitorTrainList(Page page);
 
-    ResponseBo getTrainRecordById(String id);
+    ResponseBo getMonitorTrainById(String id);
 }

@@ -20,7 +20,7 @@
     <result column="note" jdbcType="LONGVARCHAR" property="note" />
   </resultMap>
 
-  <select id="getTrainRecordList" parameterType="map" resultMap="BaseResultMap">
+  <select id="getMonitorTrainList" parameterType="map" resultMap="BaseResultMap">
 
      select  * from supervision_monitor_train t
      where 1=1
