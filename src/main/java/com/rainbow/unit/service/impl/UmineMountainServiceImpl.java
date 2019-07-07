@@ -51,12 +51,19 @@ public class UmineMountainServiceImpl extends BaseService<UmineMountain> impleme
     public ResponseBo getUmineMountainList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
-        List<UmineMountain> list = umineMountainMapper.getUmineplaceList(map);
+        List<UmineMountain> list = umineMountainMapper.getUmineMountainList(map);
 
         PageInfo<UmineMountain> pageInfo = new PageInfo<UmineMountain>(list);
 
         PagingEntity<UmineMountain> result = new PagingEntity<>(pageInfo);
 
+        return ResponseBo.ok(result);
+    }
+
+    @Override
+    public ResponseBo getUmineMountainById(String id) {
+        //return null;
+        UmineMountain result= umineMountainMapper.getUmineMountainById(id);
         return ResponseBo.ok(result);
     }
 }

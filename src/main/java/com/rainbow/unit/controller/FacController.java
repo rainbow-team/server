@@ -79,8 +79,8 @@ public class FacController {
      * @return
      */
     @GetMapping("/getFacById")
-    public ResponseBo getFacById(String id){
-        Fac result =  facService.selectByKey(id);
+    public ResponseBo getFacById(String id) {
+        Fac result = facService.getFacById(id);
         return ResponseBo.ok(result);
     }
 
@@ -91,7 +91,9 @@ public class FacController {
      */
     @PostMapping("/deleteFacByIds")
     public ResponseBo deleteFacByIds(@RequestBody List<String> ids){
-        facService.batchDelete(ids,"id",Fac.class);
+        if((ids!=null)&&(ids.size()>0)) {
+            facService.deleteFacByIds(ids);
+        }
         return ResponseBo.ok();
     }
 }

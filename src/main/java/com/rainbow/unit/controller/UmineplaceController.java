@@ -64,34 +64,38 @@ public class UmineplaceController {
 
     /**
      * 获取铀尾矿(渣)库信息列表
+     *
      * @param page
      * @return
      */
     @PostMapping("/getUmineplaceList")
-    public ResponseBo getEquipDepartList(@RequestBody Page page){
+    public ResponseBo getUmineplaceList(@RequestBody Page page) {
 
         return umineplaceService.getUmineplaceList(page);
     }
 
     /**
      * 获取铀尾矿(渣)库信息详情
+     *
      * @param id
      * @return
      */
     @GetMapping("/getUmineplaceById")
-    public ResponseBo getEquipDepartById(String id){
-        Umineplace result =  umineplaceService.selectByKey(id);
-        return ResponseBo.ok(result);
+    public ResponseBo getUmineplaceById(String id) {
+        return umineplaceService.getUmineplaceById(id);
     }
 
     /**
      * 删除铀尾矿(渣)库信息信息
+     *
      * @param ids
      * @return
      */
     @PostMapping("/deleteUmineplaceByIds")
-    public ResponseBo deleteGroupByIds(@RequestBody List<String> ids){
-        umineplaceService.batchDelete(ids,"id",Umineplace.class);
+    public ResponseBo deleteUmineplaceByIds(@RequestBody List<String> ids) {
+        if ((ids != null) && (ids.size() > 0)) {
+            umineplaceService.deleteUmineplaceByIds(ids);
+        }
         return ResponseBo.ok();
     }
 }

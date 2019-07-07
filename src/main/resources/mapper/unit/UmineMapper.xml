@@ -44,7 +44,6 @@
       and instr(t.name,#{name})>0
     </if>
 
-
   </select>
 
   <select id="getSumByGroupId" parameterType="java.lang.String" resultType="int">

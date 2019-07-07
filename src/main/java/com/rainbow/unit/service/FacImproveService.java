@@ -3,9 +3,9 @@ package com.rainbow.unit.service;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.IService;
-import com.rainbow.unit.domain.Fac;
-import com.rainbow.unit.domain.FacExtend;
+import com.rainbow.unit.domain.FacImprove;
 import com.rainbow.unit.domain.Group;
+import com.rainbow.unit.domain.GroupExtend;
 
 import java.util.List;
 
@@ -14,15 +14,12 @@ import java.util.List;
  * @Date:2019/6/27 17:08
  * @Description:
  **/
-public interface FacService extends IService<Fac> {
+public interface FacImproveService extends IService<FacImprove> {
 
-    int addFac(Fac fac);
+    void deleteFacImprove(List<String> ids);
 
-    int modifyFac(Fac fac);
+    ResponseBo getFacImproveList(Page page);
 
-    ResponseBo getFacList(Page page);
 
-    void deleteFacByIds(List<String> ids);
 
-    Fac getFacById(String id);
 }

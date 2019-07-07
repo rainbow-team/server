@@ -11,4 +11,6 @@ public interface FacMapper extends MyMapper<Fac> {
     List<Fac> getFacList(Map<String,Object> map);
 
     int getFacNumByServiceId(String serviceId);
+
+    Fac getFacById(String id);
 }

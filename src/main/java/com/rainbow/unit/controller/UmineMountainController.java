@@ -33,7 +33,7 @@ public class UmineMountainController {
      * @param
      * @return
      */
-    @PostMapping("/addEquipDepart")
+    @PostMapping("/addUmineMountain")
     public ResponseBo add(@RequestBody UmineMountain umineMountain) {
         int result = umineMountainService.addUmineMountain(umineMountain);
 
@@ -50,7 +50,7 @@ public class UmineMountainController {
      * @param
      * @return
      */
-    @PostMapping("/modifyEquipDepart")
+    @PostMapping("/modifyUmineMountain")
     public ResponseBo modify(@RequestBody UmineMountain umineMountain) {
 
         int result = umineMountainService.modifyUmineMountain(umineMountain);
@@ -67,7 +67,7 @@ public class UmineMountainController {
      * @param page
      * @return
      */
-    @PostMapping("/getEquipDepartList")
+    @PostMapping("/getUmineMountainList")
     public ResponseBo getEquipDepartList(@RequestBody Page page){
 
         return umineMountainService.getUmineMountainList(page);
@@ -78,10 +78,9 @@ public class UmineMountainController {
      * @param id
      * @return
      */
-    @GetMapping("/getEquipDepartById")
+    @GetMapping("/getUmineMountainById")
     public ResponseBo getEquipDepartById(String id){
-        UmineMountain result =  umineMountainService.selectByKey(id);
-        return ResponseBo.ok(result);
+        return umineMountainService.getUmineMountainById(id);
     }
 
     /**
@@ -89,7 +88,7 @@ public class UmineMountainController {
      * @param ids
      * @return
      */
-    @PostMapping("/deleteEquipDepartByIds")
+    @PostMapping("/deleteUmineMountainByIds")
     public ResponseBo deleteGroupByIds(@RequestBody List<String> ids){
         umineMountainService.batchDelete(ids,"id",UmineMountain.class);
         return ResponseBo.ok();

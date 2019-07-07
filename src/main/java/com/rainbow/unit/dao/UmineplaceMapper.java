@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface UmineplaceMapper extends MyMapper<Umineplace> {
-    List<Umineplace> getUmineplaceList(Map<String,Object> map);
+    List<Umineplace> getUmineplaceList(Map<String, Object> map);
+
+    Umineplace getUmineplaceById(String id);
 
     int getUminePlaceSumByUmineId(String umineId);
 }

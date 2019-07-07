@@ -8,8 +8,10 @@ import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
 import com.rainbow.common.util.GuidHelper;
 import com.rainbow.unit.dao.EquipDepartMapper;
+import com.rainbow.unit.dao.UminePlaceImproveMapper;
 import com.rainbow.unit.dao.UmineplaceMapper;
 import com.rainbow.unit.domain.EquipDepart;
+import com.rainbow.unit.domain.ServiceDepart;
 import com.rainbow.unit.domain.Umineplace;
 import com.rainbow.unit.service.EquipDepartService;
 import com.rainbow.unit.service.UmineplaceService;
@@ -31,6 +33,9 @@ public class UmineplaceServiceImpl extends BaseService<Umineplace> implements Um
 
     @Autowired
     UmineplaceMapper umineplaceMapper;
+
+    @Autowired
+    UminePlaceImproveMapper uminePlaceImproveMapper;
 
     @Override
     public int addUmineplace(Umineplace umineplace) {
@@ -57,5 +62,19 @@ public class UmineplaceServiceImpl extends BaseService<Umineplace> implements Um
         PagingEntity<Umineplace> result = new PagingEntity<>(pageInfo);
 
         return ResponseBo.ok(result);
+    }
+
+    @Override
+    public ResponseBo getUmineplaceById(String id) {
+        Umineplace result = umineplaceMapper.getUmineplaceById(id);
+        return ResponseBo.ok(result);
+    }
+
+    @Override
+    public void deleteUmineplaceByIds(List<String> ids) {
+        super.batchDelete(ids, "id", Umineplace.class);
+        for (String id : ids) {
+            uminePlaceImproveMapper.deleleUminePlaceImproveByUmineplaceId(id);
+        }
     }
 }

@@ -58,8 +58,8 @@ public class ServiceDepartServiceImpl extends BaseService<ServiceDepart> impleme
     @Override
     public void deleteServiceDepartByIds(List<String> ids) {
         super.batchDelete(ids, "id", ServiceDepart.class);
-        for (String str : ids) {
-            annualReportMapper.deleteReportsByServiceId(str);
+        for (String id : ids) {
+            annualReportMapper.deleteReportsByServiceId(id);
         }
     }
 

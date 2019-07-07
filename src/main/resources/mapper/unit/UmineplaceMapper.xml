@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="dao.UmineplaceMapper">
-  <resultMap id="BaseResultMap" type="com.rainbow.unit.domain.Umineplace">
+<mapper namespace="com.rainbow.unit.dao.UmineplaceMapper">
+  <resultMap id="UmineplaceBaseResultMap" type="com.rainbow.unit.domain.Umineplace">
     <!--
       WARNING - @mbg.generated
     -->
@@ -29,6 +29,15 @@
     <result column="note" jdbcType="LONGVARCHAR" property="note" />
   </resultMap>
 
+  <resultMap id="UmineplaceExtendMap" extends="UmineplaceBaseResultMap" type="com.rainbow.unit.domain.UmineplaceExtend">
+    <result column="umineName" jdbcType="VARCHAR" property="umineName" />
+    <result column="levelValue" jdbcType="VARCHAR" property="levelValue" />
+    <result column="statusValue" jdbcType="VARCHAR" property="statusValue" />
+    <result column="reviewStatus" jdbcType="VARCHAR" property="reviewStatus" />
+    <result column="permitSituationValue" jdbcType="VARCHAR" property="permitSituationValue" />
+  </resultMap>
+
+
   <select id="getUminePlaceSumByUmineId" parameterType="java.lang.String" resultType="int">
     select
      ifnull(sum(id),0)
@@ -36,4 +45,99 @@
     where t.umine_id = #{umineId}
   </select>
 
+
+  <select id="getUmineplaceList" parameterType="map" resultMap="UmineplaceExtendMap">
+
+    select
+     t.*,
+     u.name umineName,
+     ul.value levelValue,
+     us.value statusValue,
+     rs.value reviewStatus,
+     ps.value permitSituationValue
+    from unit_umine_place t
+    left join unit_umine u on t.umine_id = u.id
+    left join config_umine_place_level ul on t.level_id = ul.id
+    left join config_umine_place_status us on t.status_id = us.id
+    left join config_review_status rs on t.review_status = rs.id
+    left join config_umine_place_permit_situation ps on t.permit_situation_id = ps.id
+    where 1=1
+
+    <if test="name != null and name != ''">
+      and instr(t.name,#{name})>0
+    </if>
+
+    <if test="umineName != null and umineName != ''">
+      and instr(u.name,#{umineName})>0
+    </if>
+
+    <if test="build_year != null and build_year != ''">
+      and instr(t.build_year,#{build_year})>0
+    </if>
+
+    <if test="levelIds != null">
+      and t.level_id in (
+      <foreach item="item" index="index" collection="levelIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+    <if test="statusIds != null">
+      and t.status_id in (
+      <foreach item="item" index="index" collection="statusIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+    <if test="reviewstatusIds != null">
+      and t.review_status in (
+      <foreach item="item" index="index" collection="reviewstatusIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+    <if test="reviewStatusIds != null">
+      and t.t.review_status_id in (
+      <foreach item="item" index="index" collection="reviewStatusIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+    <if test="permitSituationIds != null">
+      and t.permit_situation_id in (
+      <foreach item="item" index="index" collection="permitSituationIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+    <if test="havemonitor != null and havemonitor != ''">
+      and t.have_monitor = #{havemonitor}
+    </if>
+  </select>
+
+
+
+  <select id="getUmineplaceById" parameterType="java.lang.String" resultMap="UmineplaceExtendMap">
+
+    select
+     t.*,
+     u.name umineName,
+     ul.value levelValue,
+     us.value statusValue,
+     rs.value reviewStatus,
+     ps.value permitSituationValue
+    from unit_umine_place t
+    left join unit_umine u on t.umine_id = u.id
+    left join config_umine_place_level ul on t.level_id = ul.id
+    left join config_umine_place_status us on t.status_id = us.id
+    left join config_review_status rs on t.review_status = rs.id
+    left join config_umine_place_permit_situation ps on t.permit_situation_id = ps.id
+    where t.id = #{id}
+
+  </select>
 </mapper>

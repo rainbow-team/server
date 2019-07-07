@@ -6,6 +6,8 @@ import com.rainbow.common.service.IService;
 import com.rainbow.unit.domain.EquipDepart;
 import com.rainbow.unit.domain.Umineplace;
 
+import java.util.List;
+
 /**
  * @Author:deepblue
  * @Date:2019/6/27 17:08
@@ -18,4 +20,8 @@ public interface UmineplaceService extends IService<Umineplace> {
     int modifyUmineplace(Umineplace umineplace);
 
     ResponseBo getUmineplaceList(Page page);
+
+    ResponseBo getUmineplaceById(String id);
+
+    void deleteUmineplaceByIds(List<String> ids);
 }

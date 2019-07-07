@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="dao.FacMapper">
-  <resultMap id="BaseResultMap" type="com.rainbow.unit.domain.Fac">
+<mapper namespace="com.rainbow.unit.dao.FacMapper">
+  <resultMap id="FacBaseResultMap" type="com.rainbow.unit.domain.Fac">
     <!--
       WARNING - @mbg.generated
     -->
@@ -31,6 +31,15 @@
     <result column="note" jdbcType="LONGVARCHAR" property="note" />
   </resultMap>
 
+  <resultMap id="FacExtendMap" extends="FacBaseResultMap" type="com.rainbow.unit.domain.FacExtend">
+    <result column="serviceDepart" jdbcType="VARCHAR" property="serviceDepart" />
+    <result column="supervisionCategoryValue" jdbcType="VARCHAR" property="supervisionCategoryValue" />
+    <result column="typeValue" jdbcType="VARCHAR" property="typeValue" />
+    <result column="statusValue" jdbcType="VARCHAR" property="statusValue" />
+    <result column="reviewStatusValue" jdbcType="VARCHAR" property="reviewStatusValue" />
+    <result column="permitSituationValue" jdbcType="VARCHAR" property="permitSituationValue" />
+  </resultMap>
+
 
   <select id="getFacNumByServiceId" parameterType="java.lang.String" resultType="int">
     select
@@ -39,17 +48,110 @@
     where t.service_id = #{serviceId}
   </select>
 
-  <select id="getFacList" parameterType="map" resultMap="BaseResultMap">
+  <select id="getFacList" parameterType="map" resultMap="FacExtendMap">
 
-    select  * from unit_fac t
+    select
+     t.*,
+     us.name serviceDepart,
+     sc.value supervisionCategoryValue,
+     ft.value typeValue,
+     fs.value statusValue,
+     rs.value reviewStatusValue,
+     ps.value permitSituationValue
+    from unit_fac t
+    left join unit_service_depart us on t.service_id = us.id
+    left join config_fac_supervison_category sc on t.supervision_category_id = sc.id
+    left join config_fac_type ft on t.type_id = ft.id
+    left join config_fac_status fs on t.status_id = fs.id
+    left join config_review_status rs on t.review_status_id = rs.id
+    left join config_fac_permit_situation ps on t.fac_permit_situation_id = ps.id
     where 1=1
 
     <if test="name != null and name != ''">
       and instr(t.name,#{name})>0
     </if>
 
-    <if test="service_id != null and service_id != ''">
-      and t.service_id = #{service_id}
+    <if test="code != null and code != ''">
+      and instr(t.code,#{code})>0
     </if>
+
+    <if test="serviceDepart != null and serviceDepart != ''">
+      and instr(us.name,#{serviceDepart})>0
+    </if>
+
+    <if test="build_year != null and build_year != ''">
+      and instr(t.build_year,#{build_year})>0
+    </if>
+
+    <if test="supervisionCategoryIds != null">
+      and t.supervision_category_id in (
+      <foreach item="item" index="index" collection="supervisionCategoryIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+    <if test="typeIds != null">
+      and t.type_id in (
+      <foreach item="item" index="index" collection="typeIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+    <if test="statusIds != null">
+      and t.status_id in (
+      <foreach item="item" index="index" collection="statusIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+    <if test="reviewStatusIds != null">
+      and t.review_status_id in (
+      <foreach item="item" index="index" collection="reviewStatusIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+    <if test="permitSituationIds != null">
+      and t.fac_permit_situation_id in (
+      <foreach item="item" index="index" collection="permitSituationIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+    <if test="is_earthquake != null and is_earthquake != ''">
+      and t.is_earthquake = #{is_earthquake}
+    </if>
+
+    <if test="is_flood != null and is_flood != ''">
+      and t.is_flood = #{is_flood}
+    </if>
+  </select>
+
+
+
+  <select id="getFacById" parameterType="java.lang.String" resultMap="FacExtendMap">
+
+    select
+     t.*,
+     us.name serviceDepart,
+     sc.value supervisionCategoryValue,
+     ft.value typeValue,
+     fs.value statusValue,
+     rs.value reviewStatusValue,
+     ps.value permitSituationValue
+    from unit_fac t
+    left join unit_service_depart us on t.service_id = us.id
+    left join config_fac_supervison_category sc on t.supervision_category_id = sc.id
+    left join config_fac_type ft on t.type_id = ft.id
+    left join config_fac_status fs on t.status_id = fs.id
+    left join config_review_status rs on t.review_status_id = rs.id
+    left join config_fac_permit_situation ps on t.fac_permit_situation_id = ps.id
+    where t.id = #{id}
+
   </select>
 </mapper>

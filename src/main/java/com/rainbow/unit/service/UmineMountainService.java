@@ -18,4 +18,6 @@ public interface UmineMountainService extends IService<UmineMountain> {
     int modifyUmineMountain(UmineMountain umineMountain);
 
     ResponseBo getUmineMountainList(Page page);
+
+    ResponseBo getUmineMountainById(String id);
 }

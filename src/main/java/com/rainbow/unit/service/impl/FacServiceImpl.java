@@ -7,9 +7,13 @@ import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
 import com.rainbow.common.util.GuidHelper;
+import com.rainbow.unit.dao.FacImproveMapper;
 import com.rainbow.unit.dao.FacMapper;
+import com.rainbow.unit.dao.FacReportMapper;
 import com.rainbow.unit.dao.GroupMapper;
 import com.rainbow.unit.domain.Fac;
+import com.rainbow.unit.domain.FacExtend;
+import com.rainbow.unit.domain.FacImprove;
 import com.rainbow.unit.domain.Group;
 import com.rainbow.unit.service.FacService;
 import com.rainbow.unit.service.GroupService;
@@ -32,6 +36,12 @@ public class FacServiceImpl extends BaseService<Fac> implements FacService {
     @Autowired
     FacMapper facMapper;
 
+    @Autowired
+    FacImproveMapper facImproveMapper;
+
+    @Autowired
+    FacReportMapper facReportMapper;
+
     @Override
     public int addFac(Fac fac) {
         fac.setId(GuidHelper.getGuid());
@@ -47,6 +57,15 @@ public class FacServiceImpl extends BaseService<Fac> implements FacService {
     }
 
     @Override
+    public void deleteFacByIds(List<String> ids) {
+        super.batchDelete(ids,"id",Fac.class);
+        for (String id:ids){
+            facImproveMapper.deleleFacImproveByFacId(id);
+            facReportMapper.deleteFacReportByFacId(id);
+        }
+    }
+
+    @Override
     public ResponseBo getFacList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
@@ -57,5 +76,10 @@ public class FacServiceImpl extends BaseService<Fac> implements FacService {
         PagingEntity<Fac> result = new PagingEntity<>(pageInfo);
 
         return ResponseBo.ok(result);
+    }
+
+    @Override
+    public Fac getFacById(String id) {
+        return facMapper.getFacById(id);
     }
 }

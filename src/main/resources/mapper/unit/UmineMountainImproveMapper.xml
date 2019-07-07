@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.unit.dao.UmineMountainImproveMapper">
+  <resultMap id="BaseResultMap" type="com.rainbow.unit.domain.UmineMountainImprove">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="umine_mountain_id" jdbcType="VARCHAR" property="umineMountainId" />
+    <result column="improve_date" jdbcType="DATE" property="improveDate" />
+    <result column="improve_content" jdbcType="LONGVARCHAR" property="improveContent" />
+  </resultMap>
+
+  <select id="getUmineMountainImproveList" parameterType="map" resultMap="BaseResultMap">
+
+    select  * from unit_umine_mountain_improve t
+    where t.umine_mountain_id = #{umineMountainId}
+  </select>
+</mapper>

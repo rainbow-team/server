@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.unit.dao.UminePlaceImproveMapper">
+  <resultMap id="BaseResultMap" type="com.rainbow.unit.domain.UminePlaceImprove">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="umine_place_id" jdbcType="VARCHAR" property="uminePlaceId" />
+    <result column="improve_date" jdbcType="DATE" property="improveDate" />
+    <result column="improve_content" jdbcType="LONGVARCHAR" property="improveContent" />
+  </resultMap>
+
+
+  <select id="getUminePlaceImproveList" parameterType="map" resultMap="BaseResultMap">
+
+    select  * from unit_umine_place_improve t
+    where t.umine_place_id = #{uminePlaceId}
+  </select>
+
+  <delete id="deleleUminePlaceImproveByUmineplaceId" parameterType="java.lang.String">
+    delete from unit_fac_improve where umine_place_id = #{uminePlaceId}
+  </delete>
+</mapper>
