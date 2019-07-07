@@ -5,6 +5,7 @@ import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.unit.domain.Group;
 import com.rainbow.unit.domain.Umine;
+import com.rainbow.unit.domain.UmineExtend;
 import com.rainbow.unit.service.GroupService;
 import com.rainbow.unit.service.UmineService;
 import org.slf4j.Logger;
@@ -80,8 +81,7 @@ public class UmineController {
      */
     @GetMapping("/getUmineById")
     public ResponseBo getUmineById(String id){
-        Umine result =  umineService.selectByKey(id);
-        return ResponseBo.ok(result);
+        return umineService.getUmineById(id);
     }
 
     /**

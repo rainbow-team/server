@@ -24,4 +24,5 @@ public interface OrgService extends IService<Org> {
     ResponseBo getOrgList(Page page);
 
     ResponseBo getOrgById(String id);
+
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="dao.EquipDepartMapper">
+<mapper namespace="com.rainbow.unit.dao.EquipDepartMapper">
   <resultMap id="BaseResultMap" type="com.rainbow.unit.domain.EquipDepart">
     <!--
       WARNING - @mbg.generated
@@ -24,4 +24,20 @@
     <result column="product" jdbcType="LONGVARCHAR" property="product" />
     <result column="note" jdbcType="LONGVARCHAR" property="note" />
   </resultMap>
+
+  <select id="getEquipDepartList" parameterType="map" resultMap="BaseResultMap">
+
+    select *
+    from unit_equip_depart t
+    where 1=1
+
+    <if test="name != null and name != ''">
+      and instr(t.name,#{name})>0
+    </if>
+
+    <if test="product != null and product != ''">
+      and instr(t.product,#{product})>0
+    </if>
+
+  </select>
 </mapper>

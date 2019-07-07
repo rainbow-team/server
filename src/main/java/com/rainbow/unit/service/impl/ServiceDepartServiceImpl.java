@@ -8,14 +8,18 @@ import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
 import com.rainbow.common.util.GuidHelper;
 import com.rainbow.unit.dao.EquipDepartMapper;
+import com.rainbow.unit.dao.FacMapper;
+import com.rainbow.unit.dao.ServiceAnnualReportMapper;
 import com.rainbow.unit.dao.ServiceDepartMapper;
 import com.rainbow.unit.domain.EquipDepart;
 import com.rainbow.unit.domain.ServiceDepart;
+import com.rainbow.unit.domain.ServiceDepartExtend;
 import com.rainbow.unit.service.EquipDepartService;
 import com.rainbow.unit.service.ServiceDepartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.smartcardio.ResponseAPDU;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -28,10 +32,14 @@ import java.util.Map;
 @Service("servicedepartservice")
 public class ServiceDepartServiceImpl extends BaseService<ServiceDepart> implements ServiceDepartService {
 
-
     @Autowired
     ServiceDepartMapper serviceDepartMapper;
 
+    @Autowired
+    ServiceAnnualReportMapper annualReportMapper;
+
+    @Autowired
+    FacMapper facMapper;
 
     @Override
     public int addServiceDepart(ServiceDepart serviceDepart) {
@@ -48,14 +56,34 @@ public class ServiceDepartServiceImpl extends BaseService<ServiceDepart> impleme
     }
 
     @Override
+    public void deleteServiceDepartByIds(List<String> ids) {
+        super.batchDelete(ids, "id", ServiceDepart.class);
+        for (String str : ids) {
+            annualReportMapper.deleteReportsByServiceId(str);
+        }
+    }
+
+    @Override
     public ResponseBo getServiceDepartList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
-        List<ServiceDepart> list = serviceDepartMapper.getUmineList(map);
+        List<ServiceDepart> list = serviceDepartMapper.getServiceDepartList(map);
 
         PageInfo<ServiceDepart> pageInfo = new PageInfo<ServiceDepart>(list);
 
         PagingEntity<ServiceDepart> result = new PagingEntity<>(pageInfo);
+
+        return ResponseBo.ok(result);
+    }
+
+    @Override
+    public ResponseBo getServiceDepartById(String serviceId) {
+
+        ServiceDepartExtend result = serviceDepartMapper.getServiceDepartByServiceId(serviceId);
+
+        int num = facMapper.getFacNumByServiceId(serviceId);
+
+        result.setFacNum(num);
 
         return ResponseBo.ok(result);
     }

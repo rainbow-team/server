@@ -9,4 +9,6 @@ import java.util.Map;
 
 public interface UmineplaceMapper extends MyMapper<Umineplace> {
     List<Umineplace> getUmineplaceList(Map<String,Object> map);
+
+    int getUminePlaceSumByUmineId(String umineId);
 }

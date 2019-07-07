@@ -8,5 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface UmineMountainMapper extends MyMapper<UmineMountain> {
+
     List<UmineMountain> getUmineplaceList(Map<String,Object> map);
+
+    int getMountainSumByUmineId(String umineId);
+
 }

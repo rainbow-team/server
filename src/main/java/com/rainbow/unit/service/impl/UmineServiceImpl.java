@@ -9,8 +9,12 @@ import com.rainbow.common.service.impl.BaseService;
 import com.rainbow.common.util.GuidHelper;
 import com.rainbow.unit.dao.FacMapper;
 import com.rainbow.unit.dao.UmineMapper;
+import com.rainbow.unit.dao.UmineMountainMapper;
+import com.rainbow.unit.dao.UmineplaceMapper;
 import com.rainbow.unit.domain.Fac;
+import com.rainbow.unit.domain.ServiceDepartExtend;
 import com.rainbow.unit.domain.Umine;
+import com.rainbow.unit.domain.UmineExtend;
 import com.rainbow.unit.service.FacService;
 import com.rainbow.unit.service.UmineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +34,13 @@ public class UmineServiceImpl extends BaseService<Umine> implements UmineService
 
     @Autowired
     UmineMapper umineMapper;
+
+    @Autowired
+    UmineMountainMapper umineMountainMapper;
+
+    @Autowired
+    UmineplaceMapper umineplaceMapper;
+
 
     @Override
     public int addUmine(Umine umine) {
@@ -54,6 +65,20 @@ public class UmineServiceImpl extends BaseService<Umine> implements UmineService
         PageInfo<Umine> pageInfo = new PageInfo<Umine>(list);
 
         PagingEntity<Umine> result = new PagingEntity<>(pageInfo);
+
+        return ResponseBo.ok(result);
+    }
+
+    @Override
+    public ResponseBo getUmineById(String umineId) {
+        UmineExtend result = umineMapper.getUmineById(umineId);
+
+        int mountainNum = umineMountainMapper.getMountainSumByUmineId(result.getId());
+
+        int placeNum = umineplaceMapper.getUminePlaceSumByUmineId(result.getId());
+
+        result.setUmineMountainNum(mountainNum);
+        result.setUmineplaceNum(placeNum);
 
         return ResponseBo.ok(result);
     }

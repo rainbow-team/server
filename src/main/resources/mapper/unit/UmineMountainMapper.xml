@@ -22,4 +22,11 @@
     <result column="water_volumn" jdbcType="LONGVARCHAR" property="waterVolumn" />
     <result column="note" jdbcType="LONGVARCHAR" property="note" />
   </resultMap>
+
+  <select id="getMountainSumByUmineId" parameterType="java.lang.String" resultType="int">
+    select
+     ifnull(sum(id),0)
+    from unit_umine_mountain t
+    where t.umine_id = #{umineId}
+  </select>
 </mapper>

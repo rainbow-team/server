@@ -97,4 +97,17 @@ public class OrgController {
     public ResponseBo getOrgById(String id){
         return orgService.getOrgById(id);
     }
+
+    /**
+     * 获取授权监管机构值和名称
+     * @param
+     * @return
+     */
+    @PostMapping("/getAllOrgList")
+    public ResponseBo geAlltOrgList(){
+
+        List<Org> list= orgService.selectAll();
+        return ResponseBo.ok(list);
+    }
+
 }

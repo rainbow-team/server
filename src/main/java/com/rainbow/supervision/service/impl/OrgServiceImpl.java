@@ -115,4 +115,5 @@ public class OrgServiceImpl extends BaseService<Org> implements OrgService {
             relationOrgNatureMapper.insert(relationOrgNature);
         }
     }
+
 }

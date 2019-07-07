@@ -79,9 +79,8 @@ public class ServiceDepartController {
      * @return
      */
     @GetMapping("/getServiceDepartById")
-    public ResponseBo getServiceDepartById(String id){
-        ServiceDepart result =  serviceDepartService.selectByKey(id);
-        return ResponseBo.ok(result);
+    public ResponseBo getServiceDepartById(String id) {
+        return serviceDepartService.getServiceDepartById(id);
     }
 
     /**
@@ -91,7 +90,9 @@ public class ServiceDepartController {
      */
     @PostMapping("/deleteEquipDepartByIds")
     public ResponseBo deleteServiceDepartByIds(@RequestBody List<String> ids){
-        serviceDepartService.batchDelete(ids,"id",ServiceDepart.class);
+        if ((ids!=null)&&(ids.size()>0)) {
+            serviceDepartService.deleteServiceDepartByIds(ids);
+        }
         return ResponseBo.ok();
     }
 }
