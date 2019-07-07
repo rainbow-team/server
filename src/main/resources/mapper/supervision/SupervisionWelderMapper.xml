@@ -13,8 +13,7 @@
     <result column="cert_depart" jdbcType="VARCHAR" property="certDepart" />
     <result column="cert_number" jdbcType="VARCHAR" property="certNumber" />
     <result column="steel_number" jdbcType="VARCHAR" property="steelNumber" />
-    <result column="valid_start" jdbcType="DATE" property="validStart" />
-    <result column="valid_end" jdbcType="DATE" property="validEnd" />
+    <result column="expire_date" jdbcType="DATE" property="expireDate" />
     <result column="is_import" jdbcType="INTEGER" property="isImport" />
     <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />

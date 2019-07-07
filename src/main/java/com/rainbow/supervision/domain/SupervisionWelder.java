@@ -52,16 +52,10 @@ public class SupervisionWelder {
     private String steelNumber;
 
     /**
-     * 有效期开始时间
+     * 有效期限
      */
-    @Column(name = "valid_start")
-    private Date validStart;
-
-    /**
-     * 有效期结束时间
-     */
-    @Column(name = "valid_end")
-    private Date validEnd;
+    @Column(name = "expire_date")
+    private Date expireDate;
 
     /**
      * 是否导入0 否 1 是
@@ -253,35 +247,17 @@ public class SupervisionWelder {
      *
      * @return valid_start - 有效期开始时间
      */
-    public Date getValidStart() {
-        return validStart;
+    public Date getExpireDate() {
+        return expireDate;
     }
 
     /**
      * 设置有效期开始时间
      *
-     * @param validStart 有效期开始时间
+     * @param expireDate 有效期开始时间
      */
-    public void setValidStart(Date validStart) {
-        this.validStart = validStart;
-    }
-
-    /**
-     * 获取有效期结束时间
-     *
-     * @return valid_end - 有效期结束时间
-     */
-    public Date getValidEnd() {
-        return validEnd;
-    }
-
-    /**
-     * 设置有效期结束时间
-     *
-     * @param validEnd 有效期结束时间
-     */
-    public void setValidEnd(Date validEnd) {
-        this.validEnd = validEnd;
+    public void setExpireDate(Date expireDate) {
+        this.expireDate = expireDate;
     }
 
     /**

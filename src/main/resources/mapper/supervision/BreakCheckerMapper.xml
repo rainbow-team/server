@@ -12,7 +12,7 @@
     <result column="employ_depart" jdbcType="VARCHAR" property="employDepart" />
     <result column="check_method_id" jdbcType="VARCHAR" property="checkMethodId" />
     <result column="check_level_id" jdbcType="VARCHAR" property="checkLevelId" />
-    <result column="valid_start" jdbcType="DATE" property="validStart" />
+    <result column="valid_start" jdbcType="DATE" property="expireDate" />
     <result column="valid_end" jdbcType="DATE" property="validEnd" />
     <result column="cert_number" jdbcType="VARCHAR" property="certNumber" />
     <result column="cert_depart" jdbcType="VARCHAR" property="certDepart" />
