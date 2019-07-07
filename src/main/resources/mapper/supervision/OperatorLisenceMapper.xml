@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="dao.OperatorLisenceMapper">
-  <resultMap id="BaseResultMap" type="com.rainbow.supervision.domain.OperatorLisence">
+<mapper namespace="com.rainbow.supervision.dao.OperatorLisenceMapper">
+  <resultMap id="BaseOperatorLisenceResultMap" type="com.rainbow.supervision.domain.OperatorLisence">
     <!--
       WARNING - @mbg.generated
     -->
@@ -23,9 +23,17 @@
     <result column="note" jdbcType="LONGVARCHAR" property="note" />
   </resultMap>
 
-  <select id="getOperatorLisenceList" parameterType="map" resultMap="BaseResultMap">
+  <resultMap id="OperatorLisenceExtendMap" extends="BaseOperatorLisenceResultMap" type="com.rainbow.supervision.domain.OperatorLisenceExtend">
+    <result column="licenseTypeValue" jdbcType="VARCHAR" property="licenseTypeValue" />
+  </resultMap>
 
-    select  * from supervision_operator t
+  <select id="getOperatorLisenceList" parameterType="map" resultMap="OperatorLisenceExtendMap">
+
+    select
+      t.*,
+      lt.value
+    from supervision_operator t
+    left join license_type_id lt on t.license_type_id = lt.id
     where 1=1
 
     <if test="name != null and name != ''">
@@ -50,5 +58,17 @@
 
 
   </select>
+
+  <select id="getOperatorLisenceById" parameterType="map" resultMap="OperatorLisenceExtendMap">
+
+    select
+    t.*,
+    lt.value
+    from supervision_operator t
+    left join license_type_id lt on t.license_type_id = lt.id
+    where t.id = #{id}
+
+  </select>
+
 
 </mapper>

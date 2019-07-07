@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * Created by 13260 on 2019/5/11.
- * 无损检验人员资质信息管理
+ * 研究堆操纵员执照管理
  */
 @RestController
 @RequestMapping("operatorlisence")
@@ -74,14 +74,13 @@ public class OperatorLisenceController {
     }
 
     /**
-     * 获取无损检验人员资质详情
+     * 获取研究堆操纵员执照详情
      * @param id
      * @return
      */
     @GetMapping("/getOperatorLisenceById")
     public ResponseBo getOperatorLisenceById(String id){
-        OperatorLisence result =  operatorLisenceService.selectByKey(id);
-        return ResponseBo.ok(result);
+        return operatorLisenceService.getOperatorLisenceById(id);
     }
 
     /**

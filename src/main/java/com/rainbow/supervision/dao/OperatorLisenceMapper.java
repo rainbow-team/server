@@ -8,5 +8,7 @@ import java.util.Map;
 
 public interface OperatorLisenceMapper extends MyMapper<OperatorLisence> {
 
-    List<OperatorLisence> getOperatorLisenceList(Map<String,Object> map);
+    List<OperatorLisence> getOperatorLisenceList(Map<String, Object> map);
+
+    OperatorLisence getOperatorLisenceById(String id);
 }

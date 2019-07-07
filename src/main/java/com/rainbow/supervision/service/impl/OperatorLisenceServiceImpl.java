@@ -57,4 +57,10 @@ public class OperatorLisenceServiceImpl extends BaseService<OperatorLisence> imp
 
         return ResponseBo.ok(result);
     }
+
+    @Override
+    public ResponseBo getOperatorLisenceById(String id) {
+        OperatorLisence operatorLisence = operatorLisenceMapper.getOperatorLisenceById(id);
+        return ResponseBo.ok(operatorLisence);
+    }
 }

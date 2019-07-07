@@ -18,4 +18,6 @@ public interface OperatorLisenceService extends IService<OperatorLisence> {
     int modifyOperatorLisence(OperatorLisence operatorLisence);
 
     ResponseBo getOperatorLisenceList(Page page);
+
+    ResponseBo getOperatorLisenceById(String id);
 }
