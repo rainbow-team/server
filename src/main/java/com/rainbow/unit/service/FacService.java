@@ -20,9 +20,9 @@ public interface FacService extends IService<Fac> {
 
     int modifyFac(Fac fac);
 
+    int deleteFacById(String id);
+
     ResponseBo getFacList(Page page);
 
-    void deleteFacByIds(List<String> ids);
-
-    Fac getFacById(String id);
+    ResponseBo getFacById(String id);
 }

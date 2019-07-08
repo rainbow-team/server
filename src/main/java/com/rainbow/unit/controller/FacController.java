@@ -50,7 +50,7 @@ public class FacController {
      * @param
      * @return
      */
-    @PostMapping("/modifyGroup")
+    @PostMapping("/modifyFac")
     public ResponseBo modify(@RequestBody Fac fac) {
 
         int result = facService.modifyFac(fac);
@@ -80,19 +80,19 @@ public class FacController {
      */
     @GetMapping("/getFacById")
     public ResponseBo getFacById(String id) {
-        Fac result = facService.getFacById(id);
-        return ResponseBo.ok(result);
+        return facService.getFacById(id);
     }
 
     /**
      * 删除核设施信息
-     * @param ids
+     * @param id
      * @return
      */
-    @PostMapping("/deleteFacByIds")
-    public ResponseBo deleteFacByIds(@RequestBody List<String> ids){
-        if((ids!=null)&&(ids.size()>0)) {
-            facService.deleteFacByIds(ids);
+    @PostMapping("/deleteFacById")
+    public ResponseBo deleteFacByIds(String id){
+        if (id != null) {
+            int result = facService.deleteFacById(id);
+            return result == 0 ? ResponseBo.error("存在关联，不允许删除!") : ResponseBo.ok("删除成功");
         }
         return ResponseBo.ok();
     }

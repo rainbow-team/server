@@ -12,7 +12,6 @@ public interface FacReportMapper extends MyMapper<FacReport> {
 
     List<FacReport> getFacReportList(Map<String,Object> map);
 
-    FacReportExtend getFacReportById(String id);
+    FacReport getFacReportById(String id);
 
-    void deleteFacReportByFacId(String id);
 }

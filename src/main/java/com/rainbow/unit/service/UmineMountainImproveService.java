@@ -14,6 +14,8 @@ import java.util.List;
  **/
 public interface UmineMountainImproveService extends IService<UmineMountainImprove> {
 
+    int addUmineMountainImprove(UmineMountainImprove umineMountainImprove);
+
     ResponseBo getUmineMountainImproveList(Page page);
 
 

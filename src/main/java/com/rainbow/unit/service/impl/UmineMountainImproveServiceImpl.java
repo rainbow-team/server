@@ -6,6 +6,7 @@ import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
+import com.rainbow.common.util.GuidHelper;
 import com.rainbow.unit.dao.UmineMountainImproveMapper;
 import com.rainbow.unit.domain.UmineMountainImprove;
 import com.rainbow.unit.domain.UminePlaceImprove;
@@ -29,6 +30,11 @@ public class UmineMountainImproveServiceImpl extends BaseService<UmineMountainIm
     UmineMountainImproveMapper umineMountainImproveMapper;
 
 
+    @Override
+    public int addUmineMountainImprove(UmineMountainImprove umineMountainImprove) {
+        umineMountainImprove.setId(GuidHelper.getGuid());
+        return umineMountainImproveMapper.insert(umineMountainImprove);
+    }
 
     @Override
     public ResponseBo getUmineMountainImproveList(Page page) {

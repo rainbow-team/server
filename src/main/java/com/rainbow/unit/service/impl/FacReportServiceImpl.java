@@ -54,12 +54,11 @@ public class FacReportServiceImpl extends BaseService<FacReport> implements FacR
 
     @Override
     public ResponseBo getFacReportById(String id) {
-        FacReportExtend result = facReportMapper.getFacReportById(id);
+        FacReport result = facReportMapper.getFacReportById(id);
         if (result != null) {
             return ResponseBo.ok(result);
         }
         return ResponseBo.error("查询失败");
-        //return null;
     }
 
 }

@@ -57,15 +57,6 @@ public class FacServiceImpl extends BaseService<Fac> implements FacService {
     }
 
     @Override
-    public void deleteFacByIds(List<String> ids) {
-        super.batchDelete(ids,"id",Fac.class);
-        for (String id:ids){
-            facImproveMapper.deleleFacImproveByFacId(id);
-            facReportMapper.deleteFacReportByFacId(id);
-        }
-    }
-
-    @Override
     public ResponseBo getFacList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
@@ -79,7 +70,20 @@ public class FacServiceImpl extends BaseService<Fac> implements FacService {
     }
 
     @Override
-    public Fac getFacById(String id) {
-        return facMapper.getFacById(id);
+    public ResponseBo getFacById(String id) {
+        Fac result = facMapper.getFacById(id);
+        if (result != null) {
+            return ResponseBo.ok(result);
+        }
+        return ResponseBo.error("查询失败");
+    }
+
+    @Override
+    public int deleteFacById(String id) {
+        Object result = facMapper.getFacRelationCount(id);
+        if (result != null) {
+            return facMapper.deleteFacById(id);
+        }
+        return 0;
     }
 }

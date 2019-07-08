@@ -6,6 +6,7 @@ import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
+import com.rainbow.common.util.GuidHelper;
 import com.rainbow.unit.dao.FacImproveMapper;
 import com.rainbow.unit.dao.UminePlaceImproveMapper;
 import com.rainbow.unit.domain.FacImprove;
@@ -30,6 +31,11 @@ public class UminePlaceImproveServiceImpl extends BaseService<UminePlaceImprove>
     @Autowired
     UminePlaceImproveMapper uminePlaceImproveMapper;
 
+    @Override
+    public int addPlaceImprove(UminePlaceImprove uminePlaceImprove) {
+        uminePlaceImprove.setId(GuidHelper.getGuid());
+        return uminePlaceImproveMapper.insert(uminePlaceImprove);
+    }
 
     @Override
     public ResponseBo getUminePlaceImproveList(Page page) {

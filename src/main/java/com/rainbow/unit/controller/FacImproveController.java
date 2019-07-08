@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * Created by 13260 on 2019/5/11.
- * 安技改信息管理
+ * 核设施安技改信息管理
  */
 @RestController
 @RequestMapping("facimprove")
@@ -29,14 +29,14 @@ public class FacImproveController {
     FacImproveService facImproveService;
 
     /**
-     * 添加安技改信息
+     * 添加核设施安技改信息
      *
      * @param
      * @return
      */
     @PostMapping("/addFacImprove")
     public ResponseBo add(@RequestBody FacImprove facImprove) {
-        int result = facImproveService.save(facImprove);
+        int result = facImproveService.addFacImprove(facImprove);
 
         if (result == 1) {
             return ResponseBo.ok("保存成功");
@@ -46,7 +46,7 @@ public class FacImproveController {
     }
 
     /**
-     * 修改安技改信息
+     * 修改核设施安技改信息
      *
      * @param
      * @return
@@ -64,7 +64,7 @@ public class FacImproveController {
 
 
     /**
-     * 获取安技改信息列表
+     * 获取核设施安技改信息列表
      * @param page
      * @return
      */
@@ -75,7 +75,7 @@ public class FacImproveController {
     }
 
     /**
-     * 获取安技改信息详情
+     * 获取核设施安技改信息详情
      * @param id
      * @return
      */
@@ -86,14 +86,14 @@ public class FacImproveController {
     }
 
     /**
-     * 删除安技改信息信息
+     * 删除核设施安技改信息
      * @param ids
      * @return
      */
-    @PostMapping("/deleteImproveByIds")
+    @PostMapping("/deleteFacImproveByIds")
     public ResponseBo deleteImproveByByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
-            facImproveService.deleteFacImprove(ids);
+            facImproveService.batchDelete(ids,"id",FacImprove.class);
         }
         return ResponseBo.ok();
     }

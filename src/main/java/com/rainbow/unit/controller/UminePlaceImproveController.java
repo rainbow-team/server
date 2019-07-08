@@ -36,7 +36,7 @@ public class UminePlaceImproveController {
      */
     @PostMapping("/addUminePlaceImprove")
     public ResponseBo add(@RequestBody UminePlaceImprove uminePlaceImprove) {
-        int result = uminePlaceImproveService.save(uminePlaceImprove);
+        int result = uminePlaceImproveService.addPlaceImprove(uminePlaceImprove);
 
         if (result == 1) {
             return ResponseBo.ok("保存成功");

@@ -9,6 +9,4 @@ import java.util.Map;
 
 public interface FacImproveMapper extends MyMapper<FacImprove> {
     List<FacImprove> getFacImproveList(Map<String,Object> map);
-
-    void deleleFacImproveByFacId(String id);
 }

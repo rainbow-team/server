@@ -16,7 +16,7 @@ import java.util.List;
  **/
 public interface FacImproveService extends IService<FacImprove> {
 
-    void deleteFacImprove(List<String> ids);
+    int addFacImprove(FacImprove facImprove);
 
     ResponseBo getFacImproveList(Page page);
 

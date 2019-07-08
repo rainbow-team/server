@@ -17,7 +17,4 @@
      where t.fac_id = #{facId}
   </select>
 
-  <delete id="deleleFacImproveByFacId" parameterType="java.lang.String">
-    delete from unit_fac_improve where fac_id = #{id}
-  </delete>
 </mapper>

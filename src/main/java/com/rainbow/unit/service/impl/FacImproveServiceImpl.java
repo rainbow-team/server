@@ -37,8 +37,9 @@ public class FacImproveServiceImpl extends BaseService<FacImprove> implements Fa
     FacImproveMapper facImproveMapper;
 
     @Override
-    public void deleteFacImprove(List<String> ids) {
-        super.batchDelete(ids,"id",FacImprove.class);
+    public int addFacImprove(FacImprove facImprove) {
+        facImprove.setId(GuidHelper.getGuid());
+        return facImproveMapper.insert(facImprove);
     }
 
     @Override

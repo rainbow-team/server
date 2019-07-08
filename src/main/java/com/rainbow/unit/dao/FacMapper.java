@@ -8,9 +8,14 @@ import java.util.Map;
 
 public interface FacMapper extends MyMapper<Fac> {
 
-    List<Fac> getFacList(Map<String,Object> map);
-
     int getFacNumByServiceId(String serviceId);
 
+    List<Fac> getFacList(Map<String,Object> map);
+
     Fac getFacById(String id);
+
+    int deleteFacById(String id);
+
+    //根据核设施的主键寻找关联的记录，返回记录的和，如果不存在关联关系则返回1，如果存在关联关系则返回0
+    Object getFacRelationCount(String id);
 }

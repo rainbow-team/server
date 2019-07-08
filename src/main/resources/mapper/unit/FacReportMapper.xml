@@ -20,26 +20,28 @@
 
     select
       t.*,
-      rt.rt reportTypeValue
+      rt.value reportTypeValue
     from unit_fac_report t
     left join config_fac_report_type rt on t.type_id = rt.id
     where t.fac_id = #{facId}
 
+    <if test="typeIds != null">
+      and t.type_id in (
+      <foreach item="item" index="index" collection="typeIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
   </select>
 
   <select id="getFacReportById" parameterType="java.lang.String" resultMap="FacReportExtendMap">
-
     select
       t.*,
-      rt.rt reportTypeValue
+      rt.value reportTypeValue
     from unit_fac_report t
     left join config_fac_report_type rt on t.type_id = rt.id
     where t.id = #{id}
-
   </select>
 
-  <delete id="deleteFacReportByFacId" parameterType="java.lang.String">
-    delete from unit_fac_report where fac_id = #{id}
-  </delete>
 
 </mapper>

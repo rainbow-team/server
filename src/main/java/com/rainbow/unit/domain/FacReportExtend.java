@@ -7,6 +7,7 @@ package com.rainbow.unit.domain;
  **/
 public class FacReportExtend extends FacReport {
 
+    //核设施定期报告类别值
     private String reportTypeValue;
 
     public String getReportTypeValue() {

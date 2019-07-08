@@ -154,4 +154,19 @@
     where t.id = #{id}
 
   </select>
+
+  <delete id="deleteFacById" parameterType="java.lang.String">
+    delete from unit_fac where id = #{id}
+  </delete>
+
+  <!--查询是否存在，每次需要根据进度添加 exists-->
+  <select id="getFacRelationCount" parameterType="java.lang.String" resultType="java.lang.Object">
+    select
+     t.id
+    from unit_fac t
+    where t.id = #{id}
+    and not exists(select 1 from unit_fac_improve a where a.fac_id = t.id)
+    and not exists(select 1 from unit_fac_report b where b.fac_id = t.id)
+  </select>
+
 </mapper>

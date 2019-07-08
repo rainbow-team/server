@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * Created by 13260 on 2019/5/11.
- * 定期报告管理
+ * 核设施定期报告管理
  */
 @RestController
 @RequestMapping("facreport")
@@ -28,7 +28,7 @@ public class FacReportController {
     FacReportService facReportService;
 
     /**
-     * 添加定期报告信息
+     * 添加核设施定期报告信息
      *
      * @param
      * @return
@@ -45,7 +45,7 @@ public class FacReportController {
     }
 
     /**
-     * 修改定期报告信息
+     * 修改核设施定期报告信息
      *
      * @param
      * @return
@@ -63,7 +63,7 @@ public class FacReportController {
 
 
     /**
-     * 获取定期报告信息列表
+     * 获取核设施定期报告信息列表
      * @param page
      * @return
      */
@@ -74,7 +74,7 @@ public class FacReportController {
     }
 
     /**
-     * 获取定期报告信息详情
+     * 获取核设施定期报告信息详情
      * @param id
      * @return
      */
@@ -84,7 +84,7 @@ public class FacReportController {
     }
 
     /**
-     * 删除定期报告信息
+     * 删除核设施定期报告信息
      * @param ids
      * @return
      */

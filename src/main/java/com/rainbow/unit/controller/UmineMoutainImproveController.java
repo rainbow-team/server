@@ -35,7 +35,7 @@ public class UmineMoutainImproveController {
      */
     @PostMapping("/addUmineMountainImprove")
     public ResponseBo add(@RequestBody UmineMountainImprove umineMountainImprove) {
-        int result = umineMountainImproveService.save(umineMountainImprove);
+        int result = umineMountainImproveService.addUmineMountainImprove(umineMountainImprove);
 
         if (result == 1) {
             return ResponseBo.ok("保存成功");

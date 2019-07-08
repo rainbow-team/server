@@ -15,6 +15,8 @@ import java.util.List;
  **/
 public interface UminePlaceImproveService extends IService<UminePlaceImprove> {
 
+    int addPlaceImprove(UminePlaceImprove uminePlaceImprove);
+
     ResponseBo getUminePlaceImproveList(Page page);
 
 }
