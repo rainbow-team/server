@@ -136,7 +136,7 @@
   <!--查询是否存在，每次需要根据进度添加 exists-->
   <select id="getUmineplaceRelationCount" parameterType="java.lang.String" resultType="java.lang.Object">
     select
-    ifnull(t.id,0)
+      t.id
     from unit_umine_place t
     where t.id = #{id}
     and not exists(select 1 from unit_umine_place_improve a where a.umine_place_id = t.id)

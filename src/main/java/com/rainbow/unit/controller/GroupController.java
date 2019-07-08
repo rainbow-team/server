@@ -79,19 +79,21 @@ public class GroupController {
      * @return
      */
     @GetMapping("/getGroupById")
-    public ResponseBo getGroupById(String id){
-        Group result =  groupService.selectByKey(id);
-        return ResponseBo.ok(result);
+    public ResponseBo getGroupById(String id) {
+        return groupService.getGroupById(id);
     }
 
     /**
      * 删除集团信息
-     * @param ids
+     * @param id
      * @return
      */
-    @PostMapping("/deleteGroupByIds")
-    public ResponseBo deleteGroupByIds(@RequestBody List<String> ids){
-        groupService.batchDelete(ids,"id",Group.class);
+    @PostMapping("/deleteGroupById")
+    public ResponseBo deleteGroupByIds(String id){
+        if (id != null) {
+            int result = groupService.deleteGroupById(id);
+            return result == 0 ? ResponseBo.error("存在关联，不允许删除!") : ResponseBo.ok("删除成功");
+        }
         return ResponseBo.ok();
     }
 }

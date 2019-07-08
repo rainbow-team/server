@@ -116,7 +116,7 @@ public class RainbowApplicationTests {
 	}
 
 	@Autowired
-	private UmineMountainService umineMountainService;
+	private GroupService groupService;
 
 	@Test
 	public void testOrg() {
@@ -141,6 +141,6 @@ public class RainbowApplicationTests {
 		page.conditions=conditions;
     */
 
-		umineMountainService.deleteUmineMountainById("1");
+		groupService.deleteGroupById("1");
 	}
 }

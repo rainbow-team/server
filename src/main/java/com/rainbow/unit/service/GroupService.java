@@ -17,7 +17,9 @@ public interface GroupService extends IService<Group> {
 
     int modifyGroup(Group group);
 
+    int deleteGroupById(String id);
+
     ResponseBo getGroupList(Page page);
 
-    GroupExtend getGroupById(String id);
+    ResponseBo getGroupById(String id);
 }

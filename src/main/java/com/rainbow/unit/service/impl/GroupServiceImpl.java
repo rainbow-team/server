@@ -15,6 +15,7 @@ import com.rainbow.unit.dao.ServiceDepartMapper;
 import com.rainbow.unit.dao.UmineMapper;
 import com.rainbow.unit.domain.Group;
 import com.rainbow.unit.domain.GroupExtend;
+import com.rainbow.unit.domain.UmineMountain;
 import com.rainbow.unit.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,16 +71,29 @@ public class GroupServiceImpl extends BaseService<Group> implements GroupService
     }
 
     @Override
-    public GroupExtend getGroupById(String id) {
+    public ResponseBo getGroupById(String id) {
+
         GroupExtend result = groupMapper.getGroupById(id);
 
-        int serviceDepartNum = serviceDepartMapper.getSumByGroupId(result.getId());
 
-        int umineNum = umineMapper.getSumByGroupId(result.getId());
+        if (result != null) {
+            int serviceDepartNum = serviceDepartMapper.getSumByGroupId(result.getId());
 
-        result.setServiceDepartNum(serviceDepartNum);
-        result.setUmineNum(umineNum);
-        return result;
-        //return null;
+            int umineNum = umineMapper.getSumByGroupId(result.getId());
+
+            result.setServiceDepartNum(serviceDepartNum);
+            result.setUmineNum(umineNum);
+            return ResponseBo.ok(result);
+        }
+        return ResponseBo.error("获取失败");
+    }
+
+    @Override
+    public int deleteGroupById(String id) {
+        Object result = groupMapper.getGroupRelationCount(id);
+        if (result != null) {
+            return groupMapper.deleteGroupById(id);
+        }
+        return 0;
     }
 }

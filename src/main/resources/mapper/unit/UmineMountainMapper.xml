@@ -95,7 +95,7 @@
   <!--查询是否存在，每次需要根据进度添加 exists-->
   <select id="getUmineMountainRelationCount" parameterType="java.lang.String" resultType="java.lang.Object">
     select
-      ifnull(t.id,0)
+      t.id
     from unit_umine_mountain t
     where t.id = #{id}
     and not exists(select 1 from unit_umine_mountain_improve a where a.umine_mountain_id = t.id)
