@@ -15,11 +15,11 @@ import java.util.List;
  **/
 public interface FacReportService extends IService<FacReport> {
 
-    void deleteFacReport(List<String> ids);
+    int addFacReport(FacReport facReport);
 
     ResponseBo getFacReportList(Page page);
 
-    FacReport getFacReportById(String id);
+    ResponseBo getFacReportById(String id);
 
 
 

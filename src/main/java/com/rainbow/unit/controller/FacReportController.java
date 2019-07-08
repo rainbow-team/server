@@ -35,7 +35,7 @@ public class FacReportController {
      */
     @PostMapping("/addFacReport")
     public ResponseBo add(@RequestBody FacReport facReport) {
-        int result = facReportService.save(facReport);
+        int result = facReportService.addFacReport(facReport);
 
         if (result == 1) {
             return ResponseBo.ok("保存成功");
@@ -80,8 +80,7 @@ public class FacReportController {
      */
     @GetMapping("/getFacReportById")
     public ResponseBo getFacReportById(String id){
-        FacReport result =  facReportService.getFacReportById(id);
-        return ResponseBo.ok(result);
+        return facReportService.getFacReportById(id);
     }
 
     /**
@@ -92,7 +91,7 @@ public class FacReportController {
     @PostMapping("/deleteFacReportByIds")
     public ResponseBo deleteFacReportByByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
-            facReportService.deleteFacReport(ids);
+            facReportService.batchDelete(ids,"id",FacReport.class);
         }
         return ResponseBo.ok();
     }

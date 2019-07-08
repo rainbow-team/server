@@ -6,10 +6,12 @@ import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
+import com.rainbow.common.util.GuidHelper;
 import com.rainbow.unit.dao.FacImproveMapper;
 import com.rainbow.unit.dao.FacReportMapper;
 import com.rainbow.unit.domain.FacImprove;
 import com.rainbow.unit.domain.FacReport;
+import com.rainbow.unit.domain.FacReportExtend;
 import com.rainbow.unit.service.FacImproveService;
 import com.rainbow.unit.service.FacReportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +33,11 @@ public class FacReportServiceImpl extends BaseService<FacReport> implements FacR
     FacReportMapper facReportMapper;
 
     @Override
-    public void deleteFacReport(List<String> ids) {
-        super.batchDelete(ids,"id",FacReport.class);
+    public int addFacReport(FacReport facReport) {
+        facReport.setId(GuidHelper.getGuid());
+        return facReportMapper.insert(facReport);
     }
+
 
     @Override
     public ResponseBo getFacReportList(Page page) {
@@ -49,8 +53,12 @@ public class FacReportServiceImpl extends BaseService<FacReport> implements FacR
     }
 
     @Override
-    public FacReport getFacReportById(String id) {
-        return facReportMapper.getFacReportById(id);
+    public ResponseBo getFacReportById(String id) {
+        FacReportExtend result = facReportMapper.getFacReportById(id);
+        if (result != null) {
+            return ResponseBo.ok(result);
+        }
+        return ResponseBo.error("查询失败");
         //return null;
     }
 
