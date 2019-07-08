@@ -11,10 +11,7 @@ import com.rainbow.unit.dao.FacMapper;
 import com.rainbow.unit.dao.UmineMapper;
 import com.rainbow.unit.dao.UmineMountainMapper;
 import com.rainbow.unit.dao.UmineplaceMapper;
-import com.rainbow.unit.domain.Fac;
-import com.rainbow.unit.domain.ServiceDepartExtend;
-import com.rainbow.unit.domain.Umine;
-import com.rainbow.unit.domain.UmineExtend;
+import com.rainbow.unit.domain.*;
 import com.rainbow.unit.service.FacService;
 import com.rainbow.unit.service.UmineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,16 +67,31 @@ public class UmineServiceImpl extends BaseService<Umine> implements UmineService
     }
 
     @Override
-    public ResponseBo getUmineById(String umineId) {
-        UmineExtend result = umineMapper.getUmineById(umineId);
+    public ResponseBo getUmineById(String id) {
 
-        int mountainNum = umineMountainMapper.getMountainSumByUmineId(result.getId());
+        UmineExtend result = umineMapper.getUmineById(id);
 
-        int placeNum = umineplaceMapper.getUminePlaceSumByUmineId(result.getId());
+        if (result != null) {
+            int mountainNum = umineMountainMapper.getMountainSumByUmineId(result.getId());
 
-        result.setUmineMountainNum(mountainNum);
-        result.setUmineplaceNum(placeNum);
+            int placeNum = umineplaceMapper.getUminePlaceSumByUmineId(result.getId());
 
-        return ResponseBo.ok(result);
+            result.setUmineMountainNum(mountainNum);
+            result.setUmineplaceNum(placeNum);
+
+            return ResponseBo.ok(result);
+        }
+
+
+        return ResponseBo.error("获取失败");
+    }
+
+    @Override
+    public int deleteUmineById(String id) {
+        Object result = umineMapper.getUmineRelationCount(id);
+        if (result != null) {
+            return umineMapper.deleteUmineById(id);
+        }
+        return 0;
     }
 }

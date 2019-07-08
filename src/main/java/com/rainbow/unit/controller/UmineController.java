@@ -86,12 +86,15 @@ public class UmineController {
 
     /**
      * 删除铀矿冶单位信息
-     * @param ids
+     * @param id
      * @return
      */
-    @PostMapping("/deleteUmineByIds")
-    public ResponseBo deleteUmineByIds(@RequestBody List<String> ids){
-        umineService.batchDelete(ids,"id",Umine.class);
+    @PostMapping("/deleteUmineById")
+    public ResponseBo deleteUmineByIds(String id){
+        if (id != null) {
+            int result = umineService.deleteUmineById(id);
+            return result == 0 ? ResponseBo.error("存在关联，不允许删除!") : ResponseBo.ok("删除成功");
+        }
         return ResponseBo.ok();
     }
 }

@@ -17,7 +17,9 @@ public interface UmineService extends IService<Umine> {
 
     int modifyUmine(Umine umine);
 
+    int deleteUmineById(String id);
+
     ResponseBo getUmineList(Page page);
 
-    ResponseBo getUmineById(String umineId);
+    ResponseBo getUmineById(String id);
 }

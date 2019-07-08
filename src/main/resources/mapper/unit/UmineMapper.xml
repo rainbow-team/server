@@ -46,10 +46,35 @@
 
   </select>
 
+  <select id="getUmineById" parameterType="java.lang.String" resultMap="UmineExtendMap">
+
+    select
+     t.*,
+     g.name groupName
+    from unit_umine t
+    left join unit_group g on t.group_id = g.id
+    where t.id = #{id}
+
+  </select>
+
   <select id="getSumByGroupId" parameterType="java.lang.String" resultType="int">
     select
       ifnull(sum(id),0)
     from unit_umine t
     where t.group_id = #{groupId}
+  </select>
+
+  <delete id="deleteUmineById" parameterType="java.lang.String">
+    delete from unit_umine where id = #{id}
+  </delete>
+
+  <!--查询是否存在，每次需要根据进度添加 exists-->
+  <select id="getUmineRelationCount" parameterType="java.lang.String" resultType="java.lang.Object">
+    select
+     t.id
+    from unit_umine t
+    where t.id = #{id}
+    and not exists(select 1 from umine_id a where a.umine_id = t.id)
+    and not exists(select 1 from unit_umine_place b where b.umine_id = t.id)
   </select>
 </mapper>
