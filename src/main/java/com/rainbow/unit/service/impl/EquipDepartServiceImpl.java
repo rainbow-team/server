@@ -11,6 +11,7 @@ import com.rainbow.unit.dao.EquipDepartMapper;
 import com.rainbow.unit.dao.FacMapper;
 import com.rainbow.unit.domain.EquipDepart;
 import com.rainbow.unit.domain.Fac;
+import com.rainbow.unit.domain.GroupExtend;
 import com.rainbow.unit.service.EquipDepartService;
 import com.rainbow.unit.service.FacService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,5 +59,24 @@ public class EquipDepartServiceImpl extends BaseService<EquipDepart> implements 
         PagingEntity<EquipDepart> result = new PagingEntity<>(pageInfo);
 
         return ResponseBo.ok(result);
+    }
+
+    @Override
+    public int deleteEquipDepartById(String id) {
+        Object result = equipDepartMapper.getEquipDepartRelationCount(id);
+        if (result != null) {
+            return equipDepartMapper.deleteEquipDepartById(id);
+        }
+        return 0;
+    }
+
+    @Override
+    public ResponseBo getEquipDepartById(String id) {
+        EquipDepart result = equipDepartMapper.getEquipDepartById(id);
+
+        if (result != null) {
+            return ResponseBo.ok(result);
+        }
+        return ResponseBo.error("获取失败");
     }
 }

@@ -40,4 +40,24 @@
     </if>
 
   </select>
+
+  <select id="getEquipDepartById" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+    select  * from unit_equip_depart t
+    where t.id = #{id}
+
+  </select>
+
+  <delete id="deleteEquipDepartById" parameterType="java.lang.String">
+    delete from unit_equip_depart where id = #{id}
+  </delete>
+
+  <!--查询是否存在，每次需要根据进度添加 exists-->
+  <select id="getEquipDepartRelationCount" parameterType="java.lang.String" resultType="java.lang.Object">
+    select
+     t.id
+    from unit_equip_depart t
+    where t.id = #{id}
+  </select>
+
 </mapper>

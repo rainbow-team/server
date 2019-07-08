@@ -17,5 +17,9 @@ public interface EquipDepartService extends IService<EquipDepart> {
 
     int modifyEquipDepart(EquipDepart equipDepart);
 
+    int deleteEquipDepartById(String id);
+
     ResponseBo getEquipDepartList(Page page);
+
+    ResponseBo getEquipDepartById(String id);
 }

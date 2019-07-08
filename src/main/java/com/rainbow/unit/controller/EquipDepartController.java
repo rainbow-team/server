@@ -86,12 +86,15 @@ public class EquipDepartController {
 
     /**
      * 删除核设备单位信息
-     * @param ids
+     * @param id
      * @return
      */
-    @PostMapping("/deleteEquipDepartByIds")
-    public ResponseBo deleteGroupByIds(@RequestBody List<String> ids){
-        equipDepartService.batchDelete(ids,"id",EquipDepart.class);
+    @PostMapping("/deleteEquipDepartById")
+    public ResponseBo deleteGroupById(String id){
+        if (id != null) {
+            int result = equipDepartService.deleteEquipDepartById(id);
+            return result == 0 ? ResponseBo.error("存在关联，不允许删除!") : ResponseBo.ok("删除成功");
+        }
         return ResponseBo.ok();
     }
 }

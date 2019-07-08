@@ -89,7 +89,7 @@ public class GroupController {
      * @return
      */
     @PostMapping("/deleteGroupById")
-    public ResponseBo deleteGroupByIds(String id){
+    public ResponseBo deleteGroupById(String id){
         if (id != null) {
             int result = groupService.deleteGroupById(id);
             return result == 0 ? ResponseBo.error("存在关联，不允许删除!") : ResponseBo.ok("删除成功");
