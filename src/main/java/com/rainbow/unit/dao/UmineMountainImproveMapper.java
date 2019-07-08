@@ -8,5 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface UmineMountainImproveMapper extends MyMapper<UmineMountainImprove> {
+
     List<UmineMountainImprove> getUmineMountainImproveList(Map<String,Object> map);
+
 }

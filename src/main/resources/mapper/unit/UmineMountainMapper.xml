@@ -23,6 +23,12 @@
     <result column="note" jdbcType="LONGVARCHAR" property="note" />
   </resultMap>
 
+
+  <resultMap id="MountainExtendMap" type="com.rainbow.unit.domain.UmineMountainExtend" extends="MountainBaseResultMap">
+    <result column="umineName" jdbcType="VARCHAR" property="umineName" />
+    <result column="statusValue" jdbcType="VARCHAR" property="statusValue" />
+  </resultMap>
+
   <select id="getMountainSumByUmineId" parameterType="java.lang.String" resultType="int">
     select
      ifnull(sum(id),0)
@@ -30,18 +36,11 @@
     where t.umine_id = #{umineId}
   </select>
 
-  <resultMap id="MountainExtendMap" type="com.rainbow.unit.domain.UmineMountainExtend" extends="MountainBaseResultMap">
-    <result column="umineName" jdbcType="VARCHAR" property="umineName" />
-    <result column="statusValue" jdbcType="VARCHAR" property="statusValue" />
-  </resultMap>
-
-
-
-  <select id="getUmineMountainList"  resultMap="MountainExtendMap">
+  <select id="getUmineMountainList"  resultMap="MountainExtendMap" parameterType="map">
     select
-     t.*,
-     u.name umineName,
-     s.value statusValue
+    t.*,
+    u.name umineName,
+    s.value statusValue
     from unit_umine_mountain t
     left join unit_umine u on t.umine_id = u.id
     left join  config_umine_mountain_status s on t.status_id = s.id
@@ -57,7 +56,7 @@
 
 
     <if test="build_year != null and build_year != ''">
-      and instr(t.build_year,#{build_year})>0
+      and t.build_year = #{build_year}
     </if>
 
     <if test="statusIds != null">
@@ -80,42 +79,25 @@
 
   <select id="getUmineMountainById" parameterType="java.lang.String" resultMap="MountainExtendMap">
     select
-       t.*,
-       u.name umineName,
-       s.value statusValue
+      t.*,
+      u.name umineName,
+      s.value statusValue
     from unit_umine_mountain t
     left join unit_umine u on t.umine_id = u.id
     left join  config_umine_mountain_status s on t.status_id = s.id
     where t.id = #{id}
+  </select>
 
-    <if test="name != null and name != ''">
-      and instr(t.name,#{name})>0
-    </if>
+  <delete id="deleteUmineMountainById" parameterType="java.lang.String">
+    delete from unit_umine_mountain where id = #{id}
+  </delete>
 
-    <if test="umineName != null and umineName != ''">
-      and instr(u.name,#{umineName})>0
-    </if>
-
-
-    <if test="build_year != null and build_year != ''">
-      and instr(t.build_year,#{build_year})>0
-    </if>
-
-    <if test="statusIds != null">
-      and t.status_id in (
-      <foreach item="item" index="index" collection="statusIds" separator=",">
-        #{item}
-      </foreach>
-      )
-    </if>
-
-    <if test="is_record != null and is_record != ''">
-      and t.is_record = #{is_record}
-    </if>
-
-    <if test="is_accept != null and is_accept != ''">
-      and t.is_accept = #{is_accept}
-    </if>
-
+  <!--查询是否存在，每次需要根据进度添加 exists-->
+  <select id="getUmineMountainRelationCount" parameterType="java.lang.String" resultType="java.lang.Object">
+    select
+      ifnull(t.id,0)
+    from unit_umine_mountain t
+    where t.id = #{id}
+    and not exists(select 1 from unit_umine_mountain_improve a where a.umine_mountain_id = t.id)
   </select>
 </mapper>

@@ -30,10 +30,6 @@ public class UminePlaceImproveServiceImpl extends BaseService<UminePlaceImprove>
     @Autowired
     UminePlaceImproveMapper uminePlaceImproveMapper;
 
-    @Override
-    public void deleteUminePlaceImprove(List<String> ids) {
-        super.batchDelete(ids,"id",UminePlaceImprove.class);
-    }
 
     @Override
     public ResponseBo getUminePlaceImproveList(Page page) {

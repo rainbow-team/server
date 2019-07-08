@@ -4,6 +4,7 @@ package com.rainbow.unit.controller;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.unit.domain.FacImprove;
+import com.rainbow.unit.domain.UmineMountainImprove;
 import com.rainbow.unit.domain.UminePlaceImprove;
 import com.rainbow.unit.service.FacImproveService;
 import com.rainbow.unit.service.UminePlaceImproveService;
@@ -50,7 +51,7 @@ public class UminePlaceImproveController {
      * @param
      * @return
      */
-    @PostMapping("/modifyFacImprove")
+    @PostMapping("/modifyUminePlaceImprove")
     public ResponseBo modify(@RequestBody UminePlaceImprove uminePlaceImprove) {
 
         int result = uminePlaceImproveService.updateAll(uminePlaceImprove);
@@ -67,8 +68,8 @@ public class UminePlaceImproveController {
      * @param page
      * @return
      */
-    @PostMapping("/getFacImproveList")
-    public ResponseBo getFacImproveList(@RequestBody Page page){
+    @PostMapping("/getUminePlaceImproveList")
+    public ResponseBo getUminePlaceImproveList(@RequestBody Page page){
 
         return uminePlaceImproveService.getUminePlaceImproveList(page);
     }
@@ -92,7 +93,7 @@ public class UminePlaceImproveController {
     @PostMapping("/deleteUminePlaceImproveByIds")
     public ResponseBo deleteUminePlaceImproveByByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
-            uminePlaceImproveService.deleteUminePlaceImprove(ids);
+            uminePlaceImproveService.batchDelete(ids,"id",UminePlaceImprove.class);
         }
         return ResponseBo.ok();
     }

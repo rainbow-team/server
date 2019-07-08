@@ -64,33 +64,39 @@ public class UmineMountainController {
 
     /**
      * 获取铀矿山信息列表
+     *
      * @param page
      * @return
      */
     @PostMapping("/getUmineMountainList")
-    public ResponseBo getEquipDepartList(@RequestBody Page page){
+    public ResponseBo getUmineMountainList(@RequestBody Page page) {
 
         return umineMountainService.getUmineMountainList(page);
     }
 
     /**
      * 获取铀矿山信息详情
+     *
      * @param id
      * @return
      */
     @GetMapping("/getUmineMountainById")
-    public ResponseBo getEquipDepartById(String id){
+    public ResponseBo getUmineMountainById(String id) {
         return umineMountainService.getUmineMountainById(id);
     }
 
     /**
      * 删除铀矿山信息
-     * @param ids
+     *
+     * @param id
      * @return
      */
-    @PostMapping("/deleteUmineMountainByIds")
-    public ResponseBo deleteGroupByIds(@RequestBody List<String> ids){
-        umineMountainService.batchDelete(ids,"id",UmineMountain.class);
+    @PostMapping("/deleteUmineMountainById")
+    public ResponseBo deleteUmineMountainById(String id) {
+        if (id != null) {
+            int result = umineMountainService.deleteUmineMountainById(id);
+            return result == 0 ? ResponseBo.error("存在关联，不允许删除!") : ResponseBo.ok("删除成功");
+        }
         return ResponseBo.ok();
     }
 }

@@ -15,10 +15,6 @@ import java.util.List;
  **/
 public interface UminePlaceImproveService extends IService<UminePlaceImprove> {
 
-    void deleteUminePlaceImprove(List<String> ids);
-
     ResponseBo getUminePlaceImproveList(Page page);
-
-
 
 }

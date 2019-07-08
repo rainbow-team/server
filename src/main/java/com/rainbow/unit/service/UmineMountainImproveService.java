@@ -14,8 +14,6 @@ import java.util.List;
  **/
 public interface UmineMountainImproveService extends IService<UmineMountainImprove> {
 
-    void deleteUmineMountainImprove(List<String> ids);
-
     ResponseBo getUmineMountainImproveList(Page page);
 
 

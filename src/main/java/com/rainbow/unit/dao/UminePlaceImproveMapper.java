@@ -10,6 +10,4 @@ import java.util.Map;
 public interface UminePlaceImproveMapper extends MyMapper<UminePlaceImprove> {
 
     List<UminePlaceImprove> getUminePlaceImproveList(Map<String,Object> map);
-
-    void deleleUminePlaceImproveByUmineplaceId(String id);
 }

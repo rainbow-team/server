@@ -37,14 +37,12 @@
     <result column="permitSituationValue" jdbcType="VARCHAR" property="permitSituationValue" />
   </resultMap>
 
-
   <select id="getUminePlaceSumByUmineId" parameterType="java.lang.String" resultType="int">
     select
      ifnull(sum(id),0)
     from unit_umine_place t
     where t.umine_id = #{umineId}
   </select>
-
 
   <select id="getUmineplaceList" parameterType="map" resultMap="UmineplaceExtendMap">
 
@@ -91,16 +89,8 @@
       )
     </if>
 
-    <if test="reviewstatusIds != null">
-      and t.review_status in (
-      <foreach item="item" index="index" collection="reviewstatusIds" separator=",">
-        #{item}
-      </foreach>
-      )
-    </if>
-
     <if test="reviewStatusIds != null">
-      and t.t.review_status_id in (
+      and t.review_status in (
       <foreach item="item" index="index" collection="reviewStatusIds" separator=",">
         #{item}
       </foreach>
@@ -120,8 +110,6 @@
     </if>
   </select>
 
-
-
   <select id="getUmineplaceById" parameterType="java.lang.String" resultMap="UmineplaceExtendMap">
 
     select
@@ -140,4 +128,18 @@
     where t.id = #{id}
 
   </select>
+
+  <delete id="deleteUmineplaceById" parameterType="java.lang.String">
+    delete from unit_umine_place where id = #{id}
+  </delete>
+
+  <!--查询是否存在，每次需要根据进度添加 exists-->
+  <select id="getUmineplaceRelationCount" parameterType="java.lang.String" resultType="java.lang.Object">
+    select
+    ifnull(t.id,0)
+    from unit_umine_place t
+    where t.id = #{id}
+    and not exists(select 1 from unit_umine_place_improve a where a.umine_place_id = t.id)
+  </select>
+
 </mapper>

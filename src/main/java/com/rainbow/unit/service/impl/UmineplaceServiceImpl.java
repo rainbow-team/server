@@ -71,10 +71,11 @@ public class UmineplaceServiceImpl extends BaseService<Umineplace> implements Um
     }
 
     @Override
-    public void deleteUmineplaceByIds(List<String> ids) {
-        super.batchDelete(ids, "id", Umineplace.class);
-        for (String id : ids) {
-            uminePlaceImproveMapper.deleleUminePlaceImproveByUmineplaceId(id);
+    public int deleteUmineplaceById(String id) {
+        Object result = umineplaceMapper.getUmineplaceRelationCount(id);
+        if (result != null) {
+            return umineplaceMapper.deleteUmineplaceById(id);
         }
+        return 0;
     }
 }

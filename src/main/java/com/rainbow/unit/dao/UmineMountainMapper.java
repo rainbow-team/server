@@ -10,10 +10,14 @@ import java.util.Map;
 
 public interface UmineMountainMapper extends MyMapper<UmineMountain> {
 
-    List<UmineMountain> getUmineMountainList(Map<String,Object> map);
-
     int getMountainSumByUmineId(String umineId);
+
+    List<UmineMountain> getUmineMountainList(Map<String,Object> map);
 
     UmineMountain getUmineMountainById(String id);
 
+    int deleteUmineMountainById(String id);
+
+    //根据铀矿山的主键寻找关联的记录，返回记录的和，如果不存在关联关系则返回1，如果存在关联关系则返回0
+    Object getUmineMountainRelationCount(String id);
 }

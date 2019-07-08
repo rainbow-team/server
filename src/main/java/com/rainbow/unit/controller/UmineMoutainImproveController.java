@@ -67,30 +67,30 @@ public class UmineMoutainImproveController {
      * @param page
      * @return
      */
-    @PostMapping("/getFacImproveList")
+    @PostMapping("/getUmineMountainImproveList")
     public ResponseBo getFacImproveList(@RequestBody Page page){
 
         return umineMountainImproveService.getUmineMountainImproveList(page);
     }
 
     /**
-     * 获取铀尾矿(渣)安技改详情
+     * 获取铀矿山安技改详情
      * @param id
      * @return
      */
     @GetMapping("/getUmineMountainImproveById")
-    public ResponseBo getUminePlaceImproveById(String id){
+    public ResponseBo getUmineMountainImproveById(String id){
         UmineMountainImprove result =  umineMountainImproveService.selectByKey(id);
         return ResponseBo.ok(result);
     }
 
     /**
-     * 删除铀尾矿(渣)安技改信息
+     * 删除铀矿山安技改信息
      * @param ids
      * @return
      */
-    @PostMapping("/deleteumineUmineMountainImproveByIds")
-    public ResponseBo deleteUminePlaceImproveByByIds(@RequestBody List<String> ids) {
+    @PostMapping("/deleteUmineMountainImproveByIds")
+    public ResponseBo deleteUmineMountainImproveByByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
             umineMountainImproveService.batchDelete(ids,"id",UmineMountainImprove.class);
         }

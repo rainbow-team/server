@@ -7,9 +7,10 @@ package com.rainbow.unit.domain;
  **/
 public class UmineMountainExtend extends UmineMountain {
 
-    //单位名称
+    //铀矿冶单位名称
     private String umineName;
 
+    //铀矿山设施状态值
     private String statusValue;
 
     public String getUmineName() {

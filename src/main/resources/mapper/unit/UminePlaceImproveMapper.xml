@@ -18,7 +18,4 @@
     where t.umine_place_id = #{uminePlaceId}
   </select>
 
-  <delete id="deleleUminePlaceImproveByUmineplaceId" parameterType="java.lang.String">
-    delete from unit_fac_improve where umine_place_id = #{uminePlaceId}
-  </delete>
 </mapper>

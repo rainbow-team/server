@@ -62,8 +62,19 @@ public class UmineMountainServiceImpl extends BaseService<UmineMountain> impleme
 
     @Override
     public ResponseBo getUmineMountainById(String id) {
-        //return null;
-        UmineMountain result= umineMountainMapper.getUmineMountainById(id);
-        return ResponseBo.ok(result);
+
+        UmineMountain result = umineMountainMapper.getUmineMountainById(id);
+
+        return result != null ? ResponseBo.ok(result) : ResponseBo.error("获取失败");
     }
+
+    @Override
+    public int deleteUmineMountainById(String id) {
+        Object result = umineMountainMapper.getUmineMountainRelationCount(id);
+        if (result != null) {
+           return umineMountainMapper.deleteUmineMountainById(id);
+        }
+        return 0;
+    }
+
 }

@@ -6,7 +6,9 @@ import com.rainbow.config.service.SystemConfigService;
 import com.rainbow.supervision.service.OrgService;
 import com.rainbow.supervision.service.SupervisionExpertService;
 import com.rainbow.system.service.UserService;
+import com.rainbow.unit.domain.UmineMountain;
 import com.rainbow.unit.service.GroupService;
+import com.rainbow.unit.service.UmineMountainService;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,7 +116,7 @@ public class RainbowApplicationTests {
 	}
 
 	@Autowired
-	private GroupService groupService;
+	private UmineMountainService umineMountainService;
 
 	@Test
 	public void testOrg() {
@@ -139,6 +141,6 @@ public class RainbowApplicationTests {
 		page.conditions=conditions;
     */
 
-		groupService.getGroupById("1");
+		umineMountainService.deleteUmineMountainById("1");
 	}
 }

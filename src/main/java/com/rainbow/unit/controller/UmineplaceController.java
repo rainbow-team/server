@@ -88,13 +88,14 @@ public class UmineplaceController {
     /**
      * 删除铀尾矿(渣)库信息信息
      *
-     * @param ids
+     * @param
      * @return
      */
-    @PostMapping("/deleteUmineplaceByIds")
-    public ResponseBo deleteUmineplaceByIds(@RequestBody List<String> ids) {
-        if ((ids != null) && (ids.size() > 0)) {
-            umineplaceService.deleteUmineplaceByIds(ids);
+    @PostMapping("/deleteUmineplaceById")
+    public ResponseBo deleteUmineplaceById(String id) {
+        if (id != null) {
+            int result = umineplaceService.deleteUmineplaceById(id);
+            return result == 0 ? ResponseBo.error("存在关联，不允许删除!") : ResponseBo.ok("删除成功");
         }
         return ResponseBo.ok();
     }

@@ -29,10 +29,6 @@ public class UmineMountainImproveServiceImpl extends BaseService<UmineMountainIm
     UmineMountainImproveMapper umineMountainImproveMapper;
 
 
-    @Override
-    public void deleteUmineMountainImprove(List<String> ids) {
-        super.batchDelete(ids,"id",UmineMountainImprove.class);
-    }
 
     @Override
     public ResponseBo getUmineMountainImproveList(Page page) {

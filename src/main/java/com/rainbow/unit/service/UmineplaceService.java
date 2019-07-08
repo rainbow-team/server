@@ -19,9 +19,11 @@ public interface UmineplaceService extends IService<Umineplace> {
 
     int modifyUmineplace(Umineplace umineplace);
 
+    int deleteUmineplaceById(String id);
+
     ResponseBo getUmineplaceList(Page page);
 
     ResponseBo getUmineplaceById(String id);
 
-    void deleteUmineplaceByIds(List<String> ids);
+
 }
