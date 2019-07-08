@@ -5,6 +5,7 @@ import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.unit.domain.Fac;
 import com.rainbow.unit.domain.ServiceAnnualReport;
+import com.rainbow.unit.domain.UmineMountainImprove;
 import com.rainbow.unit.service.FacService;
 import com.rainbow.unit.service.ServiceAnnualReportService;
 import org.slf4j.Logger;
@@ -16,7 +17,7 @@ import java.util.List;
 
 /**
  * Created by 13260 on 2019/5/11.
- * 核设施营运单位年度安全报告管理
+ * 核设施营运单位年度总结报告管理
  */
 @RestController
 @RequestMapping("serviceannualreport")
@@ -28,7 +29,7 @@ public class ServiceAnnualReportController {
     ServiceAnnualReportService annualReportService;
 
     /**
-     * 添加核设施营运单位年度安全报告
+     * 添加核设施营运单位年度总结报告
      *
      * @param
      * @return
@@ -47,12 +48,12 @@ public class ServiceAnnualReportController {
 
 
     /**
-     * 获取核设施信息列表
+     * 获取核设施营运单位年度总结报告列表
      * @param page
      * @return
      */
-    @PostMapping("/getFacList")
-    public ResponseBo getFacList(@RequestBody Page page){
+    @PostMapping("/getServiceAnnualReportList")
+    public ResponseBo getServiceAnnualReportList(@RequestBody Page page){
 
         return annualReportService.getServiceAnnualReportList(page);
     }
@@ -75,7 +76,9 @@ public class ServiceAnnualReportController {
      */
     @PostMapping("/deleteServiceAnnualReportByIds")
     public ResponseBo deleteServiceAnnualReportByIds(@RequestBody List<String> ids){
-        annualReportService.batchDelete(ids,"id",ServiceAnnualReport.class);
+        if ((ids != null) && (ids.size() > 0)) {
+            annualReportService.batchDelete(ids,"id",ServiceAnnualReport.class);
+        }
         return ResponseBo.ok();
     }
 }
