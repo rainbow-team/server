@@ -19,10 +19,10 @@ public interface ServiceDepartService extends IService<ServiceDepart> {
 
     int modifyServiceDepart(ServiceDepart serviceDepart);
 
-    void deleteServiceDepartByIds(List<String> ids);
+    int deleteServiceDepartById(String id);
 
     ResponseBo getServiceDepartList(Page page);
 
-    ResponseBo getServiceDepartById(String serviceId);
+    ResponseBo getServiceDepartById(String id);
 
 }

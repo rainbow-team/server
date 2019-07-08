@@ -52,13 +52,12 @@
 
 
   <select id="getServiceDepartByServiceId" parameterType="map" resultMap="ServiceDepartExtendMap">
-
     select
       t.*,
       g.name groupName
     from unit_service_depart t
     left join unit_group g on t.group_id = g.id
-    where t.id = #{serviceId}
+    where t.id = #{id}
 
   </select>
 
@@ -67,5 +66,18 @@
        ifnull(sum(id),0)
     from unit_service_depart t
     where t.group_id = #{groupId}
+  </select>
+
+  <delete id="deleteServiceDepartById" parameterType="java.lang.String">
+    delete from unit_service_depart where id = #{id}
+  </delete>
+
+  <!--查询是否存在，每次需要根据进度添加 exists-->
+  <select id="getServiceDepartRelationCount" parameterType="java.lang.String" resultType="java.lang.Object">
+    select
+     t.id
+    from unit_service_depart t
+    where t.id = #{id}
+    and not exists(select 1 from unit_fac a where a.service_id = t.id)
   </select>
 </mapper>

@@ -8,6 +8,7 @@ import com.rainbow.supervision.service.SupervisionExpertService;
 import com.rainbow.system.service.UserService;
 import com.rainbow.unit.domain.UmineMountain;
 import com.rainbow.unit.service.GroupService;
+import com.rainbow.unit.service.ServiceDepartService;
 import com.rainbow.unit.service.UmineMountainService;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -116,7 +117,7 @@ public class RainbowApplicationTests {
 	}
 
 	@Autowired
-	private GroupService groupService;
+	private ServiceDepartService serviceDepartService;
 
 	@Test
 	public void testOrg() {
@@ -141,6 +142,6 @@ public class RainbowApplicationTests {
 		page.conditions=conditions;
     */
 
-		groupService.deleteGroupById("1");
+		serviceDepartService.deleteServiceDepartById("1");
 	}
 }

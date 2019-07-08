@@ -85,13 +85,14 @@ public class ServiceDepartController {
 
     /**
      * 删除核设施运营单位信息
-     * @param ids
+     * @param id
      * @return
      */
-    @PostMapping("/deleteEquipDepartByIds")
-    public ResponseBo deleteServiceDepartByIds(@RequestBody List<String> ids){
-        if ((ids!=null)&&(ids.size()>0)) {
-            serviceDepartService.deleteServiceDepartByIds(ids);
+    @PostMapping("/deleteServiceDepartById")
+    public ResponseBo deleteServiceDepartById(String id){
+        if (id != null) {
+            int result = serviceDepartService.deleteServiceDepartById(id);
+            return result == 0 ? ResponseBo.error("存在关联，不允许删除!") : ResponseBo.ok("删除成功");
         }
         return ResponseBo.ok();
     }

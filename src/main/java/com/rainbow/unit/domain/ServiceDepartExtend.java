@@ -6,8 +6,11 @@ package com.rainbow.unit.domain;
  * @Description:
  **/
 public class ServiceDepartExtend extends ServiceDepart {
+
+    //所属集团的名称
     private String groupName;
 
+    //核设施的数量
     private int facNum;
 
     public String getGroupName() {

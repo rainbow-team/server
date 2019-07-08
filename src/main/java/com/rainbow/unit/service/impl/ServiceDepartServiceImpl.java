@@ -56,14 +56,6 @@ public class ServiceDepartServiceImpl extends BaseService<ServiceDepart> impleme
     }
 
     @Override
-    public void deleteServiceDepartByIds(List<String> ids) {
-        super.batchDelete(ids, "id", ServiceDepart.class);
-        for (String id : ids) {
-            annualReportMapper.deleteReportsByServiceId(id);
-        }
-    }
-
-    @Override
     public ResponseBo getServiceDepartList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
@@ -77,14 +69,25 @@ public class ServiceDepartServiceImpl extends BaseService<ServiceDepart> impleme
     }
 
     @Override
-    public ResponseBo getServiceDepartById(String serviceId) {
+    public ResponseBo getServiceDepartById(String id) {
 
-        ServiceDepartExtend result = serviceDepartMapper.getServiceDepartByServiceId(serviceId);
+        ServiceDepartExtend result = serviceDepartMapper.getServiceDepartByServiceId(id);
 
-        int num = facMapper.getFacNumByServiceId(serviceId);
+        if (result != null) {
+            int num = facMapper.getFacNumByServiceId(id);
 
-        result.setFacNum(num);
+            result.setFacNum(num);
+            return ResponseBo.ok(result);
+        }
+        return ResponseBo.error("获取失败");
+    }
 
-        return ResponseBo.ok(result);
+    @Override
+    public int deleteServiceDepartById(String id) {
+        Object result = serviceDepartMapper.getServiceDepartRelationCount(id);
+        if (result != null) {
+            return serviceDepartMapper.deleteServiceDepartById(id);
+        }
+        return 0;
     }
 }
