@@ -25,4 +25,6 @@ public interface FacService extends IService<Fac> {
     ResponseBo getFacList(Page page);
 
     ResponseBo getFacById(String id);
+
+    ResponseBo getFacListByServiceId(String serviceId);
 }

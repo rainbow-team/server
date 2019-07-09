@@ -86,4 +86,13 @@ public class FacServiceImpl extends BaseService<Fac> implements FacService {
         }
         return 0;
     }
+
+    @Override
+    public ResponseBo getFacListByServiceId(String serviceId) {
+        List<Fac> result = facMapper.getFacListByServiceId(serviceId);
+        if (result != null) {
+            return ResponseBo.ok(result);
+        }
+        return ResponseBo.error("查询失败");
+    }
 }

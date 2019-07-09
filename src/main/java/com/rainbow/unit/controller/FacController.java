@@ -5,6 +5,7 @@ import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.unit.domain.Fac;
 import com.rainbow.unit.domain.Group;
+import com.rainbow.unit.domain.ServiceDepart;
 import com.rainbow.unit.service.FacService;
 import com.rainbow.unit.service.GroupService;
 import org.slf4j.Logger;
@@ -64,17 +65,19 @@ public class FacController {
 
     /**
      * 获取核设施信息列表
+     *
      * @param page
      * @return
      */
     @PostMapping("/getFacList")
-    public ResponseBo getFacList(@RequestBody Page page){
+    public ResponseBo getFacList(@RequestBody Page page) {
 
         return facService.getFacList(page);
     }
 
     /**
      * 获取核设施信息详情
+     *
      * @param id
      * @return
      */
@@ -85,15 +88,31 @@ public class FacController {
 
     /**
      * 删除核设施信息
+     *
      * @param id
      * @return
      */
     @PostMapping("/deleteFacById")
-    public ResponseBo deleteFacByIds(String id){
+    public ResponseBo deleteFacByIds(String id) {
         if (id != null) {
             int result = facService.deleteFacById(id);
             return result == 0 ? ResponseBo.error("存在关联，不允许删除!") : ResponseBo.ok("删除成功");
         }
         return ResponseBo.ok();
+    }
+
+
+    /**
+     * 根据核设施运营单位的ID获取对应的核设施信息表
+     *
+     * @param
+     * @return
+     */
+    @PostMapping("/getFacListByServiceid")
+    public ResponseBo getFacListByServiceidList(String serviceId) {
+        if (serviceId != null) {
+            return facService.getFacListByServiceId(serviceId);
+        }
+        return ResponseBo.ok("获取失败");
     }
 }

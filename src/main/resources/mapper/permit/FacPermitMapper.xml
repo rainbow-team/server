@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.permit.dao.FacPermitMapper">
+  <resultMap id="FacPermitBaseResultMap" type="com.rainbow.permit.domain.FacPermit">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="service_id" jdbcType="VARCHAR" property="serviceId" />
+    <result column="fac_id" jdbcType="VARCHAR" property="facId" />
+    <result column="stage_id" jdbcType="VARCHAR" property="stageId" />
+    <result column="permission_date" jdbcType="DATE" property="permissionDate" />
+    <result column="licence" jdbcType="VARCHAR" property="licence" />
+    <result column="is_import" jdbcType="INTEGER" property="isImport" />
+    <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="scope" jdbcType="LONGVARCHAR" property="scope" />
+    <result column="condition" jdbcType="LONGVARCHAR" property="condition" />
+    <result column="promise" jdbcType="LONGVARCHAR" property="promise" />
+    <result column="note" jdbcType="LONGVARCHAR" property="note" />
+  </resultMap>
+
+  <resultMap id="FacPermitExtendMap" extends="FacPermitBaseResultMap" type="com.rainbow.permit.domain.FacPermitExtend">
+    <result column="serviceDepartValue" jdbcType="VARCHAR" property="serviceDepartValue" />
+    <result column="facValue" jdbcType="VARCHAR" property="facValue" />
+    <result column="permitStageValue" jdbcType="VARCHAR" property="permitStageValue" />
+  </resultMap>
+
+  <select id="getFacPermitList" parameterType="map" resultMap="FacPermitExtendMap">
+
+    select
+     t.*,
+     sd.name serviceDepartValue,
+     f.name facValue,
+     ps.value permitStageValue
+    from permit_fac t
+    left join unit_service_depart sd on t.service_id = sd.id
+    left join  unit_fac f on t.fac_id = f.id
+    left join  config_fac_permit_stage ps on t.stage_id = ps.id
+    where 1=1
+
+    <if test="serviceDepartValue != null and serviceDepartValue != ''">
+      and instr(sd.name,#{serviceDepartValue})>0
+    </if>
+
+    <if test="facValue != null and facValue != ''">
+      and instr(f.name,#{facValue})>0
+    </if>
+
+    <if test="permitStageIds != null">
+      and t.stage_id in (
+      <foreach item="item" index="index" collection="permitStageIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+    <if test="permission_date != null and permission_date != ''">
+      and t.permission_date = #{permission_date}
+    </if>
+
+  </select>
+
+  <select id="getFacPermitById" parameterType="java.lang.String" resultMap="FacPermitExtendMap">
+
+    select
+     t.*,
+     sd.name serviceDepartValue,
+     f.name facValue,
+     ps.value permitStageValue
+    from permit_fac t
+    left join unit_service_depart sd on t.service_id = sd.id
+    left join  unit_fac f on t.fac_id = f.id
+    left join  config_fac_permit_stage ps on t.stage_id = ps.id
+    where t.id = #{id}
+
+  </select>
+</mapper>

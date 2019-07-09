@@ -64,17 +64,19 @@ public class ServiceDepartController {
 
     /**
      * 获取核设施运营单位信息列表
+     *
      * @param page
      * @return
      */
     @PostMapping("/getServiceDepartList")
-    public ResponseBo getServiceDepartList(@RequestBody Page page){
+    public ResponseBo getServiceDepartList(@RequestBody Page page) {
 
         return serviceDepartService.getServiceDepartList(page);
     }
 
     /**
      * 获取核设施运营单位信息详情
+     *
      * @param id
      * @return
      */
@@ -85,15 +87,31 @@ public class ServiceDepartController {
 
     /**
      * 删除核设施运营单位信息
+     *
      * @param id
      * @return
      */
     @PostMapping("/deleteServiceDepartById")
-    public ResponseBo deleteServiceDepartById(String id){
+    public ResponseBo deleteServiceDepartById(String id) {
         if (id != null) {
             int result = serviceDepartService.deleteServiceDepartById(id);
             return result == 0 ? ResponseBo.error("存在关联，不允许删除!") : ResponseBo.ok("删除成功");
         }
         return ResponseBo.ok();
+    }
+
+    /**
+     * 获取核设施运营单位信息列表
+     *
+     * @param
+     * @return
+     */
+    @PostMapping("/getAllServiceDepartList")
+    public ResponseBo getAllServiceDepartList() {
+        List<ServiceDepart> result = serviceDepartService.selectAll();
+        if (result != null) {
+            return ResponseBo.ok(result);
+        }
+        return ResponseBo.error("获取失败");
     }
 }

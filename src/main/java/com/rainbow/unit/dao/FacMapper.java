@@ -18,4 +18,6 @@ public interface FacMapper extends MyMapper<Fac> {
 
     //根据核设施的主键寻找关联的记录，返回记录的和，如果不存在关联关系则返回1，如果存在关联关系则返回0
     Object getFacRelationCount(String id);
+
+    List<Fac> getFacListByServiceId(String serviceId);
 }
