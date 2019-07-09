@@ -11,10 +11,10 @@ public class EquipPermitExtend extends EquipPermit {
     private String equipDepartName;
 
     //营运单位的名称
-    private String serviceDepartValue;
+    private String serviceDepartName;
 
     //核设施信息的名称
-    private String facValue;
+    private String facName;
 
     //设备类别的值
     private String typeValue;
@@ -33,20 +33,20 @@ public class EquipPermitExtend extends EquipPermit {
         this.equipDepartName = equipDepartName;
     }
 
-    public String getServiceDepartValue() {
-        return serviceDepartValue;
+    public String getServiceDepartName() {
+        return serviceDepartName;
     }
 
-    public void setServiceDepartValue(String serviceDepartValue) {
-        this.serviceDepartValue = serviceDepartValue;
+    public void setServiceDepartName(String serviceDepartName) {
+        this.serviceDepartName = serviceDepartName;
     }
 
-    public String getFacValue() {
-        return facValue;
+    public String getFacName() {
+        return facName;
     }
 
-    public void setFacValue(String facValue) {
-        this.facValue = facValue;
+    public void setFacName(String facName) {
+        this.facName = facName;
     }
 
     public String getTypeValue() {

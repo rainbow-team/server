@@ -81,7 +81,7 @@ public class EquipPermitController {
      * @return
      */
     @GetMapping("/getEquipPermitById")
-    public ResponseBo getFacPermitById(String id) {
+    public ResponseBo getEquipPermitById(String id) {
         return equipPermitService.getEquipPermitById(id);
     }
 
