@@ -23,35 +23,64 @@
   </resultMap>
 
   <resultMap id="FacPermitExtendMap" extends="FacPermitBaseResultMap" type="com.rainbow.permit.domain.FacPermitExtend">
+    <result column="equipDepartName" jdbcType="VARCHAR" property="equipDepartName" />
     <result column="serviceDepartValue" jdbcType="VARCHAR" property="serviceDepartValue" />
     <result column="facValue" jdbcType="VARCHAR" property="facValue" />
-    <result column="permitStageValue" jdbcType="VARCHAR" property="permitStageValue" />
+    <result column="typeValue" jdbcType="VARCHAR" property="typeValue" />
+    <result column="levelValue" jdbcType="VARCHAR" property="levelValue" />
+    <result column="stageValue" jdbcType="VARCHAR" property="stageValue" />
   </resultMap>
 
-  <select id="getFacPermitList" parameterType="map" resultMap="FacPermitExtendMap">
+  <select id="getEquipPermitList" parameterType="map" resultMap="FacPermitExtendMap">
 
     select
      t.*,
+     ea.name equipDepartName,
      sd.name serviceDepartValue,
      f.name facValue,
-     ps.value permitStageValue
-    from permit_fac t
-    left join unit_service_depart sd on t.service_id = sd.id
+     et.value typeValue,
+     el.value levelValue,
+     ps.value stageValue,
+    from permit_equip t
+    left join  unit_equip_depart ea on t.equip_depart_id = ea.id
+    left join  unit_service_depart sd on t.service_id = f.id
     left join  unit_fac f on t.fac_id = f.id
-    left join  config_fac_permit_stage ps on t.stage_id = ps.id
+    left join  config_equip_type et on t.type_id = et.id
+    left join  config_equip_level el on t.level_id = el.id
+    left join  config_equip_permit_stage ps on t.stage_id = ps.id
     where 1=1
+
+    <if test="name != null and name != ''">
+      and instr(t.name,#{name})>0
+    </if>
+
+    <if test="equipDepartName != null and equipDepartName != ''">
+      and instr(ea.name,#{equipDepartName})>0
+    </if>
 
     <if test="serviceDepartValue != null and serviceDepartValue != ''">
       and instr(sd.name,#{serviceDepartValue})>0
     </if>
 
-    <if test="facValue != null and facValue != ''">
-      and instr(f.name,#{facValue})>0
+    <if test="typeIds != null">
+      and t.type_id in (
+      <foreach item="item" index="index" collection="typeIds" separator=",">
+        #{item}
+      </foreach>
+      )
     </if>
 
-    <if test="permitStageIds != null">
+    <if test="levelIds != null">
+      and t.level_id in (
+      <foreach item="item" index="index" collection="levelIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+    <if test="stageIds != null">
       and t.stage_id in (
-      <foreach item="item" index="index" collection="permitStageIds" separator=",">
+      <foreach item="item" index="index" collection="stageIds" separator=",">
         #{item}
       </foreach>
       )
@@ -66,14 +95,20 @@
   <select id="getFacPermitById" parameterType="java.lang.String" resultMap="FacPermitExtendMap">
 
     select
-     t.*,
-     sd.name serviceDepartValue,
-     f.name facValue,
-     ps.value permitStageValue
-    from permit_fac t
-    left join unit_service_depart sd on t.service_id = sd.id
+    t.*,
+    ea.name equipDepartName,
+    sd.name serviceDepartValue,
+    f.name facValue,
+    et.value typeValue,
+    el.value levelValue,
+    ps.value stageValue,
+    from permit_equip t
+    left join  unit_equip_depart ea on t.equip_depart_id = ea.id
+    left join  unit_service_depart sd on t.service_id = f.id
     left join  unit_fac f on t.fac_id = f.id
-    left join  config_fac_permit_stage ps on t.stage_id = ps.id
+    left join  config_equip_type et on t.type_id = et.id
+    left join  config_equip_level el on t.level_id = el.id
+    left join  config_equip_permit_stage ps on t.stage_id = ps.id
     where t.id = #{id}
 
   </select>
