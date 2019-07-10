@@ -52,7 +52,7 @@
         </javaClientGenerator>
 
         <!-- 配置需要生成的表 -->
-        <table tableName="check_activity_file" domainObjectName="ActivityFileCheck" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+        <table tableName="check_umine_place_file" domainObjectName="UminePlaceFileCheck" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <generatedKey column="id" sqlStatement="mysql" identity="true"/>
         </table>
     </context>
