@@ -140,6 +140,7 @@
     from unit_umine_place t
     where t.id = #{id}
     and not exists(select 1 from unit_umine_place_improve a where a.umine_place_id = t.id)
+    and not exists(select 1 from permit_umine_place b where b.umine_place_id = t.id)
   </select>
 
 </mapper>

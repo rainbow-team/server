@@ -50,6 +50,7 @@ public class ActivityPermitController {
      * @param
      * @return
      */
+    @PostMapping("/modifyActivityPermit")
     public ResponseBo modify(@RequestBody ActivityPermit activityPermit) {
 
         int result = activityPermitService.modifyActivityPermit(activityPermit);

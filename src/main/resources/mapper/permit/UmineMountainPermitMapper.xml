@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.permit.dao.UmineMountainPermitMapper">
+  <resultMap id="UmineMountainBaseResultMap" type="com.rainbow.permit.domain.UmineMountainPermit">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="umine_id" jdbcType="VARCHAR" property="umineId" />
+    <result column="umine_mountain_id" jdbcType="VARCHAR" property="umineMountainId" />
+    <result column="record_date" jdbcType="DATE" property="recordDate" />
+    <result column="record_number" jdbcType="VARCHAR" property="recordNumber" />
+    <result column="record_attach_id" jdbcType="VARCHAR" property="recordAttachId" />
+    <result column="accept_date" jdbcType="DATE" property="acceptDate" />
+    <result column="accept_number" jdbcType="VARCHAR" property="acceptNumber" />
+    <result column="accept_attach_id" jdbcType="VARCHAR" property="acceptAttachId" />
+    <result column="is_import" jdbcType="INTEGER" property="isImport" />
+    <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="record_condition" jdbcType="LONGVARCHAR" property="recordCondition" />
+    <result column="review_promise" jdbcType="LONGVARCHAR" property="reviewPromise" />
+    <result column="accept_conclusion" jdbcType="LONGVARCHAR" property="acceptConclusion" />
+    <result column="note" jdbcType="LONGVARCHAR" property="note" />
+  </resultMap>
+
+  <resultMap id="UmineMountainPermitExtendMap" extends="UmineMountainBaseResultMap" type="com.rainbow.permit.domain.UmineMountainPermitExtend">
+    <result column="umineName" jdbcType="VARCHAR" property="umineName" />
+    <result column="umineMountainName" jdbcType="VARCHAR" property="umineMountainName" />
+  </resultMap>
+
+  <select id="getUmineMountainPermitList" parameterType="map" resultMap="UmineMountainPermitExtendMap">
+
+    select
+     t.*,
+     u.name umineName,
+     um.name umineMountainName,
+    from permit_umine_mountain t
+    left join  unit_umine u on t.umine_id = u.id
+    left join  unit_umine_mountain um on t.umine_mountain_id = um.id
+    where 1=1
+
+    <if test="umineName != null and umineName != ''">
+      and instr(u.name,#{umineName})>0
+    </if>
+
+    <if test="umineMountainName != null and umineMountainName != ''">
+      and instr(um.name,#{umineMountainName})>0
+    </if>
+
+    <if test="record_date != null and record_date != ''">
+      and t.record_date = #{record_date}
+    </if>
+
+    <if test="accept_date != null and accept_date != ''">
+      and t.accept_date = #{accept_date}
+    </if>
+  </select>
+</mapper>

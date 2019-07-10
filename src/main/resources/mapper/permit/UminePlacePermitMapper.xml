@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.permit.dao.UminePlacePermitMapper">
+  <resultMap id="UminePlacePermitBaseResultMap" type="com.rainbow.permit.domain.UminePlacePermit">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="umine_id" jdbcType="VARCHAR" property="umineId" />
+    <result column="umine_place_id" jdbcType="VARCHAR" property="uminePlaceId" />
+    <result column="permit_stage_id" jdbcType="VARCHAR" property="permitStageId" />
+    <result column="permit_date" jdbcType="DATE" property="permitDate" />
+    <result column="validate_time" jdbcType="VARCHAR" property="validateTime" />
+    <result column="permit_number" jdbcType="VARCHAR" property="permitNumber" />
+    <result column="permit_content" jdbcType="VARCHAR" property="permitContent" />
+    <result column="is_import" jdbcType="INTEGER" property="isImport" />
+    <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="permit_condition" jdbcType="LONGVARCHAR" property="permitCondition" />
+    <result column="review_promise" jdbcType="LONGVARCHAR" property="reviewPromise" />
+    <result column="note" jdbcType="LONGVARCHAR" property="note" />
+  </resultMap>
+
+  <resultMap id="UminePlacePermitExtendMap" extends="UminePlacePermitBaseResultMap" type="com.rainbow.permit.domain.UminePlacePermitExtend">
+    <result column="umineName" jdbcType="VARCHAR" property="umineName" />
+    <result column="uminePlaceName" jdbcType="VARCHAR" property="uminePlaceName" />
+    <result column="stageValue" jdbcType="VARCHAR" property="stageValue" />
+  </resultMap>
+
+
+  <select id="getUminePlacePermitList" parameterType="map" resultMap="UminePlacePermitExtendMap">
+
+    select
+    t.*,
+    u.name umineName,
+    up.name uminePlaceName,
+    s.value stageValue
+    from permit_umine_place t
+    left join  unit_umine u on t.umine_id = u.id
+    left join  unit_umine_place up on t.umine_place_id = up.id
+    left join  config_umine_place_permit_stage s on t.stage_id = s.id
+    where 1=1
+
+    <if test="umineName != null and umineName != ''">
+      and instr(u.name,#{umineName})>0
+    </if>
+
+    <if test="uminePlaceName != null and uminePlaceName != ''">
+      and instr(up.name,#{uminePlaceName})>0
+    </if>
+
+    <if test="stageIds != null">
+      and t.stage_id in (
+      <foreach item="item" index="index" collection="stageIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+    <if test="permission_date != null and permission_date != ''">
+      and t.permission_date = #{permission_date}
+    </if>
+
+  </select>
+
+  <select id="getUminePlacePermitById" parameterType="map" resultMap="UminePlacePermitExtendMap">
+
+    select
+    t.*,
+    u.name umineName,
+    up.name uminePlaceName,
+    s.value stageValue
+    from permit_umine_place t
+    left join  unit_umine u on t.umine_id = u.id
+    left join  unit_umine_place up on t.umine_place_id = up.id
+    left join  config_umine_place_permit_stage s on t.stage_id = s.id
+    where id = #{id}
+
+  </select>
+</mapper>
