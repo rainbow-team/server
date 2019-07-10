@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.check.dao.FacFileCheckMapper">
+  <resultMap id="FacFileCheckBaseResultMap" type="com.rainbow.check.domain.FacFileCheck">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="check_fac_id" jdbcType="VARCHAR" property="checkFacId" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="fac_check_file_type_id" jdbcType="VARCHAR" property="facCheckFileTypeId" />
+    <result column="file_date" jdbcType="DATE" property="fileDate" />
+    <result column="file_no" jdbcType="VARCHAR" property="fileNo" />
+  </resultMap>
+
+
+  <resultMap id="FacFileCheckExtendMap" extends="FacFileCheckBaseResultMap" type="com.rainbow.check.domain.FacFileCheckExtend">
+    <result column="facCheckFileTypeValue" jdbcType="VARCHAR" property="facCheckFileTypeValue" />
+  </resultMap>
+
+
+  <select id="getFacFileCheckList" parameterType="map" resultMap="FacFileCheckExtendMap">
+
+    select
+     t.*,
+     f.value facCheckFileTypeValue,
+    from check_fac_file t
+    left join  config_fac_check_file_type f on t.fac_check_file_type_id = f.id
+    where 1=1
+
+    <if test="file_name != null and file_name != ''">
+      and instr(t.file_name,#{file_name})>0
+    </if>
+
+    <if test="file_date != null and file_date != ''">
+      and instr(t.file_date,#{file_date})>0
+    </if>
+
+    <if test="typeIds != null">
+      and t.fac_check_file_type_id in (
+      <foreach item="item" index="index" collection="typeIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+  </select>
+
+  <select id="getFacFileCheckById" parameterType="map" resultMap="FacFileCheckExtendMap">
+
+    select
+    t.*,
+    f.value facCheckFileTypeValue,
+    from check_fac_file t
+    left join  config_fac_check_file_type f on t.fac_check_file_type_id = f.id
+    where t.id = {id}
+
+  </select>
+
+</mapper>

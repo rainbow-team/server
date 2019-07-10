@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.check.dao.EquipFileCheckMapper">
+  <resultMap id="EquipFileCheckBaseResultMap" type="com.rainbow.check.domain.EquipFileCheck">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="check_equip_id" jdbcType="VARCHAR" property="checkEquipId" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="equip_check_file_type_id" jdbcType="VARCHAR" property="equipCheckFileTypeId" />
+    <result column="file_date" jdbcType="DATE" property="fileDate" />
+    <result column="file_no" jdbcType="VARCHAR" property="fileNo" />
+  </resultMap>
+
+  <resultMap id="EquipFileCheckExtendMap" extends="EquipFileCheckBaseResultMap" type="com.rainbow.check.domain.FacFileCheckExtend">
+    <result column="equipCheckFileTypeValue" jdbcType="VARCHAR" property="equipCheckFileTypeValue" />
+  </resultMap>
+
+
+  <select id="getEquipFileCheckList" parameterType="map" resultMap="EquipFileCheckExtendMap">
+
+    select
+    t.*,
+    f.value equipCheckFileTypeValue,
+    from check_equip_file t
+    left join  config_fac_check_file_type f on t.equip_check_file_type_id = f.id
+    where 1=1
+
+    <if test="file_date != null and file_date != ''">
+      and instr(t.file_date,#{file_date})>0
+    </if>
+
+    <if test="typeIds != null">
+      and t.fac_check_file_type_id in (
+      <foreach item="item" index="index" collection="typeIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+  </select>
+
+  <select id="getEquipFileCheckById" parameterType="map" resultMap="EquipFileCheckExtendMap">
+
+    select
+    t.*,
+    f.value equipCheckFileTypeValue,
+    from check_equip_file t
+    left join  config_fac_check_file_type f on t.equip_check_file_type_id = f.id
+    where 1=1
+    where t.id = {id}
+
+  </select>
+
+</mapper>

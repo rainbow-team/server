@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.check.dao.ActivityCheckMapper">
+  <resultMap id="ActivityCheckBaseResultMap" type="com.rainbow.check.domain.ActivityCheck">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="service_id" jdbcType="VARCHAR" property="serviceId" />
+    <result column="equip_depart_id" jdbcType="VARCHAR" property="equipDepartId" />
+    <result column="fac_id" jdbcType="VARCHAR" property="facId" />
+    <result column="activity_type_id" jdbcType="VARCHAR" property="activityTypeId" />
+    <result column="check_date" jdbcType="DATE" property="checkDate" />
+    <result column="is_import" jdbcType="INTEGER" property="isImport" />
+    <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="check_content" jdbcType="LONGVARCHAR" property="checkContent" />
+    <result column="note" jdbcType="LONGVARCHAR" property="note" />
+  </resultMap>
+
+  <resultMap id="ActivityCheckExtendMap" extends="ActivityCheckBaseResultMap" type="com.rainbow.check.domain.ActivityCheckExtend">
+    <result column="serviceDepartName" jdbcType="VARCHAR" property="serviceDepartName" />
+    <result column="equipDepartName" jdbcType="VARCHAR" property="equipDepartName" />
+    <result column="facName" jdbcType="VARCHAR" property="facName" />
+    <result column="typeValue" jdbcType="VARCHAR" property="typeValue" />
+  </resultMap>
+
+
+  <select id="getActivityCheckList" parameterType="map" resultMap="ActivityCheckExtendMap">
+
+    select
+    t.*,
+    sd.name serviceDepartName,
+    ud.name equipDepartName,
+    f.name facName,
+    ty.value typeValue
+    from check_activity t
+    left join unit_service_depart sd on t.service_id = sd.id
+    left join unit_equip_depart ud on t.equip_depart_id = ud.id
+    left join unit_fac f on t.fac_id = f.id
+    left join config_activity_type ty on t.type_id = ty.id
+    where 1=1
+
+    <if test="serviceDepartName != null and serviceDepartName != ''">
+      and instr(sd.name,#{serviceDepartName})>0
+    </if>
+
+    <if test="equipDepartName != null and equipDepartName != ''">
+      and instr(ud.name,#{equipDepartName})>0
+    </if>
+
+    <if test="facName != null and facName != ''">
+      and instr(f.name,#{facName})>0
+    </if>
+
+    <if test="typeIds != null">
+      and t.type_id in (
+      <foreach item="item" index="index" collection="typeIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+    <if test="content != null and content != ''">
+      and instr(t.content,#{content})>0
+    </if>
+
+  </select>
+
+
+
+  <select id="getActivityCheckById" parameterType="java.lang.String" resultMap="ActivityCheckExtendMap">
+
+    select
+    t.*,
+    sd.name serviceDepartName,
+    ud.name equipDepartName,
+    f.name facName,
+    ty.value typeValue
+    from check_activity t
+    left join unit_service_depart sd on t.service_id = sd.id
+    left join unit_equip_depart ud on t.equip_depart_id = ud.id
+    left join unit_fac f on t.fac_id = f.id
+    left join config_activity_type ty on t.type_id = ty.id
+    where t.id = #{id}
+
+  </select>
+
+  <delete id="deleteActivityCheckById" parameterType="java.lang.String">
+    delete from check_activity where id = #{id}
+  </delete>
+
+  <!--查询是否存在，每次需要根据进度添加 exists-->
+  <select id="getActivityCheckRelationCount" parameterType="java.lang.String" resultType="java.lang.Object">
+    select
+    t.id
+    from check_activity t
+    where t.id = #{id}
+    and not exists(select 1 from check_activity_file a where a.check_activity_id = t.id)
+  </select>
+</mapper>
