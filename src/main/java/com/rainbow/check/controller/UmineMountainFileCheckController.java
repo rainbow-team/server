@@ -20,7 +20,7 @@ import java.util.List;
  * 铀矿山井下消防审评文件信息管理
  */
 @RestController
-@RequestMapping("umineplacefilecheck")
+@RequestMapping("uminemountainfilecheck")
     public class UmineMountainFileCheckController {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());

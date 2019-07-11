@@ -76,6 +76,8 @@
     where t.id = #{id}
     and not exists(select 1 from umine_id a where a.umine_id = t.id)
     and not exists(select 1 from unit_umine_place b where b.umine_id = t.id)
-    and not exists(select 1 from permit_umine_place c where b.umine_id = t.id)
+    and not exists(select 1 from permit_umine_place c where c.umine_id = t.id)
+    and not exists(select 1 from check_umine_place d where d.umine_id = t.id)
+    and not exists(select 1 from check_umine_mountain e where e.umine_id = t.id)
   </select>
 </mapper>
