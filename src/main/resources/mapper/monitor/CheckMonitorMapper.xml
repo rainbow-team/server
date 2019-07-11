@@ -38,19 +38,27 @@
     t.*,
     sd.name serviceDepartName,
     u.name umineName,
-    ud.name equipDepartName,
+    ed.name equipDepartName,
     ty.value typeValue,
     f.name orgName
     from monitor_check t
     left join unit_service_depart sd on t.service_id = sd.id
     left join unit_umine u on t.umine_id = u.id
-    left join unit_equip_depart ud on t.equip_depart_id = ud.id
+    left join unit_equip_depart ed on t.equip_depart_id = ed.id
     left join config_monitor_check_type ty on t.type_id = ty.id
     left join supervision_org f on t.org_id = f.id
     where 1=1
 
     <if test="serviceDepartName != null and serviceDepartName != ''">
       and instr(sd.name,#{serviceDepartName})>0
+    </if>
+
+    <if test="umineName != null and umineName != ''">
+      and instr(u.name,#{umineName})>0
+    </if>
+
+    <if test="equipDepartName != null and equipDepartName != ''">
+      and instr(ed.name,#{equipDepartName})>0
     </if>
 
     <if test="content != null and content != ''">
@@ -82,13 +90,13 @@
     t.*,
     sd.name serviceDepartName,
     u.name umineName,
-    ud.name equipDepartName,
+    ed.name equipDepartName,
     ty.value typeValue,
     f.name orgName
     from monitor_check t
     left join unit_service_depart sd on t.service_id = sd.id
     left join unit_umine u on t.umine_id = u.id
-    left join unit_equip_depart ud on t.equip_depart_id = ud.id
+    left join unit_equip_depart ed on t.equip_depart_id = ed.id
     left join config_monitor_check_type ty on t.type_id = ty.id
     left join supervision_org f on t.org_id = f.id
     where t.id = #{id}

@@ -173,6 +173,7 @@
     and not exists(select 1 from check_fac f where f.fac_id = t.id)
     and not exists(select 1 from check_equip g where g.fac_id = t.id)
     and not exists(select 1 from check_activity h where h.fac_id = t.id)
+    and not exists(select 1 from monitor_daily i where i.fac_id = t.id)
   </select>
   
   <select id="getFacListByServiceId" parameterType="java.lang.String" resultMap="FacBaseResultMap">

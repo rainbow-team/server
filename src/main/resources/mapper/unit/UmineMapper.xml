@@ -79,5 +79,7 @@
     and not exists(select 1 from permit_umine_place c where c.umine_id = t.id)
     and not exists(select 1 from check_umine_place d where d.umine_id = t.id)
     and not exists(select 1 from check_umine_mountain e where e.umine_id = t.id)
+    and not exists(select 1 from monitor_check h where h.umine_id = t.id)
+    and not exists(select 1 from monitor_witness i where i.umine_id = t.id)
   </select>
 </mapper>

@@ -32,17 +32,17 @@ public class ReportMonitorServiceImpl extends BaseService<ReportMonitor> impleme
     ReportMonitorMapper reportMonitorMapper;
 
     @Override
-    public int addReportMonitor(ReportMonitor activityCheck) {
-        activityCheck.setId(GuidHelper.getGuid());
-        activityCheck.setCreateDate(new Date());
-        activityCheck.setModifyDate(new Date());
-        return reportMonitorMapper.insert(activityCheck);
+    public int addReportMonitor(ReportMonitor reportMonitor) {
+        reportMonitor.setId(GuidHelper.getGuid());
+        reportMonitor.setCreateDate(new Date());
+        reportMonitor.setModifyDate(new Date());
+        return reportMonitorMapper.insert(reportMonitor);
     }
 
     @Override
-    public int modifyReportMonitor(ReportMonitor activityCheck) {
-        activityCheck.setModifyDate(new Date());
-        return reportMonitorMapper.updateByPrimaryKey(activityCheck);
+    public int modifyReportMonitor(ReportMonitor reportMonitor) {
+        reportMonitor.setModifyDate(new Date());
+        return reportMonitorMapper.updateByPrimaryKey(reportMonitor);
     }
 
     @Override

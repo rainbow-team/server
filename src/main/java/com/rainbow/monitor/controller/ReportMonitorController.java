@@ -34,8 +34,8 @@ public class ReportMonitorController {
      * @return
      */
     @PostMapping("/addReportMonitor")
-    public ResponseBo add(@RequestBody ReportMonitor activityCheck) {
-        int result = reportMonitorService.addReportMonitor(activityCheck);
+    public ResponseBo add(@RequestBody ReportMonitor reportMonitor) {
+        int result = reportMonitorService.addReportMonitor(reportMonitor);
 
         if (result == 1) {
             return ResponseBo.ok("保存成功");
@@ -51,9 +51,9 @@ public class ReportMonitorController {
      * @return
      */
     @PostMapping("/modifyReportMonitor")
-    public ResponseBo modify(@RequestBody ReportMonitor activityCheck) {
+    public ResponseBo modify(@RequestBody ReportMonitor reportMonitor) {
 
-        int result = reportMonitorService.modifyReportMonitor(activityCheck);
+        int result = reportMonitorService.modifyReportMonitor(reportMonitor);
         if (result == 1) {
             return ResponseBo.ok("修改成功");
         } else {

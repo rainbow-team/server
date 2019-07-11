@@ -37,8 +37,8 @@ public class WitnessMonitorController {
      * @return
      */
     @PostMapping("/addWitnessMonitor")
-    public ResponseBo add(@RequestBody WitnessMonitor activityCheck) {
-        int result = witnessMonitorService.addWitnessMonitor(activityCheck);
+    public ResponseBo add(@RequestBody WitnessMonitor witnessMonitor) {
+        int result = witnessMonitorService.addWitnessMonitor(witnessMonitor);
 
         if (result == 1) {
             return ResponseBo.ok("保存成功");
@@ -54,9 +54,9 @@ public class WitnessMonitorController {
      * @return
      */
     @PostMapping("/modifyWitnessMonitor")
-    public ResponseBo modify(@RequestBody WitnessMonitor activityCheck) {
+    public ResponseBo modify(@RequestBody WitnessMonitor witnessMonitor) {
 
-        int result = witnessMonitorService.modifyWitnessMonitor(activityCheck);
+        int result = witnessMonitorService.modifyWitnessMonitor(witnessMonitor);
         if (result == 1) {
             return ResponseBo.ok("修改成功");
         } else {

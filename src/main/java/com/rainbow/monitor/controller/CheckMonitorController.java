@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
  * 监督检查信息管理
  */
 @RestController
-@RequestMapping("activitycheck")
+@RequestMapping("checkmonitor")
 public class CheckMonitorController {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
@@ -32,8 +32,8 @@ public class CheckMonitorController {
      * @return
      */
     @PostMapping("/addCheckMonitor")
-    public ResponseBo add(@RequestBody CheckMonitor activityCheck) {
-        int result = checkMonitorService.addCheckMonitor(activityCheck);
+    public ResponseBo add(@RequestBody CheckMonitor checkMonitor) {
+        int result = checkMonitorService.addCheckMonitor(checkMonitor);
 
         if (result == 1) {
             return ResponseBo.ok("保存成功");
@@ -49,9 +49,9 @@ public class CheckMonitorController {
      * @return
      */
     @PostMapping("/modifyCheckMonitor")
-    public ResponseBo modify(@RequestBody CheckMonitor activityCheck) {
+    public ResponseBo modify(@RequestBody CheckMonitor checkMonitor) {
 
-        int result = checkMonitorService.modifyCheckMonitor(activityCheck);
+        int result = checkMonitorService.modifyCheckMonitor(checkMonitor);
         if (result == 1) {
             return ResponseBo.ok("修改成功");
         } else {

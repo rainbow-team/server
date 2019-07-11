@@ -31,7 +31,7 @@
 
 
 
-  <select id="getDailyMonitorById" parameterType="map" resultMap="DailyMonitorExtendMap">
+  <select id="getDailyMonitorList" parameterType="map" resultMap="DailyMonitorExtendMap">
 
     select
     t.*,
@@ -88,7 +88,7 @@
 
 
 
-  <select id="getDailyMonitorList" parameterType="java.lang.String" resultMap="DailyMonitorExtendMap">
+  <select id="getDailyMonitorById" parameterType="java.lang.String" resultMap="DailyMonitorExtendMap">
 
 
     select

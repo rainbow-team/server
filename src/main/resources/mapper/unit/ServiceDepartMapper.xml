@@ -86,5 +86,8 @@
     and not exists(select 1 from check_fac f where f.service_id = t.id)
     and not exists(select 1 from check_equip g where g.service_id = t.id)
     and not exists(select 1 from check_activity h where h.service_id = t.id)
+    and not exists(select 1 from monitor_daily i where i.service_id = t.id)
+    and not exists(select 1 from monitor_check j where j.service_id = t.id)
+    and not exists(select 1 from monitor_witness k where k.service_id = t.id)
   </select>
 </mapper>

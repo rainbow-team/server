@@ -32,9 +32,9 @@ public class CheckFileMonitorServiceImpl extends BaseService<CheckFileMonitor> i
 
 
     @Override
-    public int addCheckFileMonitor(CheckFileMonitor activityFileCheck) {
-        activityFileCheck.setId(GuidHelper.getGuid());
-        return checkFileMonitorMapper.insert(activityFileCheck);
+    public int addCheckFileMonitor(CheckFileMonitor checkFileMonitor) {
+        checkFileMonitor.setId(GuidHelper.getGuid());
+        return checkFileMonitorMapper.insert(checkFileMonitor);
     }
 
     @Override

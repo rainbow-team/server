@@ -22,13 +22,17 @@
 
     select
     t.*,
-    f.value typeValue,
+    f.value typeValue
     from monitor_check_file t
     left join  config_monitor_check_file_type f on t.monitor_check_file_type_id = f.id
     where 1=1
 
-    <if test="file_date != null and file_date != ''">
-      and instr(t.file_date,#{file_date})>0
+    <if test="start_date != null and start_date != ''">
+      and and t.file_date <![CDATA[  >=  ]]> #{start_date}
+    </if>
+
+    <if test="end_date != null and end_date != ''">
+      and and t.file_date <![CDATA[  <=  ]]> #{end_date}
     </if>
 
     <if test="typeIds != null">
@@ -45,7 +49,7 @@
 
     select
     t.*,
-    f.value typeValue,
+    f.value typeValue
     from monitor_check_file t
     left join  config_monitor_check_file_type f on t.monitor_check_file_type_id = f.id
     where t.id = {id}
