@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.check.dao.UmineMountainFileCheckMapper">
+  <resultMap id="UmineMountainFileCheckBaseResultMap" type="com.rainbow.check.domain.UmineMountainFileCheck">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="check_umine_mountain_id" jdbcType="VARCHAR" property="checkUmineMountainId" />
+    <result column="check_file_type_id" jdbcType="VARCHAR" property="checkFileTypeId" />
+    <result column="file_date" jdbcType="DATE" property="fileDate" />
+    <result column="file_no" jdbcType="VARCHAR" property="fileNo" />
+  </resultMap>
+
+
+  <resultMap id="UmineMountainFileExtendMap" extends="UmineMountainFileCheckBaseResultMap" type="com.rainbow.check.domain.UmineMountainFileCheckExtend">
+    <result column="umineMountainCheckFileTypeValue" jdbcType="VARCHAR" property="umineMountainCheckFileTypeValue" />
+  </resultMap>
+
+
+
+  <select id="getUmineMountainFileCheckList" parameterType="map" resultMap="UmineMountainFileExtendMap">
+
+    select
+    t.*,
+    f.value umineMountainCheckFileTypeValue,
+    from check_umine_mountain_file t
+    left join  config_umine_mountain_check_file_type f on t.check_file_type_id = f.id
+    where 1=1
+
+    <if test="file_date != null and file_date != ''">
+      and instr(t.file_date,#{file_date})>0
+    </if>
+
+    <if test="typeIds != null">
+      and t.check_file_type_id in (
+      <foreach item="item" index="index" collection="typeIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+  </select>
+
+
+
+  <select id="getUmineMountainFileCheckById" parameterType="map" resultMap="UmineMountainFileExtendMap">
+
+    select
+    t.*,
+    f.value umineMountainCheckFileTypeValue,
+    from check_umine_mountain_file t
+    left join  config_umine_mountain_check_file_type f on t.check_file_type_id = f.id
+    where t.id = {id}
+
+  </select>
+</mapper>

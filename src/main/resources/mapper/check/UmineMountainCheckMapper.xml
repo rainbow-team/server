@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.check.dao.UmineMountainCheckMapper">
+  <resultMap id="UmineMountainCheckBaseResultMap" type="com.rainbow.check.domain.UmineMountainCheck">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="umine_id" jdbcType="VARCHAR" property="umineId" />
+    <result column="umine_mountain_id" jdbcType="VARCHAR" property="umineMountainId" />
+    <result column="check_date" jdbcType="DATE" property="checkDate" />
+    <result column="is_import" jdbcType="INTEGER" property="isImport" />
+    <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="note" jdbcType="LONGVARCHAR" property="note" />
+  </resultMap>
+
+  <resultMap id="UmineMountainCheckExtendMap" extends="UmineMountainCheckBaseResultMap" type="com.rainbow.check.domain.UmineMountainCheckExtend">
+    <result column="umineName" jdbcType="VARCHAR" property="umineName" />
+    <result column="umineMountainName" jdbcType="VARCHAR" property="umineMountainName" />
+  </resultMap>
+
+
+  <select id="getUmineMountainCheckList" parameterType="map" resultMap="UmineMountainCheckExtendMap">
+
+    select
+    t.*,
+    u.name umineName,
+    um.name umineMountainName
+    from check_umine_mountain t
+    left join unit_umine u on t.umine_id = u.id
+    left join unit_umine_mountain um on t.umine_place_id = um.id
+    where 1=1
+
+    <if test="umineName != null and umineName != ''">
+      and instr(u.name,#{umineName})>0
+    </if>
+
+    <if test="umineMountainName != null and umineMountainName != ''">
+      and instr(um.name,#{umineMountainName})>0
+    </if>
+
+    <if test="content != null and content != ''">
+      and instr(t.content,#{content})>0
+    </if>
+
+  </select>
+
+
+
+  <select id="getUmineMountainCheckById" parameterType="java.lang.String" resultMap="UmineMountainCheckExtendMap">
+
+    select
+    t.*,
+    u.name umineName,
+    um.name umineMountainName
+    from check_umine_mountain t
+    left join unit_umine u on t.umine_id = u.id
+    left join unit_umine_mountain um on t.umine_place_id = um.id
+    where t.id = #{id}
+
+  </select>
+
+  <delete id="deleteUmineMountainCheckById" parameterType="java.lang.String">
+    delete from check_umine_mountain where id = #{id}
+  </delete>
+
+  <!--查询是否存在，每次需要根据进度添加 exists-->
+  <select id="getUmineMountainCheckRelationCount" parameterType="java.lang.String" resultType="java.lang.Object">
+    select
+    t.id
+    from check_umine_mountain t
+    where t.id = #{id}
+    and not exists(select 1 from check_umine_mountain_file a where a.check_umine_mountain_id = t.id)
+  </select>
+</mapper>

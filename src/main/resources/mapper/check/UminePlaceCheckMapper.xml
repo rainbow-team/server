@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.check.dao.UminePlaceCheckMapper">
+  <resultMap id="UminePlaceCheckBaseResultMap" type="com.rainbow.check.domain.UminePlaceCheck">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="umine_id" jdbcType="VARCHAR" property="umineId" />
+    <result column="umine_place_id" jdbcType="VARCHAR" property="uminePlaceId" />
+    <result column="type_id" jdbcType="VARCHAR" property="typeId" />
+    <result column="stage_id" jdbcType="VARCHAR" property="stageId" />
+    <result column="check_date" jdbcType="DATE" property="checkDate" />
+    <result column="is_import" jdbcType="INTEGER" property="isImport" />
+    <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="note" jdbcType="LONGVARCHAR" property="note" />
+  </resultMap>
+
+  <resultMap id="UminePlaceCheckExtendMap" extends="UminePlaceCheckBaseResultMap" type="com.rainbow.check.domain.UminePlaceCheckExtend">
+    <result column="umineName" jdbcType="VARCHAR" property="umineName" />
+    <result column="uminePlaceName" jdbcType="VARCHAR" property="uminePlaceName" />
+    <result column="typeValue" jdbcType="VARCHAR" property="typeValue" />
+    <result column="stageValue" jdbcType="VARCHAR" property="stageValue" />
+  </resultMap>
+
+
+  <select id="getUminePlaceCheckList" parameterType="map" resultMap="UminePlaceCheckExtendMap">
+
+    select
+    t.*,
+    u.name umineName,
+    up.name uminePlaceName,
+    ct.value typeValue,
+    cs.value statusValue
+    from check_umine_place t
+    left join unit_umine u on t.umine_id = u.id
+    left join unit_umine_place up on t.umine_place_id = up.id
+    left join config_umine_place_check_type ct on t.type_id = ct.id
+    left join config_umine_place_check_stage cs on t.stage_id = cs.id
+    where 1=1
+
+    <if test="umineName != null and umineName != ''">
+      and instr(u.name,#{umineName})>0
+    </if>
+
+    <if test="uminePlaceName != null and uminePlaceName != ''">
+      and instr(up.name,#{uminePlaceName})>0
+    </if>
+
+    <if test="typeIds != null">
+      and t.type_id in (
+      <foreach item="item" index="index" collection="typeIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+    <if test="stageIds != null">
+      and t.stage_id in (
+      <foreach item="item" index="index" collection="stageIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+  </select>
+
+
+
+  <select id="getUminePlaceCheckById" parameterType="java.lang.String" resultMap="UminePlaceCheckExtendMap">
+
+    select
+    t.*,
+    u.name umineName,
+    up.name uminePlaceName,
+    ct.value typeValue,
+    cs.value statusValue
+    from check_umine_place t
+    left join unit_umine u on t.umine_id = u.id
+    left join unit_umine_place up on t.umine_place_id = up.id
+    left join config_umine_place_check_type ct on t.type_id = ct.id
+    left join config_umine_place_check_stage cs on t.stage_id = cs.id
+    where t.id = #{id}
+
+  </select>
+
+  <delete id="deleteUminePlaceCheckById" parameterType="java.lang.String">
+    delete from check_umine_place where id = #{id}
+  </delete>
+
+  <!--查询是否存在，每次需要根据进度添加 exists-->
+  <select id="getUminePlaceCheckRelationCount" parameterType="java.lang.String" resultType="java.lang.Object">
+    select
+    t.id
+    from check_umine_place t
+    where t.id = #{id}
+    and not exists(select 1 from check_umine_place_file a where a.check_umine_place_id = t.id)
+  </select>
+</mapper>
