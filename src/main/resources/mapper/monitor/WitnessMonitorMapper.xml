@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.monitor.dao.WitnessMonitorMapper">
+  <resultMap id="WitnessMonitorBaseResultMap" type="com.rainbow.monitor.domain.WitnessMonitor">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="service_id" jdbcType="VARCHAR" property="serviceId" />
+    <result column="umine_id" jdbcType="VARCHAR" property="umineId" />
+    <result column="equip_depart_id" jdbcType="VARCHAR" property="equipDepartId" />
+    <result column="witness_object" jdbcType="VARCHAR" property="witnessObject" />
+    <result column="witness_date" jdbcType="DATE" property="witnessDate" />
+    <result column="witness" jdbcType="VARCHAR" property="witness" />
+    <result column="is_import" jdbcType="INTEGER" property="isImport" />
+    <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="witness_items" jdbcType="LONGVARCHAR" property="witnessItems" />
+    <result column="witness_result" jdbcType="LONGVARCHAR" property="witnessResult" />
+    <result column="witness_question" jdbcType="LONGVARCHAR" property="witnessQuestion" />
+    <result column="reform" jdbcType="LONGVARCHAR" property="reform" />
+    <result column="note" jdbcType="LONGVARCHAR" property="note" />
+  </resultMap>
+
+
+  <resultMap id="WitnessMonitorExtendMap" extends="WitnessMonitorBaseResultMap" type="com.rainbow.monitor.domain.extend.WitnessMonitorExtend">
+    <result column="serviceDepartName" jdbcType="VARCHAR" property="serviceDepartName" />
+    <result column="umineName" jdbcType="VARCHAR" property="umineName" />
+    <result column="equipDepartName" jdbcType="VARCHAR" property="equipDepartName" />
+  </resultMap>
+
+
+  <select id="getWitnessMonitorList" parameterType="map" resultMap="WitnessMonitorExtendMap">
+
+    select
+    t.*,
+    sd.name serviceDepartName,
+    u.name umineName,
+    ed.name equipDepartName
+    from monitor_witness t
+    left join unit_service_depart sd on t.service_id = sd.id
+    left join unit_umine u on t.umine_id = u.id
+    left join unit_equip_depart ed on t.equip_depart_id = ed.id
+    where 1=1
+
+    <if test="serviceDepartName != null and serviceDepartName != ''">
+      and instr(sd.name,#{serviceDepartName})>0
+    </if>
+
+    <if test="umineName != null and umineName != ''">
+      and instr(u.name,#{serviceDepartName})>0
+    </if>
+
+    <if test="equipDepartName != null and equipDepartName != ''">
+      and instr(ed.name,#{serviceDepartName})>0
+    </if>
+
+    <if test="witness_items != null and witness_items != ''">
+      and instr(t.witness_items,#{witness_items})>0
+    </if>
+
+    <if test="start_date != null and start_date != ''">
+      and and t.witness_date <![CDATA[  >=  ]]> #{start_date}
+    </if>
+
+    <if test="end_date != null and end_date != ''">
+      and and t.witness_date <![CDATA[  <=  ]]> #{end_date}
+    </if>
+  </select>
+
+
+
+  <select id="getWitnessMonitorById" parameterType="java.lang.String" resultMap="WitnessMonitorExtendMap">
+
+    select
+    t.*,
+    sd.name serviceDepartName,
+    u.name umineName,
+    ed.name equipDepartName
+    from monitor_witness t
+    left join unit_service_depart sd on t.service_id = sd.id
+    left join unit_umine u on t.umine_id = u.id
+    left join unit_equip_depart ed on t.equip_depart_id = ed.id
+    where t.id = #{id}
+
+  </select>
+
+</mapper>

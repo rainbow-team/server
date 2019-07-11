@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.monitor.dao.ReportMonitorMapper">
+  <resultMap id="ReportMonitorBaseResultMap" type="com.rainbow.monitor.domain.ReportMonitor">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="supervision_org_id" jdbcType="VARCHAR" property="supervisionOrgId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="report_type" jdbcType="VARCHAR" property="reportType" />
+    <result column="date" jdbcType="TIMESTAMP" property="date" />
+    <result column="is_import" jdbcType="INTEGER" property="isImport" />
+    <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="note" jdbcType="LONGVARCHAR" property="note" />
+  </resultMap>
+
+  <resultMap id="ReportMonitorExtendMap" extends="ReportMonitorBaseResultMap" type="com.rainbow.monitor.domain.extend.ReportMonitorExtend">
+    <result column="orgName" jdbcType="VARCHAR" property="orgName" />
+    <result column="reportTypeValue" jdbcType="VARCHAR" property="reportTypeValue" />
+  </resultMap>
+
+
+  <select id="getReportMonitorList" parameterType="map" resultMap="ReportMonitorExtendMap">
+
+    select
+    t.*,
+    a.name orgName,
+    rt.value reportTypeValue
+    from monitor_report t
+    left join supervision_org a on t.org_id = a.id
+    left join config_monitor_report_type rt on t.report_type = rt.id
+    where 1=1
+
+    <if test="orgName != null and orgName != ''">
+      and instr(a.name,#{orgName})>0
+    </if>
+
+    <if test="typeIds != null">
+      and t.report_type in (
+      <foreach item="item" index="index" collection="typeIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+    <if test="name != null and name != ''">
+      and instr(t.name,#{name})>0
+    </if>
+
+    <if test="start_date != null and start_date != ''">
+      and and t.report_date <![CDATA[  >=  ]]> #{start_date}
+    </if>
+
+    <if test="end_date != null and end_date != ''">
+      and and t.report_date <![CDATA[  <=  ]]> #{end_date}
+    </if>
+  </select>
+
+
+
+  <select id="getReportMonitorById" parameterType="java.lang.String" resultMap="ReportMonitorExtendMap">
+
+    select
+    t.*,
+    sd.name serviceDepartName,
+    u.name umineName,
+    ed.name equipDepartName
+    from monitor_witness t
+    left join unit_service_depart sd on t.service_id = sd.id
+    left join unit_umine u on t.umine_id = u.id
+    left join unit_equip_depart ed on t.equip_depart_id = ed.id
+    where t.id = #{id}
+
+  </select>
+</mapper>
