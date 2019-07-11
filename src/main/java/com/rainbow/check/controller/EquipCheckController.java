@@ -31,7 +31,7 @@ public class EquipCheckController {
      * @param
      * @return
      */
-    @PostMapping("/addFacCheck")
+    @PostMapping("/addEquipCheck")
     public ResponseBo add(@RequestBody EquipCheck equipCheck) {
         int result = equipCheckService.addEquipCheck(equipCheck);
 
@@ -66,7 +66,7 @@ public class EquipCheckController {
      * @param page
      * @return
      */
-    @PostMapping("/getEquipFacCheckList")
+    @PostMapping("/getEquipCheckList")
     public ResponseBo getEquipCheckList(@RequestBody Page page) {
 
         return equipCheckService.getEquipCheckList(page);

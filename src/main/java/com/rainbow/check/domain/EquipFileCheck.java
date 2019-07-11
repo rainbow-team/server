@@ -19,12 +19,6 @@ public class EquipFileCheck {
     private String checkEquipId;
 
     /**
-     * 文件名称
-     */
-    @Column(name = "file_name")
-    private String fileName;
-
-    /**
      * 核设备审评文件类型，
 参考表:config_fac_check_file_type
      */
@@ -79,23 +73,6 @@ public class EquipFileCheck {
         this.checkEquipId = checkEquipId == null ? null : checkEquipId.trim();
     }
 
-    /**
-     * 获取文件名称
-     *
-     * @return file_name - 文件名称
-     */
-    public String getFileName() {
-        return fileName;
-    }
-
-    /**
-     * 设置文件名称
-     *
-     * @param fileName 文件名称
-     */
-    public void setFileName(String fileName) {
-        this.fileName = fileName == null ? null : fileName.trim();
-    }
 
     /**
      * 获取核设备审评文件类型，

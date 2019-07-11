@@ -7,7 +7,6 @@
     -->
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="check_equip_id" jdbcType="VARCHAR" property="checkEquipId" />
-    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
     <result column="equip_check_file_type_id" jdbcType="VARCHAR" property="equipCheckFileTypeId" />
     <result column="file_date" jdbcType="DATE" property="fileDate" />
     <result column="file_no" jdbcType="VARCHAR" property="fileNo" />
@@ -48,7 +47,6 @@
     f.value equipCheckFileTypeValue,
     from check_equip_file t
     left join  config_fac_check_file_type f on t.equip_check_file_type_id = f.id
-    where 1=1
     where t.id = {id}
 
   </select>

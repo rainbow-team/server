@@ -60,6 +60,7 @@
     where t.id = #{id}
     and not exists(select 1 from permit_equip a where a.equip_depart_id = t.id)
     and not exists(select 1 from permit_activity b where b.equip_depart_id = t.id)
+    and not exists(select 1 from check_equip c where c.equip_depart_id = t.id)
   </select>
 
 </mapper>

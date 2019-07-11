@@ -83,5 +83,7 @@
     and not exists(select 1 from permit_fac c where c.service_id = t.id)
     and not exists(select 1 from permit_equip d where d.service_id = t.id)
     and not exists(select 1 from permit_activity e where e.service_id = t.id)
+    and not exists(select 1 from check_fac f where f.service_id = t.id)
+    and not exists(select 1 from check_equip g where g.service_id = t.id)
   </select>
 </mapper>

@@ -22,8 +22,8 @@
   <resultMap id="FacCheckExtendMap" extends="FacCheckBaseResultMap" type="com.rainbow.check.domain.FacCheckExtend">
     <result column="serviceDepartName" jdbcType="VARCHAR" property="serviceDepartName" />
     <result column="facName" jdbcType="VARCHAR" property="equipDepartName" />
-    <result column="typeValue" jdbcType="VARCHAR" property="facName" />
-    <result column="stageValue" jdbcType="VARCHAR" property="typeValue" />
+    <result column="typeValue" jdbcType="VARCHAR" property="typeValue" />
+    <result column="stageValue" jdbcType="VARCHAR" property="stageValue" />
   </resultMap>
 
   <select id="getFacCheckList" parameterType="map" resultMap="FacCheckExtendMap">
@@ -36,7 +36,7 @@
      fs.value statusValue
     from check_fac t
     left join unit_service_depart us on t.service_id = us.id
-    left join unit_fac f on t.fac_id = sc.id
+    left join unit_fac f on t.fac_id = f.id
     left join config_fac_check_type ft on t.type_id = ft.id
     left join config_fac_check_stage fs on t.stage_id = fs.id
     where 1=1
@@ -47,10 +47,6 @@
 
     <if test="facName != null and facName != ''">
       and instr(f.name,#{facName})>0
-    </if>
-
-    <if test="serviceDepart != null and serviceDepart != ''">
-      and instr(us.name,#{serviceDepart})>0
     </if>
 
     <if test="typeIds != null">
@@ -75,7 +71,7 @@
 
   <select id="getFacCheckById" parameterType="java.lang.String" resultMap="FacCheckExtendMap">
 
-     select
+    select
      t.*,
      us.name serviceDepartName,
      f.name facName,
@@ -83,7 +79,7 @@
      fs.value statusValue
     from check_fac t
     left join unit_service_depart us on t.service_id = us.id
-    left join unit_fac f on t.fac_id = sc.id
+    left join unit_fac f on t.fac_id = f.id
     left join config_fac_check_type ft on t.type_id = ft.id
     left join config_fac_check_stage fs on t.stage_id = fs.id
     where t.id = #{id}

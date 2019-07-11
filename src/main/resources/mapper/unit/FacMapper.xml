@@ -170,6 +170,8 @@
     and not exists(select 1 from permit_fac c where c.fac_id = t.id)
     and not exists(select 1 from permit_equip d where d.fac_id = t.id)
     and not exists(select 1 from permit_activity e where e.fac_id = t.id)
+    and not exists(select 1 from check_fac f where f.fac_id = t.id)
+    and not exists(select 1 from check_equip g where g.fac_id = t.id)
   </select>
   
   <select id="getFacListByServiceId" parameterType="java.lang.String" resultMap="FacBaseResultMap">
