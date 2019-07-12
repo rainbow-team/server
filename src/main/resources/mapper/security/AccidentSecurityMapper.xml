@@ -51,30 +51,35 @@
     f.name facName,
     up.name uminePlaceName,
     s.value facStatusValue,
-    ct.value checkTypeValue,
-    sqt.value questionTypeValue,
-    sqn.value questionNatureValue,
-    rs.value reformStatusTypeValue
+    ups.value uminePlaceStatusValue,
+    aty.value typeValue,
+    ana.value natureValue
     from security_accident t
     left join unit_service_depart sd on t.service_id = sd.id
     left join unit_umine u on t.service_id = u.id
     left join unit_fac f on t.fac_id = f.id
     left join unit_umine_place up on t.umine_place_id = up.id
     left join config_fac_status s on t.fac_status_id = s.id
-    left join config_security_check_type ct on t.check_type_id = ct.id
-    left join config_fac_security_question_type sqt on t.question_type_id = sqt.id
-    left join config_fac_security_question_nature sqn on t.question_nature_id = sqn.id
-    left join config_security_reform_status rs on t.reform_status_id = rs.id
+    left join config_umine_place_status ups on t.umine_place_status_id = ups.id
+    left join config_accident_type aty on t.type_id = aty.id
+    left join config_accident_nature ana on t.nature_id = ana.id
     where 1=1
 
     <if test="serviceDepartName != null and serviceDepartName != ''">
       and instr(sd.name,#{serviceDepartName})>0
     </if>
 
+    <if test="umineName != null and umineName != ''">
+      and instr(u.name,#{umineName})>0
+    </if>
+
     <if test="facName != null and facName != ''">
       and instr(f.name,#{facName})>0
     </if>
 
+    <if test="uminePlaceName != null and uminePlaceName != ''">
+      and instr(up.name,#{uminePlaceName})>0
+    </if>
 
     <if test="facStatusTypeIds != null">
       and t.fac_status_id in (
@@ -84,73 +89,67 @@
       )
     </if>
 
-    <if test="checkTypeIds != null">
-      and t.check_type_id in (
-      <foreach item="item" index="index" collection="checkTypeIds" separator=",">
+    <if test="uminePlaceStatusTypeIds != null">
+      and t.uminePlaceStatusValue in (
+      <foreach item="item" index="index" collection="uminePlaceStatusTypeIds" separator=",">
         #{item}
       </foreach>
       )
     </if>
 
-    <if test="content != null and content != ''">
-      and instr(t.content,#{content})>0
+    <if test="name != null and name != ''">
+      and instr(t.name,#{name})>0
     </if>
 
     <if test="start_date != null and start_date != ''">
-      and and t.find_date <![CDATA[  >=  ]]> #{start_date}
+      and and t.occur_date <![CDATA[  >=  ]]> #{start_date}
     </if>
 
     <if test="end_date != null and end_date != ''">
-      and and t.find_date <![CDATA[  <=  ]]> #{end_date}
+      and and t.occur_date <![CDATA[  <=  ]]> #{end_date}
     </if>
 
-    <if test="questionTypeIds != null">
-      and t.question_type_id in (
-      <foreach item="item" index="index" collection="questionTypeIds" separator=",">
+    <if test="typeIds != null">
+      and t.type_id in (
+      <foreach item="item" index="index" collection="typeIds" separator=",">
         #{item}
       </foreach>
       )
     </if>
 
-    <if test="questionNatureIds != null">
-      and t.question_nature_id in (
-      <foreach item="item" index="index" collection="questionNatureIds" separator=",">
+    <if test="natureIds != null">
+      and t.nature_id in (
+      <foreach item="item" index="index" collection="natureIds" separator=",">
         #{item}
       </foreach>
       )
     </if>
-
-    <if test="reformStatusTypeIds != null">
-      and t.reform_status_id in (
-      <foreach item="item" index="index" collection="reformStatusTypeIds" separator=",">
-        #{item}
-      </foreach>
-      )
-    </if>
-
   </select>
 
 
 
   <select id="getAccidentSecurityById" parameterType="java.lang.String" resultMap="AccidentSecurityExtendMap">
 
+
     select
     t.*,
     sd.name serviceDepartName,
+    u.name umineName,
     f.name facName,
-    s.value facStatusTypeValue,
-    ct.value checkTypeValue,
-    sqt.value questionTypeValue,
-    sqn.value questionNatureValue,
-    rs.value reformStatusTypeValue
-    from security_fac t
+    up.name uminePlaceName,
+    s.value facStatusValue,
+    ups.value uminePlaceStatusValue,
+    aty.value typeValue,
+    ana.value natureValue
+    from security_accident t
     left join unit_service_depart sd on t.service_id = sd.id
+    left join unit_umine u on t.service_id = u.id
     left join unit_fac f on t.fac_id = f.id
+    left join unit_umine_place up on t.umine_place_id = up.id
     left join config_fac_status s on t.fac_status_id = s.id
-    left join config_security_check_type ct on t.check_type_id = ct.id
-    left join config_fac_security_question_type sqt on t.question_type_id = sqt.id
-    left join config_fac_security_question_nature sqn on t.question_nature_id = sqn.id
-    left join config_security_reform_status rs on t.reform_status_id = rs.id
+    left join config_umine_place_status ups on t.umine_place_status_id = ups.id
+    left join config_accident_type aty on t.type_id = aty.id
+    left join config_accident_nature ana on t.nature_id = ana.id
     where t.id = #{id}
 
   </select>
