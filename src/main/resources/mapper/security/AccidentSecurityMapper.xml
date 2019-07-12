@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.security.dao.AccidentSecurityMapper">
+  <resultMap id="AccidentSecurityBaseResultMap" type="com.rainbow.security.domain.AccidentSecurity">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="service_id" jdbcType="VARCHAR" property="serviceId" />
+    <result column="umine_id" jdbcType="VARCHAR" property="umineId" />
+    <result column="fac_id" jdbcType="VARCHAR" property="facId" />
+    <result column="umine_place_id" jdbcType="VARCHAR" property="uminePlaceId" />
+    <result column="fac_status_id" jdbcType="VARCHAR" property="facStatusId" />
+    <result column="umine_place_status_id" jdbcType="VARCHAR" property="uminePlaceStatusId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="occur_date" jdbcType="DATE" property="occurDate" />
+    <result column="type_id" jdbcType="VARCHAR" property="typeId" />
+    <result column="nature_id" jdbcType="VARCHAR" property="natureId" />
+    <result column="is_import" jdbcType="INTEGER" property="isImport" />
+    <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="process" jdbcType="LONGVARCHAR" property="process" />
+    <result column="consequence" jdbcType="LONGVARCHAR" property="consequence" />
+    <result column="reason" jdbcType="LONGVARCHAR" property="reason" />
+    <result column="measure" jdbcType="LONGVARCHAR" property="measure" />
+    <result column="feedback" jdbcType="LONGVARCHAR" property="feedback" />
+    <result column="note" jdbcType="LONGVARCHAR" property="note" />
+  </resultMap>
+
+
+  <resultMap id="AccidentSecurityExtendMap" extends="AccidentSecurityBaseResultMap" type="com.rainbow.security.domain.extend.AccidentSecurityExtend">
+    <result column="serviceDepartName" jdbcType="VARCHAR" property="serviceDepartName" />
+    <result column="umineName" jdbcType="VARCHAR" property="umineName" />
+    <result column="facName" jdbcType="VARCHAR" property="facName" />
+    <result column="uminePlaceName" jdbcType="VARCHAR" property="uminePlaceName" />
+    <result column="facStatusValue" jdbcType="VARCHAR" property="facStatusValue" />
+    <result column="uminePlaceStatusValue" jdbcType="VARCHAR" property="uminePlaceStatusValue" />
+    <result column="typeValue" jdbcType="VARCHAR" property="typeValue" />
+    <result column="natureValue" jdbcType="VARCHAR" property="natureValue" />
+  </resultMap>
+
+
+  <select id="getAccidentSecurityList" parameterType="map" resultMap="AccidentSecurityExtendMap">
+
+    select
+    t.*,
+    sd.name serviceDepartName,
+    u.name umineName,
+    f.name facName,
+    up.name uminePlaceName,
+    s.value facStatusValue,
+    ct.value checkTypeValue,
+    sqt.value questionTypeValue,
+    sqn.value questionNatureValue,
+    rs.value reformStatusTypeValue
+    from security_accident t
+    left join unit_service_depart sd on t.service_id = sd.id
+    left join unit_umine u on t.service_id = u.id
+    left join unit_fac f on t.fac_id = f.id
+    left join unit_umine_place up on t.umine_place_id = up.id
+    left join config_fac_status s on t.fac_status_id = s.id
+    left join config_security_check_type ct on t.check_type_id = ct.id
+    left join config_fac_security_question_type sqt on t.question_type_id = sqt.id
+    left join config_fac_security_question_nature sqn on t.question_nature_id = sqn.id
+    left join config_security_reform_status rs on t.reform_status_id = rs.id
+    where 1=1
+
+    <if test="serviceDepartName != null and serviceDepartName != ''">
+      and instr(sd.name,#{serviceDepartName})>0
+    </if>
+
+    <if test="facName != null and facName != ''">
+      and instr(f.name,#{facName})>0
+    </if>
+
+
+    <if test="facStatusTypeIds != null">
+      and t.fac_status_id in (
+      <foreach item="item" index="index" collection="facStatusTypeIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+    <if test="checkTypeIds != null">
+      and t.check_type_id in (
+      <foreach item="item" index="index" collection="checkTypeIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+    <if test="content != null and content != ''">
+      and instr(t.content,#{content})>0
+    </if>
+
+    <if test="start_date != null and start_date != ''">
+      and and t.find_date <![CDATA[  >=  ]]> #{start_date}
+    </if>
+
+    <if test="end_date != null and end_date != ''">
+      and and t.find_date <![CDATA[  <=  ]]> #{end_date}
+    </if>
+
+    <if test="questionTypeIds != null">
+      and t.question_type_id in (
+      <foreach item="item" index="index" collection="questionTypeIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+    <if test="questionNatureIds != null">
+      and t.question_nature_id in (
+      <foreach item="item" index="index" collection="questionNatureIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+    <if test="reformStatusTypeIds != null">
+      and t.reform_status_id in (
+      <foreach item="item" index="index" collection="reformStatusTypeIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+  </select>
+
+
+
+  <select id="getAccidentSecurityById" parameterType="java.lang.String" resultMap="AccidentSecurityExtendMap">
+
+    select
+    t.*,
+    sd.name serviceDepartName,
+    f.name facName,
+    s.value facStatusTypeValue,
+    ct.value checkTypeValue,
+    sqt.value questionTypeValue,
+    sqn.value questionNatureValue,
+    rs.value reformStatusTypeValue
+    from security_fac t
+    left join unit_service_depart sd on t.service_id = sd.id
+    left join unit_fac f on t.fac_id = f.id
+    left join config_fac_status s on t.fac_status_id = s.id
+    left join config_security_check_type ct on t.check_type_id = ct.id
+    left join config_fac_security_question_type sqt on t.question_type_id = sqt.id
+    left join config_fac_security_question_nature sqn on t.question_nature_id = sqn.id
+    left join config_security_reform_status rs on t.reform_status_id = rs.id
+    where t.id = #{id}
+
+  </select>
+
+</mapper>

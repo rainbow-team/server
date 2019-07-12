@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.security.dao.FacSecurityMapper">
+  <resultMap id="FacSecurityBaseResultMap" type="com.rainbow.security.domain.FacSecurity">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="service_id" jdbcType="VARCHAR" property="serviceId" />
+    <result column="fac_id" jdbcType="VARCHAR" property="facId" />
+    <result column="fac_status_id" jdbcType="VARCHAR" property="facStatusId" />
+    <result column="check_type_id" jdbcType="VARCHAR" property="checkTypeId" />
+    <result column="find_date" jdbcType="DATE" property="findDate" />
+    <result column="question_type_id" jdbcType="VARCHAR" property="questionTypeId" />
+    <result column="question_nature_id" jdbcType="VARCHAR" property="questionNatureId" />
+    <result column="reform_status_id" jdbcType="VARCHAR" property="reformStatusId" />
+    <result column="reform_complete_date" jdbcType="DATE" property="reformCompleteDate" />
+    <result column="is_import" jdbcType="INTEGER" property="isImport" />
+    <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="require" jdbcType="LONGVARCHAR" property="require" />
+    <result column="reform_plan" jdbcType="LONGVARCHAR" property="reformPlan" />
+    <result column="note" jdbcType="LONGVARCHAR" property="note" />
+  </resultMap>
+
+  <resultMap id="FacSecurityExtendMap" extends="FacSecurityBaseResultMap" type="com.rainbow.security.domain.extend.FacSecurityExtend">
+    <result column="serviceDepartName" jdbcType="VARCHAR" property="serviceDepartName" />
+    <result column="facName" jdbcType="VARCHAR" property="facName" />
+    <result column="facStatusTypeValue" jdbcType="VARCHAR" property="facStatusTypeValue" />
+    <result column="checkTypeValue" jdbcType="VARCHAR" property="checkTypeValue" />
+    <result column="questionTypeValue" jdbcType="VARCHAR" property="questionTypeValue" />
+    <result column="questionNatureValue" jdbcType="VARCHAR" property="questionNatureValue" />
+    <result column="reformStatusTypeValue" jdbcType="VARCHAR" property="reformStatusTypeValue" />
+  </resultMap>
+
+
+  <select id="getFacSecurityList" parameterType="map" resultMap="FacSecurityExtendMap">
+
+    select
+    t.*,
+    sd.name serviceDepartName,
+    f.name facName,
+    s.value facStatusTypeValue,
+    ct.value checkTypeValue,
+    sqt.value questionTypeValue,
+    sqn.value questionNatureValue,
+    rs.value reformStatusTypeValue
+    from security_fac t
+    left join unit_service_depart sd on t.service_id = sd.id
+    left join unit_fac f on t.fac_id = f.id
+    left join config_fac_status s on t.fac_status_id = s.id
+    left join config_security_check_type ct on t.check_type_id = ct.id
+    left join config_fac_security_question_type sqt on t.question_type_id = sqt.id
+    left join config_fac_security_question_nature sqn on t.question_nature_id = sqn.id
+    left join config_security_reform_status rs on t.reform_status_id = rs.id
+    where 1=1
+
+    <if test="serviceDepartName != null and serviceDepartName != ''">
+      and instr(sd.name,#{serviceDepartName})>0
+    </if>
+
+    <if test="facName != null and facName != ''">
+      and instr(f.name,#{facName})>0
+    </if>
+
+
+    <if test="facStatusTypeIds != null">
+      and t.fac_status_id in (
+      <foreach item="item" index="index" collection="facStatusTypeIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+    <if test="checkTypeIds != null">
+      and t.check_type_id in (
+      <foreach item="item" index="index" collection="checkTypeIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+    <if test="content != null and content != ''">
+      and instr(t.content,#{content})>0
+    </if>
+
+    <if test="start_date != null and start_date != ''">
+      and and t.find_date <![CDATA[  >=  ]]> #{start_date}
+    </if>
+
+    <if test="end_date != null and end_date != ''">
+      and and t.find_date <![CDATA[  <=  ]]> #{end_date}
+    </if>
+
+    <if test="questionTypeIds != null">
+      and t.question_type_id in (
+      <foreach item="item" index="index" collection="questionTypeIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+    <if test="questionNatureIds != null">
+      and t.question_nature_id in (
+      <foreach item="item" index="index" collection="questionNatureIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+    <if test="reformStatusTypeIds != null">
+      and t.reform_status_id in (
+      <foreach item="item" index="index" collection="reformStatusTypeIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+  </select>
+
+
+
+  <select id="getFacSecurityById" parameterType="java.lang.String" resultMap="FacSecurityExtendMap">
+
+    select
+    t.*,
+    sd.name serviceDepartName,
+    f.name facName,
+    s.value facStatusTypeValue,
+    ct.value checkTypeValue,
+    sqt.value questionTypeValue,
+    sqn.value questionNatureValue,
+    rs.value reformStatusTypeValue
+    from security_fac t
+    left join unit_service_depart sd on t.service_id = sd.id
+    left join unit_fac f on t.fac_id = f.id
+    left join config_fac_status s on t.fac_status_id = s.id
+    left join config_security_check_type ct on t.check_type_id = ct.id
+    left join config_fac_security_question_type sqt on t.question_type_id = sqt.id
+    left join config_fac_security_question_nature sqn on t.question_nature_id = sqn.id
+    left join config_security_reform_status rs on t.reform_status_id = rs.id
+    where t.id = #{id}
+
+  </select>
+
+</mapper>

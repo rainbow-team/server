@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.security.dao.UminePlaceSecurityMapper">
+  <resultMap id="UminePlaceSecurityBaseResultMap" type="com.rainbow.security.domain.UminePlaceSecurity">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="umine_id" jdbcType="VARCHAR" property="umineId" />
+    <result column="umine_place_id" jdbcType="VARCHAR" property="uminePlaceId" />
+    <result column="status_id" jdbcType="VARCHAR" property="statusId" />
+    <result column="check_type_id" jdbcType="VARCHAR" property="checkTypeId" />
+    <result column="find_date" jdbcType="DATE" property="findDate" />
+    <result column="question_type_id" jdbcType="VARCHAR" property="questionTypeId" />
+    <result column="question_nature_id" jdbcType="VARCHAR" property="questionNatureId" />
+    <result column="reform_status_id" jdbcType="VARCHAR" property="reformStatusId" />
+    <result column="reform_complete_date" jdbcType="DATE" property="reformCompleteDate" />
+    <result column="is_import" jdbcType="INTEGER" property="isImport" />
+    <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="require" jdbcType="LONGVARCHAR" property="require" />
+    <result column="reform_plan" jdbcType="LONGVARCHAR" property="reformPlan" />
+    <result column="note" jdbcType="LONGVARCHAR" property="note" />
+  </resultMap>
+
+  <resultMap id="UminePlaceSecurityExtendMap" extends="UminePlaceSecurityBaseResultMap" type="com.rainbow.security.domain.extend.UminePlaceSecurityExtend">
+    <result column="umineName" jdbcType="VARCHAR" property="umineName" />
+    <result column="uminePlaceName" jdbcType="VARCHAR" property="uminePlaceName" />
+    <result column="uminePlaceStatusTypeValue" jdbcType="VARCHAR" property="uminePlaceStatusTypeValue" />
+    <result column="checkTypeValue" jdbcType="VARCHAR" property="checkTypeValue" />
+    <result column="questionTypeValue" jdbcType="VARCHAR" property="questionTypeValue" />
+    <result column="questionNatureValue" jdbcType="VARCHAR" property="questionNatureValue" />
+    <result column="reformStatusTypeValue" jdbcType="VARCHAR" property="reformStatusTypeValue" />
+  </resultMap>
+
+
+  <select id="getUminePlaceSecurityList" parameterType="map" resultMap="UminePlaceSecurityExtendMap">
+
+    select
+    t.*,
+    u.name umineName,
+    up.name uminePlaceName,
+    s.value uminePlaceStatusTypeValue,
+    ct.value checkTypeValue,
+    sqt.value questionTypeValue,
+    sqn.value questionNatureValue,
+    rs.value reformStatusTypeValue
+    from security_umine_place t
+    left join unit_umine u on t.umine_id = u.id
+    left join unit_umine_place up on t.umine_place_id = up.id
+    left join config_umine_place_status s on t.status_id = s.id
+    left join config_security_check_type ct on t.check_type_id = ct.id
+    left join config_umine_place_security_question_type sqt on t.question_type_id = sqt.id
+    left join config_umine_place_security_question_nature sqn on t.question_nature_id = sqn.id
+    left join config_security_reform_status rs on t.reform_status_id = rs.id
+    where 1=1
+
+    <if test="umineName != null and umineName != ''">
+      and instr(u.name,#{umineName})>0
+    </if>
+
+    <if test="uminePlaceName != null and uminePlaceName != ''">
+      and instr(up.name,#{uminePlaceName})>0
+    </if>
+
+    <if test="statusTypeIds != null">
+      and t.status_id in (
+      <foreach item="item" index="index" collection="statusTypeIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+    <if test="checkTypeIds != null">
+      and t.check_type_id in (
+      <foreach item="item" index="index" collection="checkTypeIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+    <if test="content != null and content != ''">
+      and instr(t.content,#{content})>0
+    </if>
+
+    <if test="start_date != null and start_date != ''">
+      and and t.find_date <![CDATA[  >=  ]]> #{start_date}
+    </if>
+
+    <if test="end_date != null and end_date != ''">
+      and and t.find_date <![CDATA[  <=  ]]> #{end_date}
+    </if>
+
+    <if test="questionTypeIds != null">
+      and t.question_type_id in (
+      <foreach item="item" index="index" collection="questionTypeIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+    <if test="questionNatureIds != null">
+      and t.question_nature_id in (
+      <foreach item="item" index="index" collection="questionNatureIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+    <if test="reformStatusTypeIds != null">
+      and t.reform_status_id in (
+      <foreach item="item" index="index" collection="reformStatusTypeIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+  </select>
+
+
+
+  <select id="getUminePlaceSecurityById" parameterType="java.lang.String" resultMap="UminePlaceSecurityExtendMap">
+
+
+    select
+    t.*,
+    u.name umineName,
+    up.name uminePlaceName,
+    s.value uminePlaceStatusTypeValue,
+    ct.value checkTypeValue,
+    sqt.value questionTypeValue,
+    sqn.value questionNatureValue,
+    rs.value reformStatusTypeValue
+    from security_umine_place t
+    left join unit_umine u on t.umine_id = u.id
+    left join unit_umine_place up on t.umine_place_id = up.id
+    left join config_umine_place_status s on t.status_id = s.id
+    left join config_security_check_type ct on t.check_type_id = ct.id
+    left join config_umine_place_security_question_type sqt on t.question_type_id = sqt.id
+    left join config_umine_place_security_question_nature sqn on t.question_nature_id = sqn.id
+    left join config_security_reform_status rs on t.reform_status_id = rs.id
+    where t.id = #{id}
+
+  </select>
+
+</mapper>
