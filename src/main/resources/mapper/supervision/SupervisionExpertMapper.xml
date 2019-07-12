@@ -42,9 +42,6 @@
       and instr(t.major,#{major})>0
     </if>
 
-    <if test="start_age != null and start_age != ''">
-      and t.age <![CDATA[  =  ]]> #{age}
-    </if>
 
   </select>
 
@@ -52,21 +49,8 @@
   <select id="getExpertById" parameterType="map" resultMap="ExpertExtendMap">
 
     select
-    t.id,
-    t.name,
-    t.identity,
-    t.sex,
-    t.major,
-    t.title_id,
-    t.contact,
-    t.org,
-    t.note,
-    t.is_import,
-    t.creator_id,
-    t.create_date,
-    t.modify_id,
-    t.modify_date,
-    ct.value titleValue
+     t.*
+     ct.value titleValue
     from supervision_expert t
     left join config_title ct on t.title_id = ct.id
     where t.id = #{id}
