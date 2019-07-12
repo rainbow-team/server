@@ -24,7 +24,7 @@ public class SupervisionExpert {
 
     /**
      * 性别
-1表示男，0表示女
+     1表示男，0表示女
      */
     private Integer sex;
 
@@ -38,11 +38,6 @@ public class SupervisionExpert {
      */
     @Column(name = "title_id")
     private String titleId;
-
-    /**
-     * 年龄
-     */
-    private Integer age;
 
     /**
      * 联系方式
@@ -145,10 +140,10 @@ public class SupervisionExpert {
 
     /**
      * 获取性别
-1表示男，0表示女
+     1表示男，0表示女
      *
      * @return sex - 性别
-1表示男，0表示女
+    1表示男，0表示女
      */
     public Integer getSex() {
         return sex;
@@ -156,10 +151,10 @@ public class SupervisionExpert {
 
     /**
      * 设置性别
-1表示男，0表示女
+     1表示男，0表示女
      *
      * @param sex 性别
-1表示男，0表示女
+    1表示男，0表示女
      */
     public void setSex(Integer sex) {
         this.sex = sex;
@@ -199,24 +194,6 @@ public class SupervisionExpert {
      */
     public void setTitleId(String titleId) {
         this.titleId = titleId == null ? null : titleId.trim();
-    }
-
-    /**
-     * 获取年龄
-     *
-     * @return age - 年龄
-     */
-    public Integer getAge() {
-        return age;
-    }
-
-    /**
-     * 设置年龄
-     *
-     * @param age 年龄
-     */
-    public void setAge(Integer age) {
-        this.age = age;
     }
 
     /**

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.supervision.dao.SupervisionExpertMapper">
-  <resultMap id="BaseExpertResultMap" type="com.rainbow.supervision.domain.SupervisionExpert">
+  <resultMap id="SupervisionExpertBaseExpertResultMap" type="com.rainbow.supervision.domain.SupervisionExpert">
     <!--
       WARNING - @mbg.generated
     -->
@@ -11,7 +11,6 @@
     <result column="sex" jdbcType="INTEGER" property="sex" />
     <result column="major" jdbcType="VARCHAR" property="major" />
     <result column="title_id" jdbcType="VARCHAR" property="titleId" />
-    <result column="age" jdbcType="INTEGER" property="age" />
     <result column="contact" jdbcType="VARCHAR" property="contact" />
     <result column="org" jdbcType="VARCHAR" property="org" />
     <result column="is_import" jdbcType="INTEGER" property="isImport" />
@@ -22,27 +21,14 @@
     <result column="note" jdbcType="LONGVARCHAR" property="note" />
   </resultMap>
 
-  <resultMap id="ExpertExtendMap" extends="BaseExpertResultMap" type="com.rainbow.supervision.domain.SupervisionExpertExtend">
+  <resultMap id="ExpertExtendMap" extends="SupervisionExpertBaseExpertResultMap" type="com.rainbow.supervision.domain.extend.SupervisionExpertExtend">
     <result column="titleValue" jdbcType="VARCHAR" property="titleValue" />
   </resultMap>
 
   <select id="getExpertList" parameterType="map" resultMap="ExpertExtendMap">
 
     select
-      t.id,
-      t.name,
-      t.identity,
-      t.sex,
-      t.major,
-      t.title_id,
-      t.contact,
-      t.org,
-      t.note,
-      t.is_import,
-      t.creator_id,
-      t.create_date,
-      t.modify_id,
-      t.modify_date,
+      t.*,
       ct.value titleValue
     from supervision_expert t
     left join config_title ct on t.title_id = ct.id
@@ -56,7 +42,7 @@
       and instr(t.major,#{major})>0
     </if>
 
-    <if test="age != null and age != ''">
+    <if test="start_age != null and start_age != ''">
       and t.age <![CDATA[  =  ]]> #{age}
     </if>
 

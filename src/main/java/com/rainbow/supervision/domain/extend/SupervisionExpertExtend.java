@@ -1,4 +1,6 @@
-package com.rainbow.supervision.domain;
+package com.rainbow.supervision.domain.extend;
+
+import com.rainbow.supervision.domain.SupervisionExpert;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -11,6 +13,9 @@ public class SupervisionExpertExtend extends SupervisionExpert {
      */
     private String titleValue;
 
+    //年龄
+    private String age;
+
     public String getTitleValue() {
         return titleValue;
     }
@@ -19,8 +24,11 @@ public class SupervisionExpertExtend extends SupervisionExpert {
         this.titleValue = titleValue;
     }
 
+    public String getAge() {
+        return age;
+    }
 
-
-
-
+    public void setAge(String age) {
+        this.age = age;
+    }
 }
