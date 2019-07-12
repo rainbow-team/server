@@ -9,7 +9,7 @@ import com.rainbow.common.service.impl.BaseService;
 import com.rainbow.common.util.GuidHelper;
 import com.rainbow.supervision.dao.SupervisionLawMapper;
 import com.rainbow.supervision.domain.SupervisionLaw;
-import com.rainbow.supervision.service.SupervisionLawService;
+import com.rainbow.supervision.service.LawSupervisionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ import java.util.Map;
  * @Description:
  **/
 @Service("SupervisionLawService")
-public class SupervisionLawServiceImpl extends BaseService<SupervisionLaw> implements SupervisionLawService {
+public class SupervisionLawServiceImpl extends BaseService<SupervisionLaw> implements LawSupervisionService {
 
     @Autowired
     SupervisionLawMapper supervisionLawMapper;

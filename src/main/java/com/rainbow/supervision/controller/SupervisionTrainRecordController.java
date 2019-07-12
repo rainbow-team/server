@@ -3,9 +3,7 @@ package com.rainbow.supervision.controller;
 
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
-import com.rainbow.supervision.domain.SupervisionLaw;
 import com.rainbow.supervision.domain.SupervisionTrainRecord;
-import com.rainbow.supervision.service.SupervisionLawService;
 import com.rainbow.supervision.service.SupervisionTrainRecordService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -7,17 +7,12 @@ import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
 import com.rainbow.common.util.GuidHelper;
-import com.rainbow.supervision.dao.SupervisionLawMapper;
 import com.rainbow.supervision.dao.SupervisionTrainRecordMapper;
-import com.rainbow.supervision.domain.SupervisionLaw;
 import com.rainbow.supervision.domain.SupervisionTrainRecord;
-import com.rainbow.supervision.service.SupervisionLawService;
-import com.rainbow.supervision.service.SupervisionProduceTrainService;
 import com.rainbow.supervision.service.SupervisionTrainRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 

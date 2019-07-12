@@ -10,7 +10,7 @@ import com.rainbow.supervision.domain.SupervisionLaw;
  * @Date:2019/6/27 17:08
  * @Description:
  **/
-public interface SupervisionLawService extends IService<SupervisionLaw> {
+public interface LawSupervisionService extends IService<SupervisionLaw> {
 
     int addLaw(SupervisionLaw law);
 

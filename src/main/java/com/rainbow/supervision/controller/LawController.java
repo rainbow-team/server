@@ -4,9 +4,7 @@ package com.rainbow.supervision.controller;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.supervision.domain.SupervisionLaw;
-import com.rainbow.supervision.domain.SupervisionMonitorTrain;
-import com.rainbow.supervision.service.SupervisionLawService;
-import com.rainbow.supervision.service.SupervisionMonitorTrainService;
+import com.rainbow.supervision.service.LawSupervisionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +17,13 @@ import java.util.List;
  * 监管法规管理
  */
 @RestController
-@RequestMapping("supervisionlaw")
-public class SupervisionLawController {
+@RequestMapping("lawsupervision")
+public class LawController {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    SupervisionLawService supervisionLawService;
+    LawSupervisionService supervisionLawService;
 
     /**
      * 保存监管法规信息
