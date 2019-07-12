@@ -34,8 +34,8 @@ public class AccidentSecurityController {
      * @return
      */
     @PostMapping("/addAccidentSecurity")
-    public ResponseBo add(@RequestBody AccidentSecurity uminePlaceSecurity) {
-        int result = accidentSecurityService.addAccidentSecurity(uminePlaceSecurity);
+    public ResponseBo add(@RequestBody AccidentSecurity accidentSecurity) {
+        int result = accidentSecurityService.addAccidentSecurity(accidentSecurity);
 
         if (result == 1) {
             return ResponseBo.ok("保存成功");
@@ -51,9 +51,9 @@ public class AccidentSecurityController {
      * @return
      */
     @PostMapping("/modifyAccidentSecurity")
-    public ResponseBo modify(@RequestBody AccidentSecurity uminePlaceSecurity) {
+    public ResponseBo modify(@RequestBody AccidentSecurity accidentSecurity) {
 
-        int result = accidentSecurityService.modifyAccidentSecurity(uminePlaceSecurity);
+        int result = accidentSecurityService.modifyAccidentSecurity(accidentSecurity);
         if (result == 1) {
             return ResponseBo.ok("修改成功");
         } else {

@@ -32,17 +32,17 @@ public class EquipSecurityServiceImpl extends BaseService<EquipSecurity> impleme
     EquipSecurityMapper equipSecurityMapper;
 
     @Override
-    public int addEquipSecurity(EquipSecurity activityCheck) {
-        activityCheck.setId(GuidHelper.getGuid());
-        activityCheck.setCreateDate(new Date());
-        activityCheck.setModifyDate(new Date());
-        return equipSecurityMapper.insert(activityCheck);
+    public int addEquipSecurity(EquipSecurity equipSecurity) {
+        equipSecurity.setId(GuidHelper.getGuid());
+        equipSecurity.setCreateDate(new Date());
+        equipSecurity.setModifyDate(new Date());
+        return equipSecurityMapper.insert(equipSecurity);
     }
 
     @Override
-    public int modifyEquipSecurity(EquipSecurity activityCheck) {
-        activityCheck.setModifyDate(new Date());
-        return equipSecurityMapper.updateByPrimaryKey(activityCheck);
+    public int modifyEquipSecurity(EquipSecurity equipSecurity) {
+        equipSecurity.setModifyDate(new Date());
+        return equipSecurityMapper.updateByPrimaryKey(equipSecurity);
     }
 
     @Override

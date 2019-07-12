@@ -32,17 +32,17 @@ public class UminePlaceSecurityServiceImpl extends BaseService<UminePlaceSecurit
     UminePlaceSecurityMapper uminePlaceSecurityMapper;
 
     @Override
-    public int addUminePlaceSecurity(UminePlaceSecurity activityCheck) {
-        activityCheck.setId(GuidHelper.getGuid());
-        activityCheck.setCreateDate(new Date());
-        activityCheck.setModifyDate(new Date());
-        return uminePlaceSecurityMapper.insert(activityCheck);
+    public int addUminePlaceSecurity(UminePlaceSecurity uminePlaceSecurity) {
+        uminePlaceSecurity.setId(GuidHelper.getGuid());
+        uminePlaceSecurity.setCreateDate(new Date());
+        uminePlaceSecurity.setModifyDate(new Date());
+        return uminePlaceSecurityMapper.insert(uminePlaceSecurity);
     }
 
     @Override
-    public int modifyUminePlaceSecurity(UminePlaceSecurity activityCheck) {
-        activityCheck.setModifyDate(new Date());
-        return uminePlaceSecurityMapper.updateByPrimaryKey(activityCheck);
+    public int modifyUminePlaceSecurity(UminePlaceSecurity uminePlaceSecurity) {
+        uminePlaceSecurity.setModifyDate(new Date());
+        return uminePlaceSecurityMapper.updateByPrimaryKey(uminePlaceSecurity);
     }
 
     @Override
