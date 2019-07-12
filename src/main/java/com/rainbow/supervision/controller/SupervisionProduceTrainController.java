@@ -16,9 +16,10 @@ import java.util.List;
 
 /**
  * Created by 13260 on 2019/5/11.
+ * 安全生产培训信息管理
  */
 @RestController
-@RequestMapping("supervisionProduceTrain")
+@RequestMapping("supervisionproducetrain")
 public class SupervisionProduceTrainController {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
@@ -32,9 +33,9 @@ public class SupervisionProduceTrainController {
      * @param
      * @return
      */
-    @PostMapping("/addTrainRecord")
+    @PostMapping("/addProduceTrainRecord")
     public ResponseBo add(@RequestBody SupervisionProduceTrain supervisionProduceTrain) {
-        int result = supervisionProduceTrainService.addTrainRecord(supervisionProduceTrain);
+        int result = supervisionProduceTrainService.addProduceTrainRecord(supervisionProduceTrain);
 
         if (result == 1) {
             return ResponseBo.ok("保存成功");
@@ -49,10 +50,10 @@ public class SupervisionProduceTrainController {
      * @param
      * @return
      */
-    @PostMapping("/modifyTrainRecord")
+    @PostMapping("/modifyProduceTrainRecord")
     public ResponseBo modify(@RequestBody SupervisionProduceTrain supervisionProduceTrain) {
 
-        int result = supervisionProduceTrainService.modifyTrainRecord(supervisionProduceTrain);
+        int result = supervisionProduceTrainService.modifyProduceTrainRecord(supervisionProduceTrain);
         if (result == 1) {
             return ResponseBo.ok("修改成功");
         } else {
@@ -66,7 +67,7 @@ public class SupervisionProduceTrainController {
      * @param id
      * @return
      */
-    @GetMapping("/getTrainRecordById")
+    @GetMapping("/getProduceTrainRecordById")
     public ResponseBo getTrainRecordById(String id) {
         SupervisionProduceTrain result = supervisionProduceTrainService.selectByKey(id);
         return ResponseBo.ok(result);
@@ -78,7 +79,7 @@ public class SupervisionProduceTrainController {
      * @param ids
      * @return
      */
-    @PostMapping("/deleteTrainRecordByIds")
+    @PostMapping("/deleteProduceTrainRecordByIds")
     public ResponseBo deleteTrainRecordByIds(@RequestBody List<String> ids) {
         supervisionProduceTrainService.batchDelete(ids, "id", SupervisionProduceTrain.class);
         return ResponseBo.ok();
@@ -91,6 +92,6 @@ public class SupervisionProduceTrainController {
      */
     @PostMapping("/getProduceTrainList")
     public ResponseBo getProduceTrainList(@RequestBody Page page){
-        return supervisionProduceTrainService.getTrainRecordList(page);
+        return supervisionProduceTrainService.getProduceTrainRecordList(page);
     }
 }

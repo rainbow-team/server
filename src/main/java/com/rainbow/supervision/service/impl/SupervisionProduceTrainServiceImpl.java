@@ -34,7 +34,7 @@ public class SupervisionProduceTrainServiceImpl extends BaseService<SupervisionP
     private UserMapper userMapper;
 
     @Override
-    public int addTrainRecord(SupervisionProduceTrain trainRecord) {
+    public int addProduceTrainRecord(SupervisionProduceTrain trainRecord) {
         trainRecord.setId(GuidHelper.getGuid());
         trainRecord.setCreateDate(new Date());
         trainRecord.setModifyDate(new Date());
@@ -42,13 +42,13 @@ public class SupervisionProduceTrainServiceImpl extends BaseService<SupervisionP
     }
 
     @Override
-    public int modifyTrainRecord(SupervisionProduceTrain trainRecord) {
+    public int modifyProduceTrainRecord(SupervisionProduceTrain trainRecord) {
         trainRecord.setModifyDate(new Date());
         return produceTrainMapper.updateByPrimaryKey(trainRecord);
     }
 
     @Override
-    public ResponseBo getTrainRecordById(String id) {
+    public ResponseBo getProduceTrainRecordById(String id) {
         SupervisionProduceTrain result =  produceTrainMapper.selectByPrimaryKey(id);
         //创建人
         String name = userMapper.getUserNameById(result.getCreatorId());
@@ -58,11 +58,11 @@ public class SupervisionProduceTrainServiceImpl extends BaseService<SupervisionP
     }
 
     @Override
-    public ResponseBo getTrainRecordList(Page page){
+    public ResponseBo getProduceTrainRecordList(Page page){
 
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
-        List<SupervisionProduceTrain> list = produceTrainMapper.getTrainRecordList(map);
+        List<SupervisionProduceTrain> list = produceTrainMapper.getProduceTrainRecordList(map);
 
         PageInfo<SupervisionProduceTrain> pageInfo = new PageInfo<SupervisionProduceTrain>(list);
 

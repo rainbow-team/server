@@ -10,7 +10,7 @@ import java.util.Map;
 
 public interface SupervisionProduceTrainMapper extends MyMapper<SupervisionProduceTrain> {
 
-    List<SupervisionProduceTrain> getTrainRecordList(Map<String,Object> map);
+    List<SupervisionProduceTrain> getProduceTrainRecordList(Map<String,Object> map);
 
-    ResponseBo getTrainRecordById(String id);
+    ResponseBo getProduceTrainRecordById(String id);
 }
