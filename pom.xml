@@ -162,7 +162,7 @@
                             <resources>
                                 <resource>
                                     <!-- 复制文件的源目录 -->
-                                    <directory>{basedir}\..\client\dist\Client</directory>
+                                    <directory>${basedir}\..\client\dist\Client</directory>
                                     <filtering>false</filtering>
                                     <includes>
                                         <include>**/*</include>
