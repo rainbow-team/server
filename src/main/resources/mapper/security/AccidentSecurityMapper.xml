@@ -90,7 +90,7 @@
     </if>
 
     <if test="uminePlaceStatusTypeIds != null">
-      and t.uminePlaceStatusValue in (
+      and t.umine_place_status_id in (
       <foreach item="item" index="index" collection="uminePlaceStatusTypeIds" separator=",">
         #{item}
       </foreach>
