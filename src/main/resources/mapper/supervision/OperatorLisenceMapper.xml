@@ -23,7 +23,7 @@
     <result column="note" jdbcType="LONGVARCHAR" property="note" />
   </resultMap>
 
-  <resultMap id="OperatorLisenceExtendMap" extends="BaseOperatorLisenceResultMap" type="com.rainbow.supervision.domain.OperatorLisenceExtend">
+  <resultMap id="OperatorLisenceExtendMap" extends="BaseOperatorLisenceResultMap" type="com.rainbow.supervision.domain.extend.OperatorLisenceExtend">
     <result column="licenseTypeValue" jdbcType="VARCHAR" property="licenseTypeValue" />
   </resultMap>
 
@@ -31,7 +31,7 @@
 
     select
       t.*,
-      lt.value
+      lt.value licenseTypeValue
     from supervision_operator t
     left join license_type_id lt on t.license_type_id = lt.id
     where 1=1
@@ -48,27 +48,33 @@
       and instr(t.heap_name,#{heap_name})>0
     </if>
 
-    <if test="license_type_id != null and license_type_id != ''">
-      and t.license_type_id = #{license_type_id}
+    <if test="lisenceTypeIds != null">
+      and t.license_type_id in (
+      <foreach item="item" index="index" collection="lisenceTypeIds" separator=",">
+        #{item}
+      </foreach>
+      )
     </if>
 
-    <if test="expire_date != null and expire_date != ''">
-      and t.expire_date <![CDATA[  =>  ]]> #{expire_date}
+    <if test="start_date != null and start_date != ''">
+      and t.expire_date <![CDATA[  =>  ]]> #{start_date}
     </if>
 
+    <if test="end_date != null and end_date != ''">
+      and t.expire_date <![CDATA[  =>  ]]> #{end_date}
+    </if>
 
   </select>
 
   <select id="getOperatorLisenceById" parameterType="map" resultMap="OperatorLisenceExtendMap">
 
     select
-    t.*,
-    lt.value
+      t.*,
+      lt.value licenseTypeValue
     from supervision_operator t
     left join license_type_id lt on t.license_type_id = lt.id
     where t.id = #{id}
 
   </select>
-
 
 </mapper>

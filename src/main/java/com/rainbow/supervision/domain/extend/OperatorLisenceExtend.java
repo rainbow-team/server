@@ -1,4 +1,6 @@
-package com.rainbow.supervision.domain;
+package com.rainbow.supervision.domain.extend;
+
+import com.rainbow.supervision.domain.OperatorLisence;
 
 /**
  * @Author:deepblue
@@ -6,6 +8,7 @@ package com.rainbow.supervision.domain;
  * @Description:
  **/
 public class OperatorLisenceExtend extends OperatorLisence {
+
     private String licenseTypeValue;
 
     public String getLicenseTypeValue() {

@@ -60,7 +60,10 @@ public class OperatorLisenceServiceImpl extends BaseService<OperatorLisence> imp
 
     @Override
     public ResponseBo getOperatorLisenceById(String id) {
-        OperatorLisence operatorLisence = operatorLisenceMapper.getOperatorLisenceById(id);
-        return ResponseBo.ok(operatorLisence);
+        OperatorLisence result = operatorLisenceMapper.getOperatorLisenceById(id);
+        if (result != null) {
+            return ResponseBo.ok(result);
+        }
+        return ResponseBo.error("获取失败，请重试");
     }
 }
