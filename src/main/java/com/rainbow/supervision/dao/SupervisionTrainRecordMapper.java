@@ -1,7 +1,6 @@
 package com.rainbow.supervision.dao;
 
 import com.rainbow.common.config.MyMapper;
-import com.rainbow.supervision.domain.SupervisionExpert;
 import com.rainbow.supervision.domain.SupervisionTrainRecord;
 
 import java.util.List;

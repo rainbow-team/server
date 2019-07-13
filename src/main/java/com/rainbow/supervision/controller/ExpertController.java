@@ -3,8 +3,8 @@ package com.rainbow.supervision.controller;
 
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
-import com.rainbow.supervision.domain.SupervisionExpert;
-import com.rainbow.supervision.service.SupervisionExpertService;
+import com.rainbow.supervision.domain.Expert;
+import com.rainbow.supervision.service.ExpertService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +18,12 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("supervisionexpert")
-public class SupervisionExpertController {
+public class ExpertController {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    SupervisionExpertService supervisionExportService;
+    ExpertService supervisionExportService;
 
     /**
      * 添加核安全监督专家信息
@@ -32,7 +32,7 @@ public class SupervisionExpertController {
      * @return
      */
     @PostMapping("/addExpert")
-    public ResponseBo add(@RequestBody SupervisionExpert supervisionExpert) {
+    public ResponseBo add(@RequestBody Expert supervisionExpert) {
         int result = supervisionExportService.addExpert(supervisionExpert);
 
         if (result == 1) {
@@ -49,7 +49,7 @@ public class SupervisionExpertController {
      * @return
      */
     @PostMapping("/modifyExpert")
-    public ResponseBo modify(@RequestBody SupervisionExpert supervisionExpert) {
+    public ResponseBo modify(@RequestBody Expert supervisionExpert) {
 
         int result = supervisionExportService.modifyExpert(supervisionExpert);
         if (result == 1) {
@@ -88,7 +88,7 @@ public class SupervisionExpertController {
      */
     @PostMapping("/deleteExpertByIds")
     public ResponseBo deleteLawByIds(@RequestBody List<String> ids){
-        supervisionExportService.batchDelete(ids,"id",SupervisionExpert.class);
+        supervisionExportService.batchDelete(ids,"id", Expert.class);
         return ResponseBo.ok();
     }
 }

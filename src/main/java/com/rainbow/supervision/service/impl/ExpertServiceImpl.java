@@ -7,10 +7,9 @@ import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
 import com.rainbow.common.util.GuidHelper;
-import com.rainbow.supervision.dao.SupervisionExpertMapper;
-import com.rainbow.supervision.domain.SupervisionExpert;
-import com.rainbow.supervision.domain.SupervisionMonitorTrain;
-import com.rainbow.supervision.service.SupervisionExpertService;
+import com.rainbow.supervision.dao.ExpertMapper;
+import com.rainbow.supervision.domain.Expert;
+import com.rainbow.supervision.service.ExpertService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,34 +23,34 @@ import java.util.Map;
  * @Description:
  **/
 @Service("SupervisionExpertService")
-public class SupervisionExpertServiceImpl extends BaseService<SupervisionExpert> implements SupervisionExpertService {
+public class ExpertServiceImpl extends BaseService<Expert> implements ExpertService {
 
     @Autowired
-    SupervisionExpertMapper supervisionExpertMapper;
+    ExpertMapper expertMapper;
 
     @Override
-    public int addExpert(SupervisionExpert expert) {
+    public int addExpert(Expert expert) {
         expert.setId(GuidHelper.getGuid());
         expert.setCreateDate(new Date());
         expert.setModifyDate(new Date());
-        return supervisionExpertMapper.insert(expert);
+        return expertMapper.insert(expert);
     }
 
     @Override
-    public int modifyExpert(SupervisionExpert expert) {
+    public int modifyExpert(Expert expert) {
         expert.setModifyDate(new Date());
-        return supervisionExpertMapper.updateByPrimaryKey(expert);
+        return expertMapper.updateByPrimaryKey(expert);
     }
 
     @Override
     public ResponseBo getExpertList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
-        List<SupervisionExpert> list = supervisionExpertMapper.getExpertList(map);
+        List<Expert> list = expertMapper.getExpertList(map);
 
-        PageInfo<SupervisionExpert> pageInfo = new PageInfo<SupervisionExpert>(list);
+        PageInfo<Expert> pageInfo = new PageInfo<Expert>(list);
 
-        PagingEntity<SupervisionExpert> result = new PagingEntity<>(pageInfo);
+        PagingEntity<Expert> result = new PagingEntity<>(pageInfo);
 
         return ResponseBo.ok(result);
     }
@@ -59,11 +58,16 @@ public class SupervisionExpertServiceImpl extends BaseService<SupervisionExpert>
     @Override
     public ResponseBo getExpertById(String id){
 
-        SupervisionExpert result =  supervisionExpertMapper.getExpertById(id);
+        Expert result =  expertMapper.getExpertById(id);
+
+        if (result != null) {
+            return ResponseBo.ok(result);
+        }
+        return ResponseBo.error("获取失败，请重试");
+
         //创建人
         //String name = userMapper.getUserNameById(result.getCreatorId());
         //result.setCreatorName(name);
 
-        return ResponseBo.ok(result);
     }
 }

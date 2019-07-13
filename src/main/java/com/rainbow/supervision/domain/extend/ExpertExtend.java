@@ -1,12 +1,9 @@
 package com.rainbow.supervision.domain.extend;
 
-import com.rainbow.supervision.domain.SupervisionExpert;
-
-import javax.persistence.*;
-import java.util.Date;
+import com.rainbow.supervision.domain.Expert;
 
 
-public class SupervisionExpertExtend extends SupervisionExpert {
+public class ExpertExtend extends Expert {
 
     /**
      *职称的值

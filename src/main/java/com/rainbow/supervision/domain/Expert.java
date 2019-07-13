@@ -4,7 +4,7 @@ import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "supervision_expert")
-public class SupervisionExpert {
+public class Expert {
     /**
      * 主键
      */

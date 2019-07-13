@@ -3,13 +3,8 @@ package com.rainbow;
 import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.config.service.SystemConfigService;
-import com.rainbow.supervision.service.OrgService;
-import com.rainbow.supervision.service.SupervisionExpertService;
 import com.rainbow.system.service.UserService;
-import com.rainbow.unit.domain.UmineMountain;
-import com.rainbow.unit.service.GroupService;
 import com.rainbow.unit.service.ServiceDepartService;
-import com.rainbow.unit.service.UmineMountainService;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
