@@ -58,9 +58,12 @@ public class BreakCheckServiceImpl extends BaseService<BreakChecker> implements 
 
     @Override
     public ResponseBo getBreakCheckerById(String id) {
-        BreakChecker breakChecker = breakCheckerMapper.getBreakCheckerById(id);
 
-        return ResponseBo.ok(breakChecker);
-        //return null;
+        BreakChecker result = breakCheckerMapper.getBreakCheckerById(id);
+
+        if (result != null) {
+            return ResponseBo.ok(result);
+        }
+        return ResponseBo.error("获取失败，请重试");
     }
 }

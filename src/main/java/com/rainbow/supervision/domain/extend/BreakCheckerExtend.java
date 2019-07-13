@@ -1,4 +1,6 @@
-package com.rainbow.supervision.domain;
+package com.rainbow.supervision.domain.extend;
+
+import com.rainbow.supervision.domain.BreakChecker;
 
 /**
  * @Author:deepblue
@@ -6,8 +8,11 @@ package com.rainbow.supervision.domain;
  * @Description:
  **/
 public class BreakCheckerExtend extends BreakChecker {
+
+    //无损检验方法
     private String checkMethodValue;
 
+    //无损检验级别
     private String checkLevelValue;
 
     public String getCheckMethodValue() {

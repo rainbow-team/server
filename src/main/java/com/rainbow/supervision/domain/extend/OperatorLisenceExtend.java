@@ -9,6 +9,7 @@ import com.rainbow.supervision.domain.OperatorLisence;
  **/
 public class OperatorLisenceExtend extends OperatorLisence {
 
+    //操纵员执照种类
     private String licenseTypeValue;
 
     public String getLicenseTypeValue() {

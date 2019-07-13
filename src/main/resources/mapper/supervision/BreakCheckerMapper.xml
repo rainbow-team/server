@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.supervision.dao.BreakCheckerMapper">
-  <resultMap id="BaseBreakCheckerResultMap" type="com.rainbow.supervision.domain.BreakChecker">
+  <resultMap id="BreakCheckerBaseResultMap" type="com.rainbow.supervision.domain.BreakChecker">
     <!--
       WARNING - @mbg.generated
     -->
@@ -25,7 +25,7 @@
     <result column="note" jdbcType="LONGVARCHAR" property="note" />
   </resultMap>
 
-  <resultMap id="BreakCheckerExtendMap" extends="BaseBreakCheckerResultMap" type="com.rainbow.supervision.domain.BreakCheckerExtend">
+  <resultMap id="BreakCheckerExtendMap" extends="BreakCheckerBaseResultMap" type="com.rainbow.supervision.domain.extend.BreakCheckerExtend">
     <result column="checkMethodValue" jdbcType="VARCHAR" property="checkMethodValue" />
     <result column="checkLevelValue" jdbcType="VARCHAR" property="checkLevelValue" />
   </resultMap>
@@ -46,20 +46,32 @@
       and instr(t.name,#{name})>0
     </if>
 
-    <if test="check_method_id != null and check_method_id != ''">
-      and t.check_method_id = #{check_method_id}
+    <if test="checkMethodIds != null">
+      and t.check_method_id in (
+      <foreach item="item" index="index" collection="checkMethodIds" separator=",">
+        #{item}
+      </foreach>
+      )
     </if>
 
-    <if test="check_level_id != null and check_level_id != ''">
-      and t.check_level_id = #{check_level_id}
+    <if test="checkLevelIds != null">
+      and t.check_level_id in (
+      <foreach item="item" index="index" collection="checkLevelIds" separator=",">
+        #{item}
+      </foreach>
+      )
     </if>
 
     <if test="employ_depart != null and employ_depart != ''">
       and instr(t.employ_depart,#{employ_depart})>0
     </if>
 
-    <if test="valid_date != null and valid_date != ''">
-      and t.valid_date <![CDATA[  <=  ]]> #{valid_date}
+    <if test="start_date != null and start_date != ''">
+      and t.valid_date <![CDATA[  >=  ]]> #{start_date}
+    </if>
+
+    <if test="end_date != null and end_date != ''">
+      and t.valid_date <![CDATA[  <=  ]]> #{end_date}
     </if>
 
     <if test="cert_number != null and cert_number != ''">
