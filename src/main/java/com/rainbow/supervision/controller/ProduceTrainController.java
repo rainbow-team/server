@@ -3,10 +3,8 @@ package com.rainbow.supervision.controller;
 
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
-import com.rainbow.supervision.domain.SupervisionMonitorTrain;
 import com.rainbow.supervision.domain.SupervisionProduceTrain;
-import com.rainbow.supervision.service.SupervisionMonitorTrainService;
-import com.rainbow.supervision.service.SupervisionProduceTrainService;
+import com.rainbow.supervision.service.ProduceTrainService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +17,13 @@ import java.util.List;
  * 安全生产培训信息管理
  */
 @RestController
-@RequestMapping("supervisionproducetrain")
-public class SupervisionProduceTrainController {
+@RequestMapping("producetrain")
+public class ProduceTrainController {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    SupervisionProduceTrainService supervisionProduceTrainService;
+    ProduceTrainService supervisionProduceTrainService;
 
     /**
      * 保存安全生产培训信息

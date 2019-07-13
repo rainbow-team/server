@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public interface SupervisionProduceTrainMapper extends MyMapper<SupervisionProduceTrain> {
+public interface ProduceTrainMapper extends MyMapper<SupervisionProduceTrain> {
 
     List<SupervisionProduceTrain> getProduceTrainRecordList(Map<String,Object> map);
 

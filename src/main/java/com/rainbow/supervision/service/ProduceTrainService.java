@@ -10,7 +10,7 @@ import com.rainbow.supervision.domain.SupervisionProduceTrain;
  * @Date:2019/6/27 17:08
  * @Description:
  **/
-public interface SupervisionProduceTrainService extends IService<SupervisionProduceTrain> {
+public interface ProduceTrainService extends IService<SupervisionProduceTrain> {
 
     int addProduceTrainRecord(SupervisionProduceTrain trainRecord);
 

@@ -7,10 +7,9 @@ import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
 import com.rainbow.common.util.GuidHelper;
-import com.rainbow.supervision.dao.SupervisionProduceTrainMapper;
-import com.rainbow.supervision.domain.SupervisionMonitorTrain;
+import com.rainbow.supervision.dao.ProduceTrainMapper;
 import com.rainbow.supervision.domain.SupervisionProduceTrain;
-import com.rainbow.supervision.service.SupervisionProduceTrainService;
+import com.rainbow.supervision.service.ProduceTrainService;
 import com.rainbow.system.dao.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,10 +24,10 @@ import java.util.Map;
  * @Description:
  **/
 @Service("SupervisionProduceTrainService")
-public class SupervisionProduceTrainServiceImpl extends BaseService<SupervisionProduceTrain> implements SupervisionProduceTrainService {
+public class ProduceTrainServiceImpl extends BaseService<SupervisionProduceTrain> implements ProduceTrainService {
 
     @Autowired
-    SupervisionProduceTrainMapper produceTrainMapper;
+    ProduceTrainMapper produceTrainMapper;
 
     @Autowired
     private UserMapper userMapper;
