@@ -14,6 +14,7 @@ import java.util.List;
  * @Description:
  **/
 public interface LogService extends IService<SysLog>{
+
     List<SysLog> findAllLogs(SysLog log);
 
     void deleteLogs(String logIds);

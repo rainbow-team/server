@@ -42,8 +42,12 @@ public class LogAspect {
     public Object around(ProceedingJoinPoint point) throws Throwable {
         Object result = null;
         long beginTime = System.currentTimeMillis();
-        //执行方法
-        result = point.proceed();
+        try {
+            // 执行方法
+            result = point.proceed();
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
 
         //获取request
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
