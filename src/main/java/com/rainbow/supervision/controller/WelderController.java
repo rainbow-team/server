@@ -3,8 +3,8 @@ package com.rainbow.supervision.controller;
 
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
-import com.rainbow.supervision.domain.SupervisionWelder;
-import com.rainbow.supervision.service.SupervisionWelderService;
+import com.rainbow.supervision.domain.Welder;
+import com.rainbow.supervision.service.WelderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +18,12 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("welder")
-public class SupervisionWelderController {
+public class WelderController {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    SupervisionWelderService supervisionWelderService;
+    WelderService supervisionWelderService;
 
     /**
      * 添加焊接人员资质信息
@@ -32,7 +32,7 @@ public class SupervisionWelderController {
      * @return
      */
     @PostMapping("/addWelder")
-    public ResponseBo add(@RequestBody SupervisionWelder supervisionWelder) {
+    public ResponseBo add(@RequestBody Welder supervisionWelder) {
         int result = supervisionWelderService.addWelder(supervisionWelder);
 
         if (result == 1) {
@@ -49,7 +49,7 @@ public class SupervisionWelderController {
      * @return
      */
     @PostMapping("/modifyWelder")
-    public ResponseBo modify(@RequestBody SupervisionWelder supervisionWelder) {
+    public ResponseBo modify(@RequestBody Welder supervisionWelder) {
 
         int result = supervisionWelderService.modifyWelder(supervisionWelder);
 
@@ -79,7 +79,7 @@ public class SupervisionWelderController {
      */
     @GetMapping("/getWelderById")
     public ResponseBo getWelderById(String id) {
-        SupervisionWelder welder = supervisionWelderService.selectByKey(id);
+        Welder welder = supervisionWelderService.selectByKey(id);
         return ResponseBo.ok(welder);
     }
 
@@ -91,7 +91,7 @@ public class SupervisionWelderController {
     @PostMapping("/deleteWelderByIds")
     public ResponseBo deleteWelderByIds(@RequestBody List<String> ids){
         if ((ids != null) && (ids.size() > 0)) {
-            supervisionWelderService.batchDelete(ids,"id",SupervisionWelder.class);
+            supervisionWelderService.batchDelete(ids,"id", Welder.class);
             ResponseBo.ok("删除成功!");
         }
         return ResponseBo.error("删除失败，请重试!");

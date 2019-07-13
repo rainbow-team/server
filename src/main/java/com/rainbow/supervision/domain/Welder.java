@@ -4,7 +4,7 @@ import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "supervision_welder")
-public class SupervisionWelder {
+public class Welder {
     /**
      * 主键
      */

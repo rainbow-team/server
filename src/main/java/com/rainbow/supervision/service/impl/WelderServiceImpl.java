@@ -7,9 +7,9 @@ import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
 import com.rainbow.common.util.GuidHelper;
-import com.rainbow.supervision.dao.SupervisionWelderMapper;
-import com.rainbow.supervision.domain.SupervisionWelder;
-import com.rainbow.supervision.service.SupervisionWelderService;
+import com.rainbow.supervision.dao.WelderMapper;
+import com.rainbow.supervision.domain.Welder;
+import com.rainbow.supervision.service.WelderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,34 +23,34 @@ import java.util.Map;
  * @Description:
  **/
 @Service("SupervisionWelderService")
-public class SupervisionWelderServiceImpl extends BaseService<SupervisionWelder> implements SupervisionWelderService {
+public class WelderServiceImpl extends BaseService<Welder> implements WelderService {
 
     @Autowired
-    SupervisionWelderMapper supervisionWelderMapper;
+    WelderMapper welderMapper;
 
     @Override
-    public int addWelder(SupervisionWelder welder) {
+    public int addWelder(Welder welder) {
         welder.setId(GuidHelper.getGuid());
         welder.setCreateDate(new Date());
         welder.setModifyDate(new Date());
-        return supervisionWelderMapper.insert(welder);
+        return welderMapper.insert(welder);
     }
 
     @Override
-    public int modifyWelder(SupervisionWelder welder) {
+    public int modifyWelder(Welder welder) {
         welder.setModifyDate(new Date());
-        return supervisionWelderMapper.updateByPrimaryKey(welder);
+        return welderMapper.updateByPrimaryKey(welder);
     }
 
     @Override
     public ResponseBo getWelderList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
-        List<SupervisionWelder> list = supervisionWelderMapper.getWelderList(map);
+        List<Welder> list = welderMapper.getWelderList(map);
 
-        PageInfo<SupervisionWelder> pageInfo = new PageInfo<SupervisionWelder>(list);
+        PageInfo<Welder> pageInfo = new PageInfo<Welder>(list);
 
-        PagingEntity<SupervisionWelder> result = new PagingEntity<>(pageInfo);
+        PagingEntity<Welder> result = new PagingEntity<>(pageInfo);
 
         return ResponseBo.ok(result);
     }

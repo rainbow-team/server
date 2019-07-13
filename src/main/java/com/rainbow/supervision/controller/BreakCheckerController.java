@@ -93,7 +93,6 @@ public class BreakCheckerController {
             ResponseBo.ok("删除成功!");
         }
 
-
         return ResponseBo.error("删除失败，请重试!");
     }
 }
