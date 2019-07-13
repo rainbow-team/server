@@ -3,6 +3,7 @@ package com.rainbow.supervision.controller;
 
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
+import com.rainbow.supervision.domain.BreakChecker;
 import com.rainbow.supervision.domain.SupervisionExpert;
 import com.rainbow.supervision.domain.SupervisionWelder;
 import com.rainbow.supervision.service.SupervisionExpertService;
@@ -92,7 +93,10 @@ public class SupervisionWelderController {
      */
     @PostMapping("/deleteWelderByIds")
     public ResponseBo deleteWelderByIds(@RequestBody List<String> ids){
-        supervisionWelderService.batchDelete(ids,"id",SupervisionWelder.class);
-        return ResponseBo.ok();
+        if ((ids != null) && (ids.size() > 0)) {
+            supervisionWelderService.batchDelete(ids,"id",SupervisionWelder.class);
+            ResponseBo.ok("删除成功!");
+        }
+        return ResponseBo.error("删除失败，请重试!");
     }
 }
