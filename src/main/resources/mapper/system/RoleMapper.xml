@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.rainbow.system.dao.LogMapper">
-  <resultMap id="roleMap" type="com.rainbow.system.domain.Role">
+<mapper namespace="com.rainbow.system.dao.RoleMapper">
+  <resultMap id="RoleBaseMap" type="com.rainbow.system.domain.Role">
     <!--
       WARNING - @mbg.generated
     -->
-    <id column="ROLE_ID" jdbcType="BIGINT" property="roleId" />
-    <result column="ROLE_NAME" jdbcType="VARCHAR" property="roleName" />
-    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
-    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="MODIFY_TIME" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="note" jdbcType="LONGVARCHAR" property="note" />
   </resultMap>
 
-  <select id="findUserRole" resultMap="roleMap">
-    select r.* from t_role r
-    left join t_user_role ur on(r.role_id = ur.role_id)
-    left join t_user u on(u.user_id = ur.user_id)
-    where u.username = #{userName}
+  <resultMap id="RoleWithUserMap" extends="RoleBaseMap" type="com.rainbow.system.domain.extend.RoleWithMenu">
+    <collection property="roleMenuList" columnPrefix="menu_"  resultMap="com.rainbow.system.domain.SystemMenu"></collection>
+  </resultMap>
+  
+  <select id="getRoleById" resultMap="RoleWithUserMap">
+    select
+     r.*,
+     m.id menu_id,
+     m.code menu_code,
+     m.namemenu_name
+    from system_role r
+    inner join system_role_menu rm on r.id = rm.role_id
+    inner join system_menu m on rm.menu_id = m.id
+    where r.id = #{roldId}
   </select>
 
-
-  <select id="findById" resultType="roleWithMenu">
-    select r.role_id roleId,r.role_name roleName,r.remark,
-    rm.menu_id menuId from t_role r
-    left join t_role_menu rm on(r.role_id = rm.role_id)
-    where r.role_id = #{roleId}
+  <select id="getRoleList" parameterType="map" resultMap="RoleBaseMap">
+    select * from system_role
   </select>
-
-
 </mapper>

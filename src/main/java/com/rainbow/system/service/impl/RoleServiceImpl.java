@@ -1,28 +1,29 @@
 package com.rainbow.system.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.rainbow.common.domain.Page;
+import com.rainbow.common.domain.PagingEntity;
+import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
+import com.rainbow.common.util.GuidHelper;
+import com.rainbow.supervision.domain.Welder;
 import com.rainbow.system.dao.RoleMapper;
 import com.rainbow.system.dao.RoleMenuMapper;
 import com.rainbow.system.domain.Role;
-import com.rainbow.system.domain.RoleMenu;
-import com.rainbow.system.domain.RoleWithMenu;
+import com.rainbow.system.domain.extend.RoleWithMenu;
 import com.rainbow.system.service.RoleMenuServie;
 import com.rainbow.system.service.RoleService;
 import com.rainbow.system.service.UserRoleService;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import tk.mybatis.mapper.entity.Example;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 /**
  * @Author:deepblue
@@ -36,91 +37,68 @@ public class RoleServiceImpl extends BaseService<Role> implements RoleService {
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private RoleMapper roleMapper;
+    RoleMapper roleMapper;
 
     @Autowired
-    private RoleMenuMapper roleMenuMapper;
+    RoleMenuServie roleMenuServie;
 
     @Autowired
-    private UserRoleService userRoleService;
-
-    @Autowired
-    private RoleMenuServie roleMenuService;
+    UserRoleService userRoleService;
 
     @Override
-    public List<Role> findUserRole(String userName) {
-        return this.roleMapper.findUserRole(userName);
-    }
-
-    @Override
-    public List<Role> findAllRole(Role role) {
+    @Transactional
+    public int addRole(RoleWithMenu roleWithMenu) {
+        String roleId = GuidHelper.getGuid();
+        roleWithMenu.setId(roleId);
         try {
-            Example example = new Example(Role.class);
-            if (StringUtils.isNotBlank(role.getRoleName())) {
-                example.createCriteria().andCondition("role_name=", role.getRoleName());
-            }
-            example.setOrderByClause("create_time");
-            return this.selectByExample(example);
+            roleMapper.insert(roleWithMenu);
+            roleMenuServie.insetRoleMenuByRole(roleWithMenu);
+            return 1;
         } catch (Exception e) {
-            log.error("获取角色信息失败", e);
-            return new ArrayList<>();
+            return 0;
         }
     }
 
     @Override
-    public RoleWithMenu findRoleWithMenus(Long roleId) {
-        List<RoleWithMenu> list = this.roleMapper.findById(roleId);
-        List<Long> menuList = list.stream().map(RoleWithMenu::getMenuId).collect(Collectors.toList());
-        if (list.isEmpty())
-            return null;
-        RoleWithMenu roleWithMenu = list.get(0);
-        roleWithMenu.setMenuIds(menuList);
-        return roleWithMenu;
+    public int modifyRole(RoleWithMenu roleWithMenu) {
+        try {
+            roleMapper.updateByPrimaryKey(roleWithMenu);
+            roleMenuServie.deleteRoleMenusByRoleId(roleWithMenu.getId());
+            roleMenuServie.insetRoleMenuByRole(roleWithMenu);
+            return 1;
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     @Override
-    public Role findByName(String roleName) {
-        Example example = new Example(Role.class);
-        example.createCriteria().andCondition("lower(role_name)=", roleName.toLowerCase());
-        List<Role> list = this.selectByExample(example);
-        return list.isEmpty() ? null : list.get(0);
+    public ResponseBo getRoleList(Page page) {
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
+        Map<String, Object> map = page.getQueryParameter();
+        List<Role> list = roleMapper.getRoleList(map);
+
+        PageInfo<Role> pageInfo = new PageInfo<Role>(list);
+
+        PagingEntity<Role> result = new PagingEntity<>(pageInfo);
+
+        return ResponseBo.ok(result);
     }
 
     @Override
-    @Transactional
-    public void addRole(Role role, Long[] menuIds) {
-        role.setCreateTime(new Date());
-        this.save(role);
-        setRoleMenus(role, menuIds);
-    }
-
-    private void setRoleMenus(Role role, Long[] menuIds) {
-        Arrays.stream(menuIds).forEach(menuId -> {
-            RoleMenu rm = new RoleMenu();
-            rm.setMenuId(menuId);
-            rm.setRoleId(role.getRoleId());
-            this.roleMenuMapper.insert(rm);
-        });
+    public int deleteRoleById(String id) {
+        try{
+            roleMapper.deleteByPrimaryKey(id);
+            roleMenuServie.deleteRoleMenusByRoleId(id);
+            userRoleService.deleteUserRoleByRoleId(id);
+            return 1;
+        }catch (Exception e){
+            return 0;
+        }
     }
 
     @Override
-    @Transactional
-    public void updateRole(Role role, Long[] menuIds) {
-        role.setModifyTime(new Date());
-        this.updateNotNull(role);
-        Example example = new Example(RoleMenu.class);
-        example.createCriteria().andCondition("role_id=", role.getRoleId());
-        this.roleMenuMapper.deleteByExample(example);
-        setRoleMenus(role, menuIds);
-    }
-
-    @Override
-    @Transactional
-    public void deleteRoles(String roleIds) {
-        List<String> list = Arrays.asList(roleIds.split(","));
-        this.batchDelete(list, "roleId", Role.class);
-
-        this.roleMenuService.deleteRoleMenusByRoleId(roleIds);
-        this.userRoleService.deleteUserRolesByRoleId(roleIds);
+    public RoleWithMenu getRoleById(String id) {
+        RoleWithMenu result = roleMapper.getRoleById(id);
+        return result;
     }
 }

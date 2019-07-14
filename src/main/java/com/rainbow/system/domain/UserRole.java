@@ -2,53 +2,77 @@ package com.rainbow.system.domain;
 
 import javax.persistence.*;
 
-@Table(name = "t_user_role")
+@Table(name = "system_user_role")
 public class UserRole {
     /**
-     * 用户ID
+     * 主键ID
      */
-    @Column(name = "USER_ID")
-    private Long userId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
 
     /**
-     * 角色ID
+     * 用户外键ID
      */
-    @Column(name = "ROLE_ID")
-    private Long roleId;
+    @Column(name = "user_id")
+    private String userId;
 
     /**
-     * 获取用户ID
+     * 角色外键ID
+     */
+    @Column(name = "role_id")
+    private String roleId;
+
+    /**
+     * 获取主键ID
      *
-     * @return USER_ID - 用户ID
+     * @return id - 主键ID
      */
-    public Long getUserId() {
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * 设置主键ID
+     *
+     * @param id 主键ID
+     */
+    public void setId(String id) {
+        this.id = id == null ? null : id.trim();
+    }
+
+    /**
+     * 获取用户外键ID
+     *
+     * @return user_id - 用户外键ID
+     */
+    public String getUserId() {
         return userId;
     }
 
     /**
-     * 设置用户ID
+     * 设置用户外键ID
      *
-     * @param userId 用户ID
+     * @param userId 用户外键ID
      */
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUserId(String userId) {
+        this.userId = userId == null ? null : userId.trim();
     }
 
     /**
-     * 获取角色ID
+     * 获取角色外键ID
      *
-     * @return ROLE_ID - 角色ID
+     * @return role_id - 角色外键ID
      */
-    public Long getRoleId() {
+    public String getRoleId() {
         return roleId;
     }
 
     /**
-     * 设置角色ID
+     * 设置角色外键ID
      *
-     * @param roleId 角色ID
+     * @param roleId 角色外键ID
      */
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
+    public void setRoleId(String roleId) {
+        this.roleId = roleId == null ? null : roleId.trim();
     }
 }

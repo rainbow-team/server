@@ -1,128 +1,69 @@
 package com.rainbow.system.domain;
 
-import java.util.Date;
 import javax.persistence.*;
 
-@Table(name = "t_role")
+@Table(name = "system_role")
 public class Role {
     /**
-     * 角色ID
+     * 角色主键ID
      */
-    @Id
-    @Column(name = "ROLE_ID")
-    private Long roleId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
 
     /**
      * 角色名称
      */
-    @Column(name = "ROLE_NAME")
-    private String roleName;
+    private String name;
+
+    private String note;
 
     /**
-     * 角色描述
-     */
-    @Column(name = "REMARK")
-    private String remark;
-
-    /**
-     * 创建时间
-     */
-    @Column(name = "CREATE_TIME")
-    private Date createTime;
-
-    /**
-     * 修改时间
-     */
-    @Column(name = "MODIFY_TIME")
-    private Date modifyTime;
-
-    /**
-     * 获取角色ID
+     * 获取角色主键ID
      *
-     * @return ROLE_ID - 角色ID
+     * @return id - 角色主键ID
      */
-    public Long getRoleId() {
-        return roleId;
+    public String getId() {
+        return id;
     }
 
     /**
-     * 设置角色ID
+     * 设置角色主键ID
      *
-     * @param roleId 角色ID
+     * @param id 角色主键ID
      */
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
+    public void setId(String id) {
+        this.id = id == null ? null : id.trim();
     }
 
     /**
      * 获取角色名称
      *
-     * @return ROLE_NAME - 角色名称
+     * @return name - 角色名称
      */
-    public String getRoleName() {
-        return roleName;
+    public String getName() {
+        return name;
     }
 
     /**
      * 设置角色名称
      *
-     * @param roleName 角色名称
+     * @param name 角色名称
      */
-    public void setRoleName(String roleName) {
-        this.roleName = roleName == null ? null : roleName.trim();
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
     }
 
     /**
-     * 获取角色描述
-     *
-     * @return REMARK - 角色描述
+     * @return note
      */
-    public String getRemark() {
-        return remark;
+    public String getNote() {
+        return note;
     }
 
     /**
-     * 设置角色描述
-     *
-     * @param remark 角色描述
+     * @param note
      */
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
-    }
-
-    /**
-     * 获取创建时间
-     *
-     * @return CREATE_TIME - 创建时间
-     */
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    /**
-     * 设置创建时间
-     *
-     * @param createTime 创建时间
-     */
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    /**
-     * 获取修改时间
-     *
-     * @return MODIFY_TIME - 修改时间
-     */
-    public Date getModifyTime() {
-        return modifyTime;
-    }
-
-    /**
-     * 设置修改时间
-     *
-     * @param modifyTime 修改时间
-     */
-    public void setModifyTime(Date modifyTime) {
-        this.modifyTime = modifyTime;
+    public void setNote(String note) {
+        this.note = note == null ? null : note.trim();
     }
 }

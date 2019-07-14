@@ -1,16 +1,12 @@
 package com.rainbow.system.controller;
 
-import com.rainbow.common.annotation.Log;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.system.domain.SystemMenu;
-import com.rainbow.system.domain.User;
 import com.rainbow.system.service.MenuService;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +18,6 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("menu")
-@Controller
 public class MenuController{
 
     private Logger log = LoggerFactory.getLogger(this.getClass());

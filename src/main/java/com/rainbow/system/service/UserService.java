@@ -3,8 +3,8 @@ package com.rainbow.system.service;
 import com.rainbow.common.domain.QueryRequest;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.IService;
-import com.rainbow.system.domain.User;
-import com.rainbow.system.domain.UserWithRole;
+import com.rainbow.system.domain.SystemUser;
+import com.rainbow.system.domain.extend.UserWithRole;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
@@ -16,18 +16,18 @@ import java.util.Map;
  * @Date:2019/4/29 14:48
  * @Description:
  **/
-public interface UserService extends IService<User>{
-    /**
+public interface UserService extends IService<SystemUser>{
+/*    *//**
      * 根据用户名查找用户
      * @param userName
      * @return
-     */
+     *//*
     User findByName(String userName);
 
-    /**
+    *//**
      * 更新用户的最后登录时间
      * @param userName
-     */
+     *//*
     void updateLoginTime(String userName);
 
     UserWithRole findById(Long userId);
@@ -41,23 +41,26 @@ public interface UserService extends IService<User>{
 
     void updateTheme(String theme, String userName);
 
-    @CacheEvict(allEntries = true)
-    void addUser(User user, Long[] roles);
+
 
     @CacheEvict(key = "#p0", allEntries = true)
-    void updateUser(User user, Long[] roles);
+    void updateUser(User user, Long[] roles);*/
 
-    @CacheEvict(key = "#p0", allEntries = true)
-    void deleteUsers(String userIds);
+   // @CacheEvict(key = "#p0", allEntries = true)
+    int deleteUserById(String id);
 
+    //@CacheEvict(allEntries = true)
+    int addUser(UserWithRole user);
 
-
+    UserWithRole getUserWithRoleByUserId(String userId);
+/*
     void updatePassword(String password);
 
     User findUserProfile(User user);
 
     void updateUserProfile(User user);
+*/
+    ResponseBo login(Map<String,String>  map);
 
-    ResponseBo login(Map<String,String> map );
-
+    SystemUser findUserByUsername(String username);
 }

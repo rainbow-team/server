@@ -2,26 +2,51 @@ package com.rainbow.system.domain;
 
 import javax.persistence.*;
 
-@Table(name = "t_role_menu")
+@Table(name = "system_role_menu")
 public class RoleMenu {
+    /**
+     * 主键ID
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
+
     /**
      * 角色ID
      */
-    @Column(name = "ROLE_ID")
-    private Long roleId;
+    @Column(name = "role_id")
+    private String roleId;
 
     /**
-     * 菜单/按钮ID
+     * 功能ID
      */
-    @Column(name = "MENU_ID")
-    private Long menuId;
+    @Column(name = "menu_id")
+    private String menuId;
+
+    /**
+     * 获取主键ID
+     *
+     * @return id - 主键ID
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * 设置主键ID
+     *
+     * @param id 主键ID
+     */
+    public void setId(String id) {
+        this.id = id == null ? null : id.trim();
+    }
 
     /**
      * 获取角色ID
      *
-     * @return ROLE_ID - 角色ID
+     * @return role_id - 角色ID
      */
-    public Long getRoleId() {
+    public String getRoleId() {
         return roleId;
     }
 
@@ -30,25 +55,25 @@ public class RoleMenu {
      *
      * @param roleId 角色ID
      */
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
+    public void setRoleId(String roleId) {
+        this.roleId = roleId == null ? null : roleId.trim();
     }
 
     /**
-     * 获取菜单/按钮ID
+     * 获取功能ID
      *
-     * @return MENU_ID - 菜单/按钮ID
+     * @return menu_id - 功能ID
      */
-    public Long getMenuId() {
+    public String getMenuId() {
         return menuId;
     }
 
     /**
-     * 设置菜单/按钮ID
+     * 设置功能ID
      *
-     * @param menuId 菜单/按钮ID
+     * @param menuId 功能ID
      */
-    public void setMenuId(Long menuId) {
-        this.menuId = menuId;
+    public void setMenuId(String menuId) {
+        this.menuId = menuId == null ? null : menuId.trim();
     }
 }

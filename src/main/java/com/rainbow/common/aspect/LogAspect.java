@@ -4,9 +4,7 @@ import com.rainbow.common.config.RainbowProperties;
 import com.rainbow.common.util.HttpContextUtils;
 import com.rainbow.common.util.IPUtils;
 import com.rainbow.system.domain.SysLog;
-import com.rainbow.system.domain.User;
 import com.rainbow.system.service.LogService;
-import org.apache.catalina.security.SecurityUtil;
 import org.apache.shiro.SecurityUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -57,9 +55,9 @@ public class LogAspect {
 
         long time = System.currentTimeMillis() - beginTime;
         if (rainbowProperties.isOpenAOPLog()) {
-            User user = (User) SecurityUtils.getSubject().getPrincipal();
+           // User user = (User) SecurityUtils.getSubject().getPrincipal();
             SysLog log = new SysLog();
-            log.setUsername(user.getUsername());
+            //log.setUsername(user.getUsername());
             log.setIp(ip);
             log.setTime(time);
             logService.saveLog(point, log);

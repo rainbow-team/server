@@ -1,10 +1,10 @@
 package com.rainbow.system.service;
 
+import com.rainbow.common.domain.Page;
+import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.IService;
 import com.rainbow.system.domain.Role;
-import com.rainbow.system.domain.RoleWithMenu;
-
-import java.util.List;
+import com.rainbow.system.domain.extend.RoleWithMenu;
 
 /**
  * @Author:deepblue
@@ -12,7 +12,18 @@ import java.util.List;
  * @Description:
  **/
 public interface RoleService  extends IService<Role> {
-    List<Role> findUserRole(String userName);
+
+    int addRole(RoleWithMenu roleWithMenu);
+
+    int modifyRole(RoleWithMenu roleWithMenu);
+
+    int deleteRoleById(String id);
+
+    RoleWithMenu getRoleById(String id);
+
+    ResponseBo getRoleList(Page page);
+
+/*    List<Role> findUserRole(String userName);
 
     List<Role> findAllRole(Role role);
 
@@ -24,5 +35,5 @@ public interface RoleService  extends IService<Role> {
 
     void updateRole(Role role, Long[] menuIds);
 
-    void deleteRoles(String roleIds);
+    void deleteRoles(String roleIds);*/
 }

@@ -1,8 +1,8 @@
 package com.rainbow.system.dao;
 
 import com.rainbow.common.config.MyMapper;
-import com.rainbow.system.domain.User;
-import com.rainbow.system.domain.UserWithRole;
+import com.rainbow.system.domain.SystemUser;
+import com.rainbow.system.domain.extend.UserWithRole;
 
 import java.util.List;
 import java.util.Map;
@@ -12,15 +12,26 @@ import java.util.Map;
  * @Date:2019/4/29 13:54
  * @Description:
  **/
-public interface UserMapper extends MyMapper<User> {
+public interface UserMapper extends MyMapper<SystemUser> {
 
-    List<User> findUserWithDept(User user);
+/*    List<SystemUser> findSystemUserWithDept(SystemUser user);
 
-    List<UserWithRole> findUserWithRole(Long userId);
+    //List<SystemUserWithRole> findSystemUserWithRole(Long userId);
 
-    User findUserProfile(User user);
+    SystemUser findSystemUserProfile(SystemUser user);
 
-    Map<String,Object> login(Map<String,String> map );
 
-    String getUserNameById(String id);
+
+    String getSystemUserNameById(String id);*/
+
+
+     Map<String,Object> login(Map<String,String> map );
+
+     UserWithRole getUserDetailByUserId(String userId);
+
+     SystemUser findByName(String username);
+
+     String getUserNameById(String userId);
+
+     SystemUser findUserByUsername(String username);
 }

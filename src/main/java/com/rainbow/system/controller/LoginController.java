@@ -4,10 +4,7 @@ import com.rainbow.common.controller.BaseController;
 import com.rainbow.common.domain.ResponseBo;
 
 import com.rainbow.common.util.VeriyCode;
-import com.rainbow.system.domain.User;
 import com.rainbow.system.service.UserService;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.authc.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,8 +25,6 @@ import java.io.OutputStream;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 
 
 /**

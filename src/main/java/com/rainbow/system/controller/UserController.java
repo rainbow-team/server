@@ -3,7 +3,9 @@ package com.rainbow.system.controller;
 import com.rainbow.common.annotation.Log;
 import com.rainbow.common.controller.BaseController;
 import com.rainbow.common.domain.ResponseBo;
-import com.rainbow.system.domain.User;
+import com.rainbow.system.domain.SystemMenu;
+import com.rainbow.system.domain.SystemUser;
+import com.rainbow.system.domain.extend.UserWithRole;
 import com.rainbow.system.service.UserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -11,15 +13,20 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @Author:deepblue
  * @Date:2019/4/30 09:45
  * @Description:
  **/
-@Controller
+@RestController
+@RequestMapping("user")
 public class UserController extends BaseController{
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
@@ -29,30 +36,24 @@ public class UserController extends BaseController{
     @Autowired
     private UserService userService;
 
-    @RequestMapping("user")
+ /*   @RequestMapping("user")
     @RequiresPermissions("user:list")
     public String index(Model model) {
-        User user = super.getCurrentUser();
+        SystemUser user = super.getCurrentUser();
         model.addAttribute("user", user);
         return "system/user/user";
-    }
+    }*/
 
-    @Log("新增用户")
-    @RequiresPermissions("user:add")
-    @RequestMapping("user/add")
+    //@Log("新增用户")
+    //@RequiresPermissions("user:add")
+    @RequestMapping("/addUser")
     @ResponseBody
-    public ResponseBo addUser(User user, Long[] roles) {
-        try {
-            if (ON.equalsIgnoreCase(user.getStatus())) {
-                user.setStatus(User.STATUS_VALID);
-            }
-            else {
-                user.setStatus(User.STATUS_LOCK);
-            }
-            this.userService.addUser(user, roles);
+    public ResponseBo addUser(UserWithRole user) {
+
+        int result = this.userService.addUser(user);
+        if (result == 1) {
             return ResponseBo.ok("新增用户成功！");
-        } catch (Exception e) {
-            log.error("新增用户失败", e);
+        } else {
             return ResponseBo.error("新增用户失败，请联系网站管理员！");
         }
     }
@@ -61,16 +62,16 @@ public class UserController extends BaseController{
 
     //@Log("删除用户")
 
-    @RequestMapping("user/delete")
+    @RequestMapping("/deleteUsersByIds")
     @ResponseBody
-    public ResponseBo deleteUsers(String ids) {
-        try {
-            this.userService.deleteUsers(ids);
-            return ResponseBo.ok("删除用户成功！");
-        } catch (Exception e) {
-            log.error("删除用户失败", e);
-            return ResponseBo.error("删除用户失败，请联系网站管理员！");
+    public ResponseBo deleteUsers(@RequestBody List<String> ids) {
+        if ((ids != null) && (ids.size() > 0)) {
+            for (String id : ids) {
+                userService.deleteUserById(id);
+            }
+            ResponseBo.ok("删除成功!");
         }
+        return ResponseBo.error("删除失败，请重试!");
     }
 
 
@@ -79,11 +80,11 @@ public class UserController extends BaseController{
      * @param userId
      * @return
      */
-    @RequestMapping("user/getUser")
+    @RequestMapping("/getUser")
     @ResponseBody
-    public ResponseBo getUser(Long userId) {
+    public ResponseBo getUserById(String userId) {
         try {
-            User user = this.userService.findById(userId);
+            UserWithRole user = this.userService.getUserWithRoleByUserId(userId);
             return ResponseBo.ok(user);
         } catch (Exception e) {
             log.error("获取用户失败", e);
@@ -96,11 +97,11 @@ public class UserController extends BaseController{
      * @param userId
      * @return
      */
-    @RequestMapping("user/getUserInfo")
+    @RequestMapping("/getUserInfo")
     @ResponseBody
     public ResponseBo getUserInfo(Long userId) {
         try {
-            User user = this.userService.selectByKey(userId);
+            SystemUser user = this.userService.selectByKey(userId);
             return ResponseBo.ok(user);
         } catch (Exception e) {
             log.error("获取用户失败", e);

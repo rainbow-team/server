@@ -1,8 +1,7 @@
 package com.rainbow.common.shiro;
 
-import com.rainbow.system.domain.Role;
 import com.rainbow.system.domain.SystemMenu;
-import com.rainbow.system.domain.User;
+import com.rainbow.system.domain.SystemUser;
 import com.rainbow.system.service.MenuService;
 import com.rainbow.system.service.RoleService;
 import com.rainbow.system.service.UserService;
@@ -15,8 +14,6 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @Author:deepblue
@@ -49,7 +46,7 @@ public class ShiroRealm extends AuthorizingRealm{
         String password = new String((char[]) authenticationToken.getCredentials());
 
         // 通过用户名到数据库查询用户信息
-        User user = this.userService.findByName(userName);
+        SystemUser user = this.userService.findUserByUsername(userName);
 
         if (user == null) {
             throw new UnknownAccountException("用户名或密码错误！");
@@ -57,9 +54,7 @@ public class ShiroRealm extends AuthorizingRealm{
         if (!password.equals(user.getPassword())) {
             throw new IncorrectCredentialsException("用户名或密码错误！");
         }
-        if (User.STATUS_LOCK.equals(user.getStatus())) {
-            throw new LockedAccountException("账号已被锁定,请联系管理员！");
-        }
+
         return new SimpleAuthenticationInfo(user, password, getName());
     }
 
@@ -73,15 +68,15 @@ public class ShiroRealm extends AuthorizingRealm{
     */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        User user = (User) SecurityUtils.getSubject().getPrincipal();
-        String userName = user.getUsername();
-
+        //User user = (User) SecurityUtils.getSubject().getPrincipal();
+        //String userName = user.getUsername();
+        String userName=null;
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
 
         // 获取用户角色集
-        List<Role> roleList = this.roleService.findUserRole(userName);
-        Set<String> roleSet = roleList.stream().map(Role::getRoleName).collect(Collectors.toSet());
-        simpleAuthorizationInfo.setRoles(roleSet);
+       // List<Role> roleList = this.roleService.findUserRole(userName);
+       // Set<String> roleSet = roleList.stream().map(Role::getRoleName).collect(Collectors.toSet());
+        //simpleAuthorizationInfo.setRoles(roleSet);
 
         // 获取用户权限集
         List<SystemMenu> permissionList = this.menuService.findUserPermissions(userName);

@@ -2,6 +2,7 @@ package com.rainbow.system.service;
 
 import com.rainbow.common.service.IService;
 import com.rainbow.system.domain.RoleMenu;
+import com.rainbow.system.domain.extend.RoleWithMenu;
 
 /**
  * @Author:deepblue
@@ -10,7 +11,8 @@ import com.rainbow.system.domain.RoleMenu;
  **/
 public interface RoleMenuServie extends IService<RoleMenu> {
 
-    void deleteRoleMenusByRoleId(String roleIds);
+    void insetRoleMenuByRole(RoleWithMenu role);
 
-    void deleteRoleMenusByMenuId(String menuIds);
+    void deleteRoleMenusByRoleId(String roleId);
+
 }
