@@ -1,27 +1,18 @@
 package com.rainbow.system.service.impl;
 
-import com.rainbow.common.domain.Tree;
 import com.rainbow.common.service.impl.BaseService;
-import com.rainbow.common.util.TreeUtils;
-import com.rainbow.system.dao.MenuMapper;
-import com.rainbow.system.domain.Menu;
+import com.rainbow.common.util.GuidHelper;
+import com.rainbow.system.dao.SystemMenuMapper;
+import com.rainbow.system.domain.SystemMenu;
 import com.rainbow.system.service.MenuService;
-import com.rainbow.system.service.RoleMenuServie;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-import tk.mybatis.mapper.entity.Example;
 
-import java.util.*;
+import java.util.List;
 
 /**
  * @Author:deepblue
@@ -30,10 +21,24 @@ import java.util.*;
  **/
 @Service("menuService")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
-public class MenuServiceImpl  extends BaseService<Menu> implements MenuService {
+public class MenuServiceImpl  extends BaseService<SystemMenu> implements MenuService {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
+    @Autowired
+    SystemMenuMapper systemMenuMapper;
+
+    @Override
+    public int addSystemMenu(SystemMenu systemMenu) {
+        systemMenu.setId(GuidHelper.getGuid());
+        return systemMenuMapper.insert(systemMenu);
+    }
+
+    @Override
+    public List<SystemMenu> findUserPermissions(String userName) {
+        return null;
+    }
+/*
     @Autowired
     private MenuMapper menuMapper;
 
@@ -190,5 +195,5 @@ public class MenuServiceImpl  extends BaseService<Menu> implements MenuService {
             }
         }
         return urlList;
-    }
+    }*/
 }
