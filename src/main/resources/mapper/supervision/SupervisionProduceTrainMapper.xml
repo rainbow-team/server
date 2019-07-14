@@ -15,7 +15,7 @@
     <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
-    <result column="modify_date" jdbcType="TIMESTAMP" property="rmodifyDate" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
     <result column="note" jdbcType="LONGVARCHAR" property="note" />
   </resultMap>
@@ -25,20 +25,20 @@
     select  * from supervision_produce_train t
     where 1=1
 
-    <if test="startTime != null and startTime != ''">
-      and t.begin_date <![CDATA[  >=  ]]> #{startTime}
+    <if test="begin_date != null and begin_date != ''">
+      and t.begin_date <![CDATA[  >=  ]]> #{begin_date}
     </if>
 
-    <if test="endTime != null and endTime != ''">
-      and t.end_date <![CDATA[  <=  ]]> #{endTime}
+    <if test="end_date != null and end_date != ''">
+      and t.end_date <![CDATA[  <=  ]]> #{end_date}
     </if>
 
-    <if test="pxbc != null and pxbc != ''">
-      and instr(t.batch,#{pxbc})>0
+    <if test="batch != null and batch != ''">
+      and instr(t.batch,#{batch})>0
     </if>
 
-    <if test="pxdd != null and pxdd != ''">
-      and instr(t.place,#{pxdd})>0
+    <if test="place != null and place != ''">
+      and instr(t.place,#{place})>0
     </if>
 
 

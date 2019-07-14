@@ -1,14 +1,22 @@
 package com.rainbow.supervision.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.rainbow.common.domain.Page;
+import com.rainbow.common.domain.PagingEntity;
+import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
 import com.rainbow.common.util.GuidHelper;
 import com.rainbow.supervision.dao.SupervisionSastindMapper;
 import com.rainbow.supervision.domain.SupervisionSastind;
+import com.rainbow.supervision.domain.Welder;
 import com.rainbow.supervision.service.SastindService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Author:deepblue
@@ -42,5 +50,18 @@ public class SastindServiceImpl extends BaseService<SupervisionSastind> implemen
     public int modifySastind(SupervisionSastind sastind) {
         sastind.setModifyDate(new Date());
         return sastindMapper.updateByPrimaryKey(sastind);
+    }
+
+    @Override
+    public ResponseBo getSastindList(Page page){
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
+        Map<String, Object> map = page.getQueryParameter();
+        List<SupervisionSastind> list = sastindMapper.getSastindList(map);
+
+        PageInfo<SupervisionSastind> pageInfo = new PageInfo<SupervisionSastind>(list);
+
+        PagingEntity<SupervisionSastind> result = new PagingEntity<>(pageInfo);
+
+        return ResponseBo.ok(result);
     }
 }

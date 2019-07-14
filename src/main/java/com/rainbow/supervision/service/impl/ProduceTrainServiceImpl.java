@@ -2,6 +2,7 @@ package com.rainbow.supervision.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -32,17 +33,24 @@ public class ProduceTrainServiceImpl extends BaseService<SupervisionProduceTrain
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    FileInfoService fileInfoService;
+
     @Override
     public int addProduceTrainRecord(SupervisionProduceTrain trainRecord) {
         trainRecord.setId(GuidHelper.getGuid());
         trainRecord.setCreateDate(new Date());
         trainRecord.setModifyDate(new Date());
+
+        fileInfoService.updateFileInfoByIds(trainRecord.getAttachmentList(),trainRecord.getId());
         return produceTrainMapper.insert(trainRecord);
     }
 
     @Override
     public int modifyProduceTrainRecord(SupervisionProduceTrain trainRecord) {
         trainRecord.setModifyDate(new Date());
+
+        fileInfoService.updateFileInfoByIds(trainRecord.getAttachmentList(),trainRecord.getId());
         return produceTrainMapper.updateByPrimaryKey(trainRecord);
     }
 

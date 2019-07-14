@@ -1,5 +1,6 @@
 package com.rainbow.supervision.controller;
 
+import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.supervision.domain.SupervisionSastind;
 import com.rainbow.supervision.service.SastindService;
@@ -13,7 +14,8 @@ import java.util.List;
 /**
  * Created by 13260 on 2019/5/11.
  */
-@RestController("sastind")
+@RestController
+@RequestMapping("sastind")
 public class SastindController {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
@@ -57,12 +59,12 @@ public class SastindController {
     /**
      * 删除国防科工局信息
      *
-     * @param sastind
+     * @param id
      * @return
      */
-    @PostMapping("/deleteSastind")
-    public ResponseBo deleteSastind(@RequestBody SupervisionSastind sastind) {
-        int result = sastindService.deleteByKey(sastind.getId());
+    @GetMapping("/deleteSastindById")
+    public ResponseBo deleteSastind(String id) {
+        int result = sastindService.deleteByKey(id);
         if (result == 1) {
             return ResponseBo.ok("删除成功");
         } else {
@@ -73,5 +75,16 @@ public class SastindController {
     @PostMapping("/getAllSastinds")
     public List<SupervisionSastind> selectAllSastind(){
         return sastindService.selectAll();
+    }
+
+    @PostMapping("/getSastindList")
+    public ResponseBo getSastindList(@RequestBody Page page){
+        return sastindService.getSastindList(page);
+    }
+
+    @GetMapping("/getSastindById")
+    public ResponseBo getSastindById(String id){
+        SupervisionSastind supervisionSastind = sastindService.selectByKey(id);
+        return  ResponseBo.ok(supervisionSastind);
     }
 }
