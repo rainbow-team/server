@@ -3,7 +3,7 @@ package com.rainbow.common.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.rainbow.common.domain.QueryRequest;
-import com.rainbow.system.domain.User;
+import com.rainbow.system.domain.SystemUser;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.session.Session;
@@ -25,8 +25,8 @@ public class BaseController {
         return SecurityUtils.getSubject();
     }
 
-    protected User getCurrentUser() {
-        return (User) getSubject().getPrincipal();
+    protected SystemUser getCurrentUser() {
+        return (SystemUser) getSubject().getPrincipal();
     }
 
     protected Session getSession() {

@@ -6,4 +6,6 @@ import com.rainbow.system.domain.RoleMenu;
 
 
 public interface RoleMenuMapper extends MyMapper<RoleMenu> {
+
+    void deleteRoleMenusByRoleId(String roleId);
 }

@@ -18,6 +18,7 @@ import com.rainbow.supervision.domain.SupervisionSastind;
 import com.rainbow.supervision.service.OrgService;
 import com.rainbow.supervision.service.SastindService;
 import com.rainbow.system.dao.UserMapper;
+import com.rainbow.system.domain.SystemUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -93,8 +94,8 @@ public class OrgServiceImpl extends BaseService<Org> implements OrgService {
     @Override
     public ResponseBo getOrgById(String id) {
         Org result = orgMapper.getOrgById(id);
-        String name = userMapper.getUserNameById(result.getCreaterId());
-        result.setCreatorName(name);
+        SystemUser systemUser = userMapper.selectByPrimaryKey(result.getCreaterId());
+        result.setCreatorName(systemUser.getUsername());
 
         return ResponseBo.ok(result);
         //return null;

@@ -1,14 +1,13 @@
 package com.rainbow.system.service.impl;
 
-import com.rainbow.common.domain.QueryRequest;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
+import com.rainbow.common.util.GuidHelper;
 import com.rainbow.common.util.MD5Utils;
 import com.rainbow.system.dao.UserMapper;
 import com.rainbow.system.dao.UserRoleMapper;
-import com.rainbow.system.domain.User;
-import com.rainbow.system.domain.UserRole;
-import com.rainbow.system.domain.UserWithRole;
+import com.rainbow.system.domain.SystemUser;
+import com.rainbow.system.domain.extend.UserWithRole;
 import com.rainbow.system.service.UserRoleService;
 import com.rainbow.system.service.UserService;
 import org.apache.shiro.SecurityUtils;
@@ -21,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @Author:liuhao
@@ -30,7 +28,7 @@ import java.util.stream.Collectors;
  **/
 @Repository("userService")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
-public class UserServiceImpl extends BaseService<User> implements UserService{
+public class UserServiceImpl extends BaseService<SystemUser> implements UserService {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -38,17 +36,49 @@ public class UserServiceImpl extends BaseService<User> implements UserService{
     private UserMapper userMapper;
 
     @Autowired
-    private UserRoleMapper userRoleMapper;
+    private UserRoleService userRoleService;
+
+    @Override
+    public int addUser(UserWithRole user) {
+        String userId = GuidHelper.getGuid();
+        try {
+            userMapper.insert(user);
+            userRoleService.insertUserRoleByRole(user);
+            return 1;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    @Override
+    public int deleteUserById(String id) {
+        try {
+            userMapper.deleteByPrimaryKey(id);
+            userRoleService.deleteUserRolesByUserId(id);
+            return 1;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    @Override
+    public UserWithRole getUserWithRoleByUserId(String userId) {
+        return userMapper.getUserDetailByUserId(userId);
+    }
+
+    /*    @Autowired
+    private SystemUserRoleMapper userRoleMapper;*//*
+
 
     @Autowired
     private UserRoleService userRoleService;
 
 
     @Override
-    public User findByName(String userName) {
-        Example example = new Example(User.class);
+    public SystemUser findByName(String userName) {
+        Example example = new Example(SystemUser.class);
         example.createCriteria().andCondition("lower(username)=", userName.toLowerCase());
-        List<User> list = this.selectByExample(example);
+        List<SystemUser> list = this.selectByExample(example);
         return list.isEmpty() ? null : list.get(0);
     }
 
@@ -56,9 +86,9 @@ public class UserServiceImpl extends BaseService<User> implements UserService{
     @Override
     @Transactional
     public void updateLoginTime(String userName) {
-        Example example = new Example(User.class);
+        Example example = new Example(SystemUser.class);
         example.createCriteria().andCondition("lower(username)=", userName.toLowerCase());
-        User user = new User();
+        SystemUser user = new SystemUser();
         user.setLastLoginTime(new Date());
         this.userMapper.updateByExampleSelective(user, example);
     }
@@ -145,18 +175,10 @@ public class UserServiceImpl extends BaseService<User> implements UserService{
         this.userRoleMapper.deleteByExample(example);
         setUserRoles(user, roles);
     }
-
-    @Override
-    @Transactional
-    public void deleteUsers(String userIds) {
-        List<String> list = Arrays.asList(userIds.split(","));
-        this.batchDelete(list, "userId", User.class);
-
-        this.userRoleService.deleteUserRolesByUserId(userIds);
-    }
+*/
 
 
-
+/*
     @Override
     public void updatePassword(String password) {
         User user = (User) SecurityUtils.getSubject().getPrincipal();
@@ -181,15 +203,20 @@ public class UserServiceImpl extends BaseService<User> implements UserService{
         }
         this.updateNotNull(user);
     }
-
+*/
     @Override
-    public ResponseBo login(Map<String,String> map){
+    public ResponseBo login(Map<String,String> map) {
 
-        Map<String,Object> result = userMapper.login(map);
+        Map<String, Object> result = userMapper.login(map);
 
-        if(result==null){
+        if (result == null) {
             return ResponseBo.warn("用户名或密码错误!");
         }
-        return  ResponseBo.ok(result);
+        return ResponseBo.ok(result);
+    }
+
+    @Override
+    public SystemUser findUserByUsername(String username) {
+       return userMapper.findUserByUsername(username);
     }
 }
