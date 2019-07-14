@@ -1,10 +1,12 @@
 package com.rainbow.supervision.domain;
 
+import com.rainbow.common.domain.BaseExtendEntity;
+
 import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "supervision_law")
-public class SupervisionLaw {
+public class SupervisionLaw extends BaseExtendEntity {
     /**
      * 主键
      */

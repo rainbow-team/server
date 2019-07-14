@@ -2,6 +2,7 @@ package com.rainbow.supervision.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -28,17 +29,23 @@ public class SupervisionLawServiceImpl extends BaseService<SupervisionLaw> imple
     @Autowired
     SupervisionLawMapper supervisionLawMapper;
 
+    @Autowired
+    FileInfoService fileInfoService;
+
     @Override
     public int addLaw(SupervisionLaw law) {
         law.setId(GuidHelper.getGuid());
         law.setCreateDate(new Date());
         law.setModifyDate(new Date());
+
+        fileInfoService.updateFileInfoByIds(law.getAttachmentList(),law.getId());
         return supervisionLawMapper.insert(law);
     }
 
     @Override
     public int modifyLaw(SupervisionLaw law) {
         law.setModifyDate(new Date());
+        fileInfoService.updateFileInfoByIds(law.getAttachmentList(),law.getId());
         return supervisionLawMapper.updateByPrimaryKey(law);
     }
 

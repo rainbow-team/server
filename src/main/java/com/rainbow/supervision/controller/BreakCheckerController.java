@@ -90,7 +90,7 @@ public class BreakCheckerController {
     public ResponseBo deleteBreakCheckerByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
             breakCheckerService.batchDelete(ids, "id", BreakChecker.class);
-            ResponseBo.ok("删除成功!");
+            return ResponseBo.ok("删除成功!");
         }
 
         return ResponseBo.error("删除失败，请重试!");

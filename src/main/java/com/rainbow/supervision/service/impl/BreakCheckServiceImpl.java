@@ -2,6 +2,7 @@ package com.rainbow.supervision.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -28,17 +29,23 @@ public class BreakCheckServiceImpl extends BaseService<BreakChecker> implements 
     @Autowired
     BreakCheckerMapper breakCheckerMapper;
 
+    @Autowired
+    FileInfoService fileInfoService;
+
     @Override
     public int addBreakChecker(BreakChecker breakChecker) {
         breakChecker.setId(GuidHelper.getGuid());
         breakChecker.setCreateDate(new Date());
         breakChecker.setModifyDate(new Date());
+
+        fileInfoService.updateFileInfoByIds(breakChecker.getAttachmentList(),breakChecker.getId());
         return breakCheckerMapper.insert(breakChecker);
     }
 
     @Override
     public int modifyBreakChecker(BreakChecker breakChecker) {
         breakChecker.setModifyDate(new Date());
+        fileInfoService.updateFileInfoByIds(breakChecker.getAttachmentList(),breakChecker.getId());
         return breakCheckerMapper.updateByPrimaryKey(breakChecker);
     }
 

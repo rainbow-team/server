@@ -1,10 +1,12 @@
 package com.rainbow.supervision.domain;
 
+import com.rainbow.common.domain.BaseExtendEntity;
+
 import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "supervision_break_checker")
-public class BreakChecker {
+public class BreakChecker extends BaseExtendEntity {
     /**
      * 主键
      */

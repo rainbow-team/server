@@ -2,6 +2,7 @@ package com.rainbow.supervision.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -28,17 +29,22 @@ public class WelderServiceImpl extends BaseService<Welder> implements WelderServ
     @Autowired
     WelderMapper welderMapper;
 
+    @Autowired
+    FileInfoService fileInfoService;
+
     @Override
     public int addWelder(Welder welder) {
         welder.setId(GuidHelper.getGuid());
         welder.setCreateDate(new Date());
         welder.setModifyDate(new Date());
+        fileInfoService.updateFileInfoByIds(welder.getAttachmentList(),welder.getId());
         return welderMapper.insert(welder);
     }
 
     @Override
     public int modifyWelder(Welder welder) {
         welder.setModifyDate(new Date());
+        fileInfoService.updateFileInfoByIds(welder.getAttachmentList(),welder.getId());
         return welderMapper.updateByPrimaryKey(welder);
     }
 

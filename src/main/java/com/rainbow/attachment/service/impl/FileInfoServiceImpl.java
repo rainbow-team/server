@@ -21,7 +21,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -111,6 +113,7 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
 
     }
 
+    @Override
     public  void downloadAccessoryByid(String id,HttpServletResponse response){
 
         FileInfo fileInfo = fileInfoMapper.selectByPrimaryKey(id);
@@ -135,5 +138,13 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
 
     }
 
-
+    @Override
+    public  void updateFileInfoByIds(List<FileInfo> list,String id){
+        if(list!=null&&list.size()>0){
+            Map<String,Object> map = new HashMap<>();
+            map.put("id",id);
+            map.put("fileIds",list);
+            fileInfoMapper.updateFileInfoByIds(map);
+        }
+    }
 }

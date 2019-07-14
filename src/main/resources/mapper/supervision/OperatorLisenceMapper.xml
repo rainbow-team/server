@@ -33,7 +33,7 @@
       t.*,
       lt.value licenseTypeValue
     from supervision_operator t
-    left join license_type_id lt on t.license_type_id = lt.id
+    left join config_operator_license_type lt on t.license_type_id = lt.id
     where 1=1
 
     <if test="name != null and name != ''">
@@ -72,7 +72,7 @@
       t.*,
       lt.value licenseTypeValue
     from supervision_operator t
-    left join license_type_id lt on t.license_type_id = lt.id
+    left join config_operator_license_type lt on t.license_type_id = lt.id
     where t.id = #{id}
 
   </select>
