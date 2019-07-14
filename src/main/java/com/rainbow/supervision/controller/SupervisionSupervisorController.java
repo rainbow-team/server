@@ -4,19 +4,15 @@ import com.rainbow.attachment.domain.FileInfo;
 import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
-import com.rainbow.common.util.StrUtil;
 import com.rainbow.supervision.domain.SupervisionSupervisor;
 import com.rainbow.supervision.domain.SupervisionTrainRecord;
 import com.rainbow.supervision.service.SupervisionSupervisorService;
 import com.rainbow.supervision.service.SupervisionTrainRecordService;
-import com.rainbow.system.domain.Menu;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by 13260 on 2019/5/11.

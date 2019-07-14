@@ -1,13 +1,10 @@
 package com.rainbow.system.service;
 
-import com.rainbow.common.domain.Tree;
 import com.rainbow.common.service.IService;
-import com.rainbow.system.domain.Menu;
+import com.rainbow.system.domain.SystemMenu;
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Author:deepblue
@@ -15,30 +12,41 @@ import java.util.Map;
  * @Description:
  **/
 @CacheConfig(cacheNames = "MenuService")
-public interface MenuService  extends IService<Menu> {
+public interface MenuService  extends IService<SystemMenu> {
 
-    List<Menu> findUserPermissions(String userName);
+    int addSystemMenu(SystemMenu systemMenu);
 
-    List<Menu> findUserMenus(String userName);
+    List<SystemMenu> findUserPermissions(String userName);
 
-    List<Menu> findAllMenus(Menu menu);
+   // Tree<SystemMenu> getSystemMenuTree();
 
-    Tree<Menu> getMenuButtonTree();
+  //  ResponseBo getMenuList(Page page);
 
-    Tree<Menu> getMenuTree();
+   // ResponseBo getMenuById(String id);
 
-    Tree<Menu> getUserMenu(String userName);
+/*
+    List<SystemMenu> findUserPermissions(String userName);
 
-    Menu findById(Long menuId);
+    List<SystemMenu> findUserSystemMenus(String userName);
 
-    Menu findByNameAndType(String menuName, String type);
+    List<SystemMenu> findAllSystemMenus(SystemMenu systemMenu);
 
-    void addMenu(Menu menu);
+    Tree<SystemMenu> getSystemMenuButtonTree();
 
-    void updateMenu(Menu menu);
 
-    void deleteMeuns(String menuIds);
+
+    Tree<SystemMenu> getUserSystemMenu(String userName);
+
+    SystemMenu findById(Long systemMenuId);
+
+    SystemMenu findByNameAndType(String systemMenuName, String type);
+
+    void addSystemMenu(SystemMenu systemMenu);
+
+    void updateSystemMenu(SystemMenu systemMenu);
+
+    void deleteMeuns(String systemMeunIds);
 
     @Cacheable(key = "'url_'+ #p0")
-    List<Map<String, String>> getAllUrl(String p1);
+    List<Map<String, String>> getAllUrl(String p1);*/
 }

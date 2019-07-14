@@ -20,6 +20,7 @@ import java.util.function.Supplier;
  * @Description:
  **/
 public class BaseController {
+
     protected static Subject getSubject() {
         return SecurityUtils.getSubject();
     }

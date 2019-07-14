@@ -1,7 +1,7 @@
 package com.rainbow.common.shiro;
 
-import com.rainbow.system.domain.Menu;
 import com.rainbow.system.domain.Role;
+import com.rainbow.system.domain.SystemMenu;
 import com.rainbow.system.domain.User;
 import com.rainbow.system.service.MenuService;
 import com.rainbow.system.service.RoleService;
@@ -13,7 +13,6 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Set;
@@ -85,9 +84,9 @@ public class ShiroRealm extends AuthorizingRealm{
         simpleAuthorizationInfo.setRoles(roleSet);
 
         // 获取用户权限集
-        List<Menu> permissionList = this.menuService.findUserPermissions(userName);
-        Set<String> permissionSet = permissionList.stream().map(Menu::getPerms).collect(Collectors.toSet());
-        simpleAuthorizationInfo.setStringPermissions(permissionSet);
+        List<SystemMenu> permissionList = this.menuService.findUserPermissions(userName);
+       // Set<String> permissionSet = permissionList.stream().map(SystemMenu::getPerms).collect(Collectors.toSet());
+      //  simpleAuthorizationInfo.setStringPermissions(permissionSet);
         return simpleAuthorizationInfo;
     }
 
