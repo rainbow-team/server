@@ -14,7 +14,7 @@ public interface RoleMapper extends MyMapper<Role> {
 
     List<RoleWithMenu> findById(Long roleId);
 
-    RoleWithMenu getRoleById(String roldId);
+    RoleWithMenu getRoleById(String roleId);
 
     List<Role> getRoleList(Map<String,Object> map);
 }

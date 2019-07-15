@@ -16,7 +16,7 @@ import java.util.Map;
  * @Date:2019/4/29 14:48
  * @Description:
  **/
-public interface UserService extends IService<SystemUser>{
+public interface UserService extends IService<SystemUser> {
 /*    *//**
      * 根据用户名查找用户
      * @param userName
@@ -24,8 +24,11 @@ public interface UserService extends IService<SystemUser>{
      *//*
     User findByName(String userName);
 
-    *//**
+    */
+
+    /**
      * 更新用户的最后登录时间
+     *
      * @param userName
      *//*
     void updateLoginTime(String userName);
@@ -46,21 +49,29 @@ public interface UserService extends IService<SystemUser>{
     @CacheEvict(key = "#p0", allEntries = true)
     void updateUser(User user, Long[] roles);*/
 
-   // @CacheEvict(key = "#p0", allEntries = true)
-    int deleteUserById(String id);
+
 
     //@CacheEvict(allEntries = true)
     int addUser(UserWithRole user);
 
+    int modifyUser(UserWithRole userWithRole);
+
+    // @CacheEvict(key = "#p0", allEntries = true)
+    int deleteUserById(String id);
+
     UserWithRole getUserWithRoleByUserId(String userId);
-/*
-    void updatePassword(String password);
 
-    User findUserProfile(User user);
+    List<String> getAllPermissionByUserId(String userId);
 
-    void updateUserProfile(User user);
-*/
-    ResponseBo login(Map<String,String>  map);
+    /*
+        void updatePassword(String password);
+
+        User findUserProfile(User user);
+
+        void updateUserProfile(User user);
+    */
+    ResponseBo login(Map<String, String> map);
 
     SystemUser findUserByUsername(String username);
+
 }

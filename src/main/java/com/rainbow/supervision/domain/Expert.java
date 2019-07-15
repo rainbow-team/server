@@ -23,6 +23,11 @@ public class Expert {
     private String identity;
 
     /**
+     * 出生年月
+     */
+    private String birthday;
+
+    /**
      * 性别
      1表示男，0表示女
      */
@@ -136,6 +141,14 @@ public class Expert {
      */
     public void setIdentity(String identity) {
         this.identity = identity == null ? null : identity.trim();
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
     }
 
     /**

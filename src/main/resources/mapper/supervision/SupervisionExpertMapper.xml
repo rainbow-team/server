@@ -8,6 +8,7 @@
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="identity" jdbcType="VARCHAR" property="identity" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
     <result column="sex" jdbcType="INTEGER" property="sex" />
     <result column="major" jdbcType="VARCHAR" property="major" />
     <result column="title_id" jdbcType="VARCHAR" property="titleId" />

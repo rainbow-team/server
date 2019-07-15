@@ -51,10 +51,22 @@ public class UserServiceImpl extends BaseService<SystemUser> implements UserServ
     }
 
     @Override
+    public int modifyUser(UserWithRole userWithRole) {
+        try {
+            userMapper.updateByPrimaryKey(userWithRole);
+            userRoleService.deleteUserRoleByUserId(userWithRole.getId());
+            userRoleService.insertUserRoleByRole(userWithRole);
+            return 1;
+        }catch (Exception e){
+            return 0;
+        }
+    }
+
+    @Override
     public int deleteUserById(String id) {
         try {
             userMapper.deleteByPrimaryKey(id);
-            userRoleService.deleteUserRolesByUserId(id);
+            userRoleService.deleteUserRoleByUserId(id);
             return 1;
         } catch (Exception e) {
             return 0;
@@ -64,6 +76,12 @@ public class UserServiceImpl extends BaseService<SystemUser> implements UserServ
     @Override
     public UserWithRole getUserWithRoleByUserId(String userId) {
         return userMapper.getUserDetailByUserId(userId);
+    }
+
+    @Override
+    public List<String> getAllPermissionByUserId(String userId) {
+        List<String> result = userMapper.getPermissionByUserId(userId);
+        return result;
     }
 
     /*    @Autowired
@@ -213,6 +231,7 @@ public class UserServiceImpl extends BaseService<SystemUser> implements UserServ
             return ResponseBo.warn("用户名或密码错误!");
         }
         return ResponseBo.ok(result);
+
     }
 
     @Override

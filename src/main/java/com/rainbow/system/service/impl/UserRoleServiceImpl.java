@@ -48,7 +48,7 @@ public class UserRoleServiceImpl extends BaseService<UserRole> implements UserRo
     }
 
     @Override
-    public void deleteUserRolesByUserId(String userId) {
+    public void deleteUserRoleByUserId(String userId) {
         userRoleMapper.deleteUserRoleByUserId(userId);
     }
 }

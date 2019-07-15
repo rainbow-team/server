@@ -3,6 +3,7 @@ package com.rainbow.system.controller;
 import com.rainbow.common.annotation.Log;
 import com.rainbow.common.controller.BaseController;
 import com.rainbow.common.domain.ResponseBo;
+import com.rainbow.supervision.domain.Org;
 import com.rainbow.system.domain.SystemMenu;
 import com.rainbow.system.domain.SystemUser;
 import com.rainbow.system.domain.extend.UserWithRole;
@@ -13,10 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -58,12 +56,27 @@ public class UserController extends BaseController{
         }
     }
 
+    /**
+     * 修改用户信息
+     *
+     * @param
+     * @return
+     */
+    @PostMapping("/modifyUser")
+    public ResponseBo modify(@RequestBody UserWithRole user) {
+        int result = userService.modifyUser(user);
+        if (result == 1) {
+            return ResponseBo.ok("修改成功");
+        } else {
+            return ResponseBo.error("修改失败");
+        }
+    }
+
     //  @RequiresPermissions("user:delete")
 
     //@Log("删除用户")
 
-    @RequestMapping("/deleteUsersByIds")
-    @ResponseBody
+    @PostMapping("/deleteUsersByIds")
     public ResponseBo deleteUsers(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
             for (String id : ids) {
@@ -80,8 +93,7 @@ public class UserController extends BaseController{
      * @param userId
      * @return
      */
-    @RequestMapping("/getUser")
-    @ResponseBody
+    @PostMapping("/getUser")
     public ResponseBo getUserById(String userId) {
         try {
             UserWithRole user = this.userService.getUserWithRoleByUserId(userId);
@@ -106,6 +118,22 @@ public class UserController extends BaseController{
         } catch (Exception e) {
             log.error("获取用户失败", e);
             return ResponseBo.error("获取用户信息失败！");
+        }
+    }
+
+    /**
+     * 获取用户所有权限
+     * @param userId
+     * @return
+     */
+    @PostMapping("/getPermissionsByUserId")
+    public ResponseBo getPermissionsByUserId(String userId) {
+        try {
+            List<String> result = userService.getAllPermissionByUserId(userId);
+            return ResponseBo.ok();
+        } catch (Exception e) {
+            log.error("获取用户失败", e);
+            return ResponseBo.error("获取用户失败，请联系网站管理员！");
         }
     }
 }

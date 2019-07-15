@@ -29,6 +29,8 @@ public interface UserMapper extends MyMapper<SystemUser> {
 
      UserWithRole getUserDetailByUserId(String userId);
 
+     List<String> getPermissionByUserId(String userId);
+
      SystemUser findByName(String username);
 
      String getUserNameById(String userId);

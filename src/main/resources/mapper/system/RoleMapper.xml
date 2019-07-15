@@ -19,11 +19,11 @@
      r.*,
      m.id menu_id,
      m.code menu_code,
-     m.namemenu_name
+     m.name menu_name
     from system_role r
     inner join system_role_menu rm on r.id = rm.role_id
     inner join system_menu m on rm.menu_id = m.id
-    where r.id = #{roldId}
+    where r.id = #{roleId}
   </select>
 
   <select id="getRoleList" parameterType="map" resultMap="RoleBaseMap">

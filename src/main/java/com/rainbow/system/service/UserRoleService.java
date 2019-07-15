@@ -18,5 +18,5 @@ public interface UserRoleService extends IService<UserRole> {
     void insertUserRoleByRole(UserWithRole userWithRole);
 
 
-    void deleteUserRolesByUserId(String userId);
+    void deleteUserRoleByUserId(String userId);
 }

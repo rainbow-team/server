@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.rainbow.system.dao.SystemUserMapper">
+<mapper namespace="com.rainbow.system.dao.UserMapper">
   <resultMap id="SystemUserResultMap" type="com.rainbow.system.domain.SystemUser">
     <!--
       WARNING - @mbg.generated
@@ -21,11 +21,34 @@
   </resultMap>
 
   <select id="login" parameterType="map" resultType="map">
-    SELECT t.id,t.name,t.realname from system_user t where t.name =#{username} and  t.password=#{password}
+    select t.id,t.username,t.realname from system_user t where t.username = #{username} and  t.password=#{password}
   </select>
 
   <select id="findUserByUsername" resultMap="SystemUserResultMap">
     select * from system_user t where t.username = #{username}
   </select>
 
+  <select id="getUserDetailByUserId" resultMap="UserWithRoleMap">
+    select
+     u.*,
+     r.id role_id,
+     r.name role_name,
+     r.note role_note
+    from system_user u
+    inner join system_user_role ur on u.id = ur.user_id
+    inner join system_role r on ur.role_id = r.id
+    where u.id = #{userId}
+  </select>
+
+  <select id="getPermissionByUserId" resultType="java.lang.String">
+    select  m.`code`
+    from system_user u
+    inner join system_user_role ur on u.id = ur.user_id
+    inner join system_role r on r.id = ur.role_id
+    inner join system_role_menu rm on rm.role_id =r.id
+    inner join system_menu m on m.id=rm.menu_id
+    where u.id = #{userId}
+    group by m.id
+
+  </select>
 </mapper>

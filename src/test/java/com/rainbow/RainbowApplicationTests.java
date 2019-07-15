@@ -110,8 +110,7 @@ public class RainbowApplicationTests {
 //		int a=5;
 	}
 
-	@Autowired
-	private ServiceDepartService serviceDepartService;
+
 
 	@Test
 	public void testOrg() {
@@ -136,6 +135,6 @@ public class RainbowApplicationTests {
 		page.conditions=conditions;
     */
 
-		serviceDepartService.deleteServiceDepartById("1");
+		userService.getAllPermissionByUserId("1");
 	}
 }
