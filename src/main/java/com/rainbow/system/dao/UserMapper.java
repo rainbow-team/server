@@ -24,8 +24,7 @@ public interface UserMapper extends MyMapper<SystemUser> {
 
     String getSystemUserNameById(String id);*/
 
-
-     Map<String,Object> login(Map<String,String> map );
+     SystemUser login(Map<String,String> map );
 
      UserWithRole getUserDetailByUserId(String userId);
 

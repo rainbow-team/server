@@ -70,7 +70,7 @@ public interface UserService extends IService<SystemUser> {
 
         void updateUserProfile(User user);
     */
-    ResponseBo login(Map<String, String> map);
+    SystemUser login(Map<String, String> map);
 
     SystemUser findUserByUsername(String username);
 

@@ -20,8 +20,8 @@
     <collection property="roleList" columnPrefix="role_" resultMap="com.rainbow.system.domain.Role"></collection>
   </resultMap>
 
-  <select id="login" parameterType="map" resultType="map">
-    select t.id,t.username,t.realname from system_user t where t.username = #{username} and  t.password=#{password}
+  <select id="login" parameterType="map" resultMap="SystemUserResultMap">
+    select * from system_user t where t.username = #{username} and  t.password=#{password}
   </select>
 
   <select id="findUserByUsername" resultMap="SystemUserResultMap">

@@ -4,6 +4,7 @@ import com.rainbow.common.controller.BaseController;
 import com.rainbow.common.domain.ResponseBo;
 
 import com.rainbow.common.util.VeriyCode;
+import com.rainbow.system.domain.SystemUser;
 import com.rainbow.system.service.UserService;
 
 import org.slf4j.Logger;
@@ -22,6 +23,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,7 +49,7 @@ public class LoginController extends BaseController{
 
     @PostMapping("/login")
 
-    public ResponseBo login(@RequestBody Map<String,String> map, HttpServletRequest  request){
+    public ResponseBo login(@RequestBody Map<String,String> map, HttpServletRequest  request) {
 
 //        String code = request.getSession(true).getAttribute(CODE_KEY).toString();
 //        String idyCode = map.get("code").toString();
@@ -56,8 +59,20 @@ public class LoginController extends BaseController{
 //        }
 
 
-        return userService.login(map);
+        Map<String, Object> result = new HashMap<>();
+
+        SystemUser systemUser = userService.login(map);
+
+        if (systemUser == null) {
+            return ResponseBo.error("用户名或密码错误，请重试！");
+        } else {
+            List<String> permissions = userService.getAllPermissionByUserId(systemUser.getId());
+            result.put("userinfo", systemUser);
+            result.put("permission", permissions);
+            return ResponseBo.ok(result);
+        }
     }
+
     /* 获取验证码图片*/
     @RequestMapping("/getVerifyCode")
     public void getVerificationCode(HttpServletResponse response, HttpServletRequest  request) {

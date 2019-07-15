@@ -1,5 +1,6 @@
 package com.rainbow.supervision.domain.extend;
 
+import com.rainbow.common.util.IDCardUtil;
 import com.rainbow.supervision.domain.Expert;
 
 
@@ -11,7 +12,7 @@ public class ExpertExtend extends Expert {
     private String titleValue;
 
     //年龄
-    private String age;
+    private Integer age;
 
     public String getTitleValue() {
         return titleValue;
@@ -21,11 +22,11 @@ public class ExpertExtend extends Expert {
         this.titleValue = titleValue;
     }
 
-    public String getAge() {
-        return age;
+    public Integer getAge() {
+        return IDCardUtil.getAge(this.getBirthday());
     }
 
-    public void setAge(String age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 }

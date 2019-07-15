@@ -223,14 +223,9 @@ public class UserServiceImpl extends BaseService<SystemUser> implements UserServ
     }
 */
     @Override
-    public ResponseBo login(Map<String,String> map) {
+    public SystemUser login(Map<String,String> map) {
 
-        Map<String, Object> result = userMapper.login(map);
-
-        if (result == null) {
-            return ResponseBo.warn("用户名或密码错误!");
-        }
-        return ResponseBo.ok(result);
+        return userMapper.login(map);
 
     }
 
