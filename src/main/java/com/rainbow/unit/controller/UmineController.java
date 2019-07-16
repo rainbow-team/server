@@ -97,4 +97,18 @@ public class UmineController {
         }
         return ResponseBo.ok();
     }
+
+    /**
+     *获取所有铀矿冶单位信息
+     * @param
+     * @return
+     */
+    @PostMapping("/getAllUmine")
+    public ResponseBo getAllUmine(){
+        List<Umine> result = umineService.selectAll();
+        if (result != null) {
+            return ResponseBo.ok(result);
+        }
+        return ResponseBo.ok("获取失败!");
+    }
 }

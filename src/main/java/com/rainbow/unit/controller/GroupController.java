@@ -64,17 +64,19 @@ public class GroupController {
 
     /**
      * 获取集团信息列表
+     *
      * @param page
      * @return
      */
     @PostMapping("/getGroupList")
-    public ResponseBo getGroupList(@RequestBody Page page){
+    public ResponseBo getGroupList(@RequestBody Page page) {
 
         return groupService.getGroupList(page);
     }
 
     /**
      * 获取集团信息详情
+     *
      * @param id
      * @return
      */
@@ -85,15 +87,32 @@ public class GroupController {
 
     /**
      * 删除集团信息
+     *
      * @param id
      * @return
      */
     @PostMapping("/deleteGroupById")
-    public ResponseBo deleteGroupById(String id){
+    public ResponseBo deleteGroupById(@RequestBody String id) {
         if (id != null) {
             int result = groupService.deleteGroupById(id);
             return result == 0 ? ResponseBo.error("存在关联，不允许删除!") : ResponseBo.ok("删除成功");
         }
         return ResponseBo.ok();
+    }
+
+    /**
+     * 获取所有的集团信息
+     *
+     * @param
+     * @return
+     */
+    @PostMapping("/getAllGroup")
+    public ResponseBo getAllGroup() {
+
+        List<Group> result = groupService.selectAll();
+        if (result != null) {
+            return ResponseBo.ok(result);
+        }
+        return ResponseBo.ok("获取失败!");
     }
 }

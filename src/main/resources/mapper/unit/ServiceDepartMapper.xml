@@ -44,7 +44,15 @@
       and instr(t.name,#{tname})>0
     </if>
 
-    <if test="gname != null and gname != ''">
+    <if test="groupIds != null">
+      and t.group_id in (
+      <foreach item="item" index="index" collection="groupIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
+    <if test="groupIds != null and gname != ''">
       and instr(g.name,#{gname})>0
     </if>
 
