@@ -81,7 +81,7 @@ public class ServiceDepartController {
      * @return
      */
     @GetMapping("/getServiceDepartById")
-    public ResponseBo getServiceDepartById(String id) {
+    public ResponseBo getServiceDepartById(@RequestBody String id) {
         return serviceDepartService.getServiceDepartById(id);
     }
 
@@ -92,7 +92,7 @@ public class ServiceDepartController {
      * @return
      */
     @PostMapping("/deleteServiceDepartById")
-    public ResponseBo deleteServiceDepartById(String id) {
+    public ResponseBo deleteServiceDepartById(@RequestBody String id) {
         if (id != null) {
             int result = serviceDepartService.deleteServiceDepartById(id);
             return result == 0 ? ResponseBo.error("存在关联，不允许删除!") : ResponseBo.ok("删除成功");

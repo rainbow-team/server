@@ -82,7 +82,7 @@ public class FacController {
      * @return
      */
     @GetMapping("/getFacById")
-    public ResponseBo getFacById(String id) {
+    public ResponseBo getFacById(@RequestBody String id) {
         return facService.getFacById(id);
     }
 
@@ -93,7 +93,7 @@ public class FacController {
      * @return
      */
     @PostMapping("/deleteFacById")
-    public ResponseBo deleteFacByIds(String id) {
+    public ResponseBo deleteFacByIds(@RequestBody String id) {
         if (id != null) {
             int result = facService.deleteFacById(id);
             return result == 0 ? ResponseBo.error("存在关联，不允许删除!") : ResponseBo.ok("删除成功");
@@ -109,7 +109,7 @@ public class FacController {
      * @return
      */
     @PostMapping("/getFacListByServiceid")
-    public ResponseBo getFacListByServiceidList(String serviceId) {
+    public ResponseBo getFacListByServiceidList(@RequestBody String serviceId) {
         if (serviceId != null) {
             return facService.getFacListByServiceId(serviceId);
         }
