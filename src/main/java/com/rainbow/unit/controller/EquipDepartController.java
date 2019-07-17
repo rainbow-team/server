@@ -97,4 +97,21 @@ public class EquipDepartController {
         }
         return ResponseBo.ok();
     }
+
+    /**
+     * 获取设备单位信息
+     *
+     * @param
+     * @return
+     */
+    @PostMapping("/getAllEquipDepart")
+    public ResponseBo getAllEquipDepart() {
+
+        List<EquipDepart> result = equipDepartService.selectAll();
+        if (result != null) {
+            return ResponseBo.ok(result);
+        }
+        return ResponseBo.ok("获取失败!");
+    }
+}
 }

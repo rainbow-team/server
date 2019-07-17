@@ -21,7 +21,7 @@
 
   <resultMap id="FacCheckExtendMap" extends="FacCheckBaseResultMap" type="com.rainbow.check.domain.FacCheckExtend">
     <result column="serviceDepartName" jdbcType="VARCHAR" property="serviceDepartName" />
-    <result column="facName" jdbcType="VARCHAR" property="equipDepartName" />
+    <result column="facName" jdbcType="VARCHAR" property="facName" />
     <result column="typeValue" jdbcType="VARCHAR" property="typeValue" />
     <result column="stageValue" jdbcType="VARCHAR" property="stageValue" />
   </resultMap>
@@ -33,7 +33,7 @@
      us.name serviceDepartName,
      f.name facName,
      ft.value typeValue,
-     fs.value statusValue
+     fs.value stageValue
     from check_fac t
     left join unit_service_depart us on t.service_id = us.id
     left join unit_fac f on t.fac_id = f.id
