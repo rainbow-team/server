@@ -9,7 +9,7 @@
     <result column="supervision_org_id" jdbcType="VARCHAR" property="supervisionOrgId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="report_type" jdbcType="VARCHAR" property="reportType" />
-    <result column="date" jdbcType="TIMESTAMP" property="date" />
+    <result column="report_date" jdbcType="TIMESTAMP" property="reportDate" />
     <result column="is_import" jdbcType="INTEGER" property="isImport" />
     <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />

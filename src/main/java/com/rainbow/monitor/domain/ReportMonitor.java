@@ -36,7 +36,8 @@ public class ReportMonitor {
     /**
      * 报告时间
      */
-    private Date date;
+    @Column(name = "report_date")
+    private Date reportDate;
 
     /**
      * 是否导入0 否 1 是
@@ -166,17 +167,17 @@ public class ReportMonitor {
      *
      * @return date - 报告时间
      */
-    public Date getDate() {
-        return date;
+    public Date getreportDate() {
+        return reportDate;
     }
 
     /**
      * 设置报告时间
      *
-     * @param date 报告时间
+     * @param reportDate 报告时间
      */
-    public void setDate(Date date) {
-        this.date = date;
+    public void setreportDate(Date reportDate) {
+        this.reportDate = reportDate;
     }
 
     /**

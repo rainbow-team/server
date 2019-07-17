@@ -1,5 +1,6 @@
 package com.rainbow.monitor.domain.extend;
 
+import com.rainbow.monitor.domain.ReportMonitor;
 import com.rainbow.unit.domain.FacReportExtend;
 
 /**
@@ -7,7 +8,7 @@ import com.rainbow.unit.domain.FacReportExtend;
  * @Date:2019/7/11 16:19
  * @Description:
  **/
-public class ReportMonitorExtend extends FacReportExtend {
+public class ReportMonitorExtend extends ReportMonitor {
 
     //授权监管机构的名称
     private String orgName;
@@ -23,12 +24,10 @@ public class ReportMonitorExtend extends FacReportExtend {
         this.orgName = orgName;
     }
 
-    @Override
     public String getReportTypeValue() {
         return reportTypeValue;
     }
 
-    @Override
     public void setReportTypeValue(String reportTypeValue) {
         this.reportTypeValue = reportTypeValue;
     }
