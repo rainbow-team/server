@@ -103,4 +103,9 @@ public class LoginController extends BaseController{
             e.printStackTrace();
         }
     }
+
+    @GetMapping("/test")
+    public String index(){
+        return "test";
+    }
 }
