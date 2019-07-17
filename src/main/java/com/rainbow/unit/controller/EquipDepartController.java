@@ -114,4 +114,3 @@ public class EquipDepartController {
         return ResponseBo.ok("获取失败!");
     }
 }
-}
