@@ -88,13 +88,14 @@ public class FacSecurityController {
     /**
      * 删除核设施安全问题信息
      *
-     * @param ids
+     * @param id
      * @return
      */
-    @PostMapping("/deleteFacSecurityByIds")
-    public ResponseBo deleteFacSecurityByIds(@RequestBody List<String> ids) {
-        if ((ids != null) && (ids.size() > 0)) {
-            facSecurityService.batchDelete(ids, "id", FacSecurity.class);
+    @PostMapping("/deleteFacSecurityById")
+    public ResponseBo deleteFacSecurityById(@RequestBody String id) {
+        if (id != null) {
+            int result = facSecurityService.deleteByKey(id);
+            return result == 0 ? ResponseBo.error("删除失败!") : ResponseBo.ok("删除成功");
         }
         return ResponseBo.ok();
     }

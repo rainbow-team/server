@@ -87,13 +87,14 @@ public class DailyMonitorController {
     /**
      * 删除日常监督信息
      *
-     * @param ids
+     * @param id
      * @return
      */
-    @PostMapping("/deleteDailyMonitorByIds")
-    public ResponseBo deleteDailyMonitorByIds(@RequestBody List<String> ids) {
-        if ((ids != null) && (ids.size() > 0)) {
-            dailyMonitorService.batchDelete(ids, "id", DailyMonitor.class);
+    @PostMapping("/deleteDailyMonitorById")
+    public ResponseBo deleteDailyMonitorById(@RequestBody String id) {
+        if (id != null) {
+            int result = dailyMonitorService.deleteByKey(id);
+            return result == 0 ? ResponseBo.error("删除失败!") : ResponseBo.ok("删除成功");
         }
         return ResponseBo.ok();
     }

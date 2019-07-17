@@ -88,13 +88,15 @@ public class ReportMonitorController {
     /**
      * 删除监督报告信息信息
      *
-     * @param ids
+     * @param id
      * @return
      */
-    @PostMapping("/deleteReportMonitorByIds")
-    public ResponseBo deleteReportMonitorByIds(@RequestBody List<String> ids) {
-        if ((ids != null) && (ids.size() > 0)) {
-            reportMonitorService.batchDelete(ids, "id", ReportMonitor.class);
+    @PostMapping("/deleteReportMonitorById")
+    public ResponseBo deleteReportMonitorByIds(@RequestBody String id) {
+
+        if (id != null) {
+            int result = reportMonitorService.deleteByKey(id);
+            return result == 0 ? ResponseBo.error("删除失败!") : ResponseBo.ok("删除成功");
         }
         return ResponseBo.ok();
     }

@@ -88,13 +88,14 @@ public class EquipSecurityController {
     /**
      * 删除核安全设备安全问题信息
      *
-     * @param ids
+     * @param id
      * @return
      */
-    @PostMapping("/deleteEquipSecurityByIds")
-    public ResponseBo deleteEquipSecurityByIds(@RequestBody List<String> ids) {
-        if ((ids != null) && (ids.size() > 0)) {
-            equipSecurityService.batchDelete(ids, "id", EquipSecurity.class);
+    @PostMapping("/deleteEquipSecurityById")
+    public ResponseBo deleteEquipSecurityById(@RequestBody String id) {
+        if (id != null) {
+            int result = equipSecurityService.deleteByKey(id);
+            return result == 0 ? ResponseBo.error("删除失败!") : ResponseBo.ok("删除成功");
         }
         return ResponseBo.ok();
     }

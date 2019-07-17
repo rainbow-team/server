@@ -88,13 +88,14 @@ public class AccidentSecurityController {
     /**
      * 删除事故事件信息
      *
-     * @param ids
+     * @param id
      * @return
      */
-    @PostMapping("/deleteAccidentSecurityByIds")
-    public ResponseBo deleteAccidentSecurityByIds(@RequestBody List<String> ids) {
-        if ((ids != null) && (ids.size() > 0)) {
-            accidentSecurityService.batchDelete(ids, "id", AccidentSecurity.class);
+    @PostMapping("/deleteAccidentSecurityById")
+    public ResponseBo deleteAccidentSecurityById(@RequestBody String id) {
+        if (id != null) {
+            int result = accidentSecurityService.deleteByKey(id);
+            return result == 0 ? ResponseBo.error("删除失败!") : ResponseBo.ok("删除成功");
         }
         return ResponseBo.ok();
     }
