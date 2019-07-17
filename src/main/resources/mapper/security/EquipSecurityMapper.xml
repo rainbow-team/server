@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.rainbow.securitydao.EquipSecurityMapper">
+<mapper namespace="com.rainbow.security.dao.EquipSecurityMapper">
   <resultMap id="EquipSecurityBaseResultMap" type="com.rainbow.security.domain.EquipSecurity">
     <!--
       WARNING - @mbg.generated
@@ -48,7 +48,7 @@
     sqt.value questionTypeValue,
     rs.value reformStatusTypeValue
     from security_equip t
-    left join unit_equip_depart ed on t.security_equip = ed.id
+    left join unit_equip_depart ed on t.equip_depart_id = ed.id
     left join unit_service_depart sd on t.service_id = sd.id
     left join unit_fac f on t.fac_id = f.id
     left join config_security_check_type ct on t.check_type_id = ct.id
