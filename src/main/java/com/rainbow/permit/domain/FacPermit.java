@@ -1,10 +1,12 @@
 package com.rainbow.permit.domain;
 
+import com.rainbow.common.domain.BaseExtendEntity;
+
 import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "permit_fac")
-public class FacPermit {
+public class FacPermit extends BaseExtendEntity {
     /**
      * 主键
      */
