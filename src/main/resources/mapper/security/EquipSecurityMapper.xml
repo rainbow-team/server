@@ -21,7 +21,7 @@
     <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
     <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
-    <result column="require" jdbcType="LONGVARCHAR" property="require" />
+    <result column="supervise_require" jdbcType="LONGVARCHAR" property="superviseRequire" />
     <result column="reform_plan" jdbcType="LONGVARCHAR" property="reformPlan" />
     <result column="note" jdbcType="LONGVARCHAR" property="note" />
   </resultMap>
@@ -123,7 +123,7 @@
     sqt.value questionTypeValue,
     rs.value reformStatusTypeValue
     from security_equip t
-    left join unit_equip_depart ed on t.security_equip = ed.id
+    left join unit_equip_depart ed on t.equip_depart_id = ed.id
     left join unit_service_depart sd on t.service_id = sd.id
     left join unit_fac f on t.fac_id = f.id
     left join config_security_check_type ct on t.check_type_id = ct.id
