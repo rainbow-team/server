@@ -11,6 +11,7 @@ import com.rainbow.unit.dao.EquipDepartMapper;
 import com.rainbow.unit.dao.UminePlaceImproveMapper;
 import com.rainbow.unit.dao.UmineplaceMapper;
 import com.rainbow.unit.domain.EquipDepart;
+import com.rainbow.unit.domain.Fac;
 import com.rainbow.unit.domain.ServiceDepart;
 import com.rainbow.unit.domain.Umineplace;
 import com.rainbow.unit.service.EquipDepartService;
@@ -77,5 +78,14 @@ public class UmineplaceServiceImpl extends BaseService<Umineplace> implements Um
             return umineplaceMapper.deleteUmineplaceById(id);
         }
         return 0;
+    }
+
+    @Override
+    public ResponseBo getUmineplaceListByUmineId(String umineId) {
+        List<Umineplace> result = umineplaceMapper.getUmineplaceListByUmineId(umineId);
+        if (result != null) {
+            return ResponseBo.ok(result);
+        }
+        return ResponseBo.error("查询失败");
     }
 }

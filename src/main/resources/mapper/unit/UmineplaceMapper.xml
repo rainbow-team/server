@@ -146,4 +146,8 @@
     and not exists(select 1 from security_accident e where e.umine_place_id = t.id)
   </select>
 
+  <select id="getUmineplaceListByUmineId" parameterType="java.lang.String" resultMap="UmineplaceBaseResultMap">
+    select * from unit_umine_place t where t.umine_id = #{umineId}
+  </select>
+
 </mapper>

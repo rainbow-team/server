@@ -112,7 +112,8 @@ public class UminePlaceSecurity {
     /**
      * 监督要求
      */
-    private String require;
+    @Column(name = "supervise_require")
+    private String superviseRequire;
 
     /**
      * 整改方案
@@ -448,19 +449,19 @@ public class UminePlaceSecurity {
     /**
      * 获取监督要求
      *
-     * @return require - 监督要求
+     * @return superviseRequire - 监督要求
      */
-    public String getRequire() {
-        return require;
+    public String getSuperviseRequire() {
+        return superviseRequire;
     }
 
     /**
      * 设置监督要求
      *
-     * @param require 监督要求
+     * @param superviseRequire 监督要求
      */
-    public void setRequire(String require) {
-        this.require = require == null ? null : require.trim();
+    public void setSuperviseRequire(String superviseRequire) {
+        this.superviseRequire = superviseRequire == null ? null : superviseRequire.trim();
     }
 
     /**

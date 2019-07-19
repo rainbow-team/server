@@ -25,5 +25,5 @@ public interface UmineplaceService extends IService<Umineplace> {
 
     ResponseBo getUmineplaceById(String id);
 
-
+    ResponseBo getUmineplaceListByUmineId(String umineId);
 }

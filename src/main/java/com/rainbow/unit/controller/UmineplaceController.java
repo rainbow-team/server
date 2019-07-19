@@ -99,4 +99,18 @@ public class UmineplaceController {
         }
         return ResponseBo.ok();
     }
+
+    /**
+     * 根据铀矿冶单位的ID寻找对应所有的的铀尾矿(渣)库
+     *
+     * @param
+     * @return
+     */
+    @PostMapping("/getUmineplaceListByUmineId")
+    public ResponseBo getUmineplaceListByUmineId(@RequestBody String umineId) {
+        if (umineId != null) {
+            return umineplaceService.getUmineplaceListByUmineId(umineId);
+        }
+        return ResponseBo.ok("获取失败");
+    }
 }
