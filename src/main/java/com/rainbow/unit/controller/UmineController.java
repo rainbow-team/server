@@ -90,7 +90,7 @@ public class UmineController {
      * @return
      */
     @PostMapping("/deleteUmineById")
-    public ResponseBo deleteUmineByIds(String id){
+    public ResponseBo deleteUmineByIds(@RequestBody  String id){
         if (id != null) {
             int result = umineService.deleteUmineById(id);
             return result == 0 ? ResponseBo.error("存在关联，不允许删除!") : ResponseBo.ok("删除成功");

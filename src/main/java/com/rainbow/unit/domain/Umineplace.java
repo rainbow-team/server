@@ -1,10 +1,12 @@
 package com.rainbow.unit.domain;
 
+import com.rainbow.common.domain.BaseExtendEntity;
+
 import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "unit_umine_place")
-public class Umineplace {
+public class Umineplace extends BaseExtendEntity {
     /**
      * 主键
      */

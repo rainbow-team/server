@@ -62,7 +62,7 @@
     and not exists(select 1 from permit_activity b where b.equip_depart_id = t.id)
     and not exists(select 1 from check_equip c where c.equip_depart_id = t.id)
     and not exists(select 1 from check_activity d where d.equip_depart_id = t.id)
-    and not exists(select 1 from equip_depart_id e where e.equip_depart_id = t.id)
+    and not exists(select 1 from monitor_check e where e.equip_depart_id = t.id)
     and not exists(select 1 from monitor_witness f where f.equip_depart_id = t.id)
     and not exists(select 1 from security_equip g where g.equip_depart_id = t.id)
   </select>

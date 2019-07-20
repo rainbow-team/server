@@ -2,6 +2,7 @@ package com.rainbow.unit.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -38,18 +39,24 @@ public class UmineServiceImpl extends BaseService<Umine> implements UmineService
     @Autowired
     UmineplaceMapper umineplaceMapper;
 
+    @Autowired
+    FileInfoService fileInfoService;
 
     @Override
     public int addUmine(Umine umine) {
         umine.setId(GuidHelper.getGuid());
         umine.setCreateDate(new Date());
         umine.setModifyDate(new Date());
+
+        fileInfoService.updateFileInfoByIds(umine.getAttachmentList(),umine.getId());
         return umineMapper.insert(umine);
     }
 
     @Override
     public int modifyUmine(Umine umine) {
         umine.setModifyDate(new Date());
+
+        fileInfoService.updateFileInfoByIds(umine.getAttachmentList(),umine.getId());
         return umineMapper.updateByPrimaryKey(umine);
     }
 

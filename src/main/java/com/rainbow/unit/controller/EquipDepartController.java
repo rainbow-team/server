@@ -90,7 +90,7 @@ public class EquipDepartController {
      * @return
      */
     @PostMapping("/deleteEquipDepartById")
-    public ResponseBo deleteGroupById(String id){
+    public ResponseBo deleteGroupById(@RequestBody String id){
         if (id != null) {
             int result = equipDepartService.deleteEquipDepartById(id);
             return result == 0 ? ResponseBo.error("存在关联，不允许删除!") : ResponseBo.ok("删除成功");

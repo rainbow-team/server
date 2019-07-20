@@ -92,7 +92,7 @@ public class UmineplaceController {
      * @return
      */
     @PostMapping("/deleteUmineplaceById")
-    public ResponseBo deleteUmineplaceById(String id) {
+    public ResponseBo deleteUmineplaceById(@RequestBody String id) {
         if (id != null) {
             int result = umineplaceService.deleteUmineplaceById(id);
             return result == 0 ? ResponseBo.error("存在关联，不允许删除!") : ResponseBo.ok("删除成功");

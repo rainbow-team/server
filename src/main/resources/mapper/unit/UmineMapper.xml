@@ -74,7 +74,7 @@
      t.id
     from unit_umine t
     where t.id = #{id}
-    and not exists(select 1 from umine_id a where a.umine_id = t.id)
+    and not exists(select 1 from unit_umine_mountain a where a.umine_id = t.id)
     and not exists(select 1 from unit_umine_place b where b.umine_id = t.id)
     and not exists(select 1 from permit_umine_place c where c.umine_id = t.id)
     and not exists(select 1 from check_umine_place d where d.umine_id = t.id)
@@ -82,6 +82,6 @@
     and not exists(select 1 from monitor_check h where h.umine_id = t.id)
     and not exists(select 1 from monitor_witness i where i.umine_id = t.id)
     and not exists(select 1 from security_umine_place j where j.umine_id = t.id)
-    and not exists(select 1 from security_accident k where j.umine_id = t.id)
+    and not exists(select 1 from security_accident k where k.umine_id = t.id)
   </select>
 </mapper>
