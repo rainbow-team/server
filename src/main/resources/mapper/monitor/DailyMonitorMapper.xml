@@ -96,7 +96,7 @@
     sd.name serviceDepartName,
     f.name facName,
     s.value stageVaue,
-    so.value orgName,
+    so.name orgName,
     ty.value fileTypeValue
     from monitor_daily t
     left join unit_service_depart sd on t.service_id = sd.id
