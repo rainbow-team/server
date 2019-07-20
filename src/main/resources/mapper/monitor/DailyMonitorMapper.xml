@@ -37,7 +37,7 @@
     t.*,
     sd.name serviceDepartName,
     f.name facName,
-    s.value stageVaue,
+    s.value statusValue,
     so.name orgName,
     ty.value fileTypeValue
     from monitor_daily t
@@ -56,9 +56,9 @@
       and instr(f.name,#{facName})>0
     </if>
 
-    <if test="stageIds != null">
+    <if test="facStatusTypeIds != null">
       and t.status_id in (
-      <foreach item="item" index="index" collection="stageIds" separator=",">
+      <foreach item="item" index="index" collection="facStatusTypeIds" separator=",">
         #{item}
       </foreach>
       )
@@ -95,7 +95,7 @@
     t.*,
     sd.name serviceDepartName,
     f.name facName,
-    s.value stageVaue,
+    s.value statusValue,
     so.name orgName,
     ty.value fileTypeValue
     from monitor_daily t

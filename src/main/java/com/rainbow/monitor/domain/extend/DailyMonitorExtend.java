@@ -16,7 +16,7 @@ public class DailyMonitorExtend extends DailyMonitor {
     private String facName;
 
     //核设施状态的值
-    private String stageVaue;
+    private String statusValue;
 
     //核设施监管机构的值
     private String orgName;
@@ -48,12 +48,12 @@ public class DailyMonitorExtend extends DailyMonitor {
         this.facName = facName;
     }
 
-    public String getStageVaue() {
-        return stageVaue;
+    public String getStatusValue() {
+        return statusValue;
     }
 
-    public void setStageVaue(String stageVaue) {
-        this.stageVaue = stageVaue;
+    public void setStatusValue(String statusVaue) {
+        this.statusValue = statusValue;
     }
 
     public String getOrgName() {
