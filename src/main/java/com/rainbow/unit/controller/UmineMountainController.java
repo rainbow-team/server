@@ -92,7 +92,7 @@ public class UmineMountainController {
      * @return
      */
     @PostMapping("/deleteUmineMountainById")
-    public ResponseBo deleteUmineMountainById(String id) {
+    public ResponseBo deleteUmineMountainById(@RequestBody String id) {
         if (id != null) {
             int result = umineMountainService.deleteUmineMountainById(id);
             return result == 0 ? ResponseBo.error("存在关联，不允许删除!") : ResponseBo.ok("删除成功");
