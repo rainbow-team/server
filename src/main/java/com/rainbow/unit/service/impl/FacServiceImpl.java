@@ -2,6 +2,7 @@ package com.rainbow.unit.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -42,17 +43,24 @@ public class FacServiceImpl extends BaseService<Fac> implements FacService {
     @Autowired
     FacReportMapper facReportMapper;
 
+    @Autowired
+    FileInfoService fileInfoService;
+
     @Override
     public int addFac(Fac fac) {
         fac.setId(GuidHelper.getGuid());
         fac.setCreateDate(new Date());
         fac.setModifyDate(new Date());
+
+        fileInfoService.updateFileInfoByIds(fac.getAttachmentList(),fac.getId());
         return facMapper.insert(fac);
     }
 
     @Override
     public int modifyFac(Fac fac) {
         fac.setModifyDate(new Date());
+
+        fileInfoService.updateFileInfoByIds(fac.getAttachmentList(),fac.getId());
         return facMapper.updateByPrimaryKey(fac);
     }
 

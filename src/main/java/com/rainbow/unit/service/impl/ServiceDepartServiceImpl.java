@@ -2,6 +2,7 @@ package com.rainbow.unit.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -41,17 +42,22 @@ public class ServiceDepartServiceImpl extends BaseService<ServiceDepart> impleme
     @Autowired
     FacMapper facMapper;
 
+    @Autowired
+    FileInfoService fileInfoService;
     @Override
     public int addServiceDepart(ServiceDepart serviceDepart) {
         serviceDepart.setId(GuidHelper.getGuid());
         serviceDepart.setCreateDate(new Date());
         serviceDepart.setModifyDate(new Date());
+
+        fileInfoService.updateFileInfoByIds(serviceDepart.getAttachmentList(),serviceDepart.getId());
         return serviceDepartMapper.insert(serviceDepart);
     }
 
     @Override
     public int modifyServiceDepart(ServiceDepart serviceDepart) {
         serviceDepart.setModifyDate(new Date());
+        fileInfoService.updateFileInfoByIds(serviceDepart.getAttachmentList(),serviceDepart.getId());
         return serviceDepartMapper.updateByPrimaryKey(serviceDepart);
     }
 

@@ -7,7 +7,7 @@
     -->
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="fac_id" jdbcType="VARCHAR" property="facId" />
-    <result column="type_id" jdbcType="DATE" property="typeId" />
+    <result column="type_id" jdbcType="VARCHAR" property="typeId" />
     <result column="date" jdbcType="DATE" property="date" />
   </resultMap>
 

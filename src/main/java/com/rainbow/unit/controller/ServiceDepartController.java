@@ -81,7 +81,7 @@ public class ServiceDepartController {
      * @return
      */
     @GetMapping("/getServiceDepartById")
-    public ResponseBo getServiceDepartById(@RequestBody String id) {
+    public ResponseBo getServiceDepartById( String id) {
         return serviceDepartService.getServiceDepartById(id);
     }
 

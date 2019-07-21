@@ -2,6 +2,7 @@ package com.rainbow.unit.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -32,9 +33,14 @@ public class FacReportServiceImpl extends BaseService<FacReport> implements FacR
     @Autowired
     FacReportMapper facReportMapper;
 
+    @Autowired
+    FileInfoService fileInfoService;
+
     @Override
     public int addFacReport(FacReport facReport) {
         facReport.setId(GuidHelper.getGuid());
+
+        fileInfoService.updateFileInfoByIds(facReport.getAttachmentList(),facReport.getId());
         return facReportMapper.insert(facReport);
     }
 

@@ -2,6 +2,7 @@ package com.rainbow.unit.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -35,9 +36,13 @@ public class ServiceAnnualReportServiceImpl extends BaseService<ServiceAnnualRep
     @Autowired
     ServiceAnnualReportMapper annualReportMapper;
 
+    @Autowired
+    FileInfoService fileInfoService;
     @Override
     public int addServiceAnnualReport(ServiceAnnualReport annualReport) {
         annualReport.setReportId(GuidHelper.getGuid());
+
+        fileInfoService.updateFileInfoByIds(annualReport.getAttachmentList(),annualReport.getReportId());
         return  annualReportMapper.insert(annualReport);
 
     }

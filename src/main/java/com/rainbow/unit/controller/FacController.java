@@ -82,7 +82,7 @@ public class FacController {
      * @return
      */
     @GetMapping("/getFacById")
-    public ResponseBo getFacById(@RequestBody String id) {
+    public ResponseBo getFacById(String id) {
         return facService.getFacById(id);
     }
 

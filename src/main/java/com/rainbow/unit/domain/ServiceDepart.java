@@ -1,10 +1,12 @@
 package com.rainbow.unit.domain;
 
+import com.rainbow.common.domain.BaseExtendEntity;
+
 import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "unit_service_depart")
-public class ServiceDepart {
+public class ServiceDepart extends BaseExtendEntity {
     /**
      * 核设施营运单位主键
      */

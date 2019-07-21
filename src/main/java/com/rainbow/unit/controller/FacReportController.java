@@ -1,6 +1,7 @@
 package com.rainbow.unit.controller;
 
 
+import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.unit.domain.FacImprove;
@@ -27,6 +28,8 @@ public class FacReportController {
     @Autowired
     FacReportService facReportService;
 
+    @Autowired
+    FileInfoService fileInfoService;
     /**
      * 添加核设施定期报告信息
      *
@@ -54,6 +57,7 @@ public class FacReportController {
     public ResponseBo modify(@RequestBody FacReport facReport) {
 
         int result = facReportService.updateAll(facReport);
+        fileInfoService.updateFileInfoByIds(facReport.getAttachmentList(),facReport.getId());
         if (result == 1) {
             return ResponseBo.ok("修改成功");
         } else {

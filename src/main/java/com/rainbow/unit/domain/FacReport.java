@@ -1,10 +1,12 @@
 package com.rainbow.unit.domain;
 
+import com.rainbow.common.domain.BaseExtendEntity;
+
 import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "unit_fac_report")
-public class FacReport {
+public class FacReport extends BaseExtendEntity {
     /**
      * 主键
      */
@@ -22,7 +24,7 @@ public class FacReport {
      * 定期报告类别，外键关联config_fac_report_type
      */
     @Column(name = "type_id")
-    private Date typeId;
+    private String typeId;
 
     /**
      * 定期报告时间
@@ -70,7 +72,7 @@ public class FacReport {
      *
      * @return type_id - 定期报告类别，外键关联config_fac_report_type
      */
-    public Date getTypeId() {
+    public String getTypeId() {
         return typeId;
     }
 
@@ -79,7 +81,7 @@ public class FacReport {
      *
      * @param typeId 定期报告类别，外键关联config_fac_report_type
      */
-    public void setTypeId(Date typeId) {
+    public void setTypeId(String typeId) {
         this.typeId = typeId;
     }
 

@@ -10,7 +10,7 @@ spring:
       driverClassName: com.mysql.jdbc.Driver
       url: jdbc:mysql://localhost:3306/rainbow?useUnicode=true&characterEncoding=utf8&&serverTimezone=UTC
       username: root
-      password: 123456
+      password: 88888888
       # 连接池配置
       initial-size: 5
       min-idle: 5

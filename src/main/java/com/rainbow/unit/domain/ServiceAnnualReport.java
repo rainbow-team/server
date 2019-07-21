@@ -1,10 +1,12 @@
 package com.rainbow.unit.domain;
 
+import com.rainbow.common.domain.BaseExtendEntity;
+
 import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "unit_service_annual_report")
-public class ServiceAnnualReport {
+public class ServiceAnnualReport extends BaseExtendEntity {
     /**
      * 核设施营运单位年度报告id,file_info关联查找
      */

@@ -1,10 +1,12 @@
 package com.rainbow.unit.domain;
 
+import com.rainbow.common.domain.BaseExtendEntity;
+
 import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "unit_fac")
-public class Fac {
+public class Fac extends BaseExtendEntity {
     /**
      * 主键
      */
