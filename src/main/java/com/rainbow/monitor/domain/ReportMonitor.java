@@ -17,8 +17,8 @@ public class ReportMonitor {
 
 参考表:supervision_org
      */
-    @Column(name = "supervision_org_id")
-    private String supervisionOrgId;
+    @Column(name = "org_id")
+    private String orgId;
 
     /**
      * 报告名称
@@ -30,8 +30,8 @@ public class ReportMonitor {
 
 参考表：config_monitor_report_type
      */
-    @Column(name = "report_type")
-    private String reportType;
+    @Column(name = "report_type_id")
+    private String reportTypeId;
 
     /**
      * 报告时间
@@ -97,12 +97,12 @@ public class ReportMonitor {
 
 参考表:supervision_org
      *
-     * @return supervision_org_id - 核安全监管机构信息，外键
+     * @return org_id - 核安全监管机构信息，外键
 
 参考表:supervision_org
      */
-    public String getSupervisionOrgId() {
-        return supervisionOrgId;
+    public String getOrgId() {
+        return orgId;
     }
 
     /**
@@ -110,12 +110,12 @@ public class ReportMonitor {
 
 参考表:supervision_org
      *
-     * @param supervisionOrgId 核安全监管机构信息，外键
+     * @param orgId 核安全监管机构信息，外键
 
 参考表:supervision_org
      */
-    public void setSupervisionOrgId(String supervisionOrgId) {
-        this.supervisionOrgId = supervisionOrgId == null ? null : supervisionOrgId.trim();
+    public void setOrgId(String orgId) {
+        this.orgId = orgId == null ? null : orgId.trim();
     }
 
     /**
@@ -145,8 +145,8 @@ public class ReportMonitor {
 
 参考表：config_monitor_report_type
      */
-    public String getReportType() {
-        return reportType;
+    public String getReportTypeId() {
+        return reportTypeId;
     }
 
     /**
@@ -154,12 +154,12 @@ public class ReportMonitor {
 
 参考表：config_monitor_report_type
      *
-     * @param reportType 监督报告类型，外键
+     * @param reportTypeId 监督报告类型，外键
 
 参考表：config_monitor_report_type
      */
-    public void setReportType(String reportType) {
-        this.reportType = reportType == null ? null : reportType.trim();
+    public void setReportTypeId(String reportTypeId) {
+        this.reportTypeId = reportTypeId == null ? null : reportTypeId.trim();
     }
 
     /**
