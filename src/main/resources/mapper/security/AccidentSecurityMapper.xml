@@ -56,7 +56,7 @@
     ana.value natureValue
     from security_accident t
     left join unit_service_depart sd on t.service_id = sd.id
-    left join unit_umine u on t.service_id = u.id
+    left join unit_umine u on t.umine_id = u.id
     left join unit_fac f on t.fac_id = f.id
     left join unit_umine_place up on t.umine_place_id = up.id
     left join config_fac_status s on t.fac_status_id = s.id
@@ -65,20 +65,28 @@
     left join config_accident_nature ana on t.nature_id = ana.id
     where 1=1
 
-    <if test="serviceDepartName != null and serviceDepartName != ''">
-      and instr(sd.name,#{serviceDepartName})>0
+    <!--<if test="serviceDepartName != null and serviceDepartName != ''">-->
+      <!--and instr(sd.name,#{serviceDepartName})>0-->
+    <!--</if>-->
+
+    <!--<if test="umineName != null and umineName != ''">-->
+      <!--or instr(u.name,#{umineName})>0-->
+    <!--</if>-->
+
+    <if test="depart != null and depart != ''">
+      and (instr(sd.name,#{depart})>0 or instr(u.name,#{depart})>0)
     </if>
 
-    <if test="umineName != null and umineName != ''">
-      and instr(u.name,#{umineName})>0
-    </if>
+    <!--<if test="facName != null and facName != ''">-->
+      <!--and instr(f.name,#{facName})>0-->
+    <!--</if>-->
 
-    <if test="facName != null and facName != ''">
-      and instr(f.name,#{facName})>0
-    </if>
+    <!--<if test="uminePlaceName != null and uminePlaceName != ''">-->
+      <!--or instr(up.name,#{uminePlaceName})>0-->
+    <!--</if>-->
 
-    <if test="uminePlaceName != null and uminePlaceName != ''">
-      and instr(up.name,#{uminePlaceName})>0
+    <if test="fac != null and fac != ''">
+      and (instr(f.name,#{fac})>0 or instr(up.name,#{fac})>0)
     </if>
 
     <if test="facStatusTypeIds != null">
@@ -102,11 +110,11 @@
     </if>
 
     <if test="start_date != null and start_date != ''">
-      and and t.occur_date <![CDATA[  >=  ]]> #{start_date}
+      and t.occur_date <![CDATA[  >=  ]]> #{start_date}
     </if>
 
     <if test="end_date != null and end_date != ''">
-      and and t.occur_date <![CDATA[  <=  ]]> #{end_date}
+      and t.occur_date <![CDATA[  <=  ]]> #{end_date}
     </if>
 
     <if test="typeIds != null">
@@ -143,7 +151,7 @@
     ana.value natureValue
     from security_accident t
     left join unit_service_depart sd on t.service_id = sd.id
-    left join unit_umine u on t.service_id = u.id
+    left join unit_umine u on t.umine_id = u.id
     left join unit_fac f on t.fac_id = f.id
     left join unit_umine_place up on t.umine_place_id = up.id
     left join config_fac_status s on t.fac_status_id = s.id
