@@ -45,10 +45,10 @@
      f.name facName,
      et.value typeValue,
      el.value levelValue,
-     ps.value stageValue,
+     ps.value stageValue
     from permit_equip t
     left join  unit_equip_depart ea on t.equip_depart_id = ea.id
-    left join  unit_service_depart sd on t.service_id = f.id
+    left join  unit_service_depart sd on t.service_id = sd.id
     left join  unit_fac f on t.fac_id = f.id
     left join  config_equip_type et on t.type_id = et.id
     left join  config_equip_level el on t.level_id = el.id
@@ -106,10 +106,10 @@
      f.name facName,
      et.value typeValue,
      el.value levelValue,
-     ps.value stageValue,
+     ps.value stageValue
     from permit_equip t
     left join  unit_equip_depart ed on t.equip_depart_id = ed.id
-    left join  unit_service_depart sd on t.service_id = f.id
+    left join  unit_service_depart sd on t.service_id = sd.id
     left join  unit_fac f on t.fac_id = f.id
     left join  config_equip_type et on t.type_id = et.id
     left join  config_equip_level el on t.level_id = el.id

@@ -20,7 +20,7 @@
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
     <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
-    <result column="condition" jdbcType="LONGVARCHAR" property="condition" />
+    <result column="permit_condition" jdbcType="LONGVARCHAR" property="permitCondition" />
     <result column="promise" jdbcType="LONGVARCHAR" property="promise" />
     <result column="note" jdbcType="LONGVARCHAR" property="note" />
   </resultMap>
@@ -41,7 +41,7 @@
     ed.name equipDepartName,
     f.name facName,
     act.value typeValue
-    from permit_equip t
+    from permit_activity t
     left join  unit_service_depart sd on t.service_id = sd.id
     left join  unit_equip_depart ed on t.equip_depart_id = ed.id
     left join  unit_fac f on t.fac_id = f.id
@@ -86,7 +86,7 @@
     ed.name equipDepartName,
     f.name facName,
     act.value typeValue
-    from permit_equip t
+    from permit_activity t
     left join  unit_service_depart sd on t.service_id = sd.id
     left join  unit_equip_depart ed on t.equip_depart_id = ed.id
     left join  unit_fac f on t.fac_id = f.id

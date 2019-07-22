@@ -102,7 +102,7 @@ public class ActivityPermit {
     /**
      * 许可条件
      */
-    private String condition;
+    private String permitCondition;
 
     /**
      * 审评承诺
@@ -411,19 +411,19 @@ public class ActivityPermit {
     /**
      * 获取许可条件
      *
-     * @return condition - 许可条件
+     * @return permitCondition - 许可条件
      */
-    public String getCondition() {
-        return condition;
+    public String getpermitCondition() {
+        return permitCondition;
     }
 
     /**
      * 设置许可条件
      *
-     * @param condition 许可条件
+     * @param permitCondition 许可条件
      */
-    public void setCondition(String condition) {
-        this.condition = condition == null ? null : condition.trim();
+    public void setpermitCondition(String permitCondition) {
+        this.permitCondition = permitCondition == null ? null : permitCondition.trim();
     }
 
     /**
