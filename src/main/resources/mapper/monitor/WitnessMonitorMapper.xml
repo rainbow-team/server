@@ -45,16 +45,24 @@
     left join unit_equip_depart ed on t.equip_depart_id = ed.id
     where 1=1
 
-    <if test="serviceDepartName != null and serviceDepartName != ''">
-      and instr(sd.name,#{serviceDepartName})>0
+<!--    <if test="serviceDepartName != null and serviceDepartName != ''">-->
+<!--      and instr(sd.name,#{serviceDepartName})>0-->
+<!--    </if>-->
+
+<!--    <if test="umineName != null and umineName != ''">-->
+<!--      and instr(u.name,#{serviceDepartName})>0-->
+<!--    </if>-->
+
+    <if test="name != null and name != ''">
+      and (instr(sd.name,#{name})>0 or instr(u.name,#{name})>0 or instr(ed.name,#{name})>0)
     </if>
 
-    <if test="umineName != null and umineName != ''">
-      and instr(u.name,#{serviceDepartName})>0
-    </if>
+<!--    <if test="equipDepartName != null and equipDepartName != ''">-->
+<!--      and instr(ed.name,#{serviceDepartName})>0-->
+<!--    </if>-->
 
-    <if test="equipDepartName != null and equipDepartName != ''">
-      and instr(ed.name,#{serviceDepartName})>0
+    <if test="witness_obj!= null and witness_obj != ''">
+      and instr(t.witness_object,#{witness_obj})>0
     </if>
 
     <if test="witness_items != null and witness_items != ''">
@@ -62,11 +70,11 @@
     </if>
 
     <if test="start_date != null and start_date != ''">
-      and and t.witness_date <![CDATA[  >=  ]]> #{start_date}
+      and t.witness_date <![CDATA[  >=  ]]> #{start_date}
     </if>
 
     <if test="end_date != null and end_date != ''">
-      and and t.witness_date <![CDATA[  <=  ]]> #{end_date}
+      and t.witness_date <![CDATA[  <=  ]]> #{end_date}
     </if>
   </select>
 

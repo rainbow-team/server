@@ -32,17 +32,17 @@ public class WitnessMonitorServiceImpl extends BaseService<WitnessMonitor> imple
     WitnessMonitorMapper witnessMonitorMapper;
 
     @Override
-    public int addWitnessMonitor(WitnessMonitor activityCheck) {
-        activityCheck.setId(GuidHelper.getGuid());
-        activityCheck.setCreateDate(new Date());
-        activityCheck.setModifyDate(new Date());
-        return witnessMonitorMapper.insert(activityCheck);
+    public int addWitnessMonitor(WitnessMonitor witnessMonitor) {
+        witnessMonitor.setId(GuidHelper.getGuid());
+        witnessMonitor.setCreateDate(new Date());
+        witnessMonitor.setModifyDate(new Date());
+        return witnessMonitorMapper.insert(witnessMonitor);
     }
 
     @Override
-    public int modifyWitnessMonitor(WitnessMonitor activityCheck) {
-        activityCheck.setModifyDate(new Date());
-        return witnessMonitorMapper.updateByPrimaryKey(activityCheck);
+    public int modifyWitnessMonitor(WitnessMonitor witnessMonitor) {
+        witnessMonitor.setModifyDate(new Date());
+        return witnessMonitorMapper.updateByPrimaryKey(witnessMonitor);
     }
 
     @Override

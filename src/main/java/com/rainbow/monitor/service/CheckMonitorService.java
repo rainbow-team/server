@@ -14,7 +14,7 @@ public interface CheckMonitorService extends IService<CheckMonitor> {
 
     int addCheckMonitor(CheckMonitor checkMonitor);
 
-    int modifyCheckMonitor(CheckMonitor activityCheck);
+    int modifyCheckMonitor(CheckMonitor checkMonitor);
 
     int deleteCheckMonitorById(String id);
 

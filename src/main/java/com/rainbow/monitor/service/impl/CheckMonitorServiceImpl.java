@@ -32,17 +32,17 @@ public class CheckMonitorServiceImpl extends BaseService<CheckMonitor> implement
     CheckMonitorMapper checkMonitorMapper;
 
     @Override
-    public int addCheckMonitor(CheckMonitor activityCheck) {
-        activityCheck.setId(GuidHelper.getGuid());
-        activityCheck.setCreateDate(new Date());
-        activityCheck.setModifyDate(new Date());
-        return checkMonitorMapper.insert(activityCheck);
+    public int addCheckMonitor(CheckMonitor checkMonitor) {
+        checkMonitor.setId(GuidHelper.getGuid());
+        checkMonitor.setCreateDate(new Date());
+        checkMonitor.setModifyDate(new Date());
+        return checkMonitorMapper.insert(checkMonitor);
     }
 
     @Override
-    public int modifyCheckMonitor(CheckMonitor activityCheck) {
-        activityCheck.setModifyDate(new Date());
-        return checkMonitorMapper.updateByPrimaryKey(activityCheck);
+    public int modifyCheckMonitor(CheckMonitor checkMonitor) {
+        checkMonitor.setModifyDate(new Date());
+        return checkMonitorMapper.updateByPrimaryKey(checkMonitor);
     }
 
     @Override
