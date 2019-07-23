@@ -69,8 +69,12 @@
       and instr(u.name,#{umineName})>0
     </if>
 
-    <if test="build_year != null and build_year != ''">
-      and instr(t.build_year,#{build_year})>0
+    <if test="start_date != null and start_date != ''">
+      and t.build_year <![CDATA[  >=  ]]> #{start_date}
+    </if>
+
+    <if test="end_date != null and end_date != ''">
+      and t.build_year <![CDATA[  <=  ]]> #{end_date}
     </if>
 
     <if test="levelIds != null">
