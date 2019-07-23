@@ -101,4 +101,8 @@
     and not exists(select 1 from unit_umine_mountain_improve a where a.umine_mountain_id = t.id)
     and not exists(select 1 from check_umine_mountain b where b.umine_mountain_id = t.id)
   </select>
+
+  <select id="getUminemountainListByUmineId" parameterType="java.lang.String" resultMap="MountainBaseResultMap">
+    select * from unit_umine_mountain t where t.umine_id = #{umineId}
+  </select>
 </mapper>

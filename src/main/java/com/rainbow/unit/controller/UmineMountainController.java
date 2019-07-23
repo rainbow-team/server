@@ -99,4 +99,18 @@ public class UmineMountainController {
         }
         return ResponseBo.ok();
     }
+
+    /**
+     * 根据铀矿冶单位的ID寻找对应所有的铀矿山
+     *
+     * @param
+     * @return
+     */
+    @PostMapping("/getUminemountainListByUmineId")
+    public ResponseBo getUminemountainListByUmineId(@RequestBody String umineId) {
+        if (umineId != null) {
+            return umineMountainService.getUminemountainListByUmineId(umineId);
+        }
+        return ResponseBo.ok("获取失败");
+    }
 }

@@ -24,4 +24,6 @@ public interface UmineMountainService extends IService<UmineMountain> {
     ResponseBo getUmineMountainList(Page page);
 
     ResponseBo getUmineMountainById(String id);
+
+    ResponseBo getUminemountainListByUmineId(String umineId);
 }

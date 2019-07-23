@@ -12,6 +12,7 @@ import com.rainbow.unit.dao.EquipDepartMapper;
 import com.rainbow.unit.dao.UmineMountainMapper;
 import com.rainbow.unit.domain.EquipDepart;
 import com.rainbow.unit.domain.UmineMountain;
+import com.rainbow.unit.domain.Umineplace;
 import com.rainbow.unit.service.EquipDepartService;
 import com.rainbow.unit.service.UmineMountainService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,4 +85,12 @@ public class UmineMountainServiceImpl extends BaseService<UmineMountain> impleme
         return 0;
     }
 
+    @Override
+    public ResponseBo getUminemountainListByUmineId(String umineId) {
+        List<UmineMountain> result = umineMountainMapper.getUminemountainListByUmineId(umineId);
+        if (result != null) {
+            return ResponseBo.ok(result);
+        }
+        return ResponseBo.error("查询失败");
+    }
 }

@@ -59,7 +59,7 @@
     um.name umineMountainName
     from check_umine_mountain t
     left join unit_umine u on t.umine_id = u.id
-    left join unit_umine_mountain um on t.umine_place_id = um.id
+    left join unit_umine_mountain um on t.umine_mountain_id = um.id
     where t.id = #{id}
 
   </select>
