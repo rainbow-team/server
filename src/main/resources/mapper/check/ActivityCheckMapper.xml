@@ -9,7 +9,7 @@
     <result column="service_id" jdbcType="VARCHAR" property="serviceId" />
     <result column="equip_depart_id" jdbcType="VARCHAR" property="equipDepartId" />
     <result column="fac_id" jdbcType="VARCHAR" property="facId" />
-    <result column="activity_type_id" jdbcType="VARCHAR" property="activityTypeId" />
+    <result column="type_id" jdbcType="VARCHAR" property="activityTypeId" />
     <result column="check_date" jdbcType="DATE" property="checkDate" />
     <result column="is_import" jdbcType="INTEGER" property="isImport" />
     <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
@@ -43,12 +43,16 @@
     left join config_activity_type ty on t.type_id = ty.id
     where 1=1
 
-    <if test="serviceDepartName != null and serviceDepartName != ''">
-      and instr(sd.name,#{serviceDepartName})>0
-    </if>
+    <!--<if test="serviceDepartName != null and serviceDepartName != ''">-->
+      <!--and instr(sd.name,#{serviceDepartName})>0-->
+    <!--</if>-->
 
-    <if test="equipDepartName != null and equipDepartName != ''">
-      and instr(ud.name,#{equipDepartName})>0
+    <!--<if test="equipDepartName != null and equipDepartName != ''">-->
+      <!--and instr(ud.name,#{equipDepartName})>0-->
+    <!--</if>-->
+
+    <if test="name != null and name != ''">
+      and (instr(sd.name,#{name})>0 or instr(ud.name,#{name})>0)
     </if>
 
     <if test="facName != null and facName != ''">
@@ -64,7 +68,7 @@
     </if>
 
     <if test="content != null and content != ''">
-      and instr(t.content,#{content})>0
+      and instr(t.check_content,#{content})>0
     </if>
 
   </select>

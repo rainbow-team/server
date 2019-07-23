@@ -39,7 +39,7 @@ public class ActivityCheck {
 
 参考表：config_activity_type
      */
-    @Column(name = "activity_type_id")
+    @Column(name = "type_id")
     private String activityTypeId;
 
     /**
@@ -314,7 +314,7 @@ public class ActivityCheck {
     /**
      * 获取审查内容
      *
-     * @return check_content - 审查内容
+     * @return check_entent - 审查内容
      */
     public String getCheckContent() {
         return checkContent;
