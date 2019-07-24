@@ -1,10 +1,15 @@
 package com.rainbow.statistics.domain;
 
 public class SearchCondition {
+
+    //需要查询的主表
     private String tableName;
 
+    //主表中的查询字段
     private String propertyName;
 
+
+    //查询字段说对应的的配置表的名称
     private String configTableName;
 
     public String getTableName() {

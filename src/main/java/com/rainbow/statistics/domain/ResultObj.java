@@ -2,8 +2,10 @@ package com.rainbow.statistics.domain;
 
 public class ResultObj {
 
+    //结果的类型
     private String typeValue;
 
+    //
     private Integer resultNum;
 
     public String getTypeValue() {

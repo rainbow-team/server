@@ -11,11 +11,18 @@
 
 
   <select id="searchResultByCommonConditon" parameterType="com.rainbow.statistics.domain.SearchCondition" resultMap="BaseResultMap">
-         select a.`value` as typeValue, b.resultNum
+         select a.`value` as typeValue, ifnull(b.resultNum,0)
          from ${configTableName} a
          left join
          (select c.${propertyName} as rid ,count(id) as resultNum  from ${tableName} c group by ${propertyName}) b
          on a.id = b.rid
   </select>
+
+    <select id="getStatisticsResultByYear" parameterType="com.rainbow.statistics.domain.SearchCondition" resultType="com.rainbow.statistics.domain.YearResultObj">
+        select
+         sum(case when year(t.${propertyName}) <![CDATA[  >=  ]]> 2000 then 1 else 0 end ) big,
+         sum(case when year(t.${propertyName}) <![CDATA[  <  ]]>  2000 then 1 else 0 end ) small
+        from  ${tableName} t
+    </select>
 
 </mapper>

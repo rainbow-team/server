@@ -13,6 +13,7 @@ import com.rainbow.security.service.AccidentSecurityService;
 import com.rainbow.statistics.dao.StatisticsMapper;
 import com.rainbow.statistics.domain.ResultObj;
 import com.rainbow.statistics.domain.SearchCondition;
+import com.rainbow.statistics.domain.YearResultObj;
 import com.rainbow.statistics.service.StatisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,4 +43,12 @@ public class StatisticsServiceImpl implements StatisticsService {
         return ResponseBo.error("获取失败");
     }
 
+    @Override
+    public ResponseBo getStatisticsResultByYear(SearchCondition condition) {
+        YearResultObj result = statisticsMapper.getStatisticsResultByYear(condition);
+        if (result != null) {
+            return ResponseBo.ok(result);
+        }
+        return ResponseBo.error("获取失败");
+    }
 }

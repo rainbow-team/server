@@ -24,6 +24,7 @@ public class StatisticsController {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
+
     @Autowired
     StatisticsService statisticsService;
 
@@ -38,6 +39,23 @@ public class StatisticsController {
 
         if (condition != null) {
             return statisticsService.getStatisticsResultByCommonCondition(condition);
+        }
+        else {
+            return ResponseBo.error("查询错误");
+        }
+    }
+
+    /**
+     * 根据表名和要分组的属性查询建造年代的统计信息
+     *
+     * @param
+     * @return
+     */
+    @PostMapping("/getStatisticsResultByYear")
+    public ResponseBo getStatisticsResultByYear(@RequestBody SearchCondition condition) {
+
+        if (condition != null) {
+            return statisticsService.getStatisticsResultByYear(condition);
         }
         else {
             return ResponseBo.error("查询错误");

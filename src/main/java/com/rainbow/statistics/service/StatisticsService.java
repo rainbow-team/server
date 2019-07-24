@@ -16,4 +16,8 @@ import java.util.Map;
 public interface StatisticsService {
 
     ResponseBo getStatisticsResultByCommonCondition(SearchCondition condition);
+
+    ResponseBo getStatisticsResultByYear(SearchCondition condition);
+
+
 }
