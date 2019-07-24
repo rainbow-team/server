@@ -49,8 +49,7 @@ public class UminePlacePermit {
     /**
      * 许可文号
      */
-    @Column(name = "permit_number")
-    private String permitNumber;
+    private String licence;
 
     /**
      * 许可内容
@@ -234,17 +233,17 @@ public class UminePlacePermit {
      *
      * @return permit_number - 许可文号
      */
-    public String getPermitNumber() {
-        return permitNumber;
+    public String getLicence() {
+        return licence;
     }
 
     /**
      * 设置许可文号
      *
-     * @param permitNumber 许可文号
+     * @param licence 许可文号
      */
-    public void setPermitNumber(String permitNumber) {
-        this.permitNumber = permitNumber == null ? null : permitNumber.trim();
+    public void setLicence(String licence) {
+        this.licence = licence == null ? null : licence.trim();
     }
 
     /**
