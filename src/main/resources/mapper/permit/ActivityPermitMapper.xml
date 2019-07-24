@@ -12,7 +12,7 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="activity_type_id" jdbcType="VARCHAR" property="activityTypeId" />
-    <result column="permission_date" jdbcType="DATE" property="permissionDate" />
+    <result column="permit_date" jdbcType="DATE" property="permitDate" />
     <result column="validate_time" jdbcType="VARCHAR" property="validateTime" />
     <result column="licence" jdbcType="VARCHAR" property="licence" />
     <result column="is_import" jdbcType="INTEGER" property="isImport" />
@@ -48,12 +48,20 @@
     left join  config_activity_type act on t.activity_type_id = act.id
     where 1=1
 
-    <if test="serviceDepartName != null and serviceDepartName != ''">
-      and instr(sd.name,#{serviceDepartName})>0
+    <!--<if test="serviceDepartName != null and serviceDepartName != ''">-->
+      <!--and instr(sd.name,#{serviceDepartName})>0-->
+    <!--</if>-->
+
+    <!--<if test="equipDepartName != null and equipDepartName != ''">-->
+      <!--and instr(ed.name,#{equipDepartName})>0-->
+    <!--</if>-->
+
+    <if test="departName != null and departName != ''">
+      and (instr(sd.name,#{departName})>0 or instr(ed.name,#{departName})>0)
     </if>
 
-    <if test="equipDepartName != null and equipDepartName != ''">
-      and instr(ed.name,#{equipDepartName})>0
+    <if test="facName != null and facName != ''">
+      and instr(f.name,#{facName})>0
     </if>
 
     <if test="name != null and name != ''">
@@ -72,9 +80,14 @@
       )
     </if>
 
-    <if test="permission_date != null and permission_date != ''">
-      and t.permission_date = #{permission_date}
+    <if test="start_date != null and start_date != ''">
+      and t.permit_date <![CDATA[  >=  ]]> #{start_date}
     </if>
+
+    <if test="end_date != null and end_date != ''">
+      and t.permit_date <![CDATA[  <=  ]]> #{end_date}
+    </if>
+
 
   </select>
 
