@@ -9,7 +9,7 @@
     <result column="service_id" jdbcType="VARCHAR" property="serviceId" />
     <result column="fac_id" jdbcType="VARCHAR" property="facId" />
     <result column="stage_id" jdbcType="VARCHAR" property="stageId" />
-    <result column="permission_date" jdbcType="DATE" property="permissionDate" />
+    <result column="permit_date" jdbcType="DATE" property="permitDate" />
     <result column="licence" jdbcType="VARCHAR" property="licence" />
     <result column="is_import" jdbcType="INTEGER" property="isImport" />
     <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
@@ -17,7 +17,7 @@
     <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
     <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
     <result column="scope" jdbcType="LONGVARCHAR" property="scope" />
-    <result column="condition" jdbcType="LONGVARCHAR" property="condition" />
+    <result column="permit_condition" jdbcType="LONGVARCHAR" property="condition" />
     <result column="promise" jdbcType="LONGVARCHAR" property="promise" />
     <result column="note" jdbcType="LONGVARCHAR" property="note" />
   </resultMap>
@@ -58,8 +58,12 @@
       )
     </if>
 
-    <if test="permission_date != null and permission_date != ''">
-      and t.permission_date = #{permission_date}
+    <if test="start_date != null and start_date != ''">
+      and t.permit_date <![CDATA[  >=  ]]> #{start_date}
+    </if>
+
+    <if test="end_date != null and end_date != ''">
+      and t.permit_date <![CDATA[  <=  ]]> #{end_date}
     </if>
 
   </select>
@@ -76,7 +80,6 @@
     left join  unit_service_depart sd on t.service_id = sd.id
     left join  unit_fac f on t.fac_id = f.id
     left join  config_fac_permit_stage ps on t.stage_id = ps.id
-    where 1=1
     where t.id = #{id}
 
   </select>

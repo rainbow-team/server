@@ -38,8 +38,8 @@ public class FacPermit extends BaseExtendEntity {
     /**
      * 许可时间
      */
-    @Column(name = "permission_date")
-    private Date permissionDate;
+    @Column(name = "permit_date")
+    private Date permitDate;
 
     /**
      * 许可文号
@@ -84,6 +84,7 @@ public class FacPermit extends BaseExtendEntity {
     /**
      * 许可条件
      */
+    @Column(name = "permit_condition")
     private String condition;
 
     /**
@@ -183,19 +184,19 @@ public class FacPermit extends BaseExtendEntity {
     /**
      * 获取许可时间
      *
-     * @return permission_date - 许可时间
+     * @return permit_date - 许可时间
      */
-    public Date getPermissionDate() {
-        return permissionDate;
+    public Date getPermitDate() {
+        return permitDate;
     }
 
     /**
      * 设置许可时间
      *
-     * @param permissionDate 许可时间
+     * @param PermitDate 许可时间
      */
-    public void setPermissionDate(Date permissionDate) {
-        this.permissionDate = permissionDate;
+    public void setPermitDate(Date permitDate) {
+        this.permitDate = permitDate;
     }
 
     /**

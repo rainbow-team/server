@@ -5,7 +5,7 @@ public class ResultObj {
     //结果的类型
     private String typeValue;
 
-    //
+    //结果的数量
     private Integer resultNum;
 
     public String getTypeValue() {

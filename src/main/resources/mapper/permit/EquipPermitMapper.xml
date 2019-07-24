@@ -7,12 +7,12 @@
     -->
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="depart_id" jdbcType="VARCHAR" property="departId" />
+    <result column="equip_depart_id" jdbcType="VARCHAR" property="equipDepartId" />
     <result column="service_id" jdbcType="VARCHAR" property="serviceId" />
     <result column="fac_id" jdbcType="VARCHAR" property="facId" />
     <result column="type_id" jdbcType="VARCHAR" property="typeId" />
     <result column="level_id" jdbcType="VARCHAR" property="levelId" />
-    <result column="permit_stage_id" jdbcType="VARCHAR" property="permitStageId" />
+    <result column="stage_id" jdbcType="VARCHAR" property="stageId" />
     <result column="permit_date" jdbcType="DATE" property="permitDate" />
     <result column="validate_time" jdbcType="VARCHAR" property="validateTime" />
     <result column="permit_number" jdbcType="VARCHAR" property="permitNumber" />
@@ -21,7 +21,7 @@
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
     <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
-    <result column="permit_condition" jdbcType="LONGVARCHAR" property="permitCondition" />
+    <result column="permit_condition" jdbcType="LONGVARCHAR" property="condition" />
     <result column="review_promise" jdbcType="LONGVARCHAR" property="reviewPromise" />
     <result column="note" jdbcType="LONGVARCHAR" property="note" />
   </resultMap>
@@ -63,8 +63,12 @@
       and instr(ea.name,#{equipDepartName})>0
     </if>
 
-    <if test="serviceDepartValue != null and serviceDepartValue != ''">
+    <if test="serviceDepartName != null and serviceDepartName != ''">
       and instr(sd.name,#{serviceDepartValue})>0
+    </if>
+
+    <if test="facName != null and facName != ''">
+      and instr(f.name,#{facName})>0
     </if>
 
     <if test="typeIds != null">
@@ -91,8 +95,12 @@
       )
     </if>
 
-    <if test="permission_date != null and permission_date != ''">
-      and t.permission_date = #{permission_date}
+    <if test="start_date != null and start_date != ''">
+      and t.permit_date <![CDATA[  >=  ]]> #{start_date}
+    </if>
+
+    <if test="end_date != null and end_date != ''">
+      and t.permit_date <![CDATA[  <=  ]]> #{end_date}
     </if>
 
   </select>
