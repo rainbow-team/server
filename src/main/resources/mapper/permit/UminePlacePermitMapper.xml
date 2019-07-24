@@ -8,7 +8,7 @@
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="umine_id" jdbcType="VARCHAR" property="umineId" />
     <result column="umine_place_id" jdbcType="VARCHAR" property="uminePlaceId" />
-    <result column="permit_stage_id" jdbcType="VARCHAR" property="permitStageId" />
+    <result column="stage_id" jdbcType="VARCHAR" property="stageId" />
     <result column="permit_date" jdbcType="DATE" property="permitDate" />
     <result column="validate_time" jdbcType="VARCHAR" property="validateTime" />
     <result column="permit_number" jdbcType="VARCHAR" property="permitNumber" />
@@ -19,7 +19,7 @@
     <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
     <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
     <result column="permit_condition" jdbcType="LONGVARCHAR" property="permitCondition" />
-    <result column="review_promise" jdbcType="LONGVARCHAR" property="reviewPromise" />
+    <result column="promise" jdbcType="LONGVARCHAR" property="reviewPromise" />
     <result column="note" jdbcType="LONGVARCHAR" property="note" />
   </resultMap>
 
@@ -76,7 +76,7 @@
     left join  unit_umine u on t.umine_id = u.id
     left join  unit_umine_place up on t.umine_place_id = up.id
     left join  config_umine_place_permit_stage s on t.stage_id = s.id
-    where id = #{id}
+    where t.id = #{id}
 
   </select>
 </mapper>

@@ -32,14 +32,14 @@
 
   <select id="getUmineMountainPermitList" parameterType="map" resultMap="UmineMountainPermitExtendMap">
 
-    select
-     t.*,
-     u.name umineName,
-     um.name umineMountainName,
-    from permit_umine_mountain t
-    left join  unit_umine u on t.umine_id = u.id
-    left join  unit_umine_mountain um on t.umine_mountain_id = um.id
-    where 1=1
+        select
+        t.*,
+        u.name umineName,
+        um.name umineMountainName
+        from permit_umine_mountain t
+        left join unit_umine u on t.umine_id = u.id
+        left join unit_umine_mountain um on t.umine_mountain_id = um.id
+        where 1=1
 
     <if test="umineName != null and umineName != ''">
       and instr(u.name,#{umineName})>0

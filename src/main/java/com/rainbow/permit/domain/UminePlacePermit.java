@@ -31,8 +31,8 @@ public class UminePlacePermit {
      * 铀尾矿(渣)库许可阶段外键.
 关联表：config_umine_place_permit_stage
      */
-    @Column(name = "permit_stage_id")
-    private String permitStageId;
+    @Column(name = "stage_id")
+    private String stageId;
 
     /**
      * 许可时间
@@ -97,7 +97,7 @@ public class UminePlacePermit {
     /**
      * 审评承诺
      */
-    @Column(name = "review_promise")
+    @Column(name = "promise")
     private String reviewPromise;
 
     /**
@@ -178,8 +178,8 @@ public class UminePlacePermit {
      * @return permit_stage_id - 铀尾矿(渣)库许可阶段外键.
 关联表：config_umine_place_permit_stage
      */
-    public String getPermitStageId() {
-        return permitStageId;
+    public String getStageId() {
+        return stageId;
     }
 
     /**
@@ -189,8 +189,8 @@ public class UminePlacePermit {
      * @param permitStageId 铀尾矿(渣)库许可阶段外键.
 关联表：config_umine_place_permit_stage
      */
-    public void setPermitStageId(String permitStageId) {
-        this.permitStageId = permitStageId == null ? null : permitStageId.trim();
+    public void setStageId(String stageId) {
+        this.stageId = stageId == null ? null : stageId.trim();
     }
 
     /**
