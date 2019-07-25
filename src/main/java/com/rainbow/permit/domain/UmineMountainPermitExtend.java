@@ -1,13 +1,13 @@
 package com.rainbow.permit.domain;
 
-import com.rainbow.unit.domain.UmineMountainExtend;
+//import com.rainbow.unit.domain.UmineMountainExtend;
 
 /**
  * @Author:deepblue
  * @Date:2019/7/10 10:33
  * @Description:
  **/
-public class UmineMountainPermitExtend extends UmineMountainExtend {
+public class UmineMountainPermitExtend extends UmineMountainPermit {
 
     //铀矿冶单位名称
     private String umineName;
@@ -15,12 +15,12 @@ public class UmineMountainPermitExtend extends UmineMountainExtend {
     //铀矿山名称
     private String umineMountainName;
 
-    @Override
+//    @Override
     public String getUmineName() {
         return umineName;
     }
 
-    @Override
+//    @Override
     public void setUmineName(String umineName) {
         this.umineName = umineName;
     }

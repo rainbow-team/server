@@ -57,4 +57,17 @@
       and t.accept_date = #{accept_date}
     </if>
   </select>
+
+  <select id="getUmineMountainPermitById" parameterType="map" resultMap="UmineMountainPermitExtendMap">
+
+    select
+    t.*,
+    u.name umineName,
+    up.name umineMountainName
+    from permit_umine_mountain t
+    left join  unit_umine u on t.umine_id = u.id
+    left join  unit_umine_mountain up on t.umine_mountain_id = up.id
+    where t.id = #{id}
+
+  </select>
 </mapper>
