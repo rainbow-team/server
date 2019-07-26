@@ -15,5 +15,6 @@ public interface StatisticsMapper extends MyMapper<ResultObj> {
 
     YearResultObj getStatisticsResultByYear(SearchCondition condition);
 
+    List<ResultObj> getStatisticsResultByBoolean(SearchCondition condition);
 
 }

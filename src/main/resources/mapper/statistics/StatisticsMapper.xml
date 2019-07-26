@@ -5,16 +5,16 @@
     <!--
       WARNING - @mbg.generated
     -->
-    <result column="typeValue" jdbcType="VARCHAR" property="typeValue" />
-    <result column="resultNum" jdbcType="VARCHAR" property="typeValue" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="value" jdbcType="VARCHAR" property="value" />
   </resultMap>
 
 
   <select id="searchResultByCommonConditon" parameterType="com.rainbow.statistics.domain.SearchCondition" resultMap="BaseResultMap">
-         select a.`value` as typeValue, ifnull(b.resultNum,0)
+         select a.`value` as name, ifnull(b.value,0) as value
          from ${configTableName} a
          left join
-         (select c.${propertyName} as rid ,count(id) as resultNum  from ${tableName} c group by ${propertyName}) b
+         (select c.${propertyName} as rid ,count(id) as value  from ${tableName} c group by ${propertyName}) b
          on a.id = b.rid
   </select>
 
@@ -23,6 +23,10 @@
          sum(case when year(t.${propertyName}) <![CDATA[  >=  ]]> 2000 then 1 else 0 end ) big,
          sum(case when year(t.${propertyName}) <![CDATA[  <  ]]>  2000 then 1 else 0 end ) small
         from  ${tableName} t
+    </select>
+
+    <select id="getStatisticsResultByBoolean" parameterType="com.rainbow.statistics.domain.SearchCondition" resultType="com.rainbow.statistics.domain.ResultObj">
+         select if(t.${propertyName}=0,"否","是") as name, count(id) as value from ${tableName} t group by t.${propertyName}
     </select>
 
 </mapper>

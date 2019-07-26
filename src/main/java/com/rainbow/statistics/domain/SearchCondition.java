@@ -2,12 +2,12 @@ package com.rainbow.statistics.domain;
 
 public class SearchCondition {
 
+    private String reportName;
     //需要查询的主表
     private String tableName;
 
     //主表中的查询字段
     private String propertyName;
-
 
     //查询字段说对应的的配置表的名称
     private String configTableName;
@@ -34,5 +34,13 @@ public class SearchCondition {
 
     public void setConfigTableName(String configTableName) {
         this.configTableName = configTableName;
+    }
+
+    public String getReportName() {
+        return reportName;
+    }
+
+    public void setReportName(String reportName) {
+        this.reportName = reportName;
     }
 }

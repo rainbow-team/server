@@ -20,4 +20,5 @@ public interface StatisticsService {
     ResponseBo getStatisticsResultByYear(SearchCondition condition);
 
 
+    ResponseBo getStatisticsResultByBoolean(SearchCondition condition);
 }

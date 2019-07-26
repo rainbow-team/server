@@ -3,24 +3,25 @@ package com.rainbow.statistics.domain;
 public class ResultObj {
 
     //结果的类型
-    private String typeValue;
+    private String name;
 
     //结果的数量
-    private Integer resultNum;
+    private Integer value;
 
-    public String getTypeValue() {
-        return typeValue;
+
+    public String getName() {
+        return name;
     }
 
-    public void setTypeValue(String typeValue) {
-        this.typeValue = typeValue;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Integer getResultNum() {
-        return resultNum;
+    public Integer getValue() {
+        return value;
     }
 
-    public void setResultNum(Integer resultNum) {
-        this.resultNum = resultNum;
+    public void setValue(Integer value) {
+        this.value = value;
     }
 }

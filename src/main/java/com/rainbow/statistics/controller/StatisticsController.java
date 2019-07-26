@@ -61,4 +61,22 @@ public class StatisticsController {
             return ResponseBo.error("查询错误");
         }
     }
+
+
+    /**
+     * 根据表名和要分组的属性查询建造年代的统计信息
+     *
+     * @param
+     * @return
+     */
+    @PostMapping("/getStatisticsResultByBoolean")
+    public ResponseBo getStatisticsResultByBoolean(@RequestBody SearchCondition condition) {
+
+        if (condition != null) {
+            return statisticsService.getStatisticsResultByBoolean(condition);
+        }
+        else {
+            return ResponseBo.error("查询错误");
+        }
+    }
 }

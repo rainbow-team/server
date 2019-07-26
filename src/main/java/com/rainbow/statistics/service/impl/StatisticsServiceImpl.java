@@ -18,6 +18,7 @@ import com.rainbow.statistics.service.StatisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -47,8 +48,26 @@ public class StatisticsServiceImpl implements StatisticsService {
     public ResponseBo getStatisticsResultByYear(SearchCondition condition) {
         YearResultObj result = statisticsMapper.getStatisticsResultByYear(condition);
         if (result != null) {
-            return ResponseBo.ok(result);
+            List<ResultObj> tempResult = new ArrayList<>();
+            ResultObj objBig = new ResultObj();
+            objBig.setName("2000年前");
+            objBig.setValue(result.getSmall());
+            ResultObj objSmall = new ResultObj();
+            objSmall.setName("2000年后");
+            objSmall.setValue(result.getSmall());
+            tempResult.add(objBig);
+            tempResult.add(objSmall);
+            return ResponseBo.ok(tempResult);
         }
         return ResponseBo.error("获取失败");
+    }
+
+    @Override
+    public ResponseBo getStatisticsResultByBoolean(SearchCondition condition) {
+        List<ResultObj> result = statisticsMapper.getStatisticsResultByBoolean(condition);
+        if (result != null) {
+            return ResponseBo.ok(result);
+        }
+        return ResponseBo.error("查询失败");
     }
 }
