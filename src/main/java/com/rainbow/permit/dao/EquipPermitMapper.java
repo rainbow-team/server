@@ -11,4 +11,6 @@ public interface EquipPermitMapper extends MyMapper<EquipPermit> {
     List<EquipPermit> getEquipPermitList(Map<String,Object> map);
 
     EquipPermit getEquipPermitById(String id);
+
+    int getEquipNum();
 }

@@ -21,4 +21,14 @@ public interface StatisticsService {
 
 
     ResponseBo getStatisticsResultByBoolean(SearchCondition condition);
+
+    ResponseBo searchResultByPermitStageConditon(SearchCondition condition);
+
+    ResponseBo searchResultByPermitDateConditon(SearchCondition condition);
+
+    ResponseBo getHomeNumber();
+
+
+    ResponseBo searchAccidentReport();
+
 }

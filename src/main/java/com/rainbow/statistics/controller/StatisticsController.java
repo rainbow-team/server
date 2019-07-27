@@ -79,4 +79,56 @@ public class StatisticsController {
             return ResponseBo.error("查询错误");
         }
     }
+
+
+    /**
+     * 核安全许可按类型统计
+     *
+     * @param
+     * @return
+     */
+    @PostMapping("/searchResultByPermitStageConditon")
+    public ResponseBo searchResultByPermitStageConditon(@RequestBody SearchCondition condition) {
+
+        if (condition != null) {
+            return statisticsService.searchResultByPermitStageConditon(condition);
+        }
+        else {
+            return ResponseBo.error("查询错误");
+        }
+    }
+
+    /**
+     * 核安全许可按时间统计
+     *
+     * @param
+     * @return
+     */
+    @PostMapping("/searchResultByPermitDateConditon")
+    public ResponseBo searchResultByPermitDateConditon(@RequestBody SearchCondition condition) {
+
+        if (condition != null) {
+            return statisticsService.searchResultByPermitDateConditon(condition);
+        }
+        else {
+            return ResponseBo.error("查询错误");
+        }
+    }
+
+    @PostMapping("/getHomeNumer")
+    public ResponseBo getHomeNumer(){
+        return statisticsService.getHomeNumber();
+    }
+
+    /**
+     * 获取历年的事故事件的统计信息
+     *
+     * @param
+     * @return
+     */
+    @PostMapping("/searchAccidentReport")
+    public ResponseBo searchAccidentReport() {
+        return statisticsService.searchAccidentReport();
+    }
+
 }

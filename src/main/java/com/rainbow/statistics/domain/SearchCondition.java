@@ -1,5 +1,7 @@
 package com.rainbow.statistics.domain;
 
+import java.util.Date;
+
 public class SearchCondition {
 
     private String reportName;
@@ -11,6 +13,10 @@ public class SearchCondition {
 
     //查询字段说对应的的配置表的名称
     private String configTableName;
+
+    private Date startDate;
+
+    private Date endDate;
 
     public String getTableName() {
         return tableName;
@@ -42,5 +48,21 @@ public class SearchCondition {
 
     public void setReportName(String reportName) {
         this.reportName = reportName;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 }

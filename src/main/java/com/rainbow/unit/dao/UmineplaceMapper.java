@@ -21,4 +21,7 @@ public interface UmineplaceMapper extends MyMapper<Umineplace> {
     Object getUmineplaceRelationCount(String id);
 
     List<Umineplace> getUmineplaceListByUmineId(String umineId);
+
+    int getUmineplaceCount();
+
 }

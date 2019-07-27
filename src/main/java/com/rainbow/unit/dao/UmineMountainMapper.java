@@ -22,4 +22,7 @@ public interface UmineMountainMapper extends MyMapper<UmineMountain> {
     Object getUmineMountainRelationCount(String id);
 
     List<UmineMountain> getUminemountainListByUmineId(String umineId);
+
+    int getUminmountainCount();
+
 }

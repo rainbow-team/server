@@ -20,4 +20,6 @@ public interface FacMapper extends MyMapper<Fac> {
     Object getFacRelationCount(String id);
 
     List<Fac> getFacListByServiceId(String serviceId);
+
+    int getFacCount();
 }

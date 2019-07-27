@@ -2,10 +2,12 @@ package com.rainbow.statistics.dao;
 
 import com.rainbow.common.config.MyMapper;
 import com.rainbow.security.domain.AccidentSecurity;
+import com.rainbow.statistics.domain.PermitReportDomainResult;
 import com.rainbow.statistics.domain.ResultObj;
 import com.rainbow.statistics.domain.SearchCondition;
 import com.rainbow.statistics.domain.YearResultObj;
 
+import javax.annotation.security.PermitAll;
 import java.util.List;
 import java.util.Map;
 
@@ -17,4 +19,9 @@ public interface StatisticsMapper extends MyMapper<ResultObj> {
 
     List<ResultObj> getStatisticsResultByBoolean(SearchCondition condition);
 
+    List<ResultObj> searchResultByPermitStageConditon(SearchCondition condition);
+
+    List<PermitReportDomainResult> searchResultByPermitDateConditon(SearchCondition condition);
+
+    List<ResultObj> searchAccidentReport();
 }

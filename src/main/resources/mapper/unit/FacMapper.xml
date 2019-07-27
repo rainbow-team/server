@@ -187,4 +187,7 @@
     select * from unit_fac t where t.service_id = #{serviceId}
   </select>
 
+  <select id="getFacCount" resultType="java.lang.Integer">
+    select count(id) from unit_fac;
+  </select>
 </mapper>

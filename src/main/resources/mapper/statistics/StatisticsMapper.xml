@@ -29,4 +29,31 @@
          select if(t.${propertyName}=0,"否","是") as name, count(id) as value from ${tableName} t group by t.${propertyName}
     </select>
 
+
+    <select id="searchResultByPermitStageConditon" parameterType="com.rainbow.statistics.domain.SearchCondition" resultMap="BaseResultMap">
+         select a.`value` as name, ifnull(b.value,0) as value
+         from ${configTableName} a
+         left join
+         (select c.${propertyName} as rid ,count(id) as value  from ${tableName} c
+                where year(c.permit_date) between year(#{startDate}) and year(#{endDate}) group by ${propertyName}) b
+         on a.id = b.rid
+         order by a.order
+  </select>
+
+    <select id="searchResultByPermitDateConditon" parameterType="com.rainbow.statistics.domain.SearchCondition" resultType="com.rainbow.statistics.domain.PermitReportDomainResult">
+        select a.id id,a.`value`,b.reportYear,b.sumNum  from config_fac_permit_stage a
+
+        left join (select year(t.permit_date) reportYear, t.stage_id, count(t.id) sumNum from  permit_fac t group by year(t.permit_date), t.stage_id) b
+
+        on a.id=b.stage_id
+
+      order by a.`order`
+
+  </select>
+
+
+
+    <select id="searchAccidentReport"  resultMap="BaseResultMap">
+        select year(t.occur_date) as name , count(id) as value  from security_accident t group by year(t.occur_date);
+    </select>
 </mapper>

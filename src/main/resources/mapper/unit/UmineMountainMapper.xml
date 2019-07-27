@@ -109,4 +109,8 @@
   <select id="getUminemountainListByUmineId" parameterType="java.lang.String" resultMap="MountainBaseResultMap">
     select * from unit_umine_mountain t where t.umine_id = #{umineId}
   </select>
+
+  <select id="getUminmountainCount" resultType="java.lang.Integer">
+    select count(id) from unit_umine_mountain
+  </select>
 </mapper>

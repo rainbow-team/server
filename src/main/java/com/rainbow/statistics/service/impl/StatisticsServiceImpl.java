@@ -1,25 +1,22 @@
 package com.rainbow.statistics.service.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.rainbow.common.domain.Page;
-import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
-import com.rainbow.common.service.impl.BaseService;
-import com.rainbow.common.util.GuidHelper;
-import com.rainbow.security.dao.AccidentSecurityMapper;
-import com.rainbow.security.domain.AccidentSecurity;
-import com.rainbow.security.service.AccidentSecurityService;
+import com.rainbow.common.util.DateUtils;
+import com.rainbow.config.dao.SystemConfigMapper;
+import com.rainbow.config.domain.SystemConfig;
+import com.rainbow.permit.dao.EquipPermitMapper;
 import com.rainbow.statistics.dao.StatisticsMapper;
-import com.rainbow.statistics.domain.ResultObj;
-import com.rainbow.statistics.domain.SearchCondition;
-import com.rainbow.statistics.domain.YearResultObj;
+import com.rainbow.statistics.domain.*;
 import com.rainbow.statistics.service.StatisticsService;
+import com.rainbow.unit.dao.FacMapper;
+import com.rainbow.unit.dao.UmineMountainMapper;
+import com.rainbow.unit.dao.UmineplaceMapper;
+import com.rainbow.unit.service.FacService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +31,21 @@ public class StatisticsServiceImpl implements StatisticsService {
 
     @Autowired
     StatisticsMapper statisticsMapper;
+
+    @Autowired
+    SystemConfigMapper systemConfigMapper;
+
+    @Autowired
+    FacMapper facMapper;
+
+    @Autowired
+    UmineMountainMapper umineMountainMapper;
+
+    @Autowired
+    UmineplaceMapper umineplaceMapper;
+
+    @Autowired
+    EquipPermitMapper equipPermitMapper;
 
     @Override
     public ResponseBo getStatisticsResultByCommonCondition(SearchCondition condition) {
@@ -69,5 +81,95 @@ public class StatisticsServiceImpl implements StatisticsService {
             return ResponseBo.ok(result);
         }
         return ResponseBo.error("查询失败");
+    }
+
+    @Override
+    public ResponseBo searchResultByPermitStageConditon(SearchCondition condition) {
+        List<ResultObj> result = statisticsMapper.searchResultByPermitStageConditon(condition);
+        if (result != null) {
+            return ResponseBo.ok(result);
+        }
+        return ResponseBo.error("获取失败");
+    }
+
+    @Override
+    public ResponseBo searchResultByPermitDateConditon(SearchCondition condition) {
+
+        List<String> yearList = DateUtils.getYearByStartAndEnd(condition.getStartDate(), condition.getEndDate());
+
+        List<SystemConfig> systemConfigs=systemConfigMapper.getSystemConfigByTableName(condition.getConfigTableName());
+
+        List<PermitReportDomainResult> result = statisticsMapper.searchResultByPermitDateConditon(condition);
+
+        if (result != null) {
+
+            List<PermitTypeNumber> tempResult = GetReportResult(result,yearList,systemConfigs);
+
+            PermitReportResult p = new PermitReportResult();
+            p.setYearDate(yearList);
+            p.setNumberList(tempResult);
+            return ResponseBo.ok(p);
+        }
+        return ResponseBo.error("获取失败");
+    }
+
+    private List<PermitTypeNumber> GetReportResult(List<PermitReportDomainResult> result,List<String> yearList,List<SystemConfig> systemConfigs) {
+
+        List<PermitTypeNumber> list = new ArrayList<PermitTypeNumber>() {
+        };
+
+
+        for (SystemConfig config : systemConfigs) {
+
+            PermitTypeNumber permitTypeNumber = new PermitTypeNumber();
+            permitTypeNumber.setName(config.getValue());
+
+            List<String> numerResult = new ArrayList<String>();
+
+            //循环年度，并根据年度和配置的名称找到数量，如果存在就放数量，如果不存在就为0
+            for (String year : yearList) {
+
+                int count = 0;
+                for (PermitReportDomainResult permitReportDomainResult : result) {
+                    if ((permitReportDomainResult.getReportYear() != null) && (permitReportDomainResult.getValue() != null)) {
+                        if ((permitReportDomainResult.getReportYear().equalsIgnoreCase(year)) && (permitReportDomainResult.getValue().equalsIgnoreCase(config.getValue()))) {
+                            numerResult.add(permitReportDomainResult.getSumNum());
+                            count++;
+                        }
+                    }
+                }
+                if (count == 0) {
+                    numerResult.add("0");
+                }
+            }
+            permitTypeNumber.setData(numerResult);
+            list.add(permitTypeNumber);
+        }
+        return list;
+    }
+
+    @Override
+    public ResponseBo getHomeNumber() {
+        int facNum=facMapper.getFacCount();
+        int umineplaceNum=umineplaceMapper.getUmineplaceCount();
+        int uminemountainNum=umineMountainMapper.getUminmountainCount();
+        int equipNum=equipPermitMapper.getEquipNum();
+
+        Map<String,Integer> map=new HashMap<String,Integer>();
+
+        map.put("fac",facNum);
+        map.put("umineplace",umineplaceNum);
+        map.put("uminemountain",uminemountainNum);
+        map.put("equip",equipNum);
+        return ResponseBo.ok(map);
+    }
+
+    @Override
+    public ResponseBo searchAccidentReport() {
+        List<ResultObj> result = statisticsMapper.searchAccidentReport();
+        if (result != null) {
+            return ResponseBo.ok(result);
+        }
+        return ResponseBo.error("获取失败");
     }
 }

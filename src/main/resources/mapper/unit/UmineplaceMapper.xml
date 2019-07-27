@@ -154,4 +154,7 @@
     select * from unit_umine_place t where t.umine_id = #{umineId}
   </select>
 
+  <select id="getUmineplaceCount" resultType="java.lang.Integer">
+    select count(*) from unit_umine_place
+  </select>
 </mapper>
