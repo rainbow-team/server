@@ -1,6 +1,7 @@
 package com.rainbow.statistics.domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class SearchCondition {
 
@@ -14,11 +15,15 @@ public class SearchCondition {
     //查询字段说对应的的配置表的名称
     private String configTableName;
 
+    //对应的数据归类的属性名称
     private String dateProperty;
 
     private Date startDate;
 
     private Date endDate;
+
+    //需要查询主表的ID限定集合
+    private List<String> ids;
 
     public String getTableName() {
         return tableName;
@@ -74,5 +79,13 @@ public class SearchCondition {
 
     public void setDateProperty(String dateProperty) {
         this.dateProperty = dateProperty;
+    }
+
+    public List<String> getIds() {
+        return ids;
+    }
+
+    public void setIds(List<String> ids) {
+        this.ids = ids;
     }
 }
