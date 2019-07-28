@@ -126,9 +126,30 @@ public class StatisticsController {
      * @param
      * @return
      */
-    @PostMapping("/searchAccidentReport")
-    public ResponseBo searchAccidentReport() {
-        return statisticsService.searchAccidentReport();
+    @PostMapping("/searchSumReportByDateGroup")
+    public ResponseBo searchSumReportByDateGroup(@RequestBody SearchCondition condition) {
+        if (condition != null) {
+            return statisticsService.searchSumReportByDateGroup(condition);
+        }
+        else {
+            return ResponseBo.error("查询错误");
+        }
+    }
+
+    /**
+     * 获取核活动许可统计信息
+     *
+     * @param
+     * @return
+     */
+    @PostMapping("/searchReportByDateAndSum")
+    public ResponseBo searchReportByDateAndSum(@RequestBody SearchCondition condition) {
+        if (condition != null) {
+            return statisticsService.searchReportByDateAndSum(condition);
+        }
+        else {
+            return ResponseBo.error("查询错误");
+        }
     }
 
 }

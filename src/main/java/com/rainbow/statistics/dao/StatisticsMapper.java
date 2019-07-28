@@ -23,5 +23,9 @@ public interface StatisticsMapper extends MyMapper<ResultObj> {
 
     List<PermitReportDomainResult> searchResultByPermitDateConditon(SearchCondition condition);
 
-    List<ResultObj> searchAccidentReport();
+    //根据表明，按照时间进行分组统计
+    List<ResultObj> searchSumReportByDateGroup(SearchCondition condition);
+
+    List<ResultObj> searchReportByDateAndSum(SearchCondition condition);
+
 }

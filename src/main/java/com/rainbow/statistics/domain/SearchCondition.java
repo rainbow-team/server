@@ -14,6 +14,8 @@ public class SearchCondition {
     //查询字段说对应的的配置表的名称
     private String configTableName;
 
+    private String dateProperty;
+
     private Date startDate;
 
     private Date endDate;
@@ -64,5 +66,13 @@ public class SearchCondition {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public String getDateProperty() {
+        return dateProperty;
+    }
+
+    public void setDateProperty(String dateProperty) {
+        this.dateProperty = dateProperty;
     }
 }

@@ -97,13 +97,13 @@ public class StatisticsServiceImpl implements StatisticsService {
 
         List<String> yearList = DateUtils.getYearByStartAndEnd(condition.getStartDate(), condition.getEndDate());
 
-        List<SystemConfig> systemConfigs=systemConfigMapper.getSystemConfigByTableName(condition.getConfigTableName());
+        List<SystemConfig> systemConfigs = systemConfigMapper.getSystemConfigByTableName(condition.getConfigTableName());
 
         List<PermitReportDomainResult> result = statisticsMapper.searchResultByPermitDateConditon(condition);
 
         if (result != null) {
 
-            List<PermitTypeNumber> tempResult = GetReportResult(result,yearList,systemConfigs);
+            List<PermitTypeNumber> tempResult = GetReportResult(result, yearList, systemConfigs);
 
             PermitReportResult p = new PermitReportResult();
             p.setYearDate(yearList);
@@ -113,7 +113,7 @@ public class StatisticsServiceImpl implements StatisticsService {
         return ResponseBo.error("获取失败");
     }
 
-    private List<PermitTypeNumber> GetReportResult(List<PermitReportDomainResult> result,List<String> yearList,List<SystemConfig> systemConfigs) {
+    private List<PermitTypeNumber> GetReportResult(List<PermitReportDomainResult> result, List<String> yearList, List<SystemConfig> systemConfigs) {
 
         List<PermitTypeNumber> list = new ArrayList<PermitTypeNumber>() {
         };
@@ -150,25 +150,53 @@ public class StatisticsServiceImpl implements StatisticsService {
 
     @Override
     public ResponseBo getHomeNumber() {
-        int facNum=facMapper.getFacCount();
-        int umineplaceNum=umineplaceMapper.getUmineplaceCount();
-        int uminemountainNum=umineMountainMapper.getUminmountainCount();
-        int equipNum=equipPermitMapper.getEquipNum();
+        int facNum = facMapper.getFacCount();
+        int umineplaceNum = umineplaceMapper.getUmineplaceCount();
+        int uminemountainNum = umineMountainMapper.getUminmountainCount();
+        int equipNum = equipPermitMapper.getEquipNum();
 
-        Map<String,Integer> map=new HashMap<String,Integer>();
+        Map<String, Integer> map = new HashMap<String, Integer>();
 
-        map.put("fac",facNum);
-        map.put("umineplace",umineplaceNum);
-        map.put("uminemountain",uminemountainNum);
-        map.put("equip",equipNum);
+        map.put("fac", facNum);
+        map.put("umineplace", umineplaceNum);
+        map.put("uminemountain", uminemountainNum);
+        map.put("equip", equipNum);
         return ResponseBo.ok(map);
     }
 
     @Override
-    public ResponseBo searchAccidentReport() {
-        List<ResultObj> result = statisticsMapper.searchAccidentReport();
+    public ResponseBo searchSumReportByDateGroup(SearchCondition condition) {
+        List<ResultObj> result = statisticsMapper.searchSumReportByDateGroup(condition);
         if (result != null) {
             return ResponseBo.ok(result);
+        }
+        return ResponseBo.error("获取失败");
+    }
+
+    @Override
+    public ResponseBo searchReportByDateAndSum(SearchCondition condition) {
+        List<ResultObj> result = statisticsMapper.searchReportByDateAndSum(condition);
+        if (result != null) {
+            List<ResultObj> tempResult = new ArrayList<ResultObj>();
+
+            List<String> yearList = DateUtils.getYearByStartAndEnd(condition.getStartDate(), condition.getEndDate());
+            for (String year : yearList) {
+                int count = 0;
+
+                for (ResultObj obj : result) {
+                    if (obj.getName().equalsIgnoreCase(year)) {
+                        tempResult.add(obj);
+                        count++;
+                    }
+                }
+                if (count == 0) {
+                    ResultObj t = new ResultObj();
+                    t.setName(year);
+                    t.setValue(0);
+                    tempResult.add(t);
+                }
+            }
+            return ResponseBo.ok(tempResult);
         }
         return ResponseBo.error("获取失败");
     }

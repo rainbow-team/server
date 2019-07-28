@@ -35,17 +35,17 @@
          from ${configTableName} a
          left join
          (select c.${propertyName} as rid ,count(id) as value  from ${tableName} c
-                where year(c.permit_date) between year(#{startDate}) and year(#{endDate}) group by ${propertyName}) b
+                where year(c.${dateProperty}) between year(#{startDate}) and year(#{endDate}) group by ${propertyName}) b
          on a.id = b.rid
          order by a.order
   </select>
 
     <select id="searchResultByPermitDateConditon" parameterType="com.rainbow.statistics.domain.SearchCondition" resultType="com.rainbow.statistics.domain.PermitReportDomainResult">
-        select a.id id,a.`value`,b.reportYear,b.sumNum  from config_fac_permit_stage a
+        select a.id id,a.`value`,b.reportYear,b.sumNum  from ${configTableName} a
 
-        left join (select year(t.permit_date) reportYear, t.stage_id, count(t.id) sumNum from  permit_fac t group by year(t.permit_date), t.stage_id) b
+        left join (select year(t.${dateProperty}) reportYear, t.${propertyName}, count(t.id) sumNum from  ${tableName} t group by year(t.${dateProperty}), t.${propertyName}) b
 
-        on a.id=b.stage_id
+        on a.id=b.${propertyName}
 
       order by a.`order`
 
@@ -53,7 +53,11 @@
 
 
 
-    <select id="searchAccidentReport"  resultMap="BaseResultMap">
-        select year(t.occur_date) as name , count(id) as value  from security_accident t group by year(t.occur_date);
+    <select id="searchSumReportByDateGroup"  resultMap="BaseResultMap" parameterType="com.rainbow.statistics.domain.SearchCondition">
+        select year(t.${dateProperty}) as name , count(id) as value  from ${tableName} t group by year(t.${dateProperty}) order by year(t.${dateProperty);
+    </select>
+
+    <select id="searchReportByDateAndSum" resultMap="BaseResultMap" parameterType="com.rainbow.statistics.domain.SearchCondition">
+        select year(t.${dateProperty}) name, count(id) value from ${tableName} t where year(t.${dateProperty}) between year(#{startDate}) and year(#{endDate}) group by year(t.${dateProperty})
     </select>
 </mapper>

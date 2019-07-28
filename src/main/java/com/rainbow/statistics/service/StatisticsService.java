@@ -29,6 +29,7 @@ public interface StatisticsService {
     ResponseBo getHomeNumber();
 
 
-    ResponseBo searchAccidentReport();
+    ResponseBo searchSumReportByDateGroup(SearchCondition condition);
 
+    ResponseBo searchReportByDateAndSum(SearchCondition condition);
 }
