@@ -36,6 +36,23 @@ public class WitnessMonitor {
     @Column(name = "equip_depart_id")
     private String equipDepartId;
 
+
+    public String getDepartTypeId() {
+        return departTypeId;
+    }
+
+    public void setDepartTypeId(String departTypeId) {
+        this.departTypeId = departTypeId;
+    }
+
+    /**
+     * 单位类别，外键
+
+     参考表：config_dapart_id
+     */
+    @Column(name = "depart_type_id")
+    private String departTypeId;
+
     /**
      * 见证对象
      */

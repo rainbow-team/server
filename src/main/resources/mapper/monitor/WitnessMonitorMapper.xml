@@ -9,6 +9,7 @@
     <result column="service_id" jdbcType="VARCHAR" property="serviceId" />
     <result column="umine_id" jdbcType="VARCHAR" property="umineId" />
     <result column="equip_depart_id" jdbcType="VARCHAR" property="equipDepartId" />
+    <result column="depart_type_id" jdbcType="VARCHAR" property="departTypeId" />
     <result column="witness_object" jdbcType="VARCHAR" property="witnessObject" />
     <result column="witness_date" jdbcType="DATE" property="witnessDate" />
     <result column="witness" jdbcType="VARCHAR" property="witness" />
