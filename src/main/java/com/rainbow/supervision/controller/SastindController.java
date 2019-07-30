@@ -1,7 +1,10 @@
 package com.rainbow.supervision.controller;
 
+import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
+import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
+import com.rainbow.common.util.ExportExcel;
 import com.rainbow.supervision.domain.SupervisionSastind;
 import com.rainbow.supervision.service.SastindService;
 import org.slf4j.Logger;
@@ -9,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -86,5 +91,38 @@ public class SastindController {
     public ResponseBo getSastindById(String id){
         SupervisionSastind supervisionSastind = sastindService.selectByKey(id);
         return  ResponseBo.ok(supervisionSastind);
+    }
+
+    @RequestMapping(value = "/exportSastind", method = RequestMethod.GET)
+    public void exportSastind( @RequestParam(value = "name", required = false) String name,HttpServletResponse response){
+
+        List<Condition> list = new ArrayList<>();
+
+        if (name != null&&!name.equals("")) {
+            list.add(new Condition("name", name));
+        }
+
+        Page page = new Page();
+        page.setConditions(list);
+        page.setPageSize(Integer.MAX_VALUE);
+        page.setPageNo(1);
+
+        List<String[]> cloumnValues = new ArrayList<>();
+        PagingEntity<SupervisionSastind> listdata = ( PagingEntity<SupervisionSastind>)sastindService.getSastindList(page).get("msg");
+
+        List<SupervisionSastind> data = listdata.getCurrentList();
+        if(data!=null&&data.size()>0){
+
+            for (SupervisionSastind supervisionSastind:data) {
+                String[] strs = new String[]{supervisionSastind.getName(),supervisionSastind.getLeader(),
+                        supervisionSastind.getSecurityLeader(),supervisionSastind.getPermitLeader(),supervisionSastind.getPermitLeader()};
+                cloumnValues.add(strs);
+            }
+        }
+
+
+        String[] cloumnNames=new String[]{"司局名称","司领导","分管核安全司领导","核安全许可处室领导","核安全监督处室领导"};
+
+        ExportExcel.exportExcelCommon(response,"国防科工局基本信息",cloumnNames,cloumnValues);
     }
 }

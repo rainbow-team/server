@@ -88,6 +88,9 @@
       and t.permit_date <![CDATA[  <=  ]]> #{end_date}
     </if>
 
+    <if test="servicedepartId != null and servicedepartId != ''">
+      and t.equip_depart_id = #{servicedepartId}
+    </if>
 
   </select>
 
