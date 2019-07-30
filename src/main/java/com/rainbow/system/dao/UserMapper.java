@@ -14,25 +14,29 @@ import java.util.Map;
  **/
 public interface UserMapper extends MyMapper<SystemUser> {
 
-/*    List<SystemUser> findSystemUserWithDept(SystemUser user);
+    /*
+     * List<SystemUser> findSystemUserWithDept(SystemUser user);
+     * 
+     * //List<SystemUserWithRole> findSystemUserWithRole(Long userId);
+     * 
+     * SystemUser findSystemUserProfile(SystemUser user);
+     * 
+     * 
+     * 
+     * String getSystemUserNameById(String id);
+     */
 
-    //List<SystemUserWithRole> findSystemUserWithRole(Long userId);
+    SystemUser login(Map<String, String> map);
 
-    SystemUser findSystemUserProfile(SystemUser user);
+    UserWithRole getUserDetailByUserId(String userId);
 
+    List<String> getPermissionByUserId(String userId);
 
+    SystemUser findByName(String username);
 
-    String getSystemUserNameById(String id);*/
+    String getUserNameById(String userId);
 
-     SystemUser login(Map<String,String> map );
+    SystemUser findUserByUsername(String username);
 
-     UserWithRole getUserDetailByUserId(String userId);
-
-     List<String> getPermissionByUserId(String userId);
-
-     SystemUser findByName(String username);
-
-     String getUserNameById(String userId);
-
-     SystemUser findUserByUsername(String username);
+    List<SystemUser> getUserList(Map<String, Object> map);
 }

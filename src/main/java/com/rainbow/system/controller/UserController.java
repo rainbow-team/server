@@ -1,5 +1,6 @@
 package com.rainbow.system.controller;
 
+import com.rainbow.common.domain.Page;
 import com.rainbow.common.annotation.Log;
 import com.rainbow.common.controller.BaseController;
 import com.rainbow.common.domain.ResponseBo;
@@ -25,7 +26,7 @@ import java.util.List;
  **/
 @RestController
 @RequestMapping("user")
-public class UserController extends BaseController{
+public class UserController extends BaseController {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -34,16 +35,16 @@ public class UserController extends BaseController{
     @Autowired
     private UserService userService;
 
- /*   @RequestMapping("user")
-    @RequiresPermissions("user:list")
-    public String index(Model model) {
-        SystemUser user = super.getCurrentUser();
-        model.addAttribute("user", user);
-        return "system/user/user";
-    }*/
+    /*
+     * @RequestMapping("user")
+     * 
+     * @RequiresPermissions("user:list") public String index(Model model) {
+     * SystemUser user = super.getCurrentUser(); model.addAttribute("user", user);
+     * return "system/user/user"; }
+     */
 
-    //@Log("新增用户")
-    //@RequiresPermissions("user:add")
+    // @Log("新增用户")
+    // @RequiresPermissions("user:add")
     @RequestMapping("/addUser")
     @ResponseBody
     public ResponseBo addUser(UserWithRole user) {
@@ -72,9 +73,9 @@ public class UserController extends BaseController{
         }
     }
 
-    //  @RequiresPermissions("user:delete")
+    // @RequiresPermissions("user:delete")
 
-    //@Log("删除用户")
+    // @Log("删除用户")
 
     @PostMapping("/deleteUsersByIds")
     public ResponseBo deleteUsers(@RequestBody List<String> ids) {
@@ -87,14 +88,14 @@ public class UserController extends BaseController{
         return ResponseBo.error("删除失败，请重试!");
     }
 
-
     /**
      * 获取用户(包含他的角色)
+     * 
      * @param userId
      * @return
      */
-    @PostMapping("/getUser")
-    public ResponseBo getUserById(String userId) {
+    @GetMapping("/getUserWithRoleByUserId")
+    public ResponseBo getUserWithRoleByUserId(String userId) {
         try {
             UserWithRole user = this.userService.getUserWithRoleByUserId(userId);
             return ResponseBo.ok(user);
@@ -106,6 +107,7 @@ public class UserController extends BaseController{
 
     /**
      * 获取用户(不包含他的角色)
+     * 
      * @param userId
      * @return
      */
@@ -123,6 +125,7 @@ public class UserController extends BaseController{
 
     /**
      * 获取用户所有权限
+     * 
      * @param userId
      * @return
      */
@@ -135,5 +138,17 @@ public class UserController extends BaseController{
             log.error("获取用户失败", e);
             return ResponseBo.error("获取用户失败，请联系网站管理员！");
         }
+    }
+
+    /**
+     * 获取核设备单位信息列表
+     * 
+     * @param page
+     * @return
+     */
+    @PostMapping("/getUserList")
+    public ResponseBo getUserList(@RequestBody Page page) {
+
+        return userService.getUserList(page);
     }
 }

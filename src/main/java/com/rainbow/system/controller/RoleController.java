@@ -21,13 +21,12 @@ import java.util.List;
  **/
 @RestController
 @RequestMapping("role")
-public class RoleController{
+public class RoleController {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private RoleService roleService;
-
 
     /**
      * 添加角色信息
@@ -64,22 +63,22 @@ public class RoleController{
         }
     }
 
-
     /**
      * 获取角色列表
+     * 
      * @param page
      * @return
      */
     @PostMapping("/getRoleList")
-    public ResponseBo getWelderList(@RequestBody Page page){
-
+    public ResponseBo getWelderList(@RequestBody Page page) {
         return roleService.getRoleList(page);
-
     }
 
     /*
      * 获取角色详情
+     * 
      * @param id
+     * 
      * @returnRole
      */
     @GetMapping("/getRoleById")
@@ -90,6 +89,7 @@ public class RoleController{
 
     /**
      * 删除角色信息
+     * 
      * @param ids
      * @return
      */

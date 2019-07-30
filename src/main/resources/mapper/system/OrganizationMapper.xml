@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.OrganizationMapper">
+  <resultMap id="BaseResultMap" type="com.rainbow.system.domain.Organization">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+    <result column="org_lever" jdbcType="INTEGER" property="orgLever" />
+    <result column="org_lever_order" jdbcType="INTEGER" property="orgLeverOrder" />
+  </resultMap>
+  <select id="getOrganizationList">
+    select * from system_organization where 1=1
+  </select>  
+</mapper>
