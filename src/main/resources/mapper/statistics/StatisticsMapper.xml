@@ -60,4 +60,28 @@
     <select id="searchReportByDateAndSum" resultMap="BaseResultMap" parameterType="com.rainbow.statistics.domain.SearchCondition">
         select year(t.${dateProperty}) name, count(id) value from ${tableName} t where year(t.${dateProperty}) between year(#{startDate}) and year(#{endDate}) group by year(t.${dateProperty})
     </select>
+
+    <select id="searchResultByTypeConditon" parameterType="com.rainbow.statistics.domain.SearchCondition" resultMap="BaseResultMap">
+        select a.`value` as name, ifnull(b.value,0) as value
+        from ${configTableName} a
+        left join
+        (select c.${propertyName} as rid ,count(id) as value  from ${tableName} c
+        where c.id in (
+        <foreach item="item" index="index" collection="ids" separator=",">
+            #{item}
+        </foreach>)  and year(c.${dateProperty}) between year(#{startDate}) and year(#{endDate}) group by ${propertyName}) b
+        on a.id = b.rid
+        order by a.order
+    </select>
+
+    <select id="searchResultByDateConditon" parameterType="com.rainbow.statistics.domain.SearchCondition" resultType="com.rainbow.statistics.domain.PermitReportDomainResult">
+        select a.id id,a.`value`,b.reportYear,b.sumNum  from ${configTableName} a
+
+        left join (select year(t.${dateProperty}) reportYear, t.${propertyName}, count(t.id) sumNum from  ${tableName} t group by year(t.${dateProperty}), t.${propertyName}) b
+
+        on a.id=b.${propertyName}
+
+        order by a.`order`
+
+    </select>
 </mapper>

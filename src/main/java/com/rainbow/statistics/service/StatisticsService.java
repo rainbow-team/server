@@ -32,4 +32,9 @@ public interface StatisticsService {
     ResponseBo searchSumReportByDateGroup(SearchCondition condition);
 
     ResponseBo searchReportByDateAndSum(SearchCondition condition);
+
+
+    ResponseBo searchResultByTypeConditon(SearchCondition condition);
+
+    ResponseBo searchResultByDateConditon(SearchCondition condition);
 }

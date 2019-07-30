@@ -200,4 +200,18 @@ public class StatisticsServiceImpl implements StatisticsService {
         }
         return ResponseBo.error("获取失败");
     }
+
+    @Override
+    public ResponseBo searchResultByTypeConditon(SearchCondition condition) {
+        List<ResultObj> result = statisticsMapper.searchResultByTypeConditon(condition);
+        if (result != null) {
+            return ResponseBo.ok(result);
+        }
+        return ResponseBo.error("获取失败");
+    }
+
+    @Override
+    public ResponseBo searchResultByDateConditon(SearchCondition condition) {
+        return null;
+    }
 }
