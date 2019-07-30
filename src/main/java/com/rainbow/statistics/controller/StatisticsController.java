@@ -153,6 +153,26 @@ public class StatisticsController {
     }
 
 
+
+
+    /**
+     * 核安全许可按时间统计
+     *
+     * @param
+     * @return
+     */
+    @PostMapping("/searchResultByDateConditon")
+    public ResponseBo searchResultByDateConditon(@RequestBody SearchCondition condition) {
+
+        if (condition != null) {
+            return statisticsService.searchResultByDateConditon(condition);
+        }
+        else {
+            return ResponseBo.error("查询错误");
+        }
+    }
+
+
     /**
      * 核安全许可按类型统计
      *
@@ -170,17 +190,18 @@ public class StatisticsController {
         }
     }
 
+
     /**
      * 核安全许可按时间统计
      *
      * @param
      * @return
      */
-    @PostMapping("/searchResultByDateConditon")
-    public ResponseBo searchResultByDateConditon(@RequestBody SearchCondition condition) {
+    @PostMapping("/searchResultByStatusAndType")
+    public ResponseBo searchResultByStatusAndType(@RequestBody SearchCondition condition) {
 
         if (condition != null) {
-            return statisticsService.searchResultByPermitDateConditon(condition);
+            return statisticsService.searchResultByStatusAndType(condition);
         }
         else {
             return ResponseBo.error("查询错误");

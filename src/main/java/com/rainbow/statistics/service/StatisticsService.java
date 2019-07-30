@@ -37,4 +37,8 @@ public interface StatisticsService {
     ResponseBo searchResultByTypeConditon(SearchCondition condition);
 
     ResponseBo searchResultByDateConditon(SearchCondition condition);
+
+
+    ResponseBo searchResultByStatusAndType(SearchCondition condition);
+
 }

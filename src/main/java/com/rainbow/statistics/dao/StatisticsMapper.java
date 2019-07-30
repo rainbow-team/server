@@ -35,4 +35,8 @@ public interface StatisticsMapper extends MyMapper<ResultObj> {
 
     ///根据查询条件查询报表(带ids),返回堆叠条形图，横轴是年份，纵轴是按照类型的的不同数量的图
     List<PermitReportDomainResult> searchResultByDateConditon(SearchCondition condition);
+
+    List<PermitReportDomainResult> searchResultByStatusAndType(SearchCondition condition);
+
+
 }

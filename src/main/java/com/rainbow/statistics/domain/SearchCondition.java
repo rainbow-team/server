@@ -22,12 +22,18 @@ public class SearchCondition {
 
     private Date endDate;
 
+    //是否是核设施单位 true false null
+    private String isService;
+
     //需要查询主表的ID限定集合
-    private List<String> ids;
+    private String ids;
+
+    private String idsProperty;
 
     public String getTableName() {
         return tableName;
     }
+
 
     public void setTableName(String tableName) {
         this.tableName = tableName;
@@ -81,11 +87,27 @@ public class SearchCondition {
         this.dateProperty = dateProperty;
     }
 
-    public List<String> getIds() {
+    public String getIds() {
         return ids;
     }
 
-    public void setIds(List<String> ids) {
+    public void setIds(String ids) {
         this.ids = ids;
+    }
+
+    public String getIdsProperty() {
+        return idsProperty;
+    }
+
+    public void setIdsProperty(String idsProperty) {
+        this.idsProperty = idsProperty;
+    }
+
+    public String getIsService() {
+        return isService;
+    }
+
+    public void setIsService(String isService) {
+        this.isService = isService;
     }
 }

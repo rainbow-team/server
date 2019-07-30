@@ -212,6 +212,48 @@ public class StatisticsServiceImpl implements StatisticsService {
 
     @Override
     public ResponseBo searchResultByDateConditon(SearchCondition condition) {
-        return null;
+        List<String> yearList = DateUtils.getYearByStartAndEnd(condition.getStartDate(), condition.getEndDate());
+
+        List<SystemConfig> systemConfigs = systemConfigMapper.getSystemConfigByTableName(condition.getConfigTableName());
+
+        List<PermitReportDomainResult> result = statisticsMapper.searchResultByDateConditon(condition);
+
+        if (result != null) {
+
+            List<PermitTypeNumber> tempResult = GetReportResult(result, yearList, systemConfigs);
+
+            PermitReportResult p = new PermitReportResult();
+            p.setYearDate(yearList);
+            p.setNumberList(tempResult);
+            return ResponseBo.ok(p);
+        }
+        return ResponseBo.error("获取失败");
+    }
+
+    @Override
+    public ResponseBo searchResultByStatusAndType(SearchCondition condition) {
+
+        List<SystemConfig> xList = systemConfigMapper.getSystemConfigByTableName("config_security_reform_status");
+
+        List<String> list=new ArrayList<String>();
+
+        for(SystemConfig config :xList){
+            list.add(config.getValue());
+        }
+
+        List<SystemConfig> yList = systemConfigMapper.getSystemConfigByTableName("config_fac_security_question_type");
+
+        List<PermitReportDomainResult> result = statisticsMapper.searchResultByStatusAndType(condition);
+
+        if (result != null) {
+
+            List<PermitTypeNumber> tempResult = GetReportResult(result, list, yList);
+
+            PermitReportResult p = new PermitReportResult();
+            p.setYearDate(list);
+            p.setNumberList(tempResult);
+            return ResponseBo.ok(p);
+        }
+        return ResponseBo.error("获取失败");
     }
 }
