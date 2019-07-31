@@ -6,6 +6,7 @@ import java.util.List;
 public class SearchCondition {
 
     private String reportName;
+
     //需要查询的主表
     private String tableName;
 

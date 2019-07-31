@@ -241,7 +241,7 @@ public class StatisticsServiceImpl implements StatisticsService {
             list.add(config.getValue());
         }
 
-        List<SystemConfig> yList = systemConfigMapper.getSystemConfigByTableName("config_fac_security_question_type");
+        List<SystemConfig> yList = systemConfigMapper.getSystemConfigByTableName(condition.getConfigTableName());
 
         List<PermitReportDomainResult> result = statisticsMapper.searchResultByStatusAndType(condition);
 

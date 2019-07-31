@@ -75,6 +75,14 @@
             where year(t.find_date) between year(#{startDate}) and year(#{endDate})
         </if>
 
+        <if test="isService !=null and isService == 'true'">
+            and t.fac_id = ''
+        </if>
+
+        <if test="isService !=null and isService == 'false'">
+            and t.fac_id != ''
+        </if>
+
         group by year(t.${dateProperty}), t.${propertyName}) b
 
         on a.id=b.${propertyName}
@@ -89,14 +97,22 @@
         select a.`value` as name, ifnull(b.value,0) as value
         from ${configTableName} a
         left join
-        (select c.${propertyName} as rid ,count(id) as value  from ${tableName} c
+        (select t.${propertyName} as rid ,count(id) as value  from ${tableName} t
 
         <if test="ids != null">
-           where c.${idsProperty} = #{ids} and year(c.find_date) between year(#{startDate}) and year(#{endDate})
+           where t.${idsProperty} = #{ids} and year(t.find_date) between year(#{startDate}) and year(#{endDate})
         </if>
 
         <if test="ids == null">
-            where year(c.find_date) between year(#{startDate}) and year(#{endDate})
+            where year(t.find_date) between year(#{startDate}) and year(#{endDate})
+        </if>
+
+        <if test="isService !=null and isService == 'true'">
+            and t.fac_id = ''
+        </if>
+
+        <if test="isService !=null and isService == 'false'">
+            and t.fac_id != ''
         </if>
 
 
