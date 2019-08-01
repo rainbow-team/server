@@ -15,6 +15,7 @@ import com.rainbow.supervision.domain.Org;
 import com.rainbow.supervision.domain.RelationOrgNature;
 import com.rainbow.supervision.domain.SupervisionMonitorTrain;
 import com.rainbow.supervision.domain.SupervisionSastind;
+import com.rainbow.supervision.domain.extend.OrgExtend;
 import com.rainbow.supervision.service.OrgService;
 import com.rainbow.supervision.service.SastindService;
 import com.rainbow.system.dao.UserMapper;
@@ -81,11 +82,11 @@ public class OrgServiceImpl extends BaseService<Org> implements OrgService {
     public ResponseBo getOrgList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
-        List<Org> list = orgMapper.getOrgList(map);
+        List<OrgExtend> list = orgMapper.getOrgList(map);
 
-        PageInfo<Org> pageInfo = new PageInfo<Org>(list);
+        PageInfo<OrgExtend> pageInfo = new PageInfo<OrgExtend>(list);
 
-        PagingEntity<Org> result = new PagingEntity<>(pageInfo);
+        PagingEntity<OrgExtend> result = new PagingEntity<>(pageInfo);
 
         return ResponseBo.ok(result);
     }
@@ -93,9 +94,9 @@ public class OrgServiceImpl extends BaseService<Org> implements OrgService {
 
     @Override
     public ResponseBo getOrgById(String id) {
-        Org result = orgMapper.getOrgById(id);
-        SystemUser systemUser = userMapper.selectByPrimaryKey(result.getCreaterId());
-        result.setCreatorName(systemUser.getUsername());
+        OrgExtend result = orgMapper.getOrgById(id);
+        //SystemUser systemUser = userMapper.selectByPrimaryKey(result.getCreaterId());
+        //result.setCreatorName(systemUser.getUsername());
 
         return ResponseBo.ok(result);
         //return null;

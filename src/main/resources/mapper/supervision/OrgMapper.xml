@@ -18,7 +18,7 @@
     <result column="note" jdbcType="LONGVARCHAR" property="note" />
   </resultMap>
 
-  <resultMap id="OrgRelationMap" extends="OrgBaseResultMap" type="com.rainbow.supervision.domain.Org">
+  <resultMap id="OrgRelationMap" extends="OrgBaseResultMap" type="com.rainbow.supervision.domain.extend.OrgExtend">
     <collection property="nature" resultMap="com.rainbow.config.dao.SystemConfigMapper.SystemConfigResultMap" columnPrefix="config_" >
 
     </collection>
@@ -45,12 +45,12 @@
       and instr(org.name,#{name})>0
     </if>
 
-    <if test="duty != null and duty != ''">
-      and instr(org.duty,#{duty})>0
+    <if test="leader != null and leader != ''">
+      and instr(org.leader,#{leader})>0
     </if>
 
     <if test="natureIds != null">
-      and nature.id in (
+      and relation.nature_id in (
       <foreach item="item" index="index" collection="natureIds" separator=",">
         #{item}
       </foreach>
@@ -58,7 +58,7 @@
     </if>
   </select>
 
-  <select id="getOrgById" resultMap="OrgRelationMap">
+  <select id="getOrgById"  resultMap="OrgRelationMap">
 
     select
      org.id,

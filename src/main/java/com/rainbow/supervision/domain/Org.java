@@ -71,6 +71,7 @@ public class Org {
      */
     private String note;
 
+
     /**
      * 机构性质
      */
@@ -83,7 +84,6 @@ public class Org {
     public void setNature(List<SystemConfig> nature) {
         this.nature = nature;
     }
-
 
     @Transient
     private String creatorName;
