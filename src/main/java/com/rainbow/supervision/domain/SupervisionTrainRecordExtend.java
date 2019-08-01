@@ -7,7 +7,7 @@ import java.util.Date;
  * @Date:2019/7/7 11:43
  * @Description:
  **/
-public class SupervisionTrainRecordExtend extends SupervisionTrainRecord {
+public class SupervisionTrainRecordExtend extends SupervisorTrainRecord {
     private String trainClass;
     private Date trainStartDate;
     private Date trainEndDate;

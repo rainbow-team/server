@@ -1,11 +1,11 @@
 package com.rainbow.supervision.controller.domain;
 
-import com.rainbow.supervision.domain.SupervisionSupervisor;
+import com.rainbow.supervision.domain.Supervisor;
 
 /**
  * Created by 13260 on 2019/7/6.
  */
-public class SupervisionSupervisorResponse extends SupervisionSupervisor{
+public class SupervisionSupervisorResponse extends Supervisor {
 
     public String orgName;
 

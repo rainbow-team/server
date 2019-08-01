@@ -8,7 +8,7 @@ import java.util.List;
 import javax.persistence.*;
 
 @Table(name = "supervision_supervisor")
-public class SupervisionSupervisor {
+public class Supervisor {
     /**
      * 主键
      */
@@ -34,10 +34,19 @@ public class SupervisionSupervisor {
     /**
      * 核安全授权监管机构外键
 
-参考表：supervision_org
+     参考表：supervision_org
      */
     @Column(name = "org_id")
     private String orgId;
+
+    /**
+     * 核安全监督员类别
+
+     参考表：config_supervisor_type
+     */
+    @Column(name = "type_id")
+    private String typeId;
+
 
     /**
      * 入职时间
@@ -249,6 +258,14 @@ public class SupervisionSupervisor {
      */
     public void setOrgId(String orgId) {
         this.orgId = orgId == null ? null : orgId.trim();
+    }
+
+    public String getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(String typeId) {
+        this.typeId = typeId;
     }
 
     /**

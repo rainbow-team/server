@@ -17,7 +17,7 @@ import java.util.List;
  * 监管法规管理
  */
 @RestController
-@RequestMapping("lawsupervision")
+@RequestMapping("law")
 public class LawController {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());

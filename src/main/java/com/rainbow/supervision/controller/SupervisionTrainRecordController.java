@@ -3,7 +3,7 @@ package com.rainbow.supervision.controller;
 
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
-import com.rainbow.supervision.domain.SupervisionTrainRecord;
+import com.rainbow.supervision.domain.SupervisorTrainRecord;
 import com.rainbow.supervision.service.SupervisionTrainRecordService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +32,7 @@ public class SupervisionTrainRecordController {
      * @return
      */
     @PostMapping("/addTrainRecord")
-    public ResponseBo add(@RequestBody SupervisionTrainRecord record) {
+    public ResponseBo add(@RequestBody SupervisorTrainRecord record) {
         int result = trainRecordService.addSupervisionTrainRecord(record);
 
         if (result == 1) {
@@ -49,7 +49,7 @@ public class SupervisionTrainRecordController {
      * @return
      */
     @PostMapping("/modifyTrainRecord")
-    public ResponseBo modify(@RequestBody SupervisionTrainRecord record) {
+    public ResponseBo modify(@RequestBody SupervisorTrainRecord record) {
 
         int result = trainRecordService.updateAll(record);
         if (result == 1) {
@@ -93,7 +93,7 @@ public class SupervisionTrainRecordController {
      */
     @PostMapping("/deleteTrainRecordByIds")
     public ResponseBo deleteTrainRecordByIds(@RequestBody List<String> ids){
-        trainRecordService.batchDelete(ids,"id",SupervisionTrainRecord.class);
+        trainRecordService.batchDelete(ids,"id",SupervisorTrainRecord.class);
         return ResponseBo.ok();
     }
 }

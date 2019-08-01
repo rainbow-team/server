@@ -4,7 +4,7 @@ import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "supervisor_train_records")
-public class SupervisionTrainRecord {
+public class SupervisorTrainRecord {
     /**
      * 主键id
      */

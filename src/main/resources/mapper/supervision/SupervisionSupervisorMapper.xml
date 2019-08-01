@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.rainbow.supervision.dao.SupervisionSupervisorMapper">
-  <resultMap id="BaseResultMap" type="com.rainbow.supervision.domain.SupervisionSupervisor">
+<mapper namespace="com.rainbow.supervision.dao.SupervisorMapper">
+  <resultMap id="BaseResultMap" type="com.rainbow.supervision.domain.Supervisor">
     <!--
       WARNING - @mbg.generated
     -->
@@ -10,6 +10,7 @@
     <result column="identity" jdbcType="VARCHAR" property="identity" />
     <result column="birthday" jdbcType="DATE" property="birthday" />
     <result column="org_id" jdbcType="VARCHAR" property="orgId" />
+    <result column="type_id" jdbcType="VARCHAR" property="typeId" />
     <result column="entry_date" jdbcType="DATE" property="entryDate" />
     <result column="title_id" jdbcType="VARCHAR" property="titleId" />
     <result column="post" jdbcType="VARCHAR" property="post" />

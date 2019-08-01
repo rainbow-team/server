@@ -8,7 +8,7 @@ import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
 import com.rainbow.common.util.GuidHelper;
 import com.rainbow.supervision.dao.SupervisionTrainRecordMapper;
-import com.rainbow.supervision.domain.SupervisionTrainRecord;
+import com.rainbow.supervision.domain.SupervisorTrainRecord;
 import com.rainbow.supervision.service.SupervisionTrainRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,13 +22,13 @@ import java.util.Map;
  * @Description:
  **/
 @Service("SupervisionTrainRecordService")
-public class SupervisionTrainRecordServiceImpl extends BaseService<SupervisionTrainRecord> implements SupervisionTrainRecordService {
+public class SupervisionTrainRecordServiceImpl extends BaseService<SupervisorTrainRecord> implements SupervisionTrainRecordService {
 
     @Autowired
     SupervisionTrainRecordMapper trainRecordMapper;
 
     @Override
-    public int addSupervisionTrainRecord(SupervisionTrainRecord record) {
+    public int addSupervisionTrainRecord(SupervisorTrainRecord record) {
         record.setId(GuidHelper.getGuid());
         return trainRecordMapper.insert(record);
     }
@@ -37,11 +37,11 @@ public class SupervisionTrainRecordServiceImpl extends BaseService<SupervisionTr
     public ResponseBo getSupervisionTrainRecordList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
-        List<SupervisionTrainRecord> list = trainRecordMapper.getTrainRecordList(map);
+        List<SupervisorTrainRecord> list = trainRecordMapper.getTrainRecordList(map);
 
-        PageInfo<SupervisionTrainRecord> pageInfo = new PageInfo<SupervisionTrainRecord>(list);
+        PageInfo<SupervisorTrainRecord> pageInfo = new PageInfo<SupervisorTrainRecord>(list);
 
-        PagingEntity<SupervisionTrainRecord> result = new PagingEntity<>(pageInfo);
+        PagingEntity<SupervisorTrainRecord> result = new PagingEntity<>(pageInfo);
 
         return ResponseBo.ok(result);
     }
