@@ -64,4 +64,19 @@ public class SastindServiceImpl extends BaseService<SupervisionSastind> implemen
 
         return ResponseBo.ok(result);
     }
+
+    @Override
+    public ResponseBo importSastind(List<SupervisionSastind> list){
+
+        for (SupervisionSastind supervisionSastind:list
+             ) {
+            supervisionSastind.setId(GuidHelper.getGuid());
+            supervisionSastind.setCreateDate(new Date());
+            supervisionSastind.setModifyDate(new Date());
+
+            sastindMapper.insert(supervisionSastind);
+        }
+
+        return ResponseBo.ok();
+    }
 }

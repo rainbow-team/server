@@ -4,17 +4,24 @@ import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
+import com.rainbow.common.util.ExcelHelper;
 import com.rainbow.common.util.ExportExcel;
+import com.rainbow.common.util.Multipart;
 import com.rainbow.supervision.domain.SupervisionSastind;
 import com.rainbow.supervision.service.SastindService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 13260 on 2019/5/11.
@@ -124,5 +131,38 @@ public class SastindController {
         String[] cloumnNames=new String[]{"司局名称","司领导","分管核安全司领导","核安全许可处室领导","核安全监督处室领导"};
 
         ExportExcel.exportExcelCommon(response,"国防科工局基本信息",cloumnNames,cloumnValues);
+    }
+
+    @RequestMapping(value = "/import", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseBo importSastind(HttpServletRequest request) {
+
+        Multipart part = new Multipart();
+        //获取前端传过来的file
+        MultipartFile file = part.getUploadFile(request);
+        FileInputStream inputStream = null;
+
+        ResponseBo result = new ResponseBo();
+        try {
+            if (file != null) {
+                //转化文件名，避免乱码
+                String fileName = new String(file.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8");
+                inputStream = (FileInputStream) file.getInputStream();
+                //将导入的excel转化为实体
+                List<SupervisionSastind> list = ExcelHelper.convertToList(SupervisionSastind.class, fileName, inputStream, 2, 12);
+
+                if(list.size()==0){
+
+                    return ResponseBo.error("文件内容为空");
+                }
+                //插入法规
+                result= sastindService.importSastind(list);
+                inputStream.close();
+            }
+        } catch (Exception e) {
+
+        }
+
+        return result;
     }
 }

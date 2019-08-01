@@ -9,12 +9,7 @@ import java.util.Date;
 
 @Table(name = "supervision_sastind")
 public class SupervisionSastind {
-    /**
-     * 国防科工局表主键
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+
 
     /**
      * 司局名称
@@ -69,6 +64,29 @@ public class SupervisionSastind {
     private String superviseLeaderTel;
 
     /**
+     * 处室设置
+     */
+    @Column(name = "org_set")
+    private String orgSet;
+
+    /**
+     * 工作职责
+     */
+    private String duty;
+
+    /**
+     * 备注
+     */
+    private String note;
+
+    /**
+     * 国防科工局表主键
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
+
+    /**
      * 创建人ID
      */
     @Column(name = "creater_id")
@@ -91,22 +109,6 @@ public class SupervisionSastind {
      */
     @Column(name = "modify_date")
     private Date modifyDate;
-
-    /**
-     * 处室设置
-     */
-    @Column(name = "org_set")
-    private String orgSet;
-
-    /**
-     * 工作职责
-     */
-    private String duty;
-
-    /**
-     * 备注
-     */
-    private String note;
 
     /**
      * 获取国防科工局表主键
