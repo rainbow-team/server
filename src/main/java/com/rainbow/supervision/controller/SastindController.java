@@ -67,8 +67,8 @@ public class SastindController {
      * @param id
      * @return
      */
-    @GetMapping("/deleteSastindById")
-    public ResponseBo deleteSastind(String id) {
+    @PostMapping("/deleteSastindById")
+    public ResponseBo deleteSastind(@RequestBody String id) {
         int result = sastindService.deleteByKey(id);
         if (result == 1) {
             return ResponseBo.ok("删除成功");
