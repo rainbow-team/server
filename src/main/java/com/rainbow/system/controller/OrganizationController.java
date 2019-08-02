@@ -93,4 +93,20 @@ public class OrganizationController {
         }
         return ResponseBo.ok();
     }
+
+    /**
+     * 获取全部部门
+     *
+     * @param
+     * @return
+     */
+    @PostMapping("/getAllOrganization")
+    public ResponseBo getAllOrganization() {
+
+        List<Organization> result = organizationService.selectAll();
+        if (result != null) {
+            return ResponseBo.ok(result);
+        }
+        return ResponseBo.ok("获取失败!");
+    }
 }

@@ -7,6 +7,7 @@ public class Organization {
     /**
      * 组织主键
      */
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
