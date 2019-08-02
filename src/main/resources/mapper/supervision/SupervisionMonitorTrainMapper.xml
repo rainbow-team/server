@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.rainbow.supervision.dao.SupervisionMonitorTrainMapper">
-  <resultMap id="BaseResultMap" type="com.rainbow.supervision.domain.SupervisionMonitorTrain">
+<mapper namespace="com.rainbow.supervision.dao.SupervisorTrainMapper">
+  <resultMap id="BaseResultMap" type="com.rainbow.supervision.domain.SupervisorTrain">
     <!--
       WARNING - @mbg.generated
     -->

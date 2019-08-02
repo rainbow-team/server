@@ -3,10 +3,8 @@ package com.rainbow.supervision.controller;
 
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
-import com.rainbow.common.util.GuidHelper;
-import com.rainbow.supervision.domain.SupervisionMonitorTrain;
-import com.rainbow.supervision.service.SupervisionMonitorTrainService;
-import com.rainbow.system.service.UserService;
+import com.rainbow.supervision.domain.SupervisorTrain;
+import com.rainbow.supervision.service.SupervisorTrainService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +17,12 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("supervisiontrain")
-public class SupervisionMonitorTrainController {
+public class SupervisorTrainController {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    SupervisionMonitorTrainService supervisionMonitorTrainService;
+    SupervisorTrainService supervisionMonitorTrainService;
 
     /**
      * 保存核安全监督培训信息
@@ -33,7 +31,7 @@ public class SupervisionMonitorTrainController {
      * @return
      */
     @PostMapping("/addMonitorTrain")
-    public ResponseBo add(@RequestBody SupervisionMonitorTrain supervisionMonitorTrain) {
+    public ResponseBo add(@RequestBody SupervisorTrain supervisionMonitorTrain) {
         int result = supervisionMonitorTrainService.addMonitorTrain(supervisionMonitorTrain);
 
         if (result == 1) {
@@ -50,7 +48,7 @@ public class SupervisionMonitorTrainController {
      * @return
      */
     @PostMapping("/modifyMonitorTrain")
-    public ResponseBo modify(@RequestBody SupervisionMonitorTrain supervisionMonitorTrain) {
+    public ResponseBo modify(@RequestBody SupervisorTrain supervisionMonitorTrain) {
 
         int result = supervisionMonitorTrainService.modifyMonitorTrain(supervisionMonitorTrain);
         if (result == 1) {
@@ -67,7 +65,7 @@ public class SupervisionMonitorTrainController {
      * @return
      */
     @PostMapping("/deleteMonitorTrainById")
-    public ResponseBo delete(@RequestBody SupervisionMonitorTrain supervisionMonitorTrain) {
+    public ResponseBo delete(@RequestBody SupervisorTrain supervisionMonitorTrain) {
         int result = supervisionMonitorTrainService.deleteByKey(supervisionMonitorTrain.getId());
         if (result == 1) {
             return ResponseBo.ok("删除成功");
@@ -82,9 +80,9 @@ public class SupervisionMonitorTrainController {
      * @return
      */
     @PostMapping("/getAllMonitorTrain")
-    public List<SupervisionMonitorTrain> selectAllTrainRecord() {
+    public List<SupervisorTrain> selectAllTrainRecord() {
 
-        List<SupervisionMonitorTrain> trainRecords = supervisionMonitorTrainService.selectAll();
+        List<SupervisorTrain> trainRecords = supervisionMonitorTrainService.selectAll();
         return trainRecords;
     }
 
@@ -115,7 +113,7 @@ public class SupervisionMonitorTrainController {
      */
     @PostMapping("/deleteMonitorTrainByIds")
     public ResponseBo deleteMonitorTrainByIds(@RequestBody List<String> ids){
-        supervisionMonitorTrainService.batchDelete(ids,"id",SupervisionMonitorTrain.class);
+        supervisionMonitorTrainService.batchDelete(ids,"id",SupervisorTrain.class);
         return ResponseBo.ok();
     }
 }

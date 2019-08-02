@@ -10,16 +10,11 @@ import com.rainbow.common.util.GuidHelper;
 import com.rainbow.config.domain.SystemConfig;
 import com.rainbow.supervision.dao.OrgMapper;
 import com.rainbow.supervision.dao.RelationOrgNatureMapper;
-import com.rainbow.supervision.dao.SupervisionSastindMapper;
 import com.rainbow.supervision.domain.Org;
 import com.rainbow.supervision.domain.RelationOrgNature;
-import com.rainbow.supervision.domain.SupervisionMonitorTrain;
-import com.rainbow.supervision.domain.SupervisionSastind;
 import com.rainbow.supervision.domain.extend.OrgExtend;
 import com.rainbow.supervision.service.OrgService;
-import com.rainbow.supervision.service.SastindService;
 import com.rainbow.system.dao.UserMapper;
-import com.rainbow.system.domain.SystemUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

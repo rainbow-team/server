@@ -7,9 +7,9 @@ import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
 import com.rainbow.common.util.GuidHelper;
-import com.rainbow.supervision.dao.SupervisionMonitorTrainMapper;
-import com.rainbow.supervision.domain.SupervisionMonitorTrain;
-import com.rainbow.supervision.service.SupervisionMonitorTrainService;
+import com.rainbow.supervision.dao.SupervisorTrainMapper;
+import com.rainbow.supervision.domain.SupervisorTrain;
+import com.rainbow.supervision.service.SupervisorTrainService;
 import com.rainbow.system.dao.UserMapper;
 import com.rainbow.system.domain.SystemUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +26,10 @@ import java.util.Map;
  * @Description:
  **/
 @Service("SupervisionMonitorTrainService")
-public class SupervisionMonitorTrainServiceImpl extends BaseService<SupervisionMonitorTrain> implements SupervisionMonitorTrainService {
+public class SupervisorTrainServiceImpl extends BaseService<SupervisorTrain> implements SupervisorTrainService {
 
     @Autowired
-    SupervisionMonitorTrainMapper monitorTrainMapper;
+    SupervisorTrainMapper monitorTrainMapper;
 
     @Autowired
     private com.rainbow.attachment.dao.FileInfoMapper FileInfoMapper;
@@ -38,7 +38,7 @@ public class SupervisionMonitorTrainServiceImpl extends BaseService<SupervisionM
     private UserMapper userMapper;
 
     @Override
-    public int addMonitorTrain(SupervisionMonitorTrain trainRecord) {
+    public int addMonitorTrain(SupervisorTrain trainRecord) {
         trainRecord.setId(GuidHelper.getGuid());
         trainRecord.setCreateDate(new Date());
         trainRecord.setModifyDate(new Date());
@@ -49,14 +49,14 @@ public class SupervisionMonitorTrainServiceImpl extends BaseService<SupervisionM
     }
 
     @Override
-    public int modifyMonitorTrain(SupervisionMonitorTrain trainRecord) {
+    public int modifyMonitorTrain(SupervisorTrain trainRecord) {
         trainRecord.setModifyDate(new Date());
 
         updateFileInfoByIds(trainRecord);
         return monitorTrainMapper.updateByPrimaryKey(trainRecord);
     }
 
-    public void updateFileInfoByIds(SupervisionMonitorTrain trainRecord){
+    public void updateFileInfoByIds(SupervisorTrain trainRecord){
         if(trainRecord.getAttachmentList().size()>0){
             Map<String,Object> map = new HashMap<>();
             map.put("id",trainRecord.getId());
@@ -70,11 +70,11 @@ public class SupervisionMonitorTrainServiceImpl extends BaseService<SupervisionM
 
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
-        List<SupervisionMonitorTrain> list = monitorTrainMapper.getMonitorTrainList(map);
+        List<SupervisorTrain> list = monitorTrainMapper.getMonitorTrainList(map);
 
-        PageInfo<SupervisionMonitorTrain> pageInfo = new PageInfo<SupervisionMonitorTrain>(list);
+        PageInfo<SupervisorTrain> pageInfo = new PageInfo<SupervisorTrain>(list);
 
-        PagingEntity<SupervisionMonitorTrain> result = new PagingEntity<>(pageInfo);
+        PagingEntity<SupervisorTrain> result = new PagingEntity<>(pageInfo);
 
         return ResponseBo.ok(result);
     }
@@ -82,10 +82,10 @@ public class SupervisionMonitorTrainServiceImpl extends BaseService<SupervisionM
     @Override
     public ResponseBo getMonitorTrainById(String id){
 
-        SupervisionMonitorTrain result =  monitorTrainMapper.selectByPrimaryKey(id);
-        //创建人
-        SystemUser user = userMapper.selectByPrimaryKey(result.getCreatorId());
-        result.setCreatorName(user.getUsername());
+        SupervisorTrain result =  monitorTrainMapper.selectByPrimaryKey(id);
+        ////创建人
+        //SystemUser user = userMapper.selectByPrimaryKey(result.getCreatorId());
+        //result.setCreatorName(user.getUsername());
 
         return ResponseBo.ok(result);
     }

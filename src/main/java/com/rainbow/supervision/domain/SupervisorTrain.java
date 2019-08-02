@@ -13,7 +13,7 @@ import javax.persistence.*;
  */
 
 @Table(name = "supervision_monitor_train")
-public class SupervisionMonitorTrain {
+public class SupervisorTrain {
     /**
      * 主键
      */
