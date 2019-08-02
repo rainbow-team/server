@@ -41,4 +41,18 @@
       and instr(mt.batch,#{batch})>0
     </if>
   </select>
+
+    <select id="getMaxExpireDateBySupervisorId" parameterType="java.lang.String" resultType="java.util.Date">
+
+      select max(a.expire_date) expireDate
+
+      from supervisor_train_records a
+
+      where a.supervisor_id = #{supervisorId}
+
+      group by a.supervisor_id
+
+    </select>
+
+
 </mapper>

@@ -1,18 +1,13 @@
 package com.rainbow.supervision.controller;
 
-import com.rainbow.attachment.domain.FileInfo;
 import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.supervision.domain.Supervisor;
-import com.rainbow.supervision.domain.SupervisorTrainRecord;
 import com.rainbow.supervision.service.SupervisorService;
-import com.rainbow.supervision.service.SupervisionTrainRecordService;
+import com.rainbow.supervision.service.SupervisorTrainRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import tk.mybatis.mapper.entity.Example;
-
-import java.util.List;
 
 /**
  * Created by 13260 on 2019/5/11.
@@ -28,7 +23,7 @@ public class SupervisorController {
     public FileInfoService fileInfoService;
 
     @Autowired
-    SupervisionTrainRecordService supervisionTrainRecordService;
+    SupervisorTrainRecordService supervisionTrainRecordService;
 
 
     /**
@@ -36,7 +31,7 @@ public class SupervisorController {
      * @param supervisor
      * @return
      */
-    @PostMapping("addSupervisor")
+    @PostMapping("/addSupervisor")
     public ResponseBo addSupervisor(@RequestBody Supervisor supervisor){
         int result = supervisorService.addSupervisor(supervisor);
 
@@ -52,7 +47,7 @@ public class SupervisorController {
      * @param supervisor
      * @return
      */
-    @PostMapping("modifySupervisor")
+    @PostMapping("/modifySupervisor")
     public ResponseBo modifySupervisor(@RequestBody Supervisor supervisor){
         int result = supervisorService.modifySupervisor(supervisor);
         if (result == 1) {
@@ -67,7 +62,7 @@ public class SupervisorController {
      * @param id
      * @return
      */
-    @PostMapping("deleteSupervisorById")
+    @PostMapping("/deleteSupervisorById")
     public ResponseBo deleteSupervisionSupervisorById(@RequestBody String id){
 
         if (id != null) {
@@ -87,7 +82,7 @@ public class SupervisorController {
      * @param page
      * @return
      */
-    @PostMapping("getSupervisorList")
+    @PostMapping("/getSupervisorList")
     public ResponseBo getSupervisionSupervisorList(@RequestBody Page page) {
 
         return supervisorService.getSupervisorList(page);
@@ -99,7 +94,7 @@ public class SupervisorController {
      * @param id
      * @return
      */
-    @PostMapping("getSupervisorById")
+    @PostMapping("/getSupervisorById")
     public ResponseBo getSupervisorById(@RequestBody String id) {
 
         if (id != null) {

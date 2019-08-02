@@ -4,7 +4,7 @@ package com.rainbow.supervision.controller;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.supervision.domain.SupervisorTrainRecord;
-import com.rainbow.supervision.service.SupervisionTrainRecordService;
+import com.rainbow.supervision.service.SupervisorTrainRecordService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class SupervisionTrainRecordController {
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    SupervisionTrainRecordService trainRecordService;
+    SupervisorTrainRecordService trainRecordService;
 
     /**
      * 保存核安全监督员培训记录
@@ -34,7 +34,7 @@ public class SupervisionTrainRecordController {
     @PostMapping("/addTrainRecord")
     public ResponseBo add(@RequestBody SupervisorTrainRecord record) {
         int result = trainRecordService.addSupervisionTrainRecord(record);
-
+       // trainRecordService.updateSupervisorExpireDate(record);
         if (result == 1) {
             return ResponseBo.ok("保存成功");
         } else {
@@ -52,6 +52,7 @@ public class SupervisionTrainRecordController {
     public ResponseBo modify(@RequestBody SupervisorTrainRecord record) {
 
         int result = trainRecordService.updateAll(record);
+        //trainRecordService.updateSupervisorExpireDate(record);
         if (result == 1) {
             return ResponseBo.ok("修改成功");
         } else {

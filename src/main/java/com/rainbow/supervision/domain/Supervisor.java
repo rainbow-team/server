@@ -152,6 +152,20 @@ public class Supervisor {
      */
     private String note;
 
+    /**
+     * 过期时间
+     */
+    @Column(name = "expire_date")
+    private Date expireDate;
+
+    public Date getExpireDate() {
+        return expireDate;
+    }
+
+    public void setExpireDate(Date expireDate) {
+        this.expireDate = expireDate;
+    }
+
     private List<FileInfo> attachmentList;
 
     public List<FileInfo> getAttachmentList() {

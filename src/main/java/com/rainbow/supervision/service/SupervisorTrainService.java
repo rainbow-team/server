@@ -19,4 +19,5 @@ public interface SupervisorTrainService extends IService<SupervisorTrain> {
     ResponseBo getMonitorTrainList(Page page);
 
     ResponseBo getMonitorTrainById(String id);
+
 }

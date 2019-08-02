@@ -8,11 +8,13 @@ import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
 import com.rainbow.common.util.GuidHelper;
 import com.rainbow.supervision.dao.SupervisionTrainRecordMapper;
+import com.rainbow.supervision.dao.SupervisorMapper;
 import com.rainbow.supervision.domain.SupervisorTrainRecord;
-import com.rainbow.supervision.service.SupervisionTrainRecordService;
+import com.rainbow.supervision.service.SupervisorTrainRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -22,10 +24,13 @@ import java.util.Map;
  * @Description:
  **/
 @Service("SupervisionTrainRecordService")
-public class SupervisionTrainRecordServiceImpl extends BaseService<SupervisorTrainRecord> implements SupervisionTrainRecordService {
+public class SupervisorTrainRecordServiceImpl extends BaseService<SupervisorTrainRecord> implements SupervisorTrainRecordService {
 
     @Autowired
     SupervisionTrainRecordMapper trainRecordMapper;
+
+    @Autowired
+    SupervisorMapper supervisorMapper;
 
     @Override
     public int addSupervisionTrainRecord(SupervisorTrainRecord record) {
@@ -44,5 +49,11 @@ public class SupervisionTrainRecordServiceImpl extends BaseService<SupervisorTra
         PagingEntity<SupervisorTrainRecord> result = new PagingEntity<>(pageInfo);
 
         return ResponseBo.ok(result);
+    }
+
+    @Override
+    public void updateSupervisorExpireDate(SupervisorTrainRecord record) {
+        Date expireDate = trainRecordMapper.getMaxExpireDateBySupervisorId(record.getSupervisorId());
+       // int result = supervisorMapper.updateExpireDateById(record.getSupervisorId(), expireDate);
     }
 }

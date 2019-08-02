@@ -10,9 +10,11 @@ import com.rainbow.supervision.domain.SupervisorTrainRecord;
  * @Date:2019/6/27 17:08
  * @Description:
  **/
-public interface SupervisionTrainRecordService extends IService<SupervisorTrainRecord> {
+public interface SupervisorTrainRecordService extends IService<SupervisorTrainRecord> {
 
     int addSupervisionTrainRecord(SupervisorTrainRecord record);
 
     ResponseBo getSupervisionTrainRecordList(Page page);
+
+    void updateSupervisorExpireDate(SupervisorTrainRecord record);
 }

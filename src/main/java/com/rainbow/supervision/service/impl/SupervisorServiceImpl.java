@@ -7,10 +7,14 @@ import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
+import com.rainbow.common.util.GuidHelper;
 import com.rainbow.common.util.StrUtil;
+import com.rainbow.security.domain.FacSecurity;
+import com.rainbow.security.domain.UminePlaceSecurity;
 import com.rainbow.supervision.controller.domain.SupervisionSupervisorResponse;
 import com.rainbow.supervision.dao.SupervisorMapper;
 import com.rainbow.supervision.domain.Supervisor;
+import com.rainbow.supervision.domain.extend.SupervisorExtend;
 import com.rainbow.supervision.service.SupervisorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,12 +42,16 @@ public class SupervisorServiceImpl extends BaseService<Supervisor> implements Su
 
     @Override
     public int addSupervisor(Supervisor supervisor) {
-        return 0;
+        supervisor.setId(GuidHelper.getGuid());
+        supervisor.setCreateDate(new Date());
+        supervisor.setModifyDate(new Date());
+        return supervisorMapper.insert(supervisor);
     }
 
     @Override
     public int modifySupervisor(Supervisor supervisor) {
-        return 0;
+        supervisor.setModifyDate(new Date());
+        return supervisorMapper.updateByPrimaryKey(supervisor);
     }
 
     @Override
@@ -53,12 +61,24 @@ public class SupervisorServiceImpl extends BaseService<Supervisor> implements Su
 
     @Override
     public ResponseBo getSupervisorList(Page page) {
-        return null;
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
+        Map<String, Object> map = page.getQueryParameter();
+        List<SupervisorExtend> list = supervisorMapper.getSupervisorList(map);
+
+        PageInfo<SupervisorExtend> pageInfo = new PageInfo<SupervisorExtend>(list);
+
+        PagingEntity<SupervisorExtend> result = new PagingEntity<>(pageInfo);
+
+        return ResponseBo.ok(result);
     }
 
     @Override
     public ResponseBo getSupervisorById(String id) {
-        return null;
+        SupervisorExtend result = supervisorMapper.getSupervisorById(id);
+        if (result != null) {
+            return ResponseBo.ok(result);
+        }
+        return ResponseBo.error("查询失败");
     }
 
 

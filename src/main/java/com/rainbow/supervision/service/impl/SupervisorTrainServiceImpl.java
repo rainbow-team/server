@@ -89,4 +89,5 @@ public class SupervisorTrainServiceImpl extends BaseService<SupervisorTrain> imp
 
         return ResponseBo.ok(result);
     }
+
 }

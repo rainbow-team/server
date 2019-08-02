@@ -30,7 +30,7 @@
      </if>
 
      <if test="endDate != null and endDate != ''">
-          and t.end_date <![CDATA[  <=  ]]> #{endDate}
+          and t.begin_date <![CDATA[  <=  ]]> #{endDate}
      </if>
 
       <if test="batch != null and batch != ''">
