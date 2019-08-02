@@ -84,7 +84,7 @@ public class RoleController {
     @GetMapping("/getRoleById")
     public ResponseBo getById(String id) {
         RoleWithMenu roleWithMenu = roleService.getRoleById(id);
-        return ResponseBo.ok(roleWithMenu);
+        return ResponseBo.ok();
     }
 
     /**
@@ -99,7 +99,7 @@ public class RoleController {
             for (String id : ids) {
                 roleService.deleteRoleById(id);
             }
-            return ResponseBo.ok("删除成功!");
+            ResponseBo.ok("删除成功!");
         }
         return ResponseBo.error("删除失败，请重试!");
     }
