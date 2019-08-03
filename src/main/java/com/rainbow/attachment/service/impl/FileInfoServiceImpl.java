@@ -58,7 +58,7 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
 
         try {
             fileName = StrUtil.isNullOrEmpty(fileName) ? multifile.getOriginalFilename() : fileName;
-            fileName = new String(fileName.getBytes("ISO8859-1"), "UTF-8");
+            fileName = new String(fileName.getBytes("UTF-8"), "UTF-8");
             ext = FilenameUtils.getExtension(fileName); //fileName.split("\\.")[1];
             storeFile = guid + "." + ext;
 
