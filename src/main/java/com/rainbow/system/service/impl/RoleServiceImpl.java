@@ -86,12 +86,12 @@ public class RoleServiceImpl extends BaseService<Role> implements RoleService {
 
     @Override
     public int deleteRoleById(String id) {
-        try {
+        try{
             roleMapper.deleteByPrimaryKey(id);
             roleMenuServie.deleteRoleMenusByRoleId(id);
             userRoleService.deleteUserRoleByRoleId(id);
             return 1;
-        } catch (Exception e) {
+        }catch (Exception e){
             return 0;
         }
     }
