@@ -7,6 +7,7 @@ public class UserRole {
     /**
      * 主键ID
      */
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 

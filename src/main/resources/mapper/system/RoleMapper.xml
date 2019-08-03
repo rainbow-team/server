@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.system.dao.RoleMapper">
   <resultMap id="RoleBaseMap" type="com.rainbow.system.domain.Role">
@@ -8,12 +8,18 @@
     <result column="id" jdbcType="VARCHAR" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="note" jdbcType="LONGVARCHAR" property="note" />
+
   </resultMap>
 
   <resultMap id="RoleWithUserMap" extends="RoleBaseMap" type="com.rainbow.system.domain.extend.RoleWithMenu">
-    <collection property="roleMenuList" columnPrefix="menu_"  resultMap="com.rainbow.system.domain.SystemMenu"></collection>
+    <!-- <collection property="roleMenuList" columnPrefix="menu_" resultMap="com.rainbow.system.domain.SystemMenu"></collection> -->
+    <collection property="roleMenuList" javaType="ArrayList" ofType="com.rainbow.system.domain.SystemMenu">
+      <id column="menu_id" jdbcType="VARCHAR" property="id" />
+      <result column="menu_code" jdbcType="VARCHAR" property="code" />
+      <result column="menu_name" jdbcType="VARCHAR" property="name" />
+    </collection>
   </resultMap>
-  
+
   <select id="getRoleById" resultMap="RoleWithUserMap">
     select
      r.*,
