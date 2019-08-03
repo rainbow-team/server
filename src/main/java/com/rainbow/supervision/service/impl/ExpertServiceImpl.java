@@ -13,6 +13,7 @@ import com.rainbow.supervision.service.ExpertService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +47,29 @@ public class ExpertServiceImpl extends BaseService<Expert> implements ExpertServ
     public ResponseBo getExpertList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
+
+        Object startAge = map.get("startAge");
+        if (startAge != null) {
+            Integer sAge = Integer.parseInt(startAge.toString());
+            Date date=new Date();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            calendar.add(Calendar.YEAR,-sAge);
+            date=calendar.getTime();
+            map.put("end_date",date);
+        }
+
+        Object endAge = map.get("endAge");
+        if (endAge != null) {
+            Integer eAge = Integer.parseInt(endAge.toString())+1;
+            Date date=new Date();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            calendar.add(Calendar.YEAR,-eAge);
+            date=calendar.getTime();
+            map.put("start_date",date);
+        }
+
         List<Expert> list = expertMapper.getExpertList(map);
 
         PageInfo<Expert> pageInfo = new PageInfo<Expert>(list);

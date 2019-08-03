@@ -23,7 +23,12 @@ public class ExpertExtend extends Expert {
     }
 
     public Integer getAge() {
-        return IDCardUtil.getAge(this.getBirthday());
+        try {
+            Integer result = IDCardUtil.getAge(this.getBirthday());
+            return result;
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     public void setAge(Integer age) {

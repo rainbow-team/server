@@ -25,7 +25,7 @@ public class Expert {
     /**
      * 出生年月
      */
-    private String birthday;
+    private Date birthday;
 
     /**
      * 性别
@@ -143,11 +143,11 @@ public class Expert {
         this.identity = identity == null ? null : identity.trim();
     }
 
-    public String getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 

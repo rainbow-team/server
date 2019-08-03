@@ -43,12 +43,12 @@
       and instr(t.major,#{major})>0
     </if>
 
-    <if test="start_date != null and start_date != ''">
-      and and t.birthday <![CDATA[  >=  ]]> #{start_date}
+    <if test="start_date != null ">
+      and  t.birthday <![CDATA[  >  ]]> #{start_date}
     </if>
 
-    <if test="end_date != null and end_date != ''">
-      and  t.birthday <![CDATA[  <=  ]]> #{end_date}
+    <if test="end_date != null">
+      and  t.birthday <![CDATA[  <  ]]> #{end_date}
     </if>
 
 

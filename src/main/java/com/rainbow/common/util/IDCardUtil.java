@@ -172,7 +172,7 @@ public class IDCardUtil {
         return true;
     }
 
-    public static int getAge(Date birthDay) throws Exception {
+    public static Integer getAge(Date birthDay) throws Exception {
         Calendar cal = Calendar.getInstance();
         if (cal.before(birthDay)) { //出生日期晚于当前时间，无法计算
             throw new IllegalArgumentException(
