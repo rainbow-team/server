@@ -45,9 +45,8 @@ public class UserController extends BaseController {
 
     // @Log("新增用户")
     // @RequiresPermissions("user:add")
-    @RequestMapping("/addUser")
-    @ResponseBody
-    public ResponseBo addUser(UserWithRole user) {
+    @PostMapping("/addUser")
+    public ResponseBo addUser(@RequestBody UserWithRole user) {
 
         int result = this.userService.addUser(user);
         if (result == 1) {
@@ -95,9 +94,9 @@ public class UserController extends BaseController {
      * @return
      */
     @GetMapping("/getUserWithRoleByUserId")
-    public ResponseBo getUserWithRoleByUserId(String userId) {
+    public ResponseBo getUserWithRoleByUserId(String id) {
         try {
-            UserWithRole user = this.userService.getUserWithRoleByUserId(userId);
+            UserWithRole user = this.userService.getUserWithRoleByUserId(id);
             return ResponseBo.ok(user);
         } catch (Exception e) {
             log.error("获取用户失败", e);

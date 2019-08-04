@@ -18,41 +18,40 @@ import java.util.Map;
  * @Description:
  **/
 public interface UserService extends IService<SystemUser> {
-/*    *//**
-     * 根据用户名查找用户
-     * @param userName
-     * @return
-     *//*
-    User findByName(String userName);
-
-    */
+    /*    *//**
+             * 根据用户名查找用户
+             * 
+             * @param userName
+             * @return
+             *//*
+                * User findByName(String userName);
+                * 
+                */
 
     /**
      * 更新用户的最后登录时间
      *
      * @param userName
      *//*
-    void updateLoginTime(String userName);
+        * void updateLoginTime(String userName);
+        * 
+        * UserWithRole findById(Long userId);
+        * 
+        * 
+        * @Cacheable(key = "#p0.toString() + (#p1 != null ? #p1.toString() : '')")
+        * List<User> findUserWithDept(User user, QueryRequest request);
+        * 
+        * @CacheEvict(key = "#p0", allEntries = true) void registUser(User user);
+        * 
+        * void updateTheme(String theme, String userName);
+        * 
+        * 
+        * 
+        * @CacheEvict(key = "#p0", allEntries = true) void updateUser(User user, Long[]
+        * roles);
+        */
 
-    UserWithRole findById(Long userId);
-
-
-    @Cacheable(key = "#p0.toString() + (#p1 != null ? #p1.toString() : '')")
-    List<User> findUserWithDept(User user, QueryRequest request);
-
-    @CacheEvict(key = "#p0", allEntries = true)
-    void registUser(User user);
-
-    void updateTheme(String theme, String userName);
-
-
-
-    @CacheEvict(key = "#p0", allEntries = true)
-    void updateUser(User user, Long[] roles);*/
-
-
-
-    //@CacheEvict(allEntries = true)
+    // @CacheEvict(allEntries = true)
     int addUser(UserWithRole user);
 
     int modifyUser(UserWithRole userWithRole);
@@ -60,21 +59,21 @@ public interface UserService extends IService<SystemUser> {
     // @CacheEvict(key = "#p0", allEntries = true)
     int deleteUserById(String id);
 
-    UserWithRole getUserWithRoleByUserId(String userId);
+    UserWithRole getUserWithRoleByUserId(String id);
 
-    List<String> getAllPermissionByUserId(String userId);
+    List<String> getAllPermissionByUserId(String id);
 
     /*
-        void updatePassword(String password);
-
-        User findUserProfile(User user);
-
-        void updateUserProfile(User user);
-    */
+     * void updatePassword(String password);
+     * 
+     * User findUserProfile(User user);
+     * 
+     * void updateUserProfile(User user);
+     */
     SystemUser login(Map<String, String> map);
 
     SystemUser findUserByUsername(String username);
 
-	ResponseBo getUserList(Page page);
+    ResponseBo getUserList(Page page);
 
 }

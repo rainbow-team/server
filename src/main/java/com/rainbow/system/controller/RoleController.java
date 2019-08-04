@@ -103,4 +103,14 @@ public class RoleController {
         }
         return ResponseBo.error("删除失败，请重试!");
     }
+
+    @PostMapping("/getAllRoles")
+    public ResponseBo getAllRoles() {
+
+        List<Role> result = roleService.selectAll();
+        if (result != null) {
+            return ResponseBo.ok(result);
+        }
+        return ResponseBo.ok("获取失败!");
+    }
 }
