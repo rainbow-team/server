@@ -43,7 +43,7 @@
 
   <select id="getFacNumByServiceId" parameterType="java.lang.String" resultType="int">
     select
-     ifnull(sum(id),0)
+     ifnull(count(id),0)
     from unit_fac t
     where t.service_id = #{serviceId}
   </select>

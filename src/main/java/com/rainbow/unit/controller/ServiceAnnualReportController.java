@@ -77,7 +77,7 @@ public class ServiceAnnualReportController {
     @PostMapping("/deleteServiceAnnualReportByIds")
     public ResponseBo deleteServiceAnnualReportByIds(@RequestBody List<String> ids){
         if ((ids != null) && (ids.size() > 0)) {
-            annualReportService.batchDelete(ids,"id",ServiceAnnualReport.class);
+            annualReportService.batchDelete(ids,"reportId",ServiceAnnualReport.class);
         }
         return ResponseBo.ok();
     }

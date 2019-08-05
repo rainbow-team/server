@@ -17,7 +17,7 @@
 
   <select id="getServiceAnnualReportList" parameterType="map" resultMap="BaseResultMap">
 
-    select *  from unit_service_annual_report t
+    select *  from unit_service_annual_report t where t.service_id = #{serviceId}
 
   </select>
 </mapper>

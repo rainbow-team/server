@@ -40,7 +40,7 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
     private RainbowProperties rainbowProperties;
 
     @Override
-    public ResponseBo upload(MultipartFile multifile,HttpServletRequest request){
+    public ResponseBo upload(MultipartFile multifile, HttpServletRequest request) {
 
         String guid = UUID.randomUUID().toString();
 
@@ -53,8 +53,8 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
         }
         String ext = null;
         String storeFile = null;
-        String fileName =null;
-        String fileSavePath ="";
+        String fileName = null;
+        String fileSavePath = "";
 
         try {
             fileName = StrUtil.isNullOrEmpty(fileName) ? multifile.getOriginalFilename() : fileName;
@@ -94,32 +94,32 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
         return ResponseBo.ok(guid);
     }
 
-    public  String GetFileStorageFolder(String actualFile) {
+    public String GetFileStorageFolder(String actualFile) {
 //        RainbowProperties rp = new RainbowProperties();
 
-        String  webInfPath = rainbowProperties.getUploadFolder();
+        String webInfPath = rainbowProperties.getUploadFolder();
 
         String path = String.format("%s%s/%s/", webInfPath, actualFile.charAt(0), actualFile.charAt(1));
         return path;
     }
 
     @Override
-    public ResponseBo getFileList(String id){
+    public ResponseBo getFileList(String id) {
 
         Example example = new Example(FileInfo.class);
-        example.createCriteria().andEqualTo("fileinfoRefId",id);
-        List<FileInfo> list =fileInfoMapper.selectByExample(example);
+        example.createCriteria().andEqualTo("fileinfoRefId", id);
+        List<FileInfo> list = fileInfoMapper.selectByExample(example);
         return ResponseBo.ok(list);
 
     }
 
     @Override
-    public  void downloadAccessoryByid(String id,HttpServletResponse response){
+    public void downloadAccessoryByid(String id, HttpServletResponse response) {
 
         FileInfo fileInfo = fileInfoMapper.selectByPrimaryKey(id);
 
-        if(fileInfo!=null){
-            String path  = fileInfo.getFileinfoServerPath();
+        if (fileInfo != null) {
+            String path = fileInfo.getFileinfoServerPath();
             File file = new File(path);
 
             if (!file.exists()) {
@@ -139,11 +139,11 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
     }
 
     @Override
-    public  void updateFileInfoByIds(List<FileInfo> list,String id){
-        if(list!=null&&list.size()>0){
-            Map<String,Object> map = new HashMap<>();
-            map.put("id",id);
-            map.put("fileIds",list);
+    public void updateFileInfoByIds(List<FileInfo> list, String id) {
+        if (list != null && list.size() > 0) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", id);
+            map.put("fileIds", list);
             fileInfoMapper.updateFileInfoByIds(map);
         }
     }
