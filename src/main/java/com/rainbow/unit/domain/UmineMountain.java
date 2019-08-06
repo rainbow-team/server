@@ -39,16 +39,16 @@ public class UmineMountain extends BaseExtendEntity {
     private String statusId;
 
     /**
-     * 井下消防审查备案情况 0 未备案 ，1已备案
+     * 井下消防审查备案情况
      */
-    @Column(name = "is_record")
-    private Integer isRecord;
+    @Column(name = "record_id")
+    private String recordId;
 
     /**
-     * 井下消防验收情况 0未验收 ，1已验收
+     * 井下消防验收情况
      */
-    @Column(name = "is_accept")
-    private Integer isAccept;
+    @Column(name = "accept_id")
+    private String acceptId;
 
     /**
      * 是否导入0 否 1 是
@@ -196,40 +196,20 @@ public class UmineMountain extends BaseExtendEntity {
         this.statusId = statusId == null ? null : statusId.trim();
     }
 
-    /**
-     * 获取井下消防审查备案情况 0 未备案 ，1已备案
-     *
-     * @return is_record - 井下消防审查备案情况 0 未备案 ，1已备案
-     */
-    public Integer getIsRecord() {
-        return isRecord;
+    public String getRecordId() {
+        return recordId;
     }
 
-    /**
-     * 设置井下消防审查备案情况 0 未备案 ，1已备案
-     *
-     * @param isRecord 井下消防审查备案情况 0 未备案 ，1已备案
-     */
-    public void setIsRecord(Integer isRecord) {
-        this.isRecord = isRecord;
+    public void setRecordId(String recordId) {
+        this.recordId = recordId;
     }
 
-    /**
-     * 获取井下消防验收情况 0未验收 ，1已验收
-     *
-     * @return is_accept - 井下消防验收情况 0未验收 ，1已验收
-     */
-    public Integer getIsAccept() {
-        return isAccept;
+    public String getAcceptId() {
+        return acceptId;
     }
 
-    /**
-     * 设置井下消防验收情况 0未验收 ，1已验收
-     *
-     * @param isAccept 井下消防验收情况 0未验收 ，1已验收
-     */
-    public void setIsAccept(Integer isAccept) {
-        this.isAccept = isAccept;
+    public void setAcceptId(String acceptId) {
+        this.acceptId = acceptId;
     }
 
     /**

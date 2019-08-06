@@ -10,8 +10,8 @@
     <result column="umine_id" jdbcType="VARCHAR" property="umineId" />
     <result column="build_year" jdbcType="DATE" property="buildYear" />
     <result column="status_id" jdbcType="VARCHAR" property="statusId" />
-    <result column="is_record" jdbcType="INTEGER" property="isRecord" />
-    <result column="is_accept" jdbcType="INTEGER" property="isAccept" />
+    <result column="record_id" jdbcType="VARCHAR" property="recordId" />
+    <result column="accept_id" jdbcType="VARCHAR" property="acceptId" />
     <result column="is_import" jdbcType="INTEGER" property="isImport" />
     <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
@@ -27,6 +27,8 @@
   <resultMap id="MountainExtendMap" type="com.rainbow.unit.domain.UmineMountainExtend" extends="MountainBaseResultMap">
     <result column="umineName" jdbcType="VARCHAR" property="umineName" />
     <result column="statusValue" jdbcType="VARCHAR" property="statusValue" />
+    <result column="recordValue" jdbcType="VARCHAR" property="recordValue" />
+    <result column="acceptValue" jdbcType="VARCHAR" property="acceptValue" />
   </resultMap>
 
   <select id="getMountainSumByUmineId" parameterType="java.lang.String" resultType="int">
@@ -40,10 +42,14 @@
     select
     t.*,
     u.name umineName,
-    s.value statusValue
+    s.value statusValue,
+    r.value recordValue,
+    a.value acceptValue
     from unit_umine_mountain t
     left join unit_umine u on t.umine_id = u.id
     left join  config_umine_mountain_status s on t.status_id = s.id
+    left join config_umine_mountain_record r on t.record_id = r.id
+    left join  config_umine_mountain_accept a on t.accept_id = a.id
     where 1=1
 
     <if test="name != null and name != ''">
@@ -71,12 +77,20 @@
       )
     </if>
 
-    <if test="is_record != null and is_record != ''">
-      and t.is_record = #{is_record}
+    <if test="recordIds != null">
+      and t.record_id in (
+      <foreach item="item" index="index" collection="recordIds" separator=",">
+        #{item}
+      </foreach>
+      )
     </if>
 
-    <if test="is_accept != null and is_accept != ''">
-      and t.is_accept = #{is_accept}
+    <if test="acceptIds != null">
+      and t.accept_id in (
+      <foreach item="item" index="index" collection="acceptIds" separator=",">
+        #{item}
+      </foreach>
+      )
     </if>
 
   </select>
@@ -84,11 +98,15 @@
   <select id="getUmineMountainById" parameterType="java.lang.String" resultMap="MountainExtendMap">
     select
       t.*,
-      u.name umineName,
-      s.value statusValue
+    u.name umineName,
+    s.value statusValue,
+    r.value recordValue,
+    a.value acceptValue
     from unit_umine_mountain t
     left join unit_umine u on t.umine_id = u.id
     left join  config_umine_mountain_status s on t.status_id = s.id
+    left join config_umine_mountain_record r on t.record_id = r.id
+    left join  config_umine_mountain_accept a on t.accept_id = a.id
     where t.id = #{id}
   </select>
 
