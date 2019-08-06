@@ -82,7 +82,7 @@ public class UserController extends BaseController {
             for (String id : ids) {
                 userService.deleteUserById(id);
             }
-            ResponseBo.ok("删除成功!");
+            return ResponseBo.ok("删除成功!");
         }
         return ResponseBo.error("删除失败，请重试!");
     }
@@ -132,7 +132,7 @@ public class UserController extends BaseController {
     public ResponseBo getPermissionsByUserId(String userId) {
         try {
             List<String> result = userService.getAllPermissionByUserId(userId);
-            return ResponseBo.ok();
+            return ResponseBo.ok(result);
         } catch (Exception e) {
             log.error("获取用户失败", e);
             return ResponseBo.error("获取用户失败，请联系网站管理员！");
