@@ -45,7 +45,22 @@ public class ServiceAnnualReportController {
         }
     }
 
+    /**
+     * 修改核设施营运单位年度总结报告
+     *
+     * @param
+     * @return
+     */
+    @PostMapping("/modifyServiceAnnualReport")
+    public ResponseBo modify(@RequestBody ServiceAnnualReport serviceAnnualReport) {
+        int result = annualReportService.updateAll(serviceAnnualReport);
 
+        if (result == 1) {
+            return ResponseBo.ok("保存成功");
+        } else {
+            return ResponseBo.error("保存失败");
+        }
+    }
 
     /**
      * 获取核设施营运单位年度总结报告列表

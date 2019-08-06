@@ -11,7 +11,7 @@
     <result column="build_year" jdbcType="DATE" property="buildYear" />
     <result column="level_id" jdbcType="VARCHAR" property="levelId" />
     <result column="status_id" jdbcType="VARCHAR" property="statusId" />
-    <result column="review_status" jdbcType="VARCHAR" property="reviewStatus" />
+    <result column="review_status_id" jdbcType="VARCHAR" property="reviewStatusId" />
     <result column="permit_situation_id" jdbcType="VARCHAR" property="permitSituationId" />
     <result column="have_monitor" jdbcType="INTEGER" property="haveMonitor" />
     <result column="is_import" jdbcType="INTEGER" property="isImport" />
@@ -57,7 +57,7 @@
     left join unit_umine u on t.umine_id = u.id
     left join config_umine_place_level ul on t.level_id = ul.id
     left join config_umine_place_status us on t.status_id = us.id
-    left join config_review_status rs on t.review_status = rs.id
+    left join config_review_status rs on t.review_status_id = rs.id
     left join config_umine_place_permit_situation ps on t.permit_situation_id = ps.id
     where 1=1
 
@@ -94,7 +94,7 @@
     </if>
 
     <if test="reviewStatusIds != null">
-      and t.review_status in (
+      and t.review_status_id in (
       <foreach item="item" index="index" collection="reviewStatusIds" separator=",">
         #{item}
       </foreach>
@@ -127,7 +127,7 @@
     left join unit_umine u on t.umine_id = u.id
     left join config_umine_place_level ul on t.level_id = ul.id
     left join config_umine_place_status us on t.status_id = us.id
-    left join config_review_status rs on t.review_status = rs.id
+    left join config_review_status rs on t.review_status_id = rs.id
     left join config_umine_place_permit_situation ps on t.permit_situation_id = ps.id
     where t.id = #{id}
 

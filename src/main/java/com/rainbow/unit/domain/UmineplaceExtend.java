@@ -46,12 +46,10 @@ public class UmineplaceExtend extends Umineplace {
         this.levelValue = levelValue;
     }
 
-    @Override
     public String getReviewStatus() {
         return reviewStatus;
     }
 
-    @Override
     public void setReviewStatus(String reviewStatus) {
         this.reviewStatus = reviewStatus;
     }

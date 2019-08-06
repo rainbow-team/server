@@ -47,8 +47,8 @@ public class Umineplace extends BaseExtendEntity {
     /**
      * 审评状态，参考表：config_review_status
      */
-    @Column(name = "review_status")
-    private String reviewStatus;
+    @Column(name = "review_status_id")
+    private String reviewStatusId;
 
     /**
      * 铀尾矿(渣)库许可情况的值，
@@ -254,17 +254,17 @@ public class Umineplace extends BaseExtendEntity {
      *
      * @return review_status - 审评状态，参考表：config_review_status
      */
-    public String getReviewStatus() {
-        return reviewStatus;
+    public String getReviewStatusId() {
+        return reviewStatusId;
     }
 
     /**
      * 设置审评状态，参考表：config_review_status
      *
-     * @param reviewStatus 审评状态，参考表：config_review_status
+     * @param reviewStatusId 审评状态，参考表：config_review_status
      */
-    public void setReviewStatus(String reviewStatus) {
-        this.reviewStatus = reviewStatus == null ? null : reviewStatus.trim();
+    public void setReviewStatusId(String reviewStatusId) {
+        this.reviewStatusId = reviewStatusId == null ? null : reviewStatusId.trim();
     }
 
     /**
