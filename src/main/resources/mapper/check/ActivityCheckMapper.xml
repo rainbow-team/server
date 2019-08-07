@@ -71,6 +71,10 @@
       and instr(t.check_content,#{content})>0
     </if>
 
+    <if test="servicedepartId != null and servicedepartId != ''">
+      and t.equip_depart_id = #{servicedepartId}
+    </if>
+
   </select>
 
 

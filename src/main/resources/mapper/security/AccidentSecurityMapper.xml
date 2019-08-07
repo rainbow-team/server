@@ -132,6 +132,10 @@
       </foreach>
       )
     </if>
+
+    <if test="servicedepartId != null and servicedepartId != ''">
+      and t.service_id = #{servicedepartId}
+    </if>
   </select>
 
 

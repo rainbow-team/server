@@ -84,6 +84,10 @@
     <if test="end_date != null and end_date != ''">
       and and t.file_date <![CDATA[  <=  ]]> #{end_date}
     </if>
+
+    <if test="servicedepartId != null and servicedepartId != ''">
+      and t.service_id = #{servicedepartId}
+    </if>
   </select>
 
 
