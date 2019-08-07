@@ -29,7 +29,8 @@ public class FacReport extends BaseExtendEntity {
     /**
      * 定期报告时间
      */
-    private Date date;
+    @Column(name = "report_date")
+    private Date reportDate;
 
     /**
      * 获取主键
@@ -85,21 +86,11 @@ public class FacReport extends BaseExtendEntity {
         this.typeId = typeId;
     }
 
-    /**
-     * 获取定期报告时间
-     *
-     * @return date - 定期报告时间
-     */
-    public Date getDate() {
-        return date;
+    public Date getReportDate() {
+        return reportDate;
     }
 
-    /**
-     * 设置定期报告时间
-     *
-     * @param date 定期报告时间
-     */
-    public void setDate(Date date) {
-        this.date = date;
+    public void setReportDate(Date reportDate) {
+        this.reportDate = reportDate;
     }
 }
