@@ -1,6 +1,9 @@
 package com.rainbow.permit.domain;
 
+import com.rainbow.attachment.domain.FileInfo;
+
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
 @Table(name = "permit_umine_mountain")
@@ -455,5 +458,25 @@ public class UmineMountainPermit {
      */
     public void setNote(String note) {
         this.note = note == null ? null : note.trim();
+    }
+
+    private List<FileInfo> backupAttachmentList;
+
+    public List<FileInfo> getBackupAttachmentList() {
+        return backupAttachmentList;
+    }
+
+    public void setBackupAttachmentList(List<FileInfo> backupAttachmentList) {
+        this.backupAttachmentList = backupAttachmentList;
+    }
+
+    private List<FileInfo> acceptpAttachmentList;
+
+    public List<FileInfo> getAcceptpAttachmentList() {
+        return acceptpAttachmentList;
+    }
+
+    public void setAcceptpAttachmentList(List<FileInfo> acceptpAttachmentList) {
+        this.acceptpAttachmentList = acceptpAttachmentList;
     }
 }

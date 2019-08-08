@@ -2,6 +2,7 @@ package com.rainbow.permit.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -32,6 +33,8 @@ public class UmineMountainPermitServiceImpl extends BaseService<UmineMountainPer
     @Autowired
     UmineMountainPermitMapper umineMountainPermitMapper;
 
+    @Autowired
+    FileInfoService fileInfoService;
 
     @Override
     public int addUmineMountainPermit(UmineMountainPermit umineMountainPermit) {
@@ -40,12 +43,17 @@ public class UmineMountainPermitServiceImpl extends BaseService<UmineMountainPer
         umineMountainPermit.setAcceptAttachId(GuidHelper.getGuid());
         umineMountainPermit.setCreateDate(new Date());
         umineMountainPermit.setModifyDate(new Date());
+        fileInfoService.updateFileInfoByIds(umineMountainPermit.getBackupAttachmentList(),umineMountainPermit.getRecordAttachId());
+        fileInfoService.updateFileInfoByIds(umineMountainPermit.getAcceptpAttachmentList(),umineMountainPermit.getAcceptAttachId());
         return umineMountainPermitMapper.insert(umineMountainPermit);
     }
 
     @Override
     public int modifyUmineMountainPermit(UmineMountainPermit umineMountainPermit) {
         umineMountainPermit.setModifyDate(new Date());
+
+        fileInfoService.updateFileInfoByIds(umineMountainPermit.getBackupAttachmentList(),umineMountainPermit.getRecordAttachId());
+        fileInfoService.updateFileInfoByIds(umineMountainPermit.getAcceptpAttachmentList(),umineMountainPermit.getAcceptAttachId());
         return umineMountainPermitMapper.updateByPrimaryKey(umineMountainPermit);
     }
 

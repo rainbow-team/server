@@ -15,12 +15,10 @@ public class UmineMountainPermitExtend extends UmineMountainPermit {
     //铀矿山名称
     private String umineMountainName;
 
-//    @Override
     public String getUmineName() {
         return umineName;
     }
 
-//    @Override
     public void setUmineName(String umineName) {
         this.umineName = umineName;
     }
