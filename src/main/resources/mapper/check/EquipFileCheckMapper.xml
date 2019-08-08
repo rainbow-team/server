@@ -26,8 +26,16 @@
     left join  config_fac_check_file_type f on t.equip_check_file_type_id = f.id
     where t.check_equip_id = #{equipId}
 
-    <if test="file_date != null and file_date != ''">
-      and instr(t.file_date,#{file_date})>0
+    <if test="file_name != null and file_name != ''">
+      and instr(t.file_name,#{file_name})>0
+    </if>
+
+    <if test="start_date != null and start_date != ''">
+      and t.file_date <![CDATA[  >=  ]]> #{start_date}
+    </if>
+
+    <if test="end_date != null and end_date != ''">
+      and t.file_date <![CDATA[  <=  ]]> #{end_date}
     </if>
 
     <if test="typeIds != null">

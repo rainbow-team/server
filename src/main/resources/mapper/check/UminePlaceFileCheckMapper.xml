@@ -22,13 +22,21 @@
 
     select
     t.*,
-    f.value facCheckFileTypeValue,
+    f.value uminePlaceCheckFileTypeValue
     from check_umine_place_file t
     left join  config_fac_check_file_type f on t.check_file_type_id = f.id
-    where 1=1
+    where t.check_umine_place_id = #{umineplaceId}
 
-    <if test="file_date != null and file_date != ''">
-      and instr(t.file_date,#{file_date})>0
+    <if test="file_name != null and file_name != ''">
+      and instr(t.file_name,#{file_name})>0
+    </if>
+
+    <if test="start_date != null and start_date != ''">
+      and t.file_date <![CDATA[  >=  ]]> #{start_date}
+    </if>
+
+    <if test="end_date != null and end_date != ''">
+      and t.file_date <![CDATA[  <=  ]]> #{end_date}
     </if>
 
     <if test="typeIds != null">
@@ -47,7 +55,7 @@
 
     select
     t.*,
-    f.value facCheckFileTypeValue,
+    f.value uminePlaceCheckFileTypeValue
     from check_umine_place_file t
     left join  config_fac_check_file_type f on t.check_file_type_id = f.id
     where t.id = {id}

@@ -77,7 +77,7 @@
     u.name umineName,
     up.name uminePlaceName,
     ct.value typeValue,
-    cs.value statusValue
+    cs.value stageValue
     from check_umine_place t
     left join unit_umine u on t.umine_id = u.id
     left join unit_umine_place up on t.umine_place_id = up.id
