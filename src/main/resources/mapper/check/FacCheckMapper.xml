@@ -39,7 +39,7 @@
     left join unit_fac f on t.fac_id = f.id
     left join config_fac_check_type ft on t.type_id = ft.id
     left join config_fac_check_stage fs on t.stage_id = fs.id
-    where 1=1
+    where 1 = 1
 
     <if test="serviceDepartName != null and serviceDepartName != ''">
       and instr(us.name,#{serviceDepartName})>0
@@ -76,7 +76,7 @@
      us.name serviceDepartName,
      f.name facName,
      ft.value typeValue,
-     fs.value statusValue
+     fs.value stageValue
     from check_fac t
     left join unit_service_depart us on t.service_id = us.id
     left join unit_fac f on t.fac_id = f.id

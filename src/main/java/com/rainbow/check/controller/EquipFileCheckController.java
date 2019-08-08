@@ -1,7 +1,9 @@
 package com.rainbow.check.controller;
 
 
+import com.rainbow.check.domain.EquipFileCheck;
 import com.rainbow.check.domain.FacFileCheck;
+import com.rainbow.check.service.EquipFileCheckService;
 import com.rainbow.check.service.FacFileCheckService;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
@@ -23,7 +25,7 @@ public class EquipFileCheckController {
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    FacFileCheckService facFileCheckService;
+    EquipFileCheckService equipFileCheckService;
 
     /**
      * 添加核设施审评文件信息
@@ -31,9 +33,9 @@ public class EquipFileCheckController {
      * @param
      * @return
      */
-    @PostMapping("/addFacFileCheck")
-    public ResponseBo add(@RequestBody FacFileCheck facFileCheck) {
-        int result = facFileCheckService.addFacFileCheck(facFileCheck);
+    @PostMapping("/addEquipFileCheck")
+    public ResponseBo add(@RequestBody EquipFileCheck equipFileCheck) {
+        int result = equipFileCheckService.addEquipFileCheck(equipFileCheck);
 
         if (result == 1) {
             return ResponseBo.ok("保存成功");
@@ -48,10 +50,10 @@ public class EquipFileCheckController {
      * @param
      * @return
      */
-    @PostMapping("/modifyFacFileCheck")
-    public ResponseBo modify(@RequestBody FacFileCheck facFileCheck) {
+    @PostMapping("/modifyEquipFileCheck")
+    public ResponseBo modify(@RequestBody EquipFileCheck equipFileCheck) {
 
-        int result = facFileCheckService.updateAll(facFileCheck);
+        int result = equipFileCheckService.updateAll(equipFileCheck);
         if (result == 1) {
             return ResponseBo.ok("修改成功");
         } else {
@@ -65,10 +67,10 @@ public class EquipFileCheckController {
      * @param page
      * @return
      */
-    @PostMapping("/getFacFileCheckList")
+    @PostMapping("/getEquipFileCheckList")
     public ResponseBo getFacFileCheckList(@RequestBody Page page) {
 
-        return facFileCheckService.getFacFileCheckList(page);
+        return equipFileCheckService.getEquipFileCheckList(page);
     }
 
     /**
@@ -77,9 +79,9 @@ public class EquipFileCheckController {
      * @param id
      * @return
      */
-    @GetMapping("/getFacFileCheckById")
+    @PostMapping("/getEquipFileCheckById")
     public ResponseBo getFacFileCheckById(String id) {
-        return facFileCheckService.getFacFileCheckById(id);
+        return equipFileCheckService.getEquipFileCheckById(id);
     }
 
     /**
@@ -88,10 +90,10 @@ public class EquipFileCheckController {
      * @param ids
      * @return
      */
-    @PostMapping("/deleteFacFileCheckByIds")
+    @PostMapping("/deleteEquipFileCheckByIds")
     public ResponseBo deleteFacFileCheckByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
-            facFileCheckService.batchDelete(ids, "id", FacFileCheck.class);
+            equipFileCheckService.batchDelete(ids, "id", EquipFileCheck.class);
         }
         return ResponseBo.ok();
     }

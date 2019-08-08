@@ -79,7 +79,7 @@ public class FacFileCheckController {
      * @param id
      * @return
      */
-    @GetMapping("/getFacFileCheckById")
+    @PostMapping("/getFacFileCheckById")
     public ResponseBo getFacFileCheckById(String id) {
         return facFileCheckService.getFacFileCheckById(id);
     }
