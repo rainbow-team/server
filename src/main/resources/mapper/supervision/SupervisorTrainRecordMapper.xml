@@ -35,11 +35,13 @@
      mt.end_date trainEndDate
     from supervisor_train_records t
     left join supervision_monitor_train mt on t.class_id = mt.id
-    where 1=1 and t.supervisor_id = #{supervisorId}
+    where t.supervisor_id = #{supervisorId}
 
     <if test="batch != null and batch != ''">
       and instr(mt.batch,#{batch})>0
     </if>
+
+      order by mt.begin_date DESC
   </select>
 
     <select id="getMaxExpireDateBySupervisorId" parameterType="java.lang.String" resultType="java.util.Date">
@@ -49,8 +51,6 @@
       from supervisor_train_records a
 
       where a.supervisor_id = #{supervisorId}
-
-      group by a.supervisor_id
 
     </select>
 

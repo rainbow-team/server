@@ -2,6 +2,8 @@ package com.rainbow.supervision.domain.extend;
 
 import com.rainbow.supervision.domain.Supervisor;
 
+import java.util.Date;
+
 /**
  * @Author:deepblue
  * @Date:2019/8/1 16:57
@@ -27,6 +29,19 @@ public class SupervisorExtend extends Supervisor {
     //学位名称
     private String degreeValue;
 
+    private Integer isExpire;
+
+    public Integer getIsExpire() {
+        if (this.getExpireDate() != null) {
+            Date now = new Date();
+
+            if (this.getExpireDate().getTime() > now.getTime()) {
+                return 0;
+            }
+        }
+        return 1;
+
+    }
 
     public String getOrgName() {
         return orgName;

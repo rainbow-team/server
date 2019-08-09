@@ -51,7 +51,8 @@ public class SupervisorServiceImpl extends BaseService<Supervisor> implements Su
     @Override
     public int modifySupervisor(Supervisor supervisor) {
         supervisor.setModifyDate(new Date());
-        return supervisorMapper.updateByPrimaryKey(supervisor);
+       return updateNotNull(supervisor);
+        //return supervisorMapper.updateByPrimaryKey(supervisor);
     }
 
     @Override

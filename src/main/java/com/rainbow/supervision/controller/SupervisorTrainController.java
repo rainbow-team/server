@@ -33,7 +33,6 @@ public class SupervisorTrainController {
     @PostMapping("/addMonitorTrain")
     public ResponseBo add(@RequestBody SupervisorTrain supervisionMonitorTrain) {
         int result = supervisionMonitorTrainService.addMonitorTrain(supervisionMonitorTrain);
-
         if (result == 1) {
             return ResponseBo.ok("保存成功");
         } else {

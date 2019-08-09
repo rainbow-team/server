@@ -54,6 +54,7 @@ public class SupervisorTrainRecordServiceImpl extends BaseService<SupervisorTrai
     @Override
     public void updateSupervisorExpireDate(SupervisorTrainRecord record) {
         Date expireDate = trainRecordMapper.getMaxExpireDateBySupervisorId(record.getSupervisorId());
+        supervisorMapper.updateExpireDateById(record.getSupervisorId(),expireDate);
        // int result = supervisorMapper.updateExpireDateById(record.getSupervisorId(), expireDate);
     }
 }

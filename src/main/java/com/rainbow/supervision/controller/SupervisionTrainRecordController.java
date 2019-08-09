@@ -34,7 +34,7 @@ public class SupervisionTrainRecordController {
     @PostMapping("/addTrainRecord")
     public ResponseBo add(@RequestBody SupervisorTrainRecord record) {
         int result = trainRecordService.addSupervisionTrainRecord(record);
-       // trainRecordService.updateSupervisorExpireDate(record);
+        trainRecordService.updateSupervisorExpireDate(record);
         if (result == 1) {
             return ResponseBo.ok("保存成功");
         } else {
@@ -52,7 +52,7 @@ public class SupervisionTrainRecordController {
     public ResponseBo modify(@RequestBody SupervisorTrainRecord record) {
 
         int result = trainRecordService.updateAll(record);
-        //trainRecordService.updateSupervisorExpireDate(record);
+        trainRecordService.updateSupervisorExpireDate(record);
         if (result == 1) {
             return ResponseBo.ok("修改成功");
         } else {
