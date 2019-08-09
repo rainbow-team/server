@@ -80,7 +80,7 @@ import java.util.List;
      * @param id
      * @return
      */
-    @GetMapping("/getUmineMountainFileCheckById")
+    @PostMapping("/getUmineMountainFileCheckById")
     public ResponseBo getUmineFileCheckById(String id) {
         return umineMountainFileCheckService.getUmineMountainFileCheckById(id);
     }

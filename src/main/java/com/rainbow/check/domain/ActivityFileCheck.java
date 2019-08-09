@@ -18,11 +18,6 @@ public class ActivityFileCheck {
     @Column(name = "check_activity_id")
     private String checkActivityId;
 
-    /**
-     * 文件名称
-     */
-    @Column(name = "file_name")
-    private String fileName;
 
     /**
      * 核活动及其他审评信息文件类型，参考表:config_activity_file_type
@@ -76,24 +71,6 @@ public class ActivityFileCheck {
      */
     public void setCheckActivityId(String checkActivityId) {
         this.checkActivityId = checkActivityId == null ? null : checkActivityId.trim();
-    }
-
-    /**
-     * 获取文件名称
-     *
-     * @return file_name - 文件名称
-     */
-    public String getFileName() {
-        return fileName;
-    }
-
-    /**
-     * 设置文件名称
-     *
-     * @param fileName 文件名称
-     */
-    public void setFileName(String fileName) {
-        this.fileName = fileName == null ? null : fileName.trim();
     }
 
     /**

@@ -91,6 +91,7 @@
       )
     </if>
 
+    order by t.check_date desc
   </select>
 
 

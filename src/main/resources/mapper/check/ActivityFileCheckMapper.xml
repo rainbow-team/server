@@ -7,7 +7,6 @@
     -->
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="check_activity_id" jdbcType="VARCHAR" property="checkActivityId" />
-    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
     <result column="activity_check_file_type_id" jdbcType="VARCHAR" property="activityCheckFileTypeId" />
     <result column="file_date" jdbcType="DATE" property="fileDate" />
     <result column="file_no" jdbcType="VARCHAR" property="fileNo" />
@@ -22,22 +21,32 @@
 
     select
     t.*,
-    f.value activityCheckFileTypeValue,
+    f.value activityCheckFileTypeValue
     from check_activity_file t
     left join  config_activity_check_file_type f on t.activity_check_file_type_id = f.id
-    where 1=1
+    where t.check_activity_id = #{activityId}
 
-    <if test="file_date != null and file_date != ''">
-      and instr(t.file_date,#{file_date})>0
+    <!--<if test="file_name != null and file_name != ''">-->
+      <!--and instr(t.file_name,#{file_name})>0-->
+    <!--</if>-->
+
+    <if test="start_date != null and start_date != ''">
+      and t.file_date <![CDATA[  >=  ]]> #{start_date}
+    </if>
+
+    <if test="end_date != null and end_date != ''">
+      and t.file_date <![CDATA[  <=  ]]> #{end_date}
     </if>
 
     <if test="typeIds != null">
-      and t.activity_check_file_type_id in (
+      and t.check_file_type_id in (
       <foreach item="item" index="index" collection="typeIds" separator=",">
         #{item}
       </foreach>
       )
     </if>
+
+    order by t.file_date desc
 
   </select>
 
@@ -45,10 +54,9 @@
 
     select
     t.*,
-    f.value activityCheckFileTypeValue,
+    f.value activityCheckFileTypeValue
     from check_activity_file t
     left join  config_activity_check_file_type f on t.activity_check_file_type_id = f.id
-    where 1=1
     where t.id = {id}
 
   </select>

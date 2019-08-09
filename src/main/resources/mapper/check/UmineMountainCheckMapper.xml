@@ -47,6 +47,7 @@
       and instr(t.content,#{content})>0
     </if>
 
+    order by t.check_date desc
   </select>
 
 

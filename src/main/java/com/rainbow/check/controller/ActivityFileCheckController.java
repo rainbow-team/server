@@ -79,7 +79,7 @@ import java.util.List;
      * @param id
      * @return
      */
-    @GetMapping("/getActivityFileCheckById")
+    @PostMapping("/getActivityFileCheckById")
     public ResponseBo getActivityFileCheckById(String id) {
         return activityFileCheckService.getActivityFileCheckById(id);
     }

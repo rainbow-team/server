@@ -75,6 +75,8 @@
       and t.equip_depart_id = #{servicedepartId}
     </if>
 
+    order by t.check_date desc
+
   </select>
 
 
