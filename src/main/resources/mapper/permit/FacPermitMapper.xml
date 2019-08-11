@@ -66,6 +66,10 @@
       and t.permit_date <![CDATA[  <=  ]]> #{end_date}
     </if>
 
+    <if test="facId != null and facId != ''">
+      and t.fac_id = #{facId}
+    </if>
+
   </select>
 
   <select id="getFacPermitById" parameterType="java.lang.String" resultMap="FacPermitExtendMap">

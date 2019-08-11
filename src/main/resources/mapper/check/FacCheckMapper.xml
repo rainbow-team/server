@@ -65,6 +65,11 @@
       )
     </if>
 
+    <if test="facId != null and facId != ''">
+      and t.fac_id = #{facId}
+    </if>
+
+
     order by t.check_date desc
 
   </select>

@@ -88,6 +88,11 @@
     <if test="servicedepartId != null and servicedepartId != ''">
       and t.service_id = #{servicedepartId}
     </if>
+
+    <if test="facId != null and facId != ''">
+      and t.fac_id = #{facId}
+    </if>
+
   </select>
 
 
