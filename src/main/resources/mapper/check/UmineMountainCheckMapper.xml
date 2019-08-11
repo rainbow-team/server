@@ -47,6 +47,11 @@
       and instr(t.content,#{content})>0
     </if>
 
+    <if test="uminemountainId != null and uminemountainId != ''">
+      and t.umine_mountain_id = #{uminemountainId}
+    </if>
+
+
     order by t.check_date desc
   </select>
 

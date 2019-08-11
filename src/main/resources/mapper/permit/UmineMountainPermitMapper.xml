@@ -56,6 +56,11 @@
     <if test="accept_date != null and accept_date != ''">
       and t.accept_date = #{accept_date}
     </if>
+
+    <if test="uminemountainId != null and uminemountainId != ''">
+      and t.umine_mountain_id = #{uminemountainId}
+    </if>
+
   </select>
 
   <select id="getUmineMountainPermitById" parameterType="map" resultMap="UmineMountainPermitExtendMap">
