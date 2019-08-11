@@ -72,8 +72,13 @@
     </if>
 
     <if test="servicedepartId != null and servicedepartId != ''">
-      and t.equip_depart_id = #{servicedepartId}
+      and t.service_id = #{servicedepartId}
     </if>
+
+    <if test="equipdepartId != null and equipdepartId != ''">
+      and t.equip_depart_id = #{equipdepartId}
+    </if>
+
 
     order by t.check_date desc
 
