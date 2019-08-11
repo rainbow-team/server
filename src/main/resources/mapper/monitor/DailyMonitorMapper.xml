@@ -24,7 +24,7 @@
   <resultMap id="DailyMonitorExtendMap" extends="DailyMonitorBaseResultMap" type="com.rainbow.monitor.domain.extend.DailyMonitorExtend">
     <result column="serviceDepartName" jdbcType="VARCHAR" property="serviceDepartName" />
     <result column="facName" jdbcType="VARCHAR" property="facName" />
-    <result column="stageVaue" jdbcType="VARCHAR" property="stageVaue" />
+    <result column="statusValue" jdbcType="VARCHAR" property="statusValue" />
     <result column="orgName" jdbcType="VARCHAR" property="orgName" />
     <result column="fileTypeValue" jdbcType="VARCHAR" property="fileTypeValue" />
   </resultMap>

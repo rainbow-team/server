@@ -52,7 +52,7 @@ public class DailyMonitorExtend extends DailyMonitor {
         return statusValue;
     }
 
-    public void setStatusValue(String statusVaue) {
+    public void setStatusValue(String statusValue) {
         this.statusValue = statusValue;
     }
 
