@@ -67,6 +67,10 @@
       and t.permit_date <![CDATA[  <=  ]]> #{end_date}
     </if>
 
+    <if test="umineplaceId != null and umineplaceId != ''">
+      and t.umine_place_id = #{umineplaceId}
+    </if>
+
 
   </select>
 

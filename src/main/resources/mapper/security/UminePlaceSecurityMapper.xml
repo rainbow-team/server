@@ -118,6 +118,16 @@
       )
     </if>
 
+
+    <if test="umineId != null and umineId != ''">
+      and t.umine_id = #{umineId}
+    </if>
+
+    <if test="umineplaceId != null and umineplaceId != ''">
+      and t.umine_place_id = #{umineplaceId}
+    </if>
+
+
   </select>
 
 
