@@ -103,6 +103,11 @@
       and t.permit_date <![CDATA[  <=  ]]> #{end_date}
     </if>
 
+    <if test="equipdepartId != null and equipdepartId != ''">
+      and t.equip_depart_id = #{equipdepartId}
+    </if>
+
+
   </select>
 
   <select id="getEquipPermitById" parameterType="java.lang.String" resultMap="EquipPermitExtendMap">
