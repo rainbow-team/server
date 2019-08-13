@@ -85,6 +85,10 @@
     <if test="equipdepartId != null and equipdepartId != ''">
       and t.equip_depart_id = #{equipdepartId}
     </if>
+    <if test="umineId != null and umineId != ''">
+      and t.umine_id = #{umineId}
+    </if>
+
 
   </select>
 
