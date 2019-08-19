@@ -25,7 +25,7 @@
     f.value typeValue
     from monitor_check_file t
     left join  config_monitor_check_file_type f on t.monitor_check_file_type_id = f.id
-    where 1=1
+    where t.monitor_check_id = #{departId}
 
     <if test="start_date != null and start_date != ''">
       and and t.file_date <![CDATA[  >=  ]]> #{start_date}
@@ -42,6 +42,8 @@
       </foreach>
       )
     </if>
+
+    order by t.file_date desc
 
   </select>
 
