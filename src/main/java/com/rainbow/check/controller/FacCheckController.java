@@ -81,7 +81,7 @@ public class FacCheckController {
      * @return
      */
     @GetMapping("/geFacCheckById")
-    public ResponseBo getFacCheckById(String id) {
+    public ResponseBo getFacCheckById(@RequestBody  String id) {
         return facCheckService.getFacCheckById(id);
     }
 
@@ -92,7 +92,7 @@ public class FacCheckController {
      * @return
      */
     @PostMapping("/deleteFacCheckById")
-    public ResponseBo deleteFacCheckById(String id) {
+    public ResponseBo deleteFacCheckById(@RequestBody String id) {
         if (id != null) {
             int result = facCheckService.deleteFacCheckById(id);
             return result == 0 ? ResponseBo.error("存在关联，不允许删除!") : ResponseBo.ok("删除成功");

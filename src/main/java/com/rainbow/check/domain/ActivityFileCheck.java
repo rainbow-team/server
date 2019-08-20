@@ -1,5 +1,7 @@
 package com.rainbow.check.domain;
 
+import com.rainbow.common.domain.BaseExtendEntity;
+
 import java.util.Date;
 import javax.persistence.*;
 

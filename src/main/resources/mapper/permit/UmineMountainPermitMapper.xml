@@ -49,12 +49,20 @@
       and instr(um.name,#{umineMountainName})>0
     </if>
 
-    <if test="record_date != null and record_date != ''">
-      and t.record_date = #{record_date}
+    <if test="record_start_date != null and record_start_date != ''">
+      and t.record_date <![CDATA[  >=  ]]> #{record_start_date}
     </if>
 
-    <if test="accept_date != null and accept_date != ''">
-      and t.accept_date = #{accept_date}
+    <if test="record_end_date != null and record_end_date != ''">
+      and t.record_date <![CDATA[  <=  ]]> #{record_end_date}
+    </if>
+
+    <if test="accept_start_date != null and accept_start_date != ''">
+      and t.accept_date <![CDATA[  >=  ]]> #{accept_start_date}
+    </if>
+
+    <if test="accept_end_date != null and accept_end_date != ''">
+      and t.accept_date <![CDATA[  <=  ]]> #{accept_end_date}
     </if>
 
     <if test="uminemountainId != null and uminemountainId != ''">

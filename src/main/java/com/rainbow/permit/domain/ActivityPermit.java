@@ -62,7 +62,7 @@ public class ActivityPermit {
      * 有效期限
      */
     @Column(name = "validate_time")
-    private String validateTime;
+    private Date validateTime;
 
     /**
      * 许可文号
@@ -288,7 +288,7 @@ public class ActivityPermit {
      *
      * @return validate_time - 有效期限
      */
-    public String getValidateTime() {
+    public Date getValidateTime() {
         return validateTime;
     }
 
@@ -297,8 +297,8 @@ public class ActivityPermit {
      *
      * @param validateTime 有效期限
      */
-    public void setValidateTime(String validateTime) {
-        this.validateTime = validateTime == null ? null : validateTime.trim();
+    public void setValidateTime(Date validateTime) {
+        this.validateTime = validateTime;
     }
 
     /**

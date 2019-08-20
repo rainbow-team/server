@@ -1,10 +1,12 @@
 package com.rainbow.permit.domain;
 
+import com.rainbow.common.domain.BaseExtendEntity;
+
 import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "permit_umine_place")
-public class UminePlacePermit {
+public class UminePlacePermit extends BaseExtendEntity {
     /**
      * 主键
      */
@@ -44,7 +46,7 @@ public class UminePlacePermit {
      * 有效期限
      */
     @Column(name = "validate_time")
-    private String validateTime;
+    private Date validateTime;
 
     /**
      * 许可文号
@@ -215,7 +217,7 @@ public class UminePlacePermit {
      *
      * @return validate_time - 有效期限
      */
-    public String getValidateTime() {
+    public Date getValidateTime() {
         return validateTime;
     }
 
@@ -224,8 +226,8 @@ public class UminePlacePermit {
      *
      * @param validateTime 有效期限
      */
-    public void setValidateTime(String validateTime) {
-        this.validateTime = validateTime == null ? null : validateTime.trim();
+    public void setValidateTime(Date validateTime) {
+        this.validateTime = validateTime;
     }
 
     /**

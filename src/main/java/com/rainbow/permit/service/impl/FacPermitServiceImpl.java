@@ -2,6 +2,7 @@ package com.rainbow.permit.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -34,11 +35,15 @@ public class FacPermitServiceImpl extends BaseService<FacPermit> implements FacP
     @Autowired
     FacPermitMapper facPermitMapper;
 
+    @Autowired
+    FileInfoService fileInfoService;
+
     @Override
     public int addFacPermit(FacPermit facPermit) {
         facPermit.setId(GuidHelper.getGuid());
         facPermit.setCreateDate(new Date());
         facPermit.setModifyDate(new Date());
+        fileInfoService.updateFileInfoByIds(facPermit.getAttachmentList(),facPermit.getId());
         return facPermitMapper.insert(facPermit);
     }
 

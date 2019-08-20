@@ -64,7 +64,7 @@
     </if>
 
     <if test="serviceDepartName != null and serviceDepartName != ''">
-      and instr(sd.name,#{serviceDepartValue})>0
+      and instr(sd.name,#{serviceDepartName})>0
     </if>
 
     <if test="facName != null and facName != ''">

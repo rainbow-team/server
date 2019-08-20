@@ -2,6 +2,7 @@ package com.rainbow.permit.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -31,11 +32,15 @@ public class UminePlacePermitServiceImpl extends BaseService<UminePlacePermit> i
     @Autowired
     UminePlacePermitMapper uminePlacePermitMapper;
 
+    @Autowired
+    FileInfoService fileInfoService;
+
     @Override
     public int addUminePlacePermit(UminePlacePermit uminePlacePermit) {
         uminePlacePermit.setId(GuidHelper.getGuid());
         uminePlacePermit.setCreateDate(new Date());
         uminePlacePermit.setModifyDate(new Date());
+        fileInfoService.updateFileInfoByIds(uminePlacePermit.getAttachmentList(),uminePlacePermit.getId());
         return uminePlacePermitMapper.insert(uminePlacePermit);
     }
 

@@ -2,6 +2,7 @@ package com.rainbow.check.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.check.dao.FacFileCheckMapper;
 import com.rainbow.check.domain.FacFileCheck;
 import com.rainbow.check.service.FacFileCheckService;
@@ -31,10 +32,13 @@ public class FacFileCheckServiceImpl extends BaseService<FacFileCheck> implement
     @Autowired
     FacFileCheckMapper facFileCheckMapper;
 
+    @Autowired
+    FileInfoService fileInfoService;
 
     @Override
     public int addFacFileCheck(FacFileCheck facFileCheck) {
         facFileCheck.setId(GuidHelper.getGuid());
+        fileInfoService.updateFileInfoByIds(facFileCheck.getAttachmentList(),facFileCheck.getId());
         return facFileCheckMapper.insert(facFileCheck);
     }
 

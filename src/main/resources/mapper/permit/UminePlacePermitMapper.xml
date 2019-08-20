@@ -10,7 +10,7 @@
     <result column="umine_place_id" jdbcType="VARCHAR" property="uminePlaceId" />
     <result column="stage_id" jdbcType="VARCHAR" property="stageId" />
     <result column="permit_date" jdbcType="DATE" property="permitDate" />
-    <result column="validate_time" jdbcType="VARCHAR" property="validateTime" />
+    <result column="validate_time" jdbcType="DATE" property="validateTime" />
     <result column="licence" jdbcType="VARCHAR" property="licence" />
     <result column="permit_content" jdbcType="VARCHAR" property="permitContent" />
     <result column="is_import" jdbcType="INTEGER" property="isImport" />

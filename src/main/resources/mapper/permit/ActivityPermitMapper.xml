@@ -10,10 +10,10 @@
     <result column="equip_depart_id" jdbcType="VARCHAR" property="equipDepartId" />
     <result column="fac_id" jdbcType="VARCHAR" property="facId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
     <result column="activity_type_id" jdbcType="VARCHAR" property="activityTypeId" />
     <result column="permit_date" jdbcType="DATE" property="permitDate" />
-    <result column="validate_time" jdbcType="VARCHAR" property="validateTime" />
+    <result column="validate_time" jdbcType="DATE" property="validateTime" />
     <result column="licence" jdbcType="VARCHAR" property="licence" />
     <result column="is_import" jdbcType="INTEGER" property="isImport" />
     <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
