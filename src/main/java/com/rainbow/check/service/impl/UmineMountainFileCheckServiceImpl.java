@@ -2,6 +2,7 @@ package com.rainbow.check.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.check.dao.UmineMountainFileCheckMapper;
 import com.rainbow.check.dao.UminePlaceFileCheckMapper;
 import com.rainbow.check.domain.UmineMountainFileCheck;
@@ -30,10 +31,13 @@ public class UmineMountainFileCheckServiceImpl extends BaseService<UmineMountain
     @Autowired
     UmineMountainFileCheckMapper umineMountainFileCheckMapper;
 
+    @Autowired
+    FileInfoService fileInfoService;
 
     @Override
     public int addUmineMountainFileCheck(UmineMountainFileCheck umineMountainFileCheck) {
         umineMountainFileCheck.setId(GuidHelper.getGuid());
+        fileInfoService.updateFileInfoByIds(umineMountainFileCheck.getAttachmentList(),umineMountainFileCheck.getId());
         return umineMountainFileCheckMapper.insert(umineMountainFileCheck);
     }
 

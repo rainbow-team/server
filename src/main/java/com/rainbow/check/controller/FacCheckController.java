@@ -80,7 +80,7 @@ public class FacCheckController {
      * @param id
      * @return
      */
-    @GetMapping("/geFacCheckById")
+    @PostMapping("/geFacCheckById")
     public ResponseBo getFacCheckById(@RequestBody  String id) {
         return facCheckService.getFacCheckById(id);
     }

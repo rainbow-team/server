@@ -2,6 +2,7 @@ package com.rainbow.check.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.check.dao.EquipFileCheckMapper;
 import com.rainbow.check.dao.FacFileCheckMapper;
 import com.rainbow.check.domain.EquipFileCheck;
@@ -30,11 +31,13 @@ public class EquipFileCheckServiceImpl extends BaseService<EquipFileCheck> imple
     @Autowired
     EquipFileCheckMapper equipFileCheckMapper;
 
-
+    @Autowired
+    FileInfoService fileInfoService;
 
     @Override
     public int addEquipFileCheck(EquipFileCheck equipFileCheck) {
         equipFileCheck.setId(GuidHelper.getGuid());
+        fileInfoService.updateFileInfoByIds(equipFileCheck.getAttachmentList(),equipFileCheck.getId());
         return equipFileCheckMapper.insert(equipFileCheck);
     }
 

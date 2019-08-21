@@ -2,6 +2,7 @@ package com.rainbow.check.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.check.dao.ActivityFileCheckMapper;
 import com.rainbow.check.dao.EquipFileCheckMapper;
 import com.rainbow.check.domain.ActivityFileCheck;
@@ -30,10 +31,13 @@ public class ActivityFileCheckServiceImpl extends BaseService<ActivityFileCheck>
     @Autowired
     ActivityFileCheckMapper activityFileCheckMapper;
 
+    @Autowired
+    FileInfoService fileInfoService;
 
     @Override
     public int addActivityFileCheck(ActivityFileCheck activityFileCheck) {
         activityFileCheck.setId(GuidHelper.getGuid());
+        fileInfoService.updateFileInfoByIds(activityFileCheck.getAttachmentList(),activityFileCheck.getId());
         return activityFileCheckMapper.insert(activityFileCheck);
     }
 

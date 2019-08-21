@@ -78,8 +78,8 @@ public class UminePlaceCheckController {
      * @param id
      * @return
      */
-    @GetMapping("/geUminePlaceCheckById")
-    public ResponseBo getUminePlaceCheckById(String id) {
+    @PostMapping("/geUminePlaceCheckById")
+    public ResponseBo getUminePlaceCheckById(@RequestBody String id) {
         return uminePlaceCheckService.getUminePlaceCheckById(id);
     }
 

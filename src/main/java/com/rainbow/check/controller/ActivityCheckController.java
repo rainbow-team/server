@@ -78,8 +78,8 @@ public class ActivityCheckController {
      * @param id
      * @return
      */
-    @GetMapping("/geActivityCheckById")
-    public ResponseBo getActivityCheckById(String id) {
+    @PostMapping("/geActivityCheckById")
+    public ResponseBo getActivityCheckById(@RequestBody String id) {
         return activityCheckService.getActivityCheckById(id);
     }
 

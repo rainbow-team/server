@@ -78,8 +78,8 @@ public class UmineMountainCheckController {
      * @param id
      * @return
      */
-    @GetMapping("/geUmineMountainCheckById")
-    public ResponseBo getUmineMountainCheckById(String id) {
+    @PostMapping("/geUmineMountainCheckById")
+    public ResponseBo getUmineMountainCheckById(@RequestBody String id) {
         return umineMountainCheckService.getUmineMountainCheckById(id);
     }
 

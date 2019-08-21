@@ -6,7 +6,7 @@ import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "check_activity_file")
-public class ActivityFileCheck {
+public class ActivityFileCheck extends BaseExtendEntity{
     /**
      * 主键，用来在file_info中查找具体文件
      */

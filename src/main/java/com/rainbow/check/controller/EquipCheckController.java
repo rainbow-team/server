@@ -78,8 +78,8 @@ public class EquipCheckController {
      * @param id
      * @return
      */
-    @GetMapping("/geEquipCheckById")
-    public ResponseBo getEquipCheckById(String id) {
+    @PostMapping("/geEquipCheckById")
+    public ResponseBo getEquipCheckById(@RequestBody String id) {
         return equipCheckService.getEquipCheckById(id);
     }
 

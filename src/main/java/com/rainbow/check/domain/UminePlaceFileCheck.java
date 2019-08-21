@@ -1,10 +1,12 @@
 package com.rainbow.check.domain;
 
+import com.rainbow.common.domain.BaseExtendEntity;
+
 import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "check_umine_place_file")
-public class UminePlaceFileCheck {
+public class UminePlaceFileCheck extends BaseExtendEntity {
     /**
      * 主键，用来在file_info中查找具体文件
      */
