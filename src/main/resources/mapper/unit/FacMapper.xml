@@ -79,12 +79,12 @@
       and instr(us.name,#{serviceDepart})>0
     </if>
 
-    <if test="start_date != null and start_date != ''">
-      and t.build_year <![CDATA[  >=  ]]> #{start_date}
+    <if test="build_start_year != null and build_start_year != ''">
+      and year(t.build_year) <![CDATA[  >=  ]]> year(#{build_start_year})
     </if>
 
-    <if test="end_date != null and end_date != ''">
-      and t.build_year <![CDATA[  <=  ]]> #{end_date}
+    <if test="build_end_year != null and build_end_year != ''">
+      and year(t.build_year) <![CDATA[  <=  ]]> year(#{build_end_year})
     </if>
 
     <if test="supervisionCategoryIds != null">
