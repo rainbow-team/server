@@ -65,16 +65,7 @@ public class SupervisorController {
     @PostMapping("/deleteSupervisorById")
     public ResponseBo deleteSupervisionSupervisorById(@RequestBody String id){
 
-        if (id != null) {
-            int result = supervisorService.deleteSupervisorById(id);
-            return result == 0 ? ResponseBo.error("存在关联，不允许删除!") : ResponseBo.ok("删除成功");
-        }
-        return ResponseBo.ok();
-
-        //supervisionTrainRecordService.batchDelete(ids,"supervisorId", SupervisorTrainRecord.class);
-        //supervisorService.batchDelete(ids,"id",Supervisor.class);
-        //
-        //return  ResponseBo.ok();
+        return supervisorService.deleteSupervisorById(id);
     }
 
     /**

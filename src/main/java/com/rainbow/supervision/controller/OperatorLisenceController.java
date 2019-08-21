@@ -64,33 +64,36 @@ public class OperatorLisenceController {
 
     /**
      * 获取研究堆操作员执照信息列表
+     *
      * @param page
      * @return
      */
     @PostMapping("/getOperatorLisenceList")
-    public ResponseBo getOperatorLisenceList(@RequestBody Page page){
+    public ResponseBo getOperatorLisenceList(@RequestBody Page page) {
 
         return operatorLisenceService.getOperatorLisenceList(page);
     }
 
     /**
      * 获取研究堆操纵员执照详情
+     *
      * @param id
      * @return
      */
     @GetMapping("/getOperatorLisenceById")
-    public ResponseBo getOperatorLisenceById(String id){
+    public ResponseBo getOperatorLisenceById(String id) {
         return operatorLisenceService.getOperatorLisenceById(id);
     }
 
     /**
      * 删除研究堆操作员执照信息
+     *
      * @param ids
      * @return
      */
     @PostMapping("/deleteOperatorLisenceByIds")
-    public ResponseBo deleteOperatorLisenceByIds(@RequestBody List<String> ids){
-        operatorLisenceService.batchDelete(ids,"id",OperatorLisence.class);
-        return ResponseBo.ok();
+    public ResponseBo deleteOperatorLisenceByIds(@RequestBody List<String> ids) {
+        int result = operatorLisenceService.batchDelete(ids, "id", OperatorLisence.class);
+        return result == 0 ? ResponseBo.error("删除失败") : ResponseBo.ok("删除成功");
     }
 }

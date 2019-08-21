@@ -22,7 +22,7 @@ public class SupervisorTrainController {
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    SupervisorTrainService supervisionMonitorTrainService;
+    SupervisorTrainService supervisorTrainService;
 
     /**
      * 保存核安全监督培训信息
@@ -32,7 +32,7 @@ public class SupervisorTrainController {
      */
     @PostMapping("/addMonitorTrain")
     public ResponseBo add(@RequestBody SupervisorTrain supervisionMonitorTrain) {
-        int result = supervisionMonitorTrainService.addMonitorTrain(supervisionMonitorTrain);
+        int result = supervisorTrainService.addMonitorTrain(supervisionMonitorTrain);
         if (result == 1) {
             return ResponseBo.ok("保存成功");
         } else {
@@ -49,7 +49,7 @@ public class SupervisorTrainController {
     @PostMapping("/modifyMonitorTrain")
     public ResponseBo modify(@RequestBody SupervisorTrain supervisionMonitorTrain) {
 
-        int result = supervisionMonitorTrainService.modifyMonitorTrain(supervisionMonitorTrain);
+        int result = supervisorTrainService.modifyMonitorTrain(supervisionMonitorTrain);
         if (result == 1) {
             return ResponseBo.ok("修改成功");
         } else {
@@ -60,17 +60,12 @@ public class SupervisorTrainController {
     /**
      * 删除核安全监督培训信息
      *
-     * @param supervisionMonitorTrain
+     * @param
      * @return
      */
     @PostMapping("/deleteMonitorTrainById")
-    public ResponseBo delete(@RequestBody SupervisorTrain supervisionMonitorTrain) {
-        int result = supervisionMonitorTrainService.deleteByKey(supervisionMonitorTrain.getId());
-        if (result == 1) {
-            return ResponseBo.ok("删除成功");
-        } else {
-            return ResponseBo.error("删除失败");
-        }
+    public ResponseBo delete(@RequestBody String id) {
+        return supervisorTrainService.deleteMonitorTrainById(id);
     }
 
 
@@ -81,7 +76,7 @@ public class SupervisorTrainController {
     @PostMapping("/getAllMonitorTrain")
     public List<SupervisorTrain> selectAllTrainRecord() {
 
-        List<SupervisorTrain> trainRecords = supervisionMonitorTrainService.selectAll();
+        List<SupervisorTrain> trainRecords = supervisorTrainService.selectAll();
         return trainRecords;
     }
 
@@ -92,7 +87,7 @@ public class SupervisorTrainController {
      */
     @PostMapping("/getMonitorTrainList")
     public ResponseBo getMonitorTrainList(@RequestBody Page page){
-        return supervisionMonitorTrainService.getMonitorTrainList(page);
+        return supervisorTrainService.getMonitorTrainList(page);
     }
 
     /**
@@ -102,7 +97,7 @@ public class SupervisorTrainController {
      */
     @GetMapping("/getMonitorTrainById")
     public ResponseBo getMonitorTrainById(String id){
-        return supervisionMonitorTrainService.getMonitorTrainById(id);
+        return supervisorTrainService.getMonitorTrainById(id);
     }
 
     /**
@@ -112,7 +107,7 @@ public class SupervisorTrainController {
      */
     @PostMapping("/deleteMonitorTrainByIds")
     public ResponseBo deleteMonitorTrainByIds(@RequestBody List<String> ids){
-        supervisionMonitorTrainService.batchDelete(ids,"id",SupervisorTrain.class);
+        supervisorTrainService.batchDelete(ids,"id",SupervisorTrain.class);
         return ResponseBo.ok();
     }
 }

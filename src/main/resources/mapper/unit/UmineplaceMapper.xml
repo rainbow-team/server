@@ -39,7 +39,7 @@
 
   <select id="getUminePlaceSumByUmineId" parameterType="java.lang.String" resultType="int">
     select
-     ifnull(sum(id),0)
+     ifnull(count(id),0)
     from unit_umine_place t
     where t.umine_id = #{umineId}
   </select>

@@ -13,4 +13,7 @@ public interface SupervisionTrainRecordMapper extends MyMapper<SupervisorTrainRe
 
     Date getMaxExpireDateBySupervisorId(String supervisorId);
 
+    int getRecordCountByClassId(String classId);
+
+    int getRecordCountBySupervisorId(String supervisorId);
 }

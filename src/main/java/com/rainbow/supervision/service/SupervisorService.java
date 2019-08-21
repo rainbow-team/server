@@ -16,7 +16,7 @@ public interface SupervisorService extends IService<Supervisor> {
 
     int modifySupervisor(Supervisor supervisor);
 
-    int deleteSupervisorById(String id);
+    ResponseBo deleteSupervisorById(String id);
 
     ResponseBo getSupervisorList(Page page);
 

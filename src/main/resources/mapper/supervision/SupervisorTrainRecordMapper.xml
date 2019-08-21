@@ -54,5 +54,18 @@
 
     </select>
 
+    <select id="getRecordCountByClassId" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select
+        ifnull(count(id),0)
+        from supervisor_train_records t
+        where t.class_id = #{classId}
+    </select>
+
+    <select id="getRecordCountBySupervisorId" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select
+        ifnull(count(id),0)
+        from supervisor_train_records t
+        where t.supervisor_id = #{supervisorId}
+    </select>
 
 </mapper>

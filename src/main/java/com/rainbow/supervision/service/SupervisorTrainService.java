@@ -20,4 +20,6 @@ public interface SupervisorTrainService extends IService<SupervisorTrain> {
 
     ResponseBo getMonitorTrainById(String id);
 
+    ResponseBo deleteMonitorTrainById(String id);
+
 }

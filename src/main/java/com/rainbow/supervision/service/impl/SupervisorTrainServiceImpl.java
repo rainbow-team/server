@@ -7,6 +7,7 @@ import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
 import com.rainbow.common.util.GuidHelper;
+import com.rainbow.supervision.dao.SupervisionTrainRecordMapper;
 import com.rainbow.supervision.dao.SupervisorTrainMapper;
 import com.rainbow.supervision.domain.SupervisorTrain;
 import com.rainbow.supervision.service.SupervisorTrainService;
@@ -37,6 +38,9 @@ public class SupervisorTrainServiceImpl extends BaseService<SupervisorTrain> imp
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private SupervisionTrainRecordMapper supervisionTrainRecordMapper;
+
     @Override
     public int addMonitorTrain(SupervisorTrain trainRecord) {
         trainRecord.setId(GuidHelper.getGuid());
@@ -56,17 +60,17 @@ public class SupervisorTrainServiceImpl extends BaseService<SupervisorTrain> imp
         return monitorTrainMapper.updateByPrimaryKey(trainRecord);
     }
 
-    public void updateFileInfoByIds(SupervisorTrain trainRecord){
-        if(trainRecord.getAttachmentList().size()>0){
-            Map<String,Object> map = new HashMap<>();
-            map.put("id",trainRecord.getId());
-            map.put("fileIds",trainRecord.getAttachmentList());
+    public void updateFileInfoByIds(SupervisorTrain trainRecord) {
+        if (trainRecord.getAttachmentList().size() > 0) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", trainRecord.getId());
+            map.put("fileIds", trainRecord.getAttachmentList());
             FileInfoMapper.updateFileInfoByIds(map);
         }
     }
 
     @Override
-    public ResponseBo getMonitorTrainList(Page page){
+    public ResponseBo getMonitorTrainList(Page page) {
 
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
@@ -80,9 +84,9 @@ public class SupervisorTrainServiceImpl extends BaseService<SupervisorTrain> imp
     }
 
     @Override
-    public ResponseBo getMonitorTrainById(String id){
+    public ResponseBo getMonitorTrainById(String id) {
 
-        SupervisorTrain result =  monitorTrainMapper.selectByPrimaryKey(id);
+        SupervisorTrain result = monitorTrainMapper.selectByPrimaryKey(id);
         ////创建人
         //SystemUser user = userMapper.selectByPrimaryKey(result.getCreatorId());
         //result.setCreatorName(user.getUsername());
@@ -90,4 +94,15 @@ public class SupervisorTrainServiceImpl extends BaseService<SupervisorTrain> imp
         return ResponseBo.ok(result);
     }
 
+    @Override
+    public ResponseBo deleteMonitorTrainById(String id) {
+        int result = 0;
+        int count = supervisionTrainRecordMapper.getRecordCountByClassId(id);
+        if (count == 0) {
+            result = super.deleteByKey(id);
+        } else {
+            return ResponseBo.error("已经被关联，删除失败!");
+        }
+        return result == 0 ? ResponseBo.error("删除失败") : ResponseBo.ok("删除成功");
+    }
 }

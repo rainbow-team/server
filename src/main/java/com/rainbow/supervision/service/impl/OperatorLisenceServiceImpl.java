@@ -2,6 +2,7 @@ package com.rainbow.supervision.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -31,11 +32,15 @@ public class OperatorLisenceServiceImpl extends BaseService<OperatorLisence> imp
     @Autowired
     OperatorLisenceMapper operatorLisenceMapper;
 
+    @Autowired
+    FileInfoService fileInfoService;
+
     @Override
     public int addOperatorLisence(OperatorLisence operatorLisence) {
         operatorLisence.setId(GuidHelper.getGuid());
         operatorLisence.setCreateDate(new Date());
         operatorLisence.setModifyDate(new Date());
+        fileInfoService.updateFileInfoByIds(operatorLisence.getAttachmentList(),operatorLisence.getId());
         return operatorLisenceMapper.insert(operatorLisence);
     }
 
