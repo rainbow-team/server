@@ -90,7 +90,7 @@ public class ActivityCheckController {
      * @return
      */
     @PostMapping("/deleteActivityCheckById")
-    public ResponseBo deleteActivityCheckById(String id) {
+    public ResponseBo deleteActivityCheckById(@RequestBody String id) {
         if (id != null) {
             int result = activityCheckService.deleteActivityCheckById(id);
             return result == 0 ? ResponseBo.error("存在关联，不允许删除!") : ResponseBo.ok("删除成功");

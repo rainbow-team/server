@@ -2,6 +2,7 @@ package com.rainbow.security.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -31,11 +32,15 @@ public class AccidentSecurityServiceImpl extends BaseService<AccidentSecurity> i
     @Autowired
     AccidentSecurityMapper accidentSecurityMapper;
 
+    @Autowired
+    FileInfoService fileInfoService;
+
     @Override
     public int addAccidentSecurity(AccidentSecurity accidentSecurity) {
         accidentSecurity.setId(GuidHelper.getGuid());
         accidentSecurity.setCreateDate(new Date());
         accidentSecurity.setModifyDate(new Date());
+        fileInfoService.updateFileInfoByIds(accidentSecurity.getAttachmentList(),accidentSecurity.getId());
         return accidentSecurityMapper.insert(accidentSecurity);
     }
 

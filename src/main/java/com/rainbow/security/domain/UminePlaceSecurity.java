@@ -1,10 +1,12 @@
 package com.rainbow.security.domain;
 
+import com.rainbow.common.domain.BaseExtendEntity;
+
 import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "security_umine_place")
-public class UminePlaceSecurity {
+public class UminePlaceSecurity extends BaseExtendEntity {
     /**
      * 主键
      */

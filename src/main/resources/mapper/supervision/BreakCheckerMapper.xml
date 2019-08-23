@@ -66,11 +66,11 @@
     </if>
 
     <if test="start_date != null and start_date != ''">
-      and t.valid_date <![CDATA[  >=  ]]> #{start_date}
+      and DATE(t.valid_date) <![CDATA[  >=  ]]> DATE(#{start_date})
     </if>
 
     <if test="end_date != null and end_date != ''">
-      and t.valid_date <![CDATA[  <=  ]]> #{end_date}
+      and DATE(t.valid_date) <![CDATA[  <=  ]]> DATE(#{end_date})
     </if>
 
     <if test="cert_number != null and cert_number != ''">

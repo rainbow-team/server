@@ -110,7 +110,7 @@
     </if>
 
     <if test="have_monitor != null and have_monitor != ''">
-      and t.have_monitor = #{havemonitor}
+      and t.have_monitor = #{have_monitor}
     </if>
   </select>
 

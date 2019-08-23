@@ -23,11 +23,11 @@
     where 1=1
 
     <if test="startTime != null and startTime != ''">
-      and t.release_date <![CDATA[  >=  ]]> #{startTime}
+      and DATE(t.release_date) <![CDATA[  >=  ]]> DATE(#{startTime})
     </if>
 
     <if test="endTime != null and endTime != ''">
-      and t.release_date <![CDATA[  <=  ]]> #{endTime}
+      and DATE(t.release_date) <![CDATA[  <=  ]]> DATE(#{endTime})
     </if>
 
     <if test="code != null and code != ''">

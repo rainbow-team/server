@@ -50,19 +50,19 @@
     </if>
 
     <if test="record_start_date != null and record_start_date != ''">
-      and t.record_date <![CDATA[  >=  ]]> #{record_start_date}
+      and DATE(t.record_date) <![CDATA[  >=  ]]> DATE(#{record_start_date})
     </if>
 
     <if test="record_end_date != null and record_end_date != ''">
-      and t.record_date <![CDATA[  <=  ]]> #{record_end_date}
+      and DATE(t.record_date) <![CDATA[  <=  ]]> DATE(#{record_end_date})
     </if>
 
     <if test="accept_start_date != null and accept_start_date != ''">
-      and t.accept_date <![CDATA[  >=  ]]> #{accept_start_date}
+      and DATE(t.accept_date) <![CDATA[  >=  ]]> DATE(#{accept_start_date})
     </if>
 
     <if test="accept_end_date != null and accept_end_date != ''">
-      and t.accept_date <![CDATA[  <=  ]]> #{accept_end_date}
+      and DATE(t.accept_date) <![CDATA[  <=  ]]> DATE(#{accept_end_date})
     </if>
 
     <if test="uminemountainId != null and uminemountainId != ''">

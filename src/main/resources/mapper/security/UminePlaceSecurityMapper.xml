@@ -87,11 +87,11 @@
     </if>
 
     <if test="start_date != null and start_date != ''">
-      and t.find_date <![CDATA[  >=  ]]> #{start_date}
+      and DATE(t.find_date) <![CDATA[  >=  ]]> DATE(#{start_date})
     </if>
 
     <if test="end_date != null and end_date != ''">
-      and t.find_date <![CDATA[  <=  ]]> #{end_date}
+      and DATE(t.find_date) <![CDATA[  <=  ]]> DATE(#{end_date})
     </if>
 
     <if test="questionTypeIds != null">

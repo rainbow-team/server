@@ -78,8 +78,8 @@ public class CheckMonitorController {
      * @param id
      * @return
      */
-    @GetMapping("/geCheckMonitorById")
-    public ResponseBo getCheckMonitorById(String id) {
+    @PostMapping("/geCheckMonitorById")
+    public ResponseBo getCheckMonitorById(@RequestBody String id) {
         return checkMonitorService.getCheckMonitorById(id);
     }
 
@@ -90,7 +90,7 @@ public class CheckMonitorController {
      * @return
      */
     @PostMapping("/deleteCheckMonitorById")
-    public ResponseBo deleteCheckMonitorById(String id) {
+    public ResponseBo deleteCheckMonitorById(@RequestBody String id) {
         if (id != null) {
             int result = checkMonitorService.deleteCheckMonitorById(id);
             return result == 0 ? ResponseBo.error("存在关联，不允许删除!") : ResponseBo.ok("删除成功");

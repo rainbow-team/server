@@ -2,6 +2,7 @@ package com.rainbow.security.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -31,11 +32,15 @@ public class UminePlaceSecurityServiceImpl extends BaseService<UminePlaceSecurit
     @Autowired
     UminePlaceSecurityMapper uminePlaceSecurityMapper;
 
+    @Autowired
+    FileInfoService fileInfoService;
+
     @Override
     public int addUminePlaceSecurity(UminePlaceSecurity uminePlaceSecurity) {
         uminePlaceSecurity.setId(GuidHelper.getGuid());
         uminePlaceSecurity.setCreateDate(new Date());
         uminePlaceSecurity.setModifyDate(new Date());
+        fileInfoService.updateFileInfoByIds(uminePlaceSecurity.getAttachmentList(),uminePlaceSecurity.getId());
         return uminePlaceSecurityMapper.insert(uminePlaceSecurity);
     }
 

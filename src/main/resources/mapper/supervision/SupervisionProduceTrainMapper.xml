@@ -26,11 +26,11 @@
     where 1=1
 
     <if test="begin_date != null and begin_date != ''">
-      and t.begin_date <![CDATA[  >=  ]]> #{begin_date}
+      and DATE(t.begin_date) <![CDATA[  >=  ]]> DATE(#{begin_date})
     </if>
 
     <if test="end_date != null and end_date != ''">
-      and t.begin_date <![CDATA[  <=  ]]> #{end_date}
+      and DATE(t.begin_date) <![CDATA[  <=  ]]> DATE(#{end_date})
     </if>
 
     <if test="batch != null and batch != ''">

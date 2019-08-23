@@ -49,16 +49,8 @@
     left join supervision_org f on t.org_id = f.id
     where 1=1
 
-    <if test="serviceDepartName != null and serviceDepartName != ''">
-      and instr(sd.name,#{serviceDepartName})>0
-    </if>
-
-    <if test="umineName != null and umineName != ''">
-      and instr(u.name,#{umineName})>0
-    </if>
-
-    <if test="equipDepartName != null and equipDepartName != ''">
-      and instr(ed.name,#{equipDepartName})>0
+    <if test="name != null and name != ''">
+      and instr(sd.name,#{name})>0 or instr(u.name,#{name})>0 or instr(ed.name,#{name})>0
     </if>
 
     <if test="content != null and content != ''">
@@ -74,11 +66,11 @@
     </if>
 
     <if test="start_date != null and start_date != ''">
-      and and t.start_date <![CDATA[  <=  ]]> #{start_date}
+      and DATE(t.start_date) <![CDATA[  <=  ]]> DATE(#{start_date})
     </if>
 
     <if test="end_date != null and end_date != ''">
-      and and t.end_date <![CDATA[  >=  ]]> #{end_date}
+      and DATE(t.end_date) <![CDATA[  >=  ]]> DATE(#{start_date})
     </if>
 
     <if test="servicedepartId != null and servicedepartId != ''">

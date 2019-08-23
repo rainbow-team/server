@@ -2,6 +2,7 @@ package com.rainbow.security.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -31,11 +32,15 @@ public class EquipSecurityServiceImpl extends BaseService<EquipSecurity> impleme
     @Autowired
     EquipSecurityMapper equipSecurityMapper;
 
+    @Autowired
+    FileInfoService fileInfoService;
+
     @Override
     public int addEquipSecurity(EquipSecurity equipSecurity) {
         equipSecurity.setId(GuidHelper.getGuid());
         equipSecurity.setCreateDate(new Date());
         equipSecurity.setModifyDate(new Date());
+        fileInfoService.updateFileInfoByIds(equipSecurity.getAttachmentList(),equipSecurity.getId());
         return equipSecurityMapper.insert(equipSecurity);
     }
 
