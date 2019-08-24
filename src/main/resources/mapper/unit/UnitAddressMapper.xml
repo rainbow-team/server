@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.unit.dao.UnitAddressMapper">
+    <resultMap id="UnitAddressMap" type="com.rainbow.unit.domain.UnitAddress">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="unit_id" jdbcType="VARCHAR" property="unitId" />
+        <result column="geo" jdbcType="VARCHAR" property="geo" />
+        <result column="unit_type" jdbcType="VARCHAR" property="unitType" />
+        <result column="province" jdbcType="VARCHAR" property="province" />
+        <result column="pic_id" jdbcType="VARCHAR" property="picId" />
+
+    </resultMap>
+
+    <select id="getUnitAddressListByProvince" parameterType="java.lang.String" resultMap="UnitAddressMap">
+        select * from unit_address
+        where province = #{province}
+    </select>
+
+    <select id="getChinaMapData" resultType="java.util.Map">
+        select  province as `name`, count(id) as `value` from unit_address GROUP BY province
+    </select>
+</mapper>
