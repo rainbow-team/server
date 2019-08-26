@@ -62,10 +62,10 @@ public class StatisticsServiceImpl implements StatisticsService {
         if (result != null) {
             List<ResultObj> tempResult = new ArrayList<>();
             ResultObj objBig = new ResultObj();
-            objBig.setName("2000年前");
-            objBig.setValue(result.getSmall());
+            objBig.setName("2000年后");
+            objBig.setValue(result.getBig());
             ResultObj objSmall = new ResultObj();
-            objSmall.setName("2000年后");
+            objSmall.setName("2000年前");
             objSmall.setValue(result.getSmall());
             tempResult.add(objBig);
             tempResult.add(objSmall);
