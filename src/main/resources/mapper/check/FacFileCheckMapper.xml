@@ -11,6 +11,7 @@
     <result column="fac_check_file_type_id" jdbcType="VARCHAR" property="facCheckFileTypeId" />
     <result column="file_date" jdbcType="DATE" property="fileDate" />
     <result column="file_no" jdbcType="VARCHAR" property="fileNo" />
+    <result column="is_import" jdbcType="INTEGER" property="isImport" />
   </resultMap>
 
 

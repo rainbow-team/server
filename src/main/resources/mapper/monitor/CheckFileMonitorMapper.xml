@@ -10,6 +10,7 @@
     <result column="monitor_check_file_type_id" jdbcType="VARCHAR" property="monitorCheckFileTypeId" />
     <result column="file_no" jdbcType="VARCHAR" property="fileNo" />
     <result column="file_date" jdbcType="DATE" property="fileDate" />
+    <result column="is_import" jdbcType="INTEGER" property="isImport" />
   </resultMap>
 
 

@@ -46,6 +46,20 @@ public class FacFileCheck extends BaseExtendEntity {
     private String fileNo;
 
     /**
+     * 是否导入0 否 1 是
+     */
+    @Column(name = "is_import")
+    private Integer isImport;
+
+    public Integer getIsImport() {
+        return isImport;
+    }
+
+    public void setIsImport(Integer isImport) {
+        this.isImport = isImport;
+    }
+
+    /**
      * 获取主键，用来在file_info中查找具体文件
      *
      * @return id - 主键，用来在file_info中查找具体文件
