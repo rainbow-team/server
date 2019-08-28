@@ -58,6 +58,15 @@ public class UnitAddressController {
         return ResponseBo.ok();
     }
 
+    @PostMapping("/getUnitAddressById")
+    public ResponseBo getUnitAddressById(@RequestBody String id) {
+        if (id != null) {
+            UnitAddress result = service.selectByKey(id);
+            return ResponseBo.ok(result);
+        }
+        return ResponseBo.ok("获取失败!");
+    }
+
     @PostMapping("/getAllUnitAddress")
     public ResponseBo getAllUnitAddress() {
         List<UnitAddress> result = service.selectAll();
