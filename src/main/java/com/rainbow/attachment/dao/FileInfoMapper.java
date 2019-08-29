@@ -10,6 +10,6 @@ public interface FileInfoMapper extends MyMapper<FileInfo> {
 
     int updateFileInfoByIds(Map<String,Object> map);
 
-    List<FileInfo> getFileInfoByTableName(String tablename);
+    List<FileInfo> getFileInfoByTableName(Map<String,String> map);
 
 }

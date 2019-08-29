@@ -24,8 +24,8 @@
     </foreach>
   </update>
 
-  <select id="getFileInfoByTableName" parameterType="String" resultMap="BaseResultMap">
-    SELECT t.* file_info t where t.fileinfo_ref_id in
+  <select id="getFileInfoByTableName" parameterType="map" resultMap="BaseResultMap">
+    SELECT t.* from file_info t where t.fileinfo_ref_id in
     (select id from ${tablename})
   </select>
 
