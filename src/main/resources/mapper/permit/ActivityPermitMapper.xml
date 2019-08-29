@@ -92,6 +92,10 @@
       and t.service_id = #{servicedepartId}
     </if>
 
+    <if test="facId != null and facId != ''">
+      and t.fac_id = #{facId}
+    </if>
+
   </select>
 
   <select id="getActivityPermitById" parameterType="java.lang.String" resultMap="ActivityPermitExtendMap">
