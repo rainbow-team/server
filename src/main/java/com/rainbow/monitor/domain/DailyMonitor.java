@@ -61,6 +61,11 @@ public class DailyMonitor {
     private Date fileDate;
 
     /**
+     * 备注
+     */
+    private String note;
+
+    /**
      * 是否导入0 否 1 是
      */
     @Column(name = "is_import")
@@ -90,10 +95,6 @@ public class DailyMonitor {
     @Column(name = "modify_date")
     private Date modifyDate;
 
-    /**
-     * 备注
-     */
-    private String note;
 
     /**
      * 获取主键

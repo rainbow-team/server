@@ -37,6 +37,10 @@ public class CheckMonitor {
     private String equipDepartId;
 
     /**
+     * 检查内容
+     */
+    private String content;
+    /**
      * 监督检查类型，外键
 
 参考表：config_monitor_check_type
@@ -62,6 +66,10 @@ public class CheckMonitor {
     @Column(name = "end_date")
     private Date endDate;
 
+    /**
+     * 备注
+     */
+    private String note;
     /**
      * 是否导入0 否 1 是
      */
@@ -91,15 +99,9 @@ public class CheckMonitor {
     @Column(name = "modify_date")
     private Date modifyDate;
 
-    /**
-     * 检查内容
-     */
-    private String content;
 
-    /**
-     * 备注
-     */
-    private String note;
+
+
 
     /**
      * 获取主键

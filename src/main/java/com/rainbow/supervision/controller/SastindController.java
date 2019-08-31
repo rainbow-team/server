@@ -149,7 +149,7 @@ public class SastindController {
                 String fileName = new String(file.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8");
                 inputStream = (FileInputStream) file.getInputStream();
                 //将导入的excel转化为实体
-                List<SupervisionSastind> list = ExcelHelper.convertToList(SupervisionSastind.class, fileName, inputStream, 2, 12);
+                List<SupervisionSastind> list = ExcelHelper.convertToList(SupervisionSastind.class, fileName, inputStream, 2, 12,0);
 
                 if(list.size()==0){
 

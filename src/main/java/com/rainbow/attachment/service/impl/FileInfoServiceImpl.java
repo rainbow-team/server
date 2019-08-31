@@ -94,6 +94,7 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
         return ResponseBo.ok(guid);
     }
 
+    @Override
     public String GetFileStorageFolder(String actualFile) {
 //        RainbowProperties rp = new RainbowProperties();
 

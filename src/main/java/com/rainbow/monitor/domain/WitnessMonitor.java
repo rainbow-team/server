@@ -60,15 +60,44 @@ public class WitnessMonitor {
     private String witnessObject;
 
     /**
+     * 见证事项
+     */
+    @Column(name = "witness_items")
+    private String witnessItems;
+
+
+    /**
      * 见证时间
      */
     @Column(name = "witness_date")
     private Date witnessDate;
 
     /**
+     * 见证结论
+     */
+    @Column(name = "witness_result")
+    private String witnessResult;
+
+    /**
+     * 存在问题
+     */
+    @Column(name = "witness_question")
+    private String witnessQuestion;
+
+    /**
+     * 整改情况
+     */
+    private String reform;
+
+    /**
      * 见证人
      */
     private String witness;
+
+    /**
+     * 备注
+     */
+    private String note;
 
     /**
      * 是否导入0 否 1 是
@@ -100,33 +129,11 @@ public class WitnessMonitor {
     @Column(name = "modify_date")
     private Date modifyDate;
 
-    /**
-     * 见证事项
-     */
-    @Column(name = "witness_items")
-    private String witnessItems;
 
-    /**
-     * 见证结论
-     */
-    @Column(name = "witness_result")
-    private String witnessResult;
 
-    /**
-     * 存在问题
-     */
-    @Column(name = "witness_question")
-    private String witnessQuestion;
 
-    /**
-     * 整改情况
-     */
-    private String reform;
 
-    /**
-     * 备注
-     */
-    private String note;
+
 
     /**
      * 获取主键

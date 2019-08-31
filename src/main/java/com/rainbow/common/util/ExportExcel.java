@@ -68,29 +68,29 @@ public class ExportExcel {
 
         HSSFRow rowTitle = sheet.createRow(0);
         HSSFCellStyle headstyle = HssfHelper.getHssfCellStyle(wb, 1);
-        HSSFCell cellTitle = rowTitle.createCell(1);
+        HSSFCell cellTitle = rowTitle.createCell(0);
         cellTitle.setCellValue(name);
         cellTitle.setCellStyle(headstyle);
         rowTitle.setHeight((short) 600);
-        sheet.addMergedRegion(new CellRangeAddress(0, 0, 1, cloumnNames.length));
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, cloumnNames.length-1));
         HSSFRow row = sheet.createRow(1);
 
         int nI;
         for (nI = 0; nI < cloumnNames.length; nI++) {
-            HSSFCell cell = row.createCell(nI + 1);
+            HSSFCell cell = row.createCell(nI);
             cell.setCellValue(cloumnNames[nI]);
             cell.setCellStyle(style);
 
-            sheet.setColumnWidth(nI + 1, 6000);
+            sheet.setColumnWidth(nI, 6000);
         }
 
         for (nI = 0; nI < cloumnValues.size(); nI++) {
             row = sheet.createRow(nI + 2);
 
             for(int k =0;k<cloumnValues.get(nI).length;k++){
-                row.createCell(k+1).setCellValue(cloumnValues.get(nI)[k]);
+                row.createCell(k).setCellValue(cloumnValues.get(nI)[k]);
             }
-            HssfHelper.setRowStyle(row, 1, cloumnNames.length, style);
+            HssfHelper.setRowStyle(row, 0, cloumnNames.length-1, style);
         }
 
         return  wb;

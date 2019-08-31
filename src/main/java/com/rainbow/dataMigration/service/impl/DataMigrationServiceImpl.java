@@ -2,12 +2,15 @@ package com.rainbow.dataMigration.service.impl;
 
 import com.rainbow.attachment.dao.FileInfoMapper;
 import com.rainbow.attachment.domain.FileInfo;
+import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.check.dao.FacCheckMapper;
 import com.rainbow.check.dao.FacFileCheckMapper;
 import com.rainbow.check.domain.FacCheck;
 import com.rainbow.check.domain.FacFileCheck;
-import com.rainbow.common.util.ExportExcel;
-import com.rainbow.common.util.ZipUtils;
+import com.rainbow.common.config.RainbowProperties;
+import com.rainbow.common.domain.ResponseBo;
+import com.rainbow.common.util.*;
+import com.rainbow.dataMigration.dao.DataMigrationMapper;
 import com.rainbow.dataMigration.service.DataMigrationService;
 import com.rainbow.monitor.dao.CheckFileMonitorMapper;
 import com.rainbow.monitor.dao.CheckMonitorMapper;
@@ -19,12 +22,17 @@ import com.rainbow.monitor.domain.DailyMonitor;
 import com.rainbow.monitor.domain.WitnessMonitor;
 import com.rainbow.security.dao.FacSecurityMapper;
 import com.rainbow.security.domain.FacSecurity;
+import com.rainbow.supervision.domain.SupervisionSastind;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import java.lang.reflect.Field;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -60,6 +68,15 @@ public class DataMigrationServiceImpl implements DataMigrationService {
     @Autowired
     FileInfoMapper fileInfoMapper;
 
+    @Autowired
+    private RainbowProperties rainbowProperties;
+
+    @Autowired
+    DataMigrationMapper dataMigrationMapper;
+
+    @Autowired
+    FileInfoService fileInfoService;
+
     @Override
     public  void exportData(String type,HttpServletResponse response) {
 
@@ -67,10 +84,12 @@ public class DataMigrationServiceImpl implements DataMigrationService {
 
         List<String[]> cloumnValues = new ArrayList<>();
         List<FileInfo> fileInfoList = new ArrayList<>();
+        List<File> fileExist = new ArrayList<>();
         List<ByteArrayOutputStream> listBaos = new ArrayList<>();
         List<String> listName = new ArrayList<>();
 
         Map<String,String> map = new HashMap<>();
+        map.put("type","0");
 
         try  {
 
@@ -96,7 +115,7 @@ public class DataMigrationServiceImpl implements DataMigrationService {
                                             facCheck.getStageId(),
                                             DateToString(facCheck.getCheckDate()),
                                             facCheck.getNote(),
-                                            IntegerToString(facCheck.getIsImport()),
+                                            "2",
                                             facCheck.getCreatorId(),
                                             DateToString(facCheck.getCreateDate()),
                                             facCheck.getModifyId(),
@@ -135,7 +154,7 @@ public class DataMigrationServiceImpl implements DataMigrationService {
                                             facFileCheck.getFacCheckFileTypeId(),
                                             DateToString(facFileCheck.getFileDate()),
                                             facFileCheck.getFileNo(),
-                                            IntegerToString(facFileCheck.getIsImport())
+                                            "2",
                                     };
                                     cloumnValues.add(strs);
                                 }
@@ -156,11 +175,10 @@ public class DataMigrationServiceImpl implements DataMigrationService {
                             wb.write(baos);
                             listBaos.add(baos);
 
-                            listName.add("核设施审评阶段文件表.xls");
+                            listName.add("核设施审评.xls");
                             //附件
                             map.put("tablename","check_fac_file");
                             fileInfoList = fileInfoMapper.getFileInfoByTableName(map);
-
 
                             break;
                         //日常监督信息
@@ -183,7 +201,7 @@ public class DataMigrationServiceImpl implements DataMigrationService {
                                             dilyMonitor.getFileName(),
                                             DateToString(dilyMonitor.getFileDate()),
                                             dilyMonitor.getNote(),
-                                            IntegerToString(dilyMonitor.getIsImport()),
+                                            "2",
                                             dilyMonitor.getCreatorId(),
                                             DateToString(dilyMonitor.getCreateDate()),
                                             dilyMonitor.getModifyId(),
@@ -217,6 +235,13 @@ public class DataMigrationServiceImpl implements DataMigrationService {
 
                             listName.add("日常监督信息.xls");
 
+                            //附件
+                            map.put("tablename","monitor_daily");
+                            List<FileInfo> fileInfoMonitorDailyList=fileInfoMapper.getFileInfoByTableName(map);
+                            if(fileInfoMonitorDailyList!=null&&fileInfoMonitorDailyList.size()>0){
+                                fileInfoList.addAll(fileInfoMonitorDailyList);
+                            }
+
                             break;
                         //监督检查信息
                         case "3":
@@ -239,7 +264,7 @@ public class DataMigrationServiceImpl implements DataMigrationService {
                                             DateToString(checkMonitor.getStartDate()),
                                             DateToString(checkMonitor.getEndDate()),
                                             checkMonitor.getNote(),
-                                            IntegerToString(checkMonitor.getIsImport()),
+                                            "2",
                                             checkMonitor.getCreatorId(),
                                             DateToString(checkMonitor.getCreateDate()),
                                             checkMonitor.getModify(),
@@ -286,7 +311,7 @@ public class DataMigrationServiceImpl implements DataMigrationService {
                                             checkFileMonitor.getMonitorCheckFileTypeId(),
                                             checkFileMonitor.getFileNo(),
                                             DateToString(checkFileMonitor.getFileDate()),
-                                            IntegerToString(checkFileMonitor.getIsImport())
+                                            "2"
                                     };
                                     cloumnValues.add(strs);
                                 }
@@ -309,7 +334,18 @@ public class DataMigrationServiceImpl implements DataMigrationService {
 
                             listName.add("监督检查信息.xls");
 
+                            //附件
+                            map.put("tablename","monitor_check");
+                            List<FileInfo> fileInfoCheckMonitorList=fileInfoMapper.getFileInfoByTableName(map);
+                            if(fileInfoCheckMonitorList!=null&&fileInfoCheckMonitorList.size()>0){
+                                fileInfoList.addAll(fileInfoCheckMonitorList);
+                            }
 
+                            map.put("tablename","monitor_check_file");
+                            List<FileInfo> fileInfoCheckFileMonitorList=fileInfoMapper.getFileInfoByTableName(map);
+                            if(fileInfoCheckFileMonitorList!=null&&fileInfoCheckFileMonitorList.size()>0){
+                                fileInfoList.addAll(fileInfoCheckFileMonitorList);
+                            }
                             break;
                         //监督见证信息
                         case "4":
@@ -335,7 +371,7 @@ public class DataMigrationServiceImpl implements DataMigrationService {
                                             witnessMonitor.getReform(),
                                             witnessMonitor.getWitness(),
                                             witnessMonitor.getNote(),
-                                            IntegerToString(witnessMonitor.getIsImport()),
+                                            "2",
                                             witnessMonitor.getCreatorId(),
                                             DateToString(witnessMonitor.getCreateDate()),
                                             witnessMonitor.getModifyId(),
@@ -375,6 +411,12 @@ public class DataMigrationServiceImpl implements DataMigrationService {
 
                             listName.add("监督见证信息.xls");
 
+                            //附件
+                            map.put("tablename","monitor_witness");
+                            List<FileInfo> fileInfoWitnessMonitorList=fileInfoMapper.getFileInfoByTableName(map);
+                            if(fileInfoWitnessMonitorList!=null&&fileInfoWitnessMonitorList.size()>0){
+                                fileInfoList.addAll(fileInfoWitnessMonitorList);
+                            }
 
                             break;
                         //核设施安全问题
@@ -402,7 +444,7 @@ public class DataMigrationServiceImpl implements DataMigrationService {
                                             facSecurity.getReformPlan(),
                                             DateToString(facSecurity.getReformCompleteDate()),
                                             facSecurity.getNote(),
-                                            IntegerToString(facSecurity.getIsImport()),
+                                            "2",
                                             facSecurity.getCreatorId(),
                                             DateToString(facSecurity.getCreateDate()),
                                             facSecurity.getModifyId(),
@@ -442,16 +484,70 @@ public class DataMigrationServiceImpl implements DataMigrationService {
 
                             listName.add("核设施安全问题.xls");
 
+                            //附件
+                            map.put("tablename","security_fac");
+                            List<FileInfo> fileInfoFacSecurityList=fileInfoMapper.getFileInfoByTableName(map);
+                            if(fileInfoFacSecurityList!=null&&fileInfoFacSecurityList.size()>0){
+                                fileInfoList.addAll(fileInfoFacSecurityList);
+                            }
+
                             break;
                     }
                 }
 
+                cloumnValues = new ArrayList<>();
+                //附件
+                if(fileInfoList.size()>0){
+
+                    for (FileInfo fileInfo : fileInfoList) {
+                        String[] strs = new String[]{
+                            fileInfo.getFileinfoId(),
+                            fileInfo.getFileinfoRefId(),
+                            fileInfo.getFileinfoFileType(),
+                            fileInfo.getFileinfoServerFileName(),
+                                fileInfo.getFileinfoClientFileName(),
+                                fileInfo.getFileinfoServerPath(),
+                                fileInfo.getFileinfoUploadUserId(),
+                                DateToString(fileInfo.getFileinfoUploadDate()),
+                                fileInfo.getFileinfoContent(),
+                                "2"
+                        };
+
+                        File file = new File(fileInfo.getFileinfoServerPath());
+                        if(file.exists()){
+                            fileExist.add(file);
+                        }
+                        cloumnValues.add(strs);
+                    }
+
+                    String[] cloumnNamesfacSecurity = new String[]{
+                            "fileinfo_id",
+                            "fileinfo_ref_id",
+                            "fileinfo_file_type",
+                            "fileinfo_server_file_name",
+                            "fileinfo_client_file_name",
+                            "fileinfo_server_path",
+                            "fileinfo_upload_user_id",
+                            "fileinfo_upload_date",
+                            "fileinfo_content",
+                            "is_import"
+                    };
+
+                    HSSFWorkbook wbFile = new HSSFWorkbook();
+                    wbFile = ExportExcel.getHssfWorkBook(wbFile, "附件", cloumnNamesfacSecurity, cloumnValues);
+
+                    ByteArrayOutputStream baosFile = new ByteArrayOutputStream();
+                    wbFile.write(baosFile);
+                    listBaos.add(baosFile);
+
+                    listName.add("附件.xls");
+                }
 
                ;
 
                 response.setContentType("APPLICATION/OCTET-STREAM");
                 response.setHeader("Content-Disposition",
-                        "attachment;filename=" + URLEncoder.encode("数据包", "UTF-8") + ".rar");
+                        "attachment;filename=" + URLEncoder.encode("数据包", "UTF-8") + ".zip");
 
                 int i= 0;
                 for (ByteArrayOutputStream byteArrayOutputStream:listBaos
@@ -461,6 +557,13 @@ public class DataMigrationServiceImpl implements DataMigrationService {
                     response.flushBuffer();
                 }
 
+                for (File file:  fileExist )
+                {
+                    ZipUtils.doCompress(file, outputStream);
+                    response.flushBuffer();
+                }
+
+                outputStream.close();
 
             }
 
@@ -469,7 +572,7 @@ public class DataMigrationServiceImpl implements DataMigrationService {
             try {
                 throw e;
             } catch (IOException e1) {
-                e1.printStackTrace();
+
             }
         }
     }
@@ -492,6 +595,209 @@ public class DataMigrationServiceImpl implements DataMigrationService {
         }
 
         return num.toString();
+    }
+
+    @Override
+    public ResponseBo importData(HttpServletRequest request) {
+
+        try {
+            Multipart part = new Multipart();
+            //获取前端传过来的file
+            MultipartFile file = part.getUploadFile(request);
+
+            String webInfPath = rainbowProperties.getUploadFolder();
+
+            File dirs = new File(webInfPath + "/zips");
+            if (!dirs.exists()) {
+                dirs.mkdirs();
+            }else{
+                dirs.delete();
+                dirs.mkdirs();
+            }
+
+            File zipFile = new File(webInfPath + "/zips/" +file.getOriginalFilename());
+            file.transferTo(zipFile);
+            ZipUtils.unZip(zipFile, webInfPath + "/zips");
+
+            File unzipFiles = new File(webInfPath + "/zips");
+
+            if(unzipFiles.exists()){
+
+               File[] files =  unzipFiles.listFiles();
+               List<FileInfo> fileInfoList= new ArrayList<>();
+               List<File> fileList = new ArrayList<>();
+
+                for (File f:files) {
+
+                    String fileNameNow = f.getName().substring(f.getName().lastIndexOf("\\")+1);
+                    switch (fileNameNow){
+                        case "核设施审评.xls":
+
+                            deleteHistory("check_fac");
+                            deleteHistory("check_fac_file");
+                            FileInputStream inputStream = new FileInputStream(f);
+
+                            List<FacCheck> list = ExcelHelper.convertToList(FacCheck.class, fileNameNow, inputStream, 2, 12,0);
+                            if(list!=null&&list.size()>0){
+                                for (FacCheck facCheck:list) {
+                                    facCheckMapper.insert(facCheck);
+                                }
+                            }
+
+                            FileInputStream inputStream1 = new FileInputStream(f);
+
+                            List<FacFileCheck> facFileCheckList = ExcelHelper.convertToList(FacFileCheck.class, fileNameNow, inputStream1, 2, 7,1);
+                            if(facFileCheckList!=null&&facFileCheckList.size()>0){
+
+                                for (FacFileCheck facFileCheck:facFileCheckList) {
+                                    facFileCheckMapper.insert(facFileCheck);
+                                }
+                            }
+
+                        break;
+                        case "日常监督信息.xls":
+
+                            deleteHistory("monitor_daily");
+
+                            FileInputStream inputStream2 = new FileInputStream(f);
+                            List<DailyMonitor> dailyMonitorList = ExcelHelper.convertToList(DailyMonitor.class, fileNameNow, inputStream2, 2, 14,0);
+                            if(dailyMonitorList!=null&&dailyMonitorList.size()>0){
+
+                                for (DailyMonitor dailyMonitor:dailyMonitorList) {
+                                    dailyMonitorMapper.insert(dailyMonitor);
+                                }
+
+                            }
+
+                            break;
+
+                        case "监督检查信息.xls":
+                            FileInputStream inputStream3 = new FileInputStream(f);
+                            deleteHistory("monitor_check");
+                            deleteHistory("monitor_check_file");
+
+                            List<CheckMonitor>  checkMonitorList =ExcelHelper.convertToList(CheckMonitor.class,fileNameNow, inputStream3, 2, 15,0);
+                            if(checkMonitorList!=null&&checkMonitorList.size()>0){
+
+                                for (CheckMonitor checkMonitor:checkMonitorList  ) {
+                                    checkMonitorMapper.insert(checkMonitor);
+                                }
+
+                            }
+
+                            FileInputStream inputStream31 = new FileInputStream(f);
+
+                            List<CheckFileMonitor> checkFileMonitorList = ExcelHelper.convertToList(CheckFileMonitor.class, fileNameNow, inputStream31, 2, 6,1);
+                            if(checkFileMonitorList!=null&&checkFileMonitorList.size()>0){
+
+                                for (CheckFileMonitor checkFileMonitor:checkFileMonitorList) {
+                                    checkFileMonitorMapper.insert(checkFileMonitor);
+                                }
+
+                            }
+
+                            break;
+                        case "监督见证信息.xls":
+                            FileInputStream inputStream4 = new FileInputStream(f);
+
+                            deleteHistory("monitor_witness");
+
+                            List<WitnessMonitor> witnessMonitorList =ExcelHelper.convertToList(WitnessMonitor.class, fileNameNow, inputStream4, 2, 18,1);
+                            if(witnessMonitorList!=null&&witnessMonitorList.size()>0){
+
+                                for (WitnessMonitor witnessMonitor:witnessMonitorList ) {
+                                    witnessMonitorMapper.insert(witnessMonitor);
+                                }
+                            }
+                            break;
+
+                        case "核设施安全问题.xls":
+                            FileInputStream inputStream5 = new FileInputStream(f);
+
+                            deleteHistory("security_fac");
+                            List<FacSecurity> facSecurityList = ExcelHelper.convertToList(FacSecurity.class, fileNameNow, inputStream5, 2, 19,0);
+                            if(facSecurityList!=null&&facSecurityList.size()>0){
+
+                                for (FacSecurity facSecurity:facSecurityList ) {
+                                    facSecurityMapper.insert(facSecurity);
+                                }
+
+                            }
+
+                            break;
+                        case "附件.xls":
+
+                           FileInputStream inputStream6 = new FileInputStream(f);
+                         fileInfoList = ExcelHelper.convertToList(FileInfo.class, fileNameNow, inputStream6, 2, 10,0);
+                            break;
+                        default:
+
+                             if(fileNameNow.indexOf("数据包")==-1){
+
+                                 fileList.add(f);
+
+                            }
+
+                            break;
+                    }
+                }
+
+
+                if(fileInfoList!=null&&fileInfoList.size()>0){
+
+                    for (FileInfo fileInfo:fileInfoList ) {
+                        String storageFolder = fileInfoService.GetFileStorageFolder(fileInfo.getFileinfoId());
+                        fileInfo.setFileinfoServerPath(storageFolder+fileInfo.getFileinfoServerFileName());
+                        fileInfoMapper.insert(fileInfo);
+                    }
+
+                }
+
+                if(fileList.size()>0){
+                    for (File f1:fileList ) {
+
+                        String fileNameNow = f1.getName().substring(f1.getName().lastIndexOf("\\")+1);
+                        // 保存文件
+                        String id = fileNameNow.substring(0,fileNameNow.indexOf("."));
+                        String storageFolder = fileInfoService.GetFileStorageFolder(id);
+                        String fileSavePath = storageFolder + fileNameNow;
+                        File fileDir = new File(storageFolder);
+                        if (!fileDir.exists()) {
+                            fileDir.mkdirs();
+                        }
+                        File file1 = new File(fileSavePath);
+                        f1.renameTo(file1);
+                    }
+                }
+            }
+
+
+        } catch (IOException e) {
+            ResponseBo.error(e.getMessage());
+        }
+
+      return  ResponseBo.ok();
+    }
+
+    public void deleteHistory(String type){
+
+        Map<String,String> map =new HashMap<>();
+        map.put("tablename",type);
+        map.put("type","1");
+
+        List<FileInfo> list = fileInfoMapper.getFileInfoByTableName(map);
+        if(list!=null&&list.size()>0){
+            for (FileInfo fileInfo:list) {
+                File file = new File(fileInfo.getFileinfoServerPath());
+                if(file.exists()){
+                    file.delete();
+                }
+                fileInfoMapper.delete(fileInfo);
+            }
+        }
+
+        dataMigrationMapper.deleteHistory(map);
+
     }
 
 }

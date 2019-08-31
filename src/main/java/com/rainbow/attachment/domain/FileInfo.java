@@ -61,6 +61,11 @@ public class FileInfo {
     private String fileinfoContent;
 
     /**
+     * 是否导入0 否 1 是
+     */
+    @Column(name = "is_import")
+    private Integer isImport;
+    /**
      * 获取主键ID
      *
      * @return fileinfo_id - 主键ID

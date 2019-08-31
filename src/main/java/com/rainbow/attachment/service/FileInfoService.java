@@ -21,4 +21,6 @@ public interface FileInfoService extends IService<FileInfo> {
     void downloadAccessoryByid(String id,HttpServletResponse response);
 
     void updateFileInfoByIds(List<FileInfo> list,String id);
+
+    String GetFileStorageFolder(String id);
 }

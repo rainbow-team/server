@@ -47,6 +47,11 @@ config_fac_status
     private String checkTypeId;
 
     /**
+     * 问题内容
+     */
+    private String content;
+
+    /**
      * 发现时间
      */
     @Column(name = "find_date")
@@ -73,10 +78,29 @@ config_fac_status
     private String reformStatusId;
 
     /**
+     * 监督要求
+     */
+    @Column(name = "supervise_require")
+    private String superviseRequire;
+
+    /**
+     * 整改方案
+     */
+    @Column(name = "reform_plan")
+    private String reformPlan;
+
+
+    /**
      * 整改完成时间
      */
     @Column(name = "reform_complete_date")
     private Date reformCompleteDate;
+
+
+    /**
+     * 备注
+     */
+    private String note;
 
     /**
      * 是否导入0 否 1 是
@@ -108,27 +132,11 @@ config_fac_status
     @Column(name = "modify_date")
     private Date modifyDate;
 
-    /**
-     * 问题内容
-     */
-    private String content;
 
-    /**
-     * 监督要求
-     */
-    @Column(name = "supervise_require")
-    private String superviseRequire;
 
-    /**
-     * 整改方案
-     */
-    @Column(name = "reform_plan")
-    private String reformPlan;
 
-    /**
-     * 备注
-     */
-    private String note;
+
+
 
     /**
      * 获取主键

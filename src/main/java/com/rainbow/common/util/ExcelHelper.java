@@ -28,11 +28,11 @@ public class ExcelHelper {
      * @return 指定对象集合
      */
     public static <T> List<T> convertToList(Class<T> t, String fileName, FileInputStream stream, int rowsnum,
-                                            int colnum) {
+                                            int colnum,int sheet) {
         List<T> listResult = new ArrayList<T>();
         try {
             //通过行列起始读取excel流
-            String[][] arrays = readExcel(fileName, stream, rowsnum, colnum);
+            String[][] arrays = readExcel(fileName, stream, rowsnum, colnum, sheet);
 
             if (arrays != null) {
                 for (int i = 0; i < arrays.length; i++) {
@@ -57,7 +57,7 @@ public class ExcelHelper {
      * @return 二维字符串数组
      * @throws IOException
      */
-    private static String[][] readExcel(String fileName, FileInputStream stream, int rowsnum, int colnum)
+    private static String[][] readExcel(String fileName, FileInputStream stream, int rowsnum, int colnum,int sheet)
             throws IOException {
         if (stream == null) {
             return null;
@@ -74,7 +74,7 @@ public class ExcelHelper {
                 wb = getXLSXWorkbook(stream);
             }
             //读取excel文件
-            return readWorkbook(wb, rowsnum, colnum);
+            return readWorkbook(wb, rowsnum, colnum,sheet);
         }
 
         return null;
@@ -133,9 +133,9 @@ public class ExcelHelper {
      * @return 二维字符串数组
      * @throws IOException
      */
-    private static String[][] readWorkbook(Workbook wb, int rowsnum, int colnum) throws IOException {
+    private static String[][] readWorkbook(Workbook wb, int rowsnum, int colnum,int sheetnum) throws IOException {
         //过滤空行
-        Sheet sheet = filterBlankLine(wb.getSheetAt(0), rowsnum);
+        Sheet sheet = filterBlankLine(wb.getSheetAt(sheetnum), rowsnum);
         //获取最后一行
         int rows = sheet.getLastRowNum();
         int columns = colnum;
@@ -214,7 +214,19 @@ public class ExcelHelper {
                 if (field != null) {
                     field.setAccessible(true);
                     // 赋值给bean对象对应的值
-                    field.set(bean, args[i]);
+
+                    if(field.getType()==String.class){
+                        field.set(bean, args[i]);
+                    }else if (field.getType()==Date.class){
+
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        Date date = formatter.parse(args[i]);
+                        field.set(bean, date);
+
+                    }else if(field.getType()==Integer.class){
+                        field.set(bean, Integer.parseInt(args[i]));
+                    }
+
                 }
             }
         } catch (Exception ex) {

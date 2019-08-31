@@ -50,6 +50,10 @@ public class FacCheck {
     private Date checkDate;
 
     /**
+     * 备注
+     */
+    private String note;
+    /**
      * 是否导入0 否 1 是
      */
     @Column(name = "is_import")
@@ -78,11 +82,6 @@ public class FacCheck {
      */
     @Column(name = "modify_date")
     private Date modifyDate;
-
-    /**
-     * 备注
-     */
-    private String note;
 
     /**
      * 获取主键
