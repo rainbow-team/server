@@ -1,12 +1,15 @@
 package com.rainbow.system.controller;
 
+import com.rainbow.common.cache.EHCacheUtils;
 import com.rainbow.common.controller.BaseController;
 import com.rainbow.common.domain.ResponseBo;
 
+import com.rainbow.common.util.GuidHelper;
 import com.rainbow.common.util.VeriyCode;
 import com.rainbow.system.domain.SystemUser;
 import com.rainbow.system.service.UserService;
 
+import net.sf.ehcache.CacheManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +49,8 @@ public class LoginController extends BaseController{
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CacheManager cacheManager;
 
     @PostMapping("/login")
 
@@ -69,6 +74,12 @@ public class LoginController extends BaseController{
             List<String> permissions = userService.getAllPermissionByUserId(systemUser.getId());
             result.put("userinfo", systemUser);
             result.put("permission", permissions);
+
+            String ticket = GuidHelper.getGuid();
+            result.put("ticket", ticket);
+
+            EHCacheUtils.setCache(cacheManager,ticket,systemUser);
+
             return ResponseBo.ok(result);
         }
     }

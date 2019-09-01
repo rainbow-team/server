@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.scheduling.annotation.EnableAsync;
 import tk.mybatis.spring.annotation.MapperScan;
 
@@ -14,6 +15,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 @EnableConfigurationProperties({RainbowProperties.class})
 @MapperScan("com.rainbow.*.dao")
 @EnableAsync
+@EnableCaching
 public class RainbowApplication extends SpringBootServletInitializer {
 
 	@Override

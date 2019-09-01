@@ -3,6 +3,9 @@ spring:
        multipart:
          max-file-size: 10MB
          max-request-size: 100MB
+
+
+
   datasource:
     druid:
       # 数据库访问配置, 使用druid数据源
@@ -107,4 +110,5 @@ pagehelper:
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
+
 
