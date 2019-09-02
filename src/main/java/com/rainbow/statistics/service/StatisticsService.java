@@ -4,8 +4,10 @@ import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.IService;
 import com.rainbow.security.domain.AccidentSecurity;
+import com.rainbow.statistics.domain.ResultObj;
 import com.rainbow.statistics.domain.SearchCondition;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,7 +21,6 @@ public interface StatisticsService {
 
     ResponseBo getStatisticsResultByYear(SearchCondition condition);
 
-
     ResponseBo getStatisticsResultByBoolean(SearchCondition condition);
 
     ResponseBo searchResultByPermitStageConditon(SearchCondition condition);
@@ -28,17 +29,16 @@ public interface StatisticsService {
 
     ResponseBo getHomeNumber();
 
-
     ResponseBo searchSumReportByDateGroup(SearchCondition condition);
 
     ResponseBo searchReportByDateAndSum(SearchCondition condition);
-
 
     ResponseBo searchResultByTypeConditon(SearchCondition condition);
 
     ResponseBo searchResultByDateConditon(SearchCondition condition);
 
-
     ResponseBo searchResultByStatusAndType(SearchCondition condition);
+
+    List<ResultObj> statisticsFacilitiesByRegion();
 
 }

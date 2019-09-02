@@ -1,10 +1,10 @@
 package com.rainbow.statistics.controller;
 
-
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.security.domain.AccidentSecurity;
 import com.rainbow.security.service.AccidentSecurityService;
+import com.rainbow.statistics.domain.ResultObj;
 import com.rainbow.statistics.domain.SearchCondition;
 import com.rainbow.statistics.service.StatisticsService;
 import org.slf4j.Logger;
@@ -12,18 +12,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
- * Created by 13260 on 2019/5/11.
- * 统计分析模块
+ * Created by 13260 on 2019/5/11. 统计分析模块
  */
 @RestController
 @RequestMapping("statistics")
 public class StatisticsController {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
-
 
     @Autowired
     StatisticsService statisticsService;
@@ -39,8 +38,7 @@ public class StatisticsController {
 
         if (condition != null) {
             return statisticsService.getStatisticsResultByCommonCondition(condition);
-        }
-        else {
+        } else {
             return ResponseBo.error("查询错误");
         }
     }
@@ -56,12 +54,10 @@ public class StatisticsController {
 
         if (condition != null) {
             return statisticsService.getStatisticsResultByYear(condition);
-        }
-        else {
+        } else {
             return ResponseBo.error("查询错误");
         }
     }
-
 
     /**
      * 根据表名和要分组的属性查询建造年代的统计信息
@@ -74,12 +70,10 @@ public class StatisticsController {
 
         if (condition != null) {
             return statisticsService.getStatisticsResultByBoolean(condition);
-        }
-        else {
+        } else {
             return ResponseBo.error("查询错误");
         }
     }
-
 
     /**
      * 核安全许可按类型统计
@@ -92,8 +86,7 @@ public class StatisticsController {
 
         if (condition != null) {
             return statisticsService.searchResultByPermitStageConditon(condition);
-        }
-        else {
+        } else {
             return ResponseBo.error("查询错误");
         }
     }
@@ -109,14 +102,13 @@ public class StatisticsController {
 
         if (condition != null) {
             return statisticsService.searchResultByPermitDateConditon(condition);
-        }
-        else {
+        } else {
             return ResponseBo.error("查询错误");
         }
     }
 
     @PostMapping("/getHomeNumer")
-    public ResponseBo getHomeNumer(){
+    public ResponseBo getHomeNumer() {
         return statisticsService.getHomeNumber();
     }
 
@@ -130,8 +122,7 @@ public class StatisticsController {
     public ResponseBo searchSumReportByDateGroup(@RequestBody SearchCondition condition) {
         if (condition != null) {
             return statisticsService.searchSumReportByDateGroup(condition);
-        }
-        else {
+        } else {
             return ResponseBo.error("查询错误");
         }
     }
@@ -146,14 +137,10 @@ public class StatisticsController {
     public ResponseBo searchReportByDateAndSum(@RequestBody SearchCondition condition) {
         if (condition != null) {
             return statisticsService.searchReportByDateAndSum(condition);
-        }
-        else {
+        } else {
             return ResponseBo.error("查询错误");
         }
     }
-
-
-
 
     /**
      * 核安全许可按时间统计
@@ -166,12 +153,10 @@ public class StatisticsController {
 
         if (condition != null) {
             return statisticsService.searchResultByDateConditon(condition);
-        }
-        else {
+        } else {
             return ResponseBo.error("查询错误");
         }
     }
-
 
     /**
      * 核安全许可按类型统计
@@ -184,12 +169,10 @@ public class StatisticsController {
 
         if (condition != null) {
             return statisticsService.searchResultByTypeConditon(condition);
-        }
-        else {
+        } else {
             return ResponseBo.error("查询错误");
         }
     }
-
 
     /**
      * 核安全许可按时间统计
@@ -202,9 +185,23 @@ public class StatisticsController {
 
         if (condition != null) {
             return statisticsService.searchResultByStatusAndType(condition);
-        }
-        else {
+        } else {
             return ResponseBo.error("查询错误");
         }
+    }
+
+    /**
+     * 
+     * @param null
+     * @return
+     */
+    @PostMapping("/statisticsFacilitiesByRegion")
+    public ResponseBo statisticsFacilitiesByRegion() {
+
+        List<ResultObj> result = statisticsService.statisticsFacilitiesByRegion();
+        if (result != null) {
+            return ResponseBo.ok(result);
+        }
+        return ResponseBo.ok("获取失败!");
     }
 }

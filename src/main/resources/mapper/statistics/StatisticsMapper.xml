@@ -1,16 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.statistics.dao.StatisticsMapper">
-  <resultMap id="BaseResultMap" type="com.rainbow.statistics.domain.ResultObj">
-    <!--
+    <resultMap id="BaseResultMap" type="com.rainbow.statistics.domain.ResultObj">
+        <!--
       WARNING - @mbg.generated
     -->
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="value" jdbcType="VARCHAR" property="value" />
-  </resultMap>
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="value" jdbcType="VARCHAR" property="value" />
+    </resultMap>
 
 
-  <select id="searchResultByCommonConditon" parameterType="com.rainbow.statistics.domain.SearchCondition" resultMap="BaseResultMap">
+    <select id="searchResultByCommonConditon" parameterType="com.rainbow.statistics.domain.SearchCondition" resultMap="BaseResultMap">
          select a.`value` as name, ifnull(b.value,0) as value
          from ${configTableName} a
          left join
@@ -20,8 +20,12 @@
 
     <select id="getStatisticsResultByYear" parameterType="com.rainbow.statistics.domain.SearchCondition" resultType="com.rainbow.statistics.domain.YearResultObj">
         select
-         sum(case when year(t.${propertyName}) <![CDATA[  >=  ]]> 2000 then 1 else 0 end ) big,
-         sum(case when year(t.${propertyName}) <![CDATA[  <  ]]>  2000 then 1 else 0 end ) small
+         sum(case when year(t.${propertyName})
+        <![CDATA[  >=  ]]>
+        2000 then 1 else 0 end ) big,
+         sum(case when year(t.${propertyName})
+        <![CDATA[  <  ]]>
+        2000 then 1 else 0 end ) small
         from  ${tableName} t
     </select>
 
@@ -52,8 +56,7 @@
   </select>
 
 
-
-    <select id="searchSumReportByDateGroup"  resultMap="BaseResultMap" parameterType="com.rainbow.statistics.domain.SearchCondition">
+    <select id="searchSumReportByDateGroup" resultMap="BaseResultMap" parameterType="com.rainbow.statistics.domain.SearchCondition">
         select year(t.${dateProperty}) as name , count(id) as value  from ${tableName} t group by year(t.${dateProperty}) order by year(t.${dateProperty);
     </select>
 
@@ -66,7 +69,6 @@
         select a.id id,a.`value`,b.reportYear,b.sumNum  from ${configTableName} a
 
         left join (select year(t.${dateProperty}) reportYear, t.${propertyName}, count(t.id) sumNum from  ${tableName} t
-
         <if test="ids != null ">
            where t.${idsProperty} = #{ids} and year(t.find_date) between year(#{startDate}) and year(#{endDate})
         </if>
@@ -82,13 +84,11 @@
         <if test="isService !=null and isService == 'false'">
             and t.fac_id != ''
         </if>
-
         group by year(t.${dateProperty}), t.${propertyName}) b
 
         on a.id=b.${propertyName}
 
         order by a.`order`
-
     </select>
 
 
@@ -98,7 +98,6 @@
         from ${configTableName} a
         left join
         (select t.${propertyName} as rid ,count(id) as value  from ${tableName} t
-
         <if test="ids != null">
            where t.${idsProperty} = #{ids} and year(t.find_date) between year(#{startDate}) and year(#{endDate})
         </if>
@@ -114,8 +113,6 @@
         <if test="isService !=null and isService == 'false'">
             and t.fac_id != ''
         </if>
-
-
         group by ${propertyName}) b
         on a.id = b.rid
         order by a.order
@@ -129,7 +126,6 @@
         left join  (select s.value reportYear, t.${propertyName}, count(t.id) sumNum  from ${tableName} t
 
         left join  config_security_reform_status s on s.id = t.reform_status_id
-
         <if test="ids != null">
             where t.${idsProperty} = #{ids} and year(t.find_date) between year(#{startDate}) and year(#{endDate})
         </if>
@@ -145,9 +141,11 @@
         <if test="isService !=null and isService == 'false'">
             and t.fac_id != ''
         </if>
-
         group by t.reform_status_id,t.question_type_id) b
         on a.id = b.question_type_id
         order by a.`order`
+    </select>
+    <select id="statisticsFacilitiesByRegion" resultMap="BaseResultMap">
+        select ua.province as name, count(uhr.id) as value from unit_hot_region uhr left join unit_address ua on uhr.unit_id=ua.unit_id WHERE ua.province is not null  GROUP BY ua.province
     </select>
 </mapper>

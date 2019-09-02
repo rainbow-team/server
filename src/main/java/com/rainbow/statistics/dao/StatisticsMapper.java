@@ -23,20 +23,19 @@ public interface StatisticsMapper extends MyMapper<ResultObj> {
 
     List<PermitReportDomainResult> searchResultByPermitDateConditon(SearchCondition condition);
 
-    //根据表明，按照时间进行分组统计
+    // 根据表明，按照时间进行分组统计
     List<ResultObj> searchSumReportByDateGroup(SearchCondition condition);
 
     List<ResultObj> searchReportByDateAndSum(SearchCondition condition);
 
-
-    ///根据查询条件查询报表（带ids)，返回横轴类型，纵轴数量
+    /// 根据查询条件查询报表（带ids)，返回横轴类型，纵轴数量
     List<ResultObj> searchResultByTypeConditon(SearchCondition condition);
 
-
-    ///根据查询条件查询报表(带ids),返回堆叠条形图，横轴是年份，纵轴是按照类型的的不同数量的图
+    /// 根据查询条件查询报表(带ids),返回堆叠条形图，横轴是年份，纵轴是按照类型的的不同数量的图
     List<PermitReportDomainResult> searchResultByDateConditon(SearchCondition condition);
 
     List<PermitReportDomainResult> searchResultByStatusAndType(SearchCondition condition);
 
+    List<ResultObj> statisticsFacilitiesByRegion();
 
 }
