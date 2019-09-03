@@ -1,7 +1,13 @@
 package com.rainbow.unit.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.rainbow.common.domain.Page;
+import com.rainbow.common.domain.PagingEntity;
+import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
 import com.rainbow.common.util.GuidHelper;
 import com.rainbow.unit.dao.UnitHotRegionMapper;
@@ -24,14 +30,14 @@ public class UnitHotRegionServiceImpl extends BaseService<UnitHotRegion> impleme
     UnitHotRegionMapper mapper;
 
     @Override
-    public int addUnitHotRegion(UnitHotRegion address) {
-        address.setId(GuidHelper.getGuid());
-        return mapper.insert(address);
+    public int addUnitHotRegion(UnitHotRegion unitHotRegion) {
+        unitHotRegion.setId(GuidHelper.getGuid());
+        return mapper.insert(unitHotRegion);
     }
 
     @Override
-    public int modifyUnitHotRegion(UnitHotRegion address) {
-        return mapper.updateByPrimaryKey(address);
+    public int modifyUnitHotRegion(UnitHotRegion unitHotRegion) {
+        return mapper.updateByPrimaryKey(unitHotRegion);
     }
 
     @Override
@@ -47,5 +53,23 @@ public class UnitHotRegionServiceImpl extends BaseService<UnitHotRegion> impleme
     @Override
     public List<UnitHotRegion> getUnitHotRegionListByUnitId(String unitId) {
         return mapper.getUnitHotRegionListByUnitId(unitId);
+    }
+
+    @Override
+    public ResponseBo getUnitHotRegionList(Page page) {
+        PageHelper.startPage(page.getPageNo(), page.getPageSize());
+        Map<String, Object> map = page.getQueryParameter();
+        List<UnitHotRegion> list = mapper.getUnitHotRegionList(map);
+
+        PageInfo<UnitHotRegion> pageInfo = new PageInfo<UnitHotRegion>(list);
+
+        PagingEntity<UnitHotRegion> result = new PagingEntity<>(pageInfo);
+
+        return ResponseBo.ok(result);
+    }
+
+    @Override
+    public UnitHotRegion getUnitHotRegionById(String id) {
+        return mapper.selectByPrimaryKey(id);
     }
 }

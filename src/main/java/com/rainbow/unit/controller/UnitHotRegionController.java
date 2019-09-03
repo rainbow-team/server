@@ -2,6 +2,7 @@ package com.rainbow.unit.controller;
 
 import java.util.List;
 
+import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.unit.domain.UnitHotRegion;
 import com.rainbow.unit.service.UnitHotRegionService;
@@ -84,5 +85,19 @@ public class UnitHotRegionController {
             return ResponseBo.ok(result);
         }
         return ResponseBo.ok("获取失败!");
+    }
+
+    @PostMapping("/getUnitHotRegionById")
+    public ResponseBo getUnitHotRegionById(@RequestBody String id) {
+        UnitHotRegion result = service.getUnitHotRegionById(id);
+        if (result != null) {
+            return ResponseBo.ok(result);
+        }
+        return ResponseBo.ok("获取失败!");
+    }
+
+    @PostMapping("getUnitHotRegionList")
+    public ResponseBo getUnitHotRegionList(@RequestBody Page page) {
+        return service.getUnitHotRegionList(page);
     }
 }

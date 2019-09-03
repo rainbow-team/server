@@ -16,6 +16,9 @@ public class UnitHotRegion extends BaseExtendEntity {
     @Column(name = "unit_id")
     private String unitId;
 
+    @Column(name = "address_id")
+    private String addressId;
+
     /**
      * 设施id
      */
@@ -39,6 +42,12 @@ public class UnitHotRegion extends BaseExtendEntity {
      */
     @Column(name = "preview_url")
     private String previewUrl;
+
+    /**
+     * 预览图文件id
+     */
+    @Column(name = "pic_id")
+    private String picId;
 
     public String getId() {
         return id;
@@ -86,5 +95,21 @@ public class UnitHotRegion extends BaseExtendEntity {
 
     public void setUnitId(String unitId) {
         this.unitId = unitId;
+    }
+
+    public String getPicId() {
+        return picId;
+    }
+
+    public void setPicId(String picId) {
+        this.picId = picId;
+    }
+
+    public String getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(String addressId) {
+        this.addressId = addressId;
     }
 }

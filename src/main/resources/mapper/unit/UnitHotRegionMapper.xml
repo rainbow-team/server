@@ -4,27 +4,33 @@
     <resultMap id="UnitHotRegionMap" type="com.rainbow.unit.domain.UnitHotRegion">
         <id column="id" jdbcType="VARCHAR" property="id" />
         <result column="unit_id" jdbcType="VARCHAR" property="unitId" />
+        <result column="address_id" jdbcType="VARCHAR" property="addressId" />
         <result column="subject_id" jdbcType="VARCHAR" property="subjectId" />
         <result column="subject_name" jdbcType="VARCHAR" property="subjectName" />
         <result column="hot_region" jdbcType="VARCHAR" property="hotRegion" />
         <result column="preview_url" jdbcType="VARCHAR" property="previewUrl" />
-
+        <result column="pic_id" jdbcType="VARCHAR" property="picId" />
     </resultMap>
 
     <select id="getUnitHotRegionListByUnitId" resultMap="UnitHotRegionMap" parameterType="java.lang.String">
-        select * from unit_hot_region where unit_id=#{unitId}
+        select * from unit_hot_region where 1=1 and unit_id=#{unitId}
+    </select>
+
+    <select id="getUnitHotRegionList" parameterType="map" resultMap="UnitHotRegionMap">
+        select * from unit_hot_region where 1=1 and unit_id=#{unitId} and address_id=#{markerId}
     </select>
 
     <insert id="insertRegionsBatch" parameterType="java.util.List">
         insert into unit_hot_region
-       (id, unit_id, subject_id, subject_name, hot_region,preview_url)
+       (id, unit_id,address_id, subject_id, subject_name, hot_region,preview_url,pic_id)
        values
         <foreach collection="list" item="region" index="index" separator=",">
           (
-          #{region.id},  #{region.unitId},#{region.subjectId},
+          #{region.id},  #{region.unitId},#{region.addressId},#{region.subjectId},
           #{region.subjectName},
           #{region.hotRegion},
-          #{region.previewUrl}
+          #{region.previewUrl},
+          #{region.picId}
           )
       </foreach>
     </insert>

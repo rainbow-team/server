@@ -2,6 +2,8 @@ package com.rainbow.unit.service;
 
 import java.util.List;
 
+import com.rainbow.common.domain.Page;
+import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.IService;
 import com.rainbow.unit.domain.UnitHotRegion;
 
@@ -21,4 +23,8 @@ public interface UnitHotRegionService extends IService<UnitHotRegion> {
     int insertRegionsBatch(List<UnitHotRegion> regions);
 
     List<UnitHotRegion> getUnitHotRegionListByUnitId(String unitId);
+
+    ResponseBo getUnitHotRegionList(Page page);
+
+	UnitHotRegion getUnitHotRegionById(String id);
 }
