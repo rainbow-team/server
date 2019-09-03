@@ -3,10 +3,6 @@ package com.rainbow.common.cache;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by 13260 on 2019/9/1.
@@ -40,20 +36,5 @@ public class EHCacheUtils {
         }
         return object;
 
-    }
-
-    public static  void deleteCache(CacheManager cacheManager){
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
-                .getRequest();
-
-        String key = request.getHeader("auth_id");
-        if (null == key){
-            key =  request.getParameter("AUTH_ID");
-        }
-
-        Cache cache = cacheManager.getCache("objectCache");
-        if(cache.get(key)!=null && !cache.get(key).equals("")){
-            cache.remove(key);
-        }
     }
 }
