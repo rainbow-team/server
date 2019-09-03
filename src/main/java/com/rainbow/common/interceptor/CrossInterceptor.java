@@ -16,11 +16,16 @@ import java.util.Enumeration;
  */
 public class CrossInterceptor extends HandlerInterceptorAdapter {
 
+    private  CacheManager cacheManager;
+
+    public CrossInterceptor(CacheManager cache){
+        cacheManager = cache;
+    }
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
 
-//        CacheManager cacheManager = ((CacheManager) SpringContext.getBean("ehCacheCacheManager"));
 
         String method = request.getMethod();
         if(HttpMethod.OPTIONS.toString().equals(method)){
@@ -38,7 +43,7 @@ public class CrossInterceptor extends HandlerInterceptorAdapter {
             return super.preHandle(request, response, handler);
         }
 
-        String[] Urls = new String[]{"/login","/getVerifyCode"};
+        String[] Urls = new String[]{"/login","/getVerifyCode","/dataMigration/exportData"};
 
         if (null == authid) {
             for (String string : Urls) {
@@ -46,8 +51,8 @@ public class CrossInterceptor extends HandlerInterceptorAdapter {
                     return super.preHandle(request, response, handler);
                 }
             }
-//            response.setStatus(403);
-//            return false;
+            response.setStatus(403);
+            return false;
         } else {
 
             for (String string : Urls) {
@@ -55,11 +60,11 @@ public class CrossInterceptor extends HandlerInterceptorAdapter {
                     return super.preHandle(request, response, handler);
                 }
             }
-//            Object user = EHCacheUtils.getCache(null,authid);
-//            if (null == user) {
-//                response.setStatus(403);
-//                return false;
-//            }
+            Object user = EHCacheUtils.getCache(cacheManager,authid);
+            if (null == user) {
+                response.setStatus(403);
+                return false;
+            }
 
         }
 

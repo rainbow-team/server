@@ -84,6 +84,12 @@ public class LoginController extends BaseController{
         }
     }
 
+    @RequestMapping("/loginout")
+    public ResponseBo Loginout(){
+        EHCacheUtils.deleteCache(cacheManager);
+        return ResponseBo.ok();
+    }
+
     /* 获取验证码图片*/
     @RequestMapping("/getVerifyCode")
     public void getVerificationCode(HttpServletResponse response, HttpServletRequest  request) {
@@ -111,7 +117,7 @@ public class LoginController extends BaseController{
             os.close();//关闭流
 
         } catch (IOException e) {
-            e.printStackTrace();
+
         }
     }
 
