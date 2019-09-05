@@ -22,13 +22,15 @@ import com.rainbow.monitor.domain.DailyMonitor;
 import com.rainbow.monitor.domain.WitnessMonitor;
 import com.rainbow.security.dao.FacSecurityMapper;
 import com.rainbow.security.domain.FacSecurity;
-import com.rainbow.supervision.domain.SupervisionSastind;
+import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
+import net.lingala.zip4j.model.ZipParameters;
+
+import net.lingala.zip4j.util.Zip4jConstants;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import java.lang.reflect.Field;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -84,16 +86,20 @@ public class DataMigrationServiceImpl implements DataMigrationService {
 
         List<String[]> cloumnValues = new ArrayList<>();
         List<FileInfo> fileInfoList = new ArrayList<>();
-        List<File> fileExist = new ArrayList<>();
-        List<ByteArrayOutputStream> listBaos = new ArrayList<>();
-        List<String> listName = new ArrayList<>();
 
         Map<String,String> map = new HashMap<>();
         map.put("type","0");
 
-        try  {
+        //创建临时文件
+        String path=rainbowProperties.getUploadFolder()+"/temp";
+        File file1 = new File(path);
+        if(!file1.exists()){
+            file1.mkdirs();
+        }else{
+            file1.delete();
+        }
 
-            ZipOutputStream outputStream = new ZipOutputStream(response.getOutputStream());
+        try  {
             if (tables != null && tables.length > 0) {
 
                 for (String str : tables) {
@@ -171,11 +177,10 @@ public class DataMigrationServiceImpl implements DataMigrationService {
 
                             wb = ExportExcel.getHssfWorkBook(wb, "核设施审评阶段文件表", cloumnNamesFacFile, cloumnValues);
 
-                            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                            wb.write(baos);
-                            listBaos.add(baos);
+                            FileOutputStream output=new FileOutputStream(path+"/checkfac.xls");
+                            wb.write(output);
+                            output.close();
 
-                            listName.add("核设施审评.xls");
                             //附件
                             map.put("tablename","check_fac_file");
                             fileInfoList = fileInfoMapper.getFileInfoByTableName(map);
@@ -229,11 +234,9 @@ public class DataMigrationServiceImpl implements DataMigrationService {
                             HSSFWorkbook wbDaily = new HSSFWorkbook();
                             wbDaily = ExportExcel.getHssfWorkBook(wbDaily, "日常监督信息", cloumnNamesDaily, cloumnValues);
 
-                            ByteArrayOutputStream baosDaily = new ByteArrayOutputStream();
-                            wbDaily.write(baosDaily);
-                            listBaos.add(baosDaily);
-
-                            listName.add("日常监督信息.xls");
+                            FileOutputStream outputDaily=new FileOutputStream(path+"/monitordaily.xls");
+                            wbDaily.write(outputDaily);
+                            outputDaily.close();
 
                             //附件
                             map.put("tablename","monitor_daily");
@@ -328,11 +331,9 @@ public class DataMigrationServiceImpl implements DataMigrationService {
 
                             wbcheckMonitor = ExportExcel.getHssfWorkBook(wbcheckMonitor, "监督检查文件信息", cloumnNamesFileMonitor, cloumnValues);
 
-                            ByteArrayOutputStream baoscheckMonitor = new ByteArrayOutputStream();
-                            wbcheckMonitor.write(baoscheckMonitor);
-                            listBaos.add(baoscheckMonitor);
-
-                            listName.add("监督检查信息.xls");
+                            FileOutputStream outputCheckMonitor=new FileOutputStream(path+"/monitorcheck.xls");
+                            wbcheckMonitor.write(outputCheckMonitor);
+                            outputCheckMonitor.close();
 
                             //附件
                             map.put("tablename","monitor_check");
@@ -405,11 +406,9 @@ public class DataMigrationServiceImpl implements DataMigrationService {
                             HSSFWorkbook wbwitnessMonitor = new HSSFWorkbook();
                             wbwitnessMonitor = ExportExcel.getHssfWorkBook(wbwitnessMonitor, "监督见证信息", cloumnNameswitnessMonitor, cloumnValues);
 
-                            ByteArrayOutputStream baoswitnessMonitor = new ByteArrayOutputStream();
-                            wbwitnessMonitor.write(baoswitnessMonitor);
-                            listBaos.add(baoswitnessMonitor);
-
-                            listName.add("监督见证信息.xls");
+                            FileOutputStream outputWitnessMonitor=new FileOutputStream(path+"/monitorwitness.xls");
+                            wbwitnessMonitor.write(outputWitnessMonitor);
+                            outputWitnessMonitor.close();
 
                             //附件
                             map.put("tablename","monitor_witness");
@@ -478,11 +477,9 @@ public class DataMigrationServiceImpl implements DataMigrationService {
                             HSSFWorkbook wbfacSecurity = new HSSFWorkbook();
                             wbfacSecurity = ExportExcel.getHssfWorkBook(wbfacSecurity, "核设施安全问题", cloumnNamesfacSecurity, cloumnValues);
 
-                            ByteArrayOutputStream baosfacSecurity = new ByteArrayOutputStream();
-                            wbfacSecurity.write(baosfacSecurity);
-                            listBaos.add(baosfacSecurity);
-
-                            listName.add("核设施安全问题.xls");
+                            FileOutputStream outputWbfacSecurity=new FileOutputStream(path+"/securityfac.xls");
+                            wbfacSecurity.write(outputWbfacSecurity);
+                            outputWbfacSecurity.close();
 
                             //附件
                             map.put("tablename","security_fac");
@@ -515,7 +512,11 @@ public class DataMigrationServiceImpl implements DataMigrationService {
 
                         File file = new File(fileInfo.getFileinfoServerPath());
                         if(file.exists()){
-                            fileExist.add(file);
+                           FileOutputStream fileO = new FileOutputStream(path+"/"+fileInfo.getFileinfoServerFileName());
+                            byte[] xlsBytes = File2byte(fileInfo.getFileinfoServerPath());
+                            fileO.write(xlsBytes);
+                            fileO.close();
+
                         }
                         cloumnValues.add(strs);
                     }
@@ -536,44 +537,28 @@ public class DataMigrationServiceImpl implements DataMigrationService {
                     HSSFWorkbook wbFile = new HSSFWorkbook();
                     wbFile = ExportExcel.getHssfWorkBook(wbFile, "附件", cloumnNamesfacSecurity, cloumnValues);
 
-                    ByteArrayOutputStream baosFile = new ByteArrayOutputStream();
-                    wbFile.write(baosFile);
-                    listBaos.add(baosFile);
-
-                    listName.add("附件.xls");
+                    FileOutputStream outputFile=new FileOutputStream(path+"/fileinfo.xls");
+                    wbFile.write(outputFile);
+                    outputFile.close();
                 }
 
                ;
 
                 response.setContentType("APPLICATION/OCTET-STREAM");
                 response.setHeader("Content-Disposition",
-                        "attachment;filename=" + URLEncoder.encode("数据包", "UTF-8") + ".zip");
+                        "attachment;filename=" + URLEncoder.encode("datas", "UTF-8") + ".zip");
 
-                int i= 0;
-                for (ByteArrayOutputStream byteArrayOutputStream:listBaos
-                     ) {
-                    ZipUtils.doCompress(byteArrayOutputStream, listName.get(i), outputStream);
-                    i++;
-                    response.flushBuffer();
-                }
+                String zipPath =   CompressUtil.zip(path,"haqsjk.2019");
 
-                for (File file:  fileExist )
-                {
-                    ZipUtils.doCompress(file, outputStream);
-                    response.flushBuffer();
-                }
-
-                outputStream.close();
-
+                OutputStream out = response.getOutputStream();
+                byte[] xlsBytes = File2byte(zipPath);
+                out.write(xlsBytes);
+                out.close();
             }
 
 
         } catch (Exception e) {
-            try {
-                throw e;
-            } catch (IOException e1) {
-
-            }
+            e.printStackTrace();
         }
     }
 
@@ -615,15 +600,14 @@ public class DataMigrationServiceImpl implements DataMigrationService {
                 dirs.mkdirs();
             }
 
-            File zipFile = new File(webInfPath + "/zips/" +file.getOriginalFilename());
+            String path = webInfPath + "/zips/" +file.getOriginalFilename();
+            File zipFile = new File(path);
             file.transferTo(zipFile);
-            ZipUtils.unZip(zipFile, webInfPath + "/zips");
 
-            File unzipFiles = new File(webInfPath + "/zips");
+            File[] files =CompressUtil.unzip(path,"haqsjk.2019");
 
-            if(unzipFiles.exists()){
+            if(files.length>0){
 
-               File[] files =  unzipFiles.listFiles();
                List<FileInfo> fileInfoList= new ArrayList<>();
                List<File> fileList = new ArrayList<>();
 
@@ -631,7 +615,7 @@ public class DataMigrationServiceImpl implements DataMigrationService {
 
                     String fileNameNow = f.getName().substring(f.getName().lastIndexOf("\\")+1);
                     switch (fileNameNow){
-                        case "核设施审评.xls":
+                        case "checkfac.xls":
 
                             deleteHistory("check_fac");
                             deleteHistory("check_fac_file");
@@ -655,7 +639,7 @@ public class DataMigrationServiceImpl implements DataMigrationService {
                             }
 
                         break;
-                        case "日常监督信息.xls":
+                        case "monitordaily.xls":
 
                             deleteHistory("monitor_daily");
 
@@ -671,7 +655,7 @@ public class DataMigrationServiceImpl implements DataMigrationService {
 
                             break;
 
-                        case "监督检查信息.xls":
+                        case "monitorcheck.xls":
                             FileInputStream inputStream3 = new FileInputStream(f);
                             deleteHistory("monitor_check");
                             deleteHistory("monitor_check_file");
@@ -697,7 +681,7 @@ public class DataMigrationServiceImpl implements DataMigrationService {
                             }
 
                             break;
-                        case "监督见证信息.xls":
+                        case "monitorwitness.xls":
                             FileInputStream inputStream4 = new FileInputStream(f);
 
                             deleteHistory("monitor_witness");
@@ -711,7 +695,7 @@ public class DataMigrationServiceImpl implements DataMigrationService {
                             }
                             break;
 
-                        case "核设施安全问题.xls":
+                        case "securityfac.xls":
                             FileInputStream inputStream5 = new FileInputStream(f);
 
                             deleteHistory("security_fac");
@@ -725,14 +709,14 @@ public class DataMigrationServiceImpl implements DataMigrationService {
                             }
 
                             break;
-                        case "附件.xls":
+                        case "fileinfo.xls":
 
                            FileInputStream inputStream6 = new FileInputStream(f);
                          fileInfoList = ExcelHelper.convertToList(FileInfo.class, fileNameNow, inputStream6, 2, 10,0);
                             break;
                         default:
 
-                             if(fileNameNow.indexOf("数据包")==-1){
+                             if(fileNameNow.indexOf("datas")==-1){
 
                                  fileList.add(f);
 
@@ -774,9 +758,11 @@ public class DataMigrationServiceImpl implements DataMigrationService {
 
         } catch (IOException e) {
             ResponseBo.error(e.getMessage());
+        } catch (ZipException e) {
+            ResponseBo.error(e.getMessage());
         }
 
-      return  ResponseBo.ok();
+        return  ResponseBo.ok();
     }
 
     public void deleteHistory(String type){
@@ -800,4 +786,26 @@ public class DataMigrationServiceImpl implements DataMigrationService {
 
     }
 
+    public  byte[] File2byte(String tradeFile){
+        byte[] buffer = null;
+        try
+        {
+            FileInputStream fis = new FileInputStream(tradeFile);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            byte[] b = new byte[1024];
+            int n;
+            while ((n = fis.read(b)) != -1)
+            {
+                bos.write(b, 0, n);
+            }
+            fis.close();
+            bos.close();
+            buffer = bos.toByteArray();
+        }catch (FileNotFoundException e){
+
+        }catch (IOException e){
+
+        }
+        return buffer;
+    }
 }

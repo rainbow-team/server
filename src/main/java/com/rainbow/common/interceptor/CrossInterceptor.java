@@ -43,11 +43,11 @@ public class CrossInterceptor extends HandlerInterceptorAdapter {
             return super.preHandle(request, response, handler);
         }
 
-        String[] Urls = new String[]{"/login","/getVerifyCode","/dataMigration/exportData","/fileInfo/download"};
+        String[] Urls = new String[]{"/login","/getVerifyCode","/fileInfo/download","/fileInfo/upload"};
 
         if (null == authid) {
             for (String string : Urls) {
-                if (url.equals(string)) {
+                if (url.indexOf(string)>-1) {
                     return super.preHandle(request, response, handler);
                 }
             }
