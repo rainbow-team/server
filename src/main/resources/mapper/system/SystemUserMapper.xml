@@ -32,8 +32,17 @@
     select * from system_user t where t.username = #{username}
   </select>
 
-  <select id="getUserList" resultMap="SystemUserResultMap">
+  <select id="getUserList" parameterType="map" resultMap="SystemUserResultMap">
     select * from system_user t where 1=1
+    <if test="username != null and username != ''">
+      and instr(t.username,#{username})>0
+    </if>
+    <if test="realname != null and realname != ''">
+      and instr(t.realname,#{realname})>0
+    </if>
+    <if test="mobile != null and mobile != ''">
+      and instr(t.mobile,#{mobile})>0
+    </if>
   </select>
 
   <select id="getUserDetailByUserId" resultMap="UserWithRoleMap">
