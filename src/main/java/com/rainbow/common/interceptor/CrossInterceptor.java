@@ -49,6 +49,7 @@ public class CrossInterceptor extends HandlerInterceptorAdapter {
 
         if (null == authid) {
             for (String string : Urls) {
+
                 if (url.indexOf(string)>-1) {
                     return super.preHandle(request, response, handler);
                 }
@@ -58,7 +59,7 @@ public class CrossInterceptor extends HandlerInterceptorAdapter {
         } else {
 
             for (String string : Urls) {
-                if (url.equals(string)) {
+                if (url.indexOf(string)>-1) {
                     return super.preHandle(request, response, handler);
                 }
             }
