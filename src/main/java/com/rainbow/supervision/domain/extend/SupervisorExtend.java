@@ -1,5 +1,6 @@
 package com.rainbow.supervision.domain.extend;
 
+import com.rainbow.common.annotation.BeanFieldAnnotation;
 import com.rainbow.supervision.domain.Supervisor;
 
 import java.util.Date;
@@ -12,24 +13,33 @@ import java.util.Date;
 public class SupervisorExtend extends Supervisor {
 
     //核安全授权监管机构名称
-    private String orgName;
+    @BeanFieldAnnotation(order = 4)
+    public String orgName;
 
     //监督员类别名称
-    private String typeValue;
+    @BeanFieldAnnotation(order = 5)
+    public String typeValue;
 
     //职称名称
-    private String titleName;
+    @BeanFieldAnnotation(order = 7)
+    public String titleName;
 
     //政治面貌名称
-    private String politicalValue;
+    @BeanFieldAnnotation(order = 9)
+    public String politicalValue;
 
     //学历名称
-    private String educationValue;
+    @BeanFieldAnnotation(order = 13)
+    public String educationValue;
 
     //学位名称
-    private String degreeValue;
+    @BeanFieldAnnotation(order = 14)
+    public String degreeValue;
 
-    private Integer isExpire;
+    public Integer isExpire;
+
+    @BeanFieldAnnotation(order = 10)
+    public String sexName;
 
     public Integer getIsExpire() {
         if (this.getExpireDate() != null) {
@@ -89,5 +99,13 @@ public class SupervisorExtend extends Supervisor {
 
     public void setDegreeValue(String degreeValue) {
         this.degreeValue = degreeValue;
+    }
+
+    public String getSexName() {
+        return sexName;
+    }
+
+    public void setSexName(String sexName) {
+        this.sexName = sexName;
     }
 }

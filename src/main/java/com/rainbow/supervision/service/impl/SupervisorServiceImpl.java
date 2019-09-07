@@ -7,10 +7,7 @@ import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
-import com.rainbow.common.util.DateUtils;
-import com.rainbow.common.util.ExportExcel;
-import com.rainbow.common.util.GuidHelper;
-import com.rainbow.common.util.StrUtil;
+import com.rainbow.common.util.*;
 import com.rainbow.security.domain.FacSecurity;
 import com.rainbow.security.domain.UminePlaceSecurity;
 import com.rainbow.supervision.controller.domain.SupervisionSupervisorResponse;
@@ -20,6 +17,8 @@ import com.rainbow.supervision.domain.SupervisionTrainRecordExtend;
 import com.rainbow.supervision.domain.Supervisor;
 import com.rainbow.supervision.domain.extend.SupervisorExtend;
 import com.rainbow.supervision.service.SupervisorService;
+import com.rainbow.system.domain.SystemUser;
+import net.sf.ehcache.CacheManager;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,9 +26,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.*;
@@ -48,6 +50,9 @@ public class SupervisorServiceImpl extends BaseService<Supervisor> implements Su
 
     @Autowired
     private FileInfoMapper FileInfoMapper;
+
+    @Autowired
+    private CacheManager cacheManager;
 
     @Autowired
     private SupervisionTrainRecordMapper supervisionTrainRecordMapper;
@@ -114,7 +119,6 @@ public class SupervisorServiceImpl extends BaseService<Supervisor> implements Su
 
             for (SupervisorExtend supervisorExtend : list) {
                 String[] strs = new String[]{
-                        supervisorExtend.getId(),
                         supervisorExtend.getName(),
                         supervisorExtend.getIdentity(),
                         DateUtils.DateToString(supervisorExtend.getBirthday()),
@@ -148,7 +152,6 @@ public class SupervisorServiceImpl extends BaseService<Supervisor> implements Su
         }
 
         String[] cloumnNames = new String[]{
-                "主键",
                 "姓名",
                 "身份证号",
                 "出生年月",
@@ -176,7 +179,6 @@ public class SupervisorServiceImpl extends BaseService<Supervisor> implements Su
 
         //培训信息
         String[] cloumnNames1 = new String[]{
-                "主键",
                 "身份证号",
                 "培训班次",
                 "培训成绩",
@@ -189,7 +191,6 @@ public class SupervisorServiceImpl extends BaseService<Supervisor> implements Su
         if(supervisionTrainRecordExtendList.size()>0){
             for (SupervisionTrainRecordExtend supervisionTrainRecordExtend : supervisionTrainRecordExtendList) {
                 String[] strs = new String[]{
-                        supervisionTrainRecordExtend.getId(),
                         supervisionTrainRecordExtend.getIdentity(),
                         supervisionTrainRecordExtend.getTrainClass(),
                         supervisionTrainRecordExtend.getScore(),
@@ -218,4 +219,65 @@ public class SupervisorServiceImpl extends BaseService<Supervisor> implements Su
 
     }
 
+    @Override
+    public ResponseBo importSupervisor(HttpServletRequest request){
+        Multipart part = new Multipart();
+        //获取前端传过来的file
+        MultipartFile file = part.getUploadFile(request);
+        FileInputStream inputStream = null;
+
+        ResponseBo result = new ResponseBo();
+
+        String msg = "";
+        try {
+            if (file != null) {
+                //转化文件名，避免乱码
+                String fileName = new String(file.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8");
+                inputStream = (FileInputStream) file.getInputStream();
+                //将导入的excel转化为实体
+                List<SupervisorExtend> list = ExcelHelper.convertToList(SupervisorExtend.class, fileName, inputStream, 2, 20,0);
+
+                inputStream.close();
+
+                if(list.size()==0){
+                    return ResponseBo.error("文件内容为空");
+                }
+
+
+                //校验
+                for (int i=0;i<list.size();i++){
+
+                }
+
+                if(!msg.isEmpty()){
+                    return ResponseBo.error(msg);
+                }else{
+                    //插入数据库
+                    SystemUser user = UserUtils.getCurrentUser(cacheManager);
+                    if(user==null){
+                        user = new SystemUser();
+                    }
+
+                    for (SupervisorExtend supervisorExtend:list) {
+
+                        supervisorExtend.setIsImport(1);
+                        supervisorExtend.setId(GuidHelper.getGuid());
+                        supervisorExtend.setCreateDate(new Date());
+                        supervisorExtend.setModifyDate(new Date());
+                        supervisorExtend.setCreatorId(user.getId());
+                        supervisorExtend.setModifyId(user.getId());
+
+                        supervisorMapper.insert(supervisorExtend);
+
+                    }
+                }
+
+
+            }
+        } catch (Exception e) {
+
+        }
+
+        return ResponseBo.ok();
+    }
 }

@@ -7,6 +7,7 @@ import com.rainbow.supervision.domain.BreakChecker;
 import com.rainbow.supervision.domain.Supervisor;
 import com.rainbow.unit.domain.Umine;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -25,4 +26,6 @@ public interface SupervisorService extends IService<Supervisor> {
     ResponseBo getSupervisorById(String id);
 
     void exportSupervisor(Page page,HttpServletResponse response);
+
+    ResponseBo importSupervisor(HttpServletRequest request);
 }

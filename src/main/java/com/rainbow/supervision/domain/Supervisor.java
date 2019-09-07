@@ -1,6 +1,7 @@
 package com.rainbow.supervision.domain;
 
 import com.rainbow.attachment.domain.FileInfo;
+import com.rainbow.common.annotation.BeanFieldAnnotation;
 import jdk.nashorn.internal.ir.annotations.Ignore;
 
 import java.util.Date;
@@ -14,22 +15,25 @@ public class Supervisor {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    public String id;
 
     /**
      * 姓名
      */
-    private String name;
+    @BeanFieldAnnotation(order = 1)
+    public String name;
 
     /**
      * 身份证号
      */
-    private String identity;
+    @BeanFieldAnnotation(order = 2)
+    public String identity;
 
     /**
      * 出生年月
      */
-    private Date birthday;
+    @BeanFieldAnnotation(order = 3)
+    public Date birthday;
 
     /**
      * 核安全授权监管机构外键
@@ -37,7 +41,7 @@ public class Supervisor {
      参考表：supervision_org
      */
     @Column(name = "org_id")
-    private String orgId;
+    public String orgId;
 
     /**
      * 核安全监督员类别
@@ -45,118 +49,127 @@ public class Supervisor {
      参考表：config_supervisor_type
      */
     @Column(name = "type_id")
-    private String typeId;
+    public String typeId;
 
 
     /**
      * 入职时间
      */
     @Column(name = "entry_date")
-    private Date entryDate;
+    @BeanFieldAnnotation(order = 6)
+    public Date entryDate;
 
     /**
      * 职称外键,参考表：config_title
      */
     @Column(name = "title_id")
-    private String titleId;
+    public String titleId;
 
     /**
      * 职务
      */
-    private String post;
+    @BeanFieldAnnotation(order = 8)
+    public String post;
 
     /**
      * 政治面貌的外键,参考表：config_political
      */
     @Column(name = "political_id")
-    private String politicalId;
+    public String politicalId;
 
     /**
      * 性别
 0表示男，1表示女
      */
-    private Integer sex;
+    public Integer sex;
 
     /**
      * 联系方式
      */
-    private String contact;
+    @BeanFieldAnnotation(order = 11)
+    public String contact;
 
     /**
      * 从事核安全工作时间
      */
+    @BeanFieldAnnotation(order = 12)
     @Column(name = "continue_time")
-    private String continueTime;
+    public String continueTime;
 
     /**
      * 学历外键，参考表：config_education
      */
     @Column(name = "education_id")
-    private String educationId;
+    public String educationId;
 
     /**
      * 学位外键。参考表：config_degree
      */
     @Column(name = "degree_id")
-    private String degreeId;
+    public String degreeId;
 
     /**
      * 毕业院校
      */
     @Column(name = "education_school")
-    private String educationSchool;
+    @BeanFieldAnnotation(order = 15)
+    public String educationSchool;
 
     /**
      * 毕业时间
      */
     @Column(name = "educate_date")
-    private Date educateDate;
+    @BeanFieldAnnotation(order = 16)
+    public Date educateDate;
 
     /**
      * 专业
      */
-    private String major;
+    @BeanFieldAnnotation(order = 17)
+    public String major;
 
     /**
      * 是否导入0 否 1 是
      */
     @Column(name = "is_import")
-    private Integer isImport;
+    public Integer isImport;
 
     /**
      * 创建人ID
      */
     @Column(name = "creator_id")
-    private String creatorId;
+    public String creatorId;
 
     /**
      * 创建时间
      */
     @Column(name = "create_date")
-    private Date createDate;
+    public Date createDate;
 
     /**
      * 修改人ID
      */
     @Column(name = "modify_id")
-    private String modifyId;
+    public String modifyId;
 
     /**
      * 修改时间
      */
     @Column(name = "modify_date")
-    private Date modifyDate;
+    public Date modifyDate;
 
     /**
      * 备注
      */
-    private String note;
+    @BeanFieldAnnotation(order = 18)
+    public String note;
 
     /**
      * 过期时间
      */
     @Column(name = "expire_date")
-    private Date expireDate;
+    @BeanFieldAnnotation(order = 19)
+    public Date expireDate;
 
     public Date getExpireDate() {
         return expireDate;
@@ -166,7 +179,7 @@ public class Supervisor {
         this.expireDate = expireDate;
     }
 
-    private List<FileInfo> attachmentList;
+    public List<FileInfo> attachmentList;
 
     public List<FileInfo> getAttachmentList() {
         return attachmentList;

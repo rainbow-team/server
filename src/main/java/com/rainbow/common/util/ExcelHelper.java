@@ -1,5 +1,6 @@
 package com.rainbow.common.util;
 
+import com.rainbow.common.annotation.BeanFieldAnnotation;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -9,9 +10,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by 13260 on 2019/7/28.
@@ -207,10 +206,13 @@ public class ExcelHelper {
 
         try {
             bean = t.newInstance();
-            Field[] fields = t.getDeclaredFields();
-            for (int i = 0; i < fields.length; i++) {
+            Field[] fields = t.getFields();
+
+            List<Field> fl=getOrderedField(fields);
+
+            for (int i = 0; i < fl.size(); i++) {
                 // 根据变量名获得变量对象
-                field = fields[i];
+                field = fl.get(i);
                 if (field != null) {
                     field.setAccessible(true);
                     // 赋值给bean对象对应的值
@@ -219,8 +221,13 @@ public class ExcelHelper {
                         field.set(bean, args[i]);
                     }else if (field.getType()==Date.class){
 
-                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        Date date = formatter.parse(args[i]);
+                        SimpleDateFormat formatter = null;
+                        if(!args[i].isEmpty()&&args[i].indexOf(":")>-1){
+                             formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        }else{
+                             formatter = new SimpleDateFormat("yyyy-MM-dd");
+                        }
+                        Date date= formatter.parse(args[i]);
                         field.set(bean, date);
 
                     }else if(field.getType()==Integer.class){
@@ -295,4 +302,26 @@ public class ExcelHelper {
 
         return list;
     }
+
+    private static List<Field> getOrderedField(Field[] fields){
+        // 用来存放所有的属性域
+        List<Field> fieldList = new ArrayList<>();
+
+        boolean flag =true;
+        // 过滤带有注解的Field
+        for(Field f:fields){
+            if(f.getAnnotation(BeanFieldAnnotation.class)!=null){
+              fieldList.add(f);
+                flag = false;
+            }
+        }
+
+        if(flag){
+            return Arrays.asList(fields);
+        }
+
+        fieldList.sort(Comparator.comparingInt(m -> m.getAnnotation(BeanFieldAnnotation.class).order()));
+        return fieldList;
+    }
+
 }

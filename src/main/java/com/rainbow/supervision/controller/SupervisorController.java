@@ -5,13 +5,19 @@ import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.util.DateUtils;
+import com.rainbow.common.util.ExcelHelper;
+import com.rainbow.common.util.Multipart;
 import com.rainbow.supervision.domain.Supervisor;
+import com.rainbow.supervision.domain.extend.SupervisorExtend;
 import com.rainbow.supervision.service.SupervisorService;
 import com.rainbow.supervision.service.SupervisorTrainRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -142,5 +148,17 @@ public class SupervisorController {
 
         supervisorService.exportSupervisor(page,response);
 
+    }
+
+    /**
+     * 导入核安全监督员
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/importSupervisor", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseBo importSupervisor(HttpServletRequest request) {
+
+       return supervisorService.importSupervisor(request);
     }
 }
