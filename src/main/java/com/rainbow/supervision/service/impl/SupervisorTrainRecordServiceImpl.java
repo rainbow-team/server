@@ -9,6 +9,7 @@ import com.rainbow.common.service.impl.BaseService;
 import com.rainbow.common.util.GuidHelper;
 import com.rainbow.supervision.dao.SupervisionTrainRecordMapper;
 import com.rainbow.supervision.dao.SupervisorMapper;
+import com.rainbow.supervision.domain.SupervisionTrainRecordExtend;
 import com.rainbow.supervision.domain.SupervisorTrainRecord;
 import com.rainbow.supervision.service.SupervisorTrainRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,11 +43,11 @@ public class SupervisorTrainRecordServiceImpl extends BaseService<SupervisorTrai
     public ResponseBo getSupervisionTrainRecordList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
-        List<SupervisorTrainRecord> list = trainRecordMapper.getTrainRecordList(map);
+        List<SupervisionTrainRecordExtend> list = trainRecordMapper.getTrainRecordList(map);
 
-        PageInfo<SupervisorTrainRecord> pageInfo = new PageInfo<SupervisorTrainRecord>(list);
+        PageInfo<SupervisionTrainRecordExtend> pageInfo = new PageInfo<SupervisionTrainRecordExtend>(list);
 
-        PagingEntity<SupervisorTrainRecord> result = new PagingEntity<>(pageInfo);
+        PagingEntity<SupervisionTrainRecordExtend> result = new PagingEntity<>(pageInfo);
 
         return ResponseBo.ok(result);
     }

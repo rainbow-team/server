@@ -11,6 +11,10 @@ public class SupervisionTrainRecordExtend extends SupervisorTrainRecord {
     private String trainClass;
     private Date trainStartDate;
     private Date trainEndDate;
+    /**
+     * 身份证号
+     */
+    private String identity;
 
     public String getTrainClass() {
         return trainClass;
@@ -34,5 +38,13 @@ public class SupervisionTrainRecordExtend extends SupervisorTrainRecord {
 
     public void setTrainEndDate(Date trainEndDate) {
         this.trainEndDate = trainEndDate;
+    }
+
+    public String getIdentity() {
+        return identity;
+    }
+
+    public void setIdentity(String identity) {
+        this.identity = identity;
     }
 }

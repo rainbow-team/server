@@ -18,6 +18,7 @@
     <result column="trainClass" jdbcType="VARCHAR" property="trainClass" />
     <result column="trainStartDate" jdbcType="DATE" property="trainStartDate" />
     <result column="trainEndDate" jdbcType="DATE" property="trainEndDate" />
+    <result column="identity" jdbcType="VARCHAR" property="identity"/>
   </resultMap>
 
   <select id="getTrainRecordList" parameterType="map" resultMap="TrainRecordExtendMap">
@@ -32,9 +33,11 @@
      t.expire_date,
      mt.batch trainClass,
      mt.begin_date trainStartDate,
-     mt.end_date trainEndDate
+     mt.end_date trainEndDate,
+     ss.identity
     from supervisor_train_records t
     left join supervision_monitor_train mt on t.class_id = mt.id
+    left join supervision_supervisor ss on ss.id = t.supervisor_id
     where t.supervisor_id = #{supervisorId}
 
     <if test="batch != null and batch != ''">

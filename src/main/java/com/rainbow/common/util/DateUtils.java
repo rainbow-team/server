@@ -1,10 +1,9 @@
 package com.rainbow.common.util;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Year;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class DateUtils {
 
@@ -20,5 +19,33 @@ public class DateUtils {
             startYear++;
         }
         return yearList;
+    }
+
+    public static String DateToString(Date data){
+
+        if(data==null){
+            return "";
+        }
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = formatter.format(data);
+
+        return  dateString;
+    }
+
+    public static String GmtStringToDate(String str){
+
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd yyyy HH:mm:ss 'GMT'Z", Locale.ENGLISH);
+        Date dd = null; //将字符串改为date的格式
+        String result ="";
+        try {
+            str =str.substring(0,str.indexOf("("));
+            dd = sdf.parse(str);
+
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            result = formatter.format(dd);
+        } catch (ParseException e) {
+
+        }
+        return result;
     }
 }

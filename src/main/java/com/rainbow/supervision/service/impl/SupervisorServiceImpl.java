@@ -7,6 +7,8 @@ import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
+import com.rainbow.common.util.DateUtils;
+import com.rainbow.common.util.ExportExcel;
 import com.rainbow.common.util.GuidHelper;
 import com.rainbow.common.util.StrUtil;
 import com.rainbow.security.domain.FacSecurity;
@@ -14,9 +16,11 @@ import com.rainbow.security.domain.UminePlaceSecurity;
 import com.rainbow.supervision.controller.domain.SupervisionSupervisorResponse;
 import com.rainbow.supervision.dao.SupervisionTrainRecordMapper;
 import com.rainbow.supervision.dao.SupervisorMapper;
+import com.rainbow.supervision.domain.SupervisionTrainRecordExtend;
 import com.rainbow.supervision.domain.Supervisor;
 import com.rainbow.supervision.domain.extend.SupervisorExtend;
 import com.rainbow.supervision.service.SupervisorService;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +28,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.*;
 
 /**
@@ -93,48 +101,121 @@ public class SupervisorServiceImpl extends BaseService<Supervisor> implements Su
         return ResponseBo.error("查询失败");
     }
 
+    @Override
+    public void exportSupervisor(Page page,HttpServletResponse response){
 
-    //@Override
-    //public  ResponseBo saveOrUpdateSupervisionSupervisor(Supervisor supervisor){
-    //    if(supervisor !=null){
-    //
-    //        if(StrUtil.isNullOrEmpty(supervisor.getId())){
-    //
-    //            supervisor.setId(UUID.randomUUID().toString());
-    //            supervisor.setCreateDate(new Date());
-    //            supervisor.setModifyDate(new Date());
-    //            supervisionSupervisorMapper.insert(supervisor);
-    //
-    //        }else{
-    //
-    //            supervisor.setModifyDate(new Date());
-    //            supervisionSupervisorMapper.updateByPrimaryKey(supervisor);
-    //        }
-    //
-    //        if(supervisor.getAttachmentList().size()>0){
-    //            Map<String,Object> map = new HashMap<>();
-    //            map.put("id", supervisor.getId());
-    //            map.put("fileIds", supervisor.getAttachmentList());
-    //            FileInfoMapper.updateFileInfoByIds(map);
-    //        }
-    //
-    //    }
-    //
-    //    return ResponseBo.ok();
-    //}
-    //
-    //@Override
-    //public ResponseBo getSupervisionSupervisorList(Page page){
-    //
-    //    PageHelper.startPage(page.getPageNo(), page.getPageSize());
-    //    Map<String, Object> map = page.getQueryParameter();
-    //    List<SupervisionSupervisorResponse> list = supervisionSupervisorMapper.getSupervisionSupervisorList(map);
-    //
-    //    PageInfo<SupervisionSupervisorResponse> pageInfo = new PageInfo<SupervisionSupervisorResponse>(list);
-    //
-    //    PagingEntity<SupervisionSupervisorResponse> result = new PagingEntity<>(pageInfo);
-    //
-    //    return ResponseBo.ok(result);
-    //}
+        Map<String, Object> map = page.getQueryParameter();
+        List<SupervisorExtend> list = supervisorMapper.getSupervisorList(map);
+
+        List<String[]> cloumnValues = new ArrayList<>();
+        List<SupervisionTrainRecordExtend> supervisionTrainRecordExtendList = new ArrayList<>();
+
+        if (list != null && list.size() > 0) {
+
+            for (SupervisorExtend supervisorExtend : list) {
+                String[] strs = new String[]{
+                        supervisorExtend.getId(),
+                        supervisorExtend.getName(),
+                        supervisorExtend.getIdentity(),
+                        DateUtils.DateToString(supervisorExtend.getBirthday()),
+                        supervisorExtend.getOrgName(),
+                        supervisorExtend.getTypeValue(),
+                        DateUtils.DateToString(supervisorExtend.getEntryDate()),
+                        supervisorExtend.getTitleName(),
+                        supervisorExtend.getPost(),
+                        supervisorExtend.getPoliticalValue(),
+                        supervisorExtend.getSex()==0?"男":"女",
+                        supervisorExtend.getContact(),
+                        supervisorExtend.getContinueTime(),
+                        supervisorExtend.getEducationValue(),
+                        supervisorExtend.getDegreeValue(),
+                        supervisorExtend.getEducationValue(),
+                        DateUtils.DateToString(supervisorExtend.getEducateDate()),
+                        supervisorExtend.getMajor(),
+                        supervisorExtend.getNote(),
+                        DateUtils.DateToString(supervisorExtend.getExpireDate())
+                };
+                cloumnValues.add(strs);
+
+                //培训信息
+                Map<String,Object> map1  = new HashMap<>();
+                map1.put("supervisorId",supervisorExtend.getId());
+                List<SupervisionTrainRecordExtend> list1 = supervisionTrainRecordMapper.getTrainRecordList(map1);
+                if(list1!=null&&list1.size()>0){
+                    supervisionTrainRecordExtendList.addAll(list1);
+                }
+            }
+        }
+
+        String[] cloumnNames = new String[]{
+                "主键",
+                "姓名",
+                "身份证号",
+                "出生年月",
+                "核安全授权监管机构名称",
+                "监督员类别名称",
+                "入职时间",
+                "职称名称",
+                "职务",
+                "政治面貌名称",
+                "性别",
+                "联系方式",
+                "从事核安全工作时间",
+                "学历名称",
+                "学位名称",
+                "毕业院校",
+                "毕业时间",
+                "专业",
+                "备注",
+                "过期时间"
+        };
+
+        HSSFWorkbook wb = new HSSFWorkbook();
+        wb = ExportExcel.getHssfWorkBook(wb, "核安全监督员信息", cloumnNames, cloumnValues);
+
+
+        //培训信息
+        String[] cloumnNames1 = new String[]{
+                "主键",
+                "身份证号",
+                "培训班次",
+                "培训成绩",
+                "监督员证号",
+                "发证日期",
+                "到期时间"
+        };
+
+        cloumnValues = new ArrayList<>();
+        if(supervisionTrainRecordExtendList.size()>0){
+            for (SupervisionTrainRecordExtend supervisionTrainRecordExtend : supervisionTrainRecordExtendList) {
+                String[] strs = new String[]{
+                        supervisionTrainRecordExtend.getId(),
+                        supervisionTrainRecordExtend.getIdentity(),
+                        supervisionTrainRecordExtend.getTrainClass(),
+                        supervisionTrainRecordExtend.getScore(),
+                        supervisionTrainRecordExtend.getNumber(),
+                        DateUtils.DateToString(supervisionTrainRecordExtend.getIssueDate()),
+                        DateUtils.DateToString(supervisionTrainRecordExtend.getExpireDate())
+                };
+                cloumnValues.add(strs);
+            }
+        }
+
+        wb = ExportExcel.getHssfWorkBook(wb, "培训信息", cloumnNames1, cloumnValues);
+
+
+        try{
+            response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode("核安全监督员信息", "utf-8") + ".xls");
+            OutputStream out = response.getOutputStream();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            wb.write(baos);
+            byte[] xlsBytes = baos.toByteArray();
+            out.write(xlsBytes);
+            out.close();
+        }catch (Exception e){
+
+        }
+
+    }
 
 }

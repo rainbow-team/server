@@ -15,7 +15,7 @@ public class Condition implements Serializable {
         super();
     }
 
-    public Condition(String key, String value) {
+    public Condition(String key, Object value) {
         super();
         Key = key;
         Value = value;

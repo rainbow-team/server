@@ -96,7 +96,8 @@ public class DataMigrationServiceImpl implements DataMigrationService {
         if(!file1.exists()){
             file1.mkdirs();
         }else{
-            file1.delete();
+            delFile(file1);
+            file1.mkdirs();
         }
 
         try  {
@@ -546,7 +547,7 @@ public class DataMigrationServiceImpl implements DataMigrationService {
 
                 response.setContentType("APPLICATION/OCTET-STREAM");
                 response.setHeader("Content-Disposition",
-                        "attachment;filename=" + URLEncoder.encode("datas", "UTF-8") + ".zip");
+                        "attachment;filename=" + URLEncoder.encode("datas", "UTF-8") + ".jm");
 
                 String zipPath =   CompressUtil.zip(path,"haqsjk.2019");
 
@@ -596,7 +597,7 @@ public class DataMigrationServiceImpl implements DataMigrationService {
             if (!dirs.exists()) {
                 dirs.mkdirs();
             }else{
-                dirs.delete();
+                delFile(dirs);
                 dirs.mkdirs();
             }
 
@@ -807,5 +808,19 @@ public class DataMigrationServiceImpl implements DataMigrationService {
 
         }
         return buffer;
+    }
+
+    public boolean delFile(File file) {
+        if (!file.exists()) {
+            return false;
+        }
+
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            for (File f : files) {
+                delFile(f);
+            }
+        }
+        return file.delete();
     }
 }

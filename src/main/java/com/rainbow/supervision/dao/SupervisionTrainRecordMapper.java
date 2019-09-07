@@ -1,6 +1,7 @@
 package com.rainbow.supervision.dao;
 
 import com.rainbow.common.config.MyMapper;
+import com.rainbow.supervision.domain.SupervisionTrainRecordExtend;
 import com.rainbow.supervision.domain.SupervisorTrainRecord;
 
 import java.util.Date;
@@ -9,7 +10,7 @@ import java.util.Map;
 
 public interface SupervisionTrainRecordMapper extends MyMapper<SupervisorTrainRecord> {
 
-    List<SupervisorTrainRecord> getTrainRecordList(Map<String,Object> map);
+    List<SupervisionTrainRecordExtend> getTrainRecordList(Map<String,Object> map);
 
     Date getMaxExpireDateBySupervisorId(String supervisorId);
 

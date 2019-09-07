@@ -1,13 +1,19 @@
 package com.rainbow.supervision.controller;
 
 import com.rainbow.attachment.service.FileInfoService;
+import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
+import com.rainbow.common.util.DateUtils;
 import com.rainbow.supervision.domain.Supervisor;
 import com.rainbow.supervision.service.SupervisorService;
 import com.rainbow.supervision.service.SupervisorTrainRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 13260 on 2019/5/11.
@@ -93,14 +99,48 @@ public class SupervisorController {
         }
         return ResponseBo.ok("获取失败");
 
+    }
 
-        //Supervisor supervisor = supervisorService.selectByKey(id);
-        //
-        //Example example = new Example(FileInfo.class);
-        //example.createCriteria().andEqualTo("fileinfoRefId",id);
-        //List<FileInfo> list =fileInfoService.selectByExample(example);
-        //supervisor.setAttachmentList(list);
-        //
-        //return  ResponseBo.ok(supervisor);
+    /**
+     * 导出核安全监督员
+     * @param name
+     * @param orgName
+     * @param start_date
+     * @param end_date
+     * @param typeIds
+     * @param response
+     */
+    @RequestMapping(value = "/exportSupervisor", method = RequestMethod.GET)
+    public void exportSupervisor( @RequestParam(value = "name", required = false) String name,
+                                  @RequestParam(value = "orgName", required = false) String orgName,
+                                  @RequestParam(value = "start_date", required = false) String start_date,
+                                  @RequestParam(value = "end_date", required = false) String end_date,
+                                  @RequestParam(value = "typeIds", required = false) String typeIds,
+                                  HttpServletResponse response) {
+
+        List<Condition> list = new ArrayList<>();
+        if (!name.isEmpty()) {
+            list.add(new Condition("name", name));
+        }
+        if (!orgName.isEmpty()) {
+            list.add(new Condition("orgName", orgName));
+        }
+        if (!start_date.isEmpty()) {
+            list.add(new Condition("start_date", DateUtils.GmtStringToDate(start_date)));
+        }
+        if (!end_date.isEmpty()) {
+            list.add(new Condition("end_date", DateUtils.GmtStringToDate(end_date)));
+        }
+        if (!typeIds.isEmpty()) {
+            List<String> listTypeIds = new ArrayList<>();
+            listTypeIds.add(typeIds);
+            list.add(new Condition("typeIds", listTypeIds));
+        }
+
+        Page page = new Page();
+        page.setConditions(list);
+
+        supervisorService.exportSupervisor(page,response);
+
     }
 }
