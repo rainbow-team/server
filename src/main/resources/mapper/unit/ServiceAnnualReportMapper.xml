@@ -19,7 +19,7 @@
   </delete>
 
 
-  <select id="getServiceAnnualReportList" parameterType="map" resultMap="BaseResultMap">
+  <select id="getServiceAnnualReportList" parameterType="map" resultMap="BaseResultMapExtend">
 
     select t.*,usd.name as serviceName from unit_service_annual_report t
     left join unit_service_depart usd on t.service_id = usd.id

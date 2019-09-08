@@ -2,6 +2,7 @@ package com.rainbow.unit.dao;
 
 import com.rainbow.common.config.MyMapper;
 import com.rainbow.unit.domain.Fac;
+import com.rainbow.unit.domain.FacExtend;
 
 import java.util.List;
 import java.util.Map;
@@ -10,7 +11,7 @@ public interface FacMapper extends MyMapper<Fac> {
 
     int getFacNumByServiceId(String serviceId);
 
-    List<Fac> getFacList(Map<String,Object> map);
+    List<FacExtend> getFacList(Map<String,Object> map);
 
     Fac getFacById(String id);
 

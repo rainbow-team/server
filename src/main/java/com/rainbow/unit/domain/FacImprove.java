@@ -31,6 +31,18 @@ public class FacImprove {
     private String improveContent;
 
     /**
+     * 核设施名称
+     */
+    @Transient
+    private String facName;
+
+    /**
+     * 单位名称
+     */
+    @Transient
+    private String serviceName;
+
+    /**
      * 获取主键
      *
      * @return id - 主键
@@ -100,5 +112,21 @@ public class FacImprove {
      */
     public void setImproveContent(String improveContent) {
         this.improveContent = improveContent == null ? null : improveContent.trim();
+    }
+
+    public String getFacName() {
+        return facName;
+    }
+
+    public void setFacName(String facName) {
+        this.facName = facName;
+    }
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
     }
 }

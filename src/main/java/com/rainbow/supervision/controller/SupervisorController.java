@@ -20,6 +20,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by 13260 on 2019/5/11.
@@ -138,9 +141,9 @@ public class SupervisorController {
             list.add(new Condition("end_date", DateUtils.GmtStringToDate(end_date)));
         }
         if (!typeIds.isEmpty()) {
-            List<String> listTypeIds = new ArrayList<>();
-            listTypeIds.add(typeIds);
-            list.add(new Condition("typeIds", listTypeIds));
+
+            list.add(new Condition("typeIds",  Stream.of(typeIds).collect(toList())));
+
         }
 
         Page page = new Page();

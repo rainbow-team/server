@@ -11,9 +11,16 @@
     <result column="improve_content" jdbcType="LONGVARCHAR" property="improveContent" />
   </resultMap>
 
-  <select id="getFacImproveList" parameterType="map" resultMap="BaseResultMap">
+  <resultMap id="BaseResultMapExtend" extends="BaseResultMap" type="com.rainbow.unit.domain.FacImprove">
+    <result column="serviceName" jdbcType="VARCHAR" property="serviceName"></result>
+    <result column="facName" jdbcType="VARCHAR" property="facName"></result>
+  </resultMap>
 
-    select  * from unit_fac_improve t
+  <select id="getFacImproveList" parameterType="map" resultMap="BaseResultMapExtend">
+
+    select  t.*,uf.name as facName ,usd.name as serviceName from unit_fac_improve t
+    left join unit_fac uf on uf.id = t.fac_id
+    left join unit_service_depart usd on usd.id = uf.service_id
      where t.fac_id = #{facId}
   </select>
 

@@ -1,8 +1,10 @@
 package com.rainbow.unit.controller;
 
 
+import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
+import com.rainbow.common.util.DateUtils;
 import com.rainbow.unit.domain.Fac;
 import com.rainbow.unit.domain.Group;
 import com.rainbow.unit.domain.ServiceDepart;
@@ -13,7 +15,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by 13260 on 2019/5/11.
@@ -114,5 +121,75 @@ public class FacController {
             return facService.getFacListByServiceId(serviceId);
         }
         return ResponseBo.ok("获取失败");
+    }
+
+    @RequestMapping(value = "/exportFac", method = RequestMethod.GET)
+    public void exportFac( @RequestParam(value = "name", required = false) String name,
+                                  @RequestParam(value = "code", required = false) String code,
+                                  @RequestParam(value = "serviceDepart", required = false) String serviceDepart,
+                                  @RequestParam(value = "build_start_year", required = false) String build_start_year,
+                                  @RequestParam(value = "build_end_year", required = false) String build_end_year,
+                                  @RequestParam(value = "supervisionCategoryIds", required = false) String supervisionCategoryIds,
+                           @RequestParam(value = "typeIds", required = false) String typeIds,
+                           @RequestParam(value = "statusIds", required = false) String statusIds,
+                           @RequestParam(value = "reviewStatusIds", required = false) String reviewStatusIds,
+                           @RequestParam(value = "permitSituationIds", required = false) String permitSituationIds,
+                           @RequestParam(value = "is_earthquake", required = false) String is_earthquake,
+                           @RequestParam(value = "is_flood", required = false) String is_flood,
+                           HttpServletResponse response) {
+
+        List<Condition> list = new ArrayList<>();
+        if (!name.isEmpty()) {
+            list.add(new Condition("name", name));
+        }
+        if (!code.isEmpty()) {
+            list.add(new Condition("code", code));
+        }
+        if (!serviceDepart.isEmpty()) {
+            list.add(new Condition("serviceDepart", serviceDepart));
+        }
+        if (!build_start_year.isEmpty()) {
+            list.add(new Condition("build_start_year", DateUtils.GmtStringToDate(build_start_year)));
+        }
+        if (!build_end_year.isEmpty()) {
+            list.add(new Condition("build_end_year", DateUtils.GmtStringToDate(build_end_year)));
+        }
+        if (!supervisionCategoryIds.isEmpty()) {
+
+            list.add(new Condition("supervisionCategoryIds", Stream.of(supervisionCategoryIds).collect(toList())));
+        }
+
+        if (!typeIds.isEmpty()) {
+
+            list.add(new Condition("typeIds", Stream.of(typeIds).collect(toList())));
+        }
+
+        if (!statusIds.isEmpty()) {
+
+            list.add(new Condition("statusIds", Stream.of(statusIds).collect(toList())));
+        }
+
+        if (!reviewStatusIds.isEmpty()) {
+
+            list.add(new Condition("reviewStatusIds", Stream.of(reviewStatusIds).collect(toList())));
+        }
+
+        if (!permitSituationIds.isEmpty()) {
+
+            list.add(new Condition("permitSituationIds", Stream.of(permitSituationIds).collect(toList())));
+        }
+
+        if (!is_earthquake.isEmpty()) {
+            list.add(new Condition("is_earthquake", is_earthquake));
+        }
+
+        if (!is_flood.isEmpty()) {
+            list.add(new Condition("is_flood", is_flood));
+        }
+        Page page = new Page();
+        page.setConditions(list);
+
+        facService.exportFac(page, response);
+
     }
 }

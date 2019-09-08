@@ -17,6 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by 13260 on 2019/5/11.
@@ -130,9 +133,8 @@ public class ServiceDepartController {
         }
 
         if (!groupIds.isEmpty()) {
-            List<String> listGroupIds = new ArrayList<>();
-            listGroupIds.add(groupIds);
-            list.add(new Condition("groupIds", listGroupIds));
+
+            list.add(new Condition("groupIds",  Stream.of(groupIds).collect(toList())));
         }
 
         Page page = new Page();
