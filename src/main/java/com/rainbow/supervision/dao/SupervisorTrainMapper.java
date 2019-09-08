@@ -10,4 +10,5 @@ public interface SupervisorTrainMapper extends MyMapper<SupervisorTrain> {
 
     List<SupervisorTrain> getMonitorTrainList(Map<String,Object> map);
 
+    String getClassIdByName(String name);
 }

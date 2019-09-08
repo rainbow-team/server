@@ -61,7 +61,7 @@
 
       where 1=1
       <if test="name != null and name != ''">
-         and instr(m.name,#{name})>0
+         and instr(t.name,#{name})>0
       </if>
 
       <if test="orgName != null and orgName != ''">
@@ -111,5 +111,9 @@
         set t.expire_date = #{expireDate}
         where t.id = #{id}
     </update>
+
+    <select id="getSupervisorByIdentity" parameterType="String" resultType="int">
+        select COUNT(1) from supervision_supervisor t where t.identity =#{identity}
+    </select>
 
 </mapper>

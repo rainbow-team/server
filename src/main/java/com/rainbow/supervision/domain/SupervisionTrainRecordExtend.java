@@ -1,5 +1,7 @@
 package com.rainbow.supervision.domain;
 
+import com.rainbow.common.annotation.BeanFieldAnnotation;
+
 import java.util.Date;
 
 /**
@@ -8,13 +10,16 @@ import java.util.Date;
  * @Description:
  **/
 public class SupervisionTrainRecordExtend extends SupervisorTrainRecord {
-    private String trainClass;
-    private Date trainStartDate;
-    private Date trainEndDate;
+
+    @BeanFieldAnnotation(order = 2)
+    public String trainClass;
+    public Date trainStartDate;
+    public Date trainEndDate;
     /**
      * 身份证号
      */
-    private String identity;
+    @BeanFieldAnnotation(order = 1)
+    public String identity;
 
     public String getTrainClass() {
         return trainClass;

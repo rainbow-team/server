@@ -57,4 +57,8 @@
 
   </select>
 
+   <select id="getClassIdByName" parameterType="String" resultType="String">
+      SELECT t.id from supervision_monitor_train t where t.batch = #{name}
+   </select>
+
 </mapper>

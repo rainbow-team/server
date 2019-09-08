@@ -8,11 +8,14 @@ import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
 import com.rainbow.common.util.*;
+import com.rainbow.config.dao.SystemConfigMapper;
 import com.rainbow.security.domain.FacSecurity;
 import com.rainbow.security.domain.UminePlaceSecurity;
 import com.rainbow.supervision.controller.domain.SupervisionSupervisorResponse;
+import com.rainbow.supervision.dao.OrgMapper;
 import com.rainbow.supervision.dao.SupervisionTrainRecordMapper;
 import com.rainbow.supervision.dao.SupervisorMapper;
+import com.rainbow.supervision.dao.SupervisorTrainMapper;
 import com.rainbow.supervision.domain.SupervisionTrainRecordExtend;
 import com.rainbow.supervision.domain.Supervisor;
 import com.rainbow.supervision.domain.extend.SupervisorExtend;
@@ -55,7 +58,16 @@ public class SupervisorServiceImpl extends BaseService<Supervisor> implements Su
     private CacheManager cacheManager;
 
     @Autowired
+    private OrgMapper orgMapper;
+
+    @Autowired
+    private SystemConfigMapper systemConfigMapper;
+
+    @Autowired
     private SupervisionTrainRecordMapper supervisionTrainRecordMapper;
+
+    @Autowired
+    private SupervisorTrainMapper supervisorTrainMapper;
 
     @Override
     public int addSupervisor(Supervisor supervisor) {
@@ -225,7 +237,7 @@ public class SupervisorServiceImpl extends BaseService<Supervisor> implements Su
         //获取前端传过来的file
         MultipartFile file = part.getUploadFile(request);
         FileInputStream inputStream = null;
-
+        FileInputStream inputStream1 = null;
         ResponseBo result = new ResponseBo();
 
         String msg = "";
@@ -234,19 +246,170 @@ public class SupervisorServiceImpl extends BaseService<Supervisor> implements Su
                 //转化文件名，避免乱码
                 String fileName = new String(file.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8");
                 inputStream = (FileInputStream) file.getInputStream();
+                inputStream1 = (FileInputStream) file.getInputStream();
                 //将导入的excel转化为实体
                 List<SupervisorExtend> list = ExcelHelper.convertToList(SupervisorExtend.class, fileName, inputStream, 2, 20,0);
-
-                inputStream.close();
+                List<SupervisionTrainRecordExtend>  supervisionTrainRecordExtendList = ExcelHelper.convertToList(SupervisionTrainRecordExtend.class, fileName, inputStream1, 2, 6,1);
 
                 if(list.size()==0){
                     return ResponseBo.error("文件内容为空");
                 }
 
-
+                Map<String,String> map = new HashMap<>();
+                Map<String,String> mapConfig=new HashMap<>();
                 //校验
-                for (int i=0;i<list.size();i++){
+                for (int i=0;i<list.size();i++) {
+                    SupervisorExtend supervisorExtend = list.get(i);
+                    supervisorExtend.setId(GuidHelper.getGuid());
 
+                    if (StrUtil.isNullOrEmpty(supervisorExtend.getName())) {
+                        msg += "第" + (i + 2) + "行姓名为空,";
+                    }
+
+                    if (StrUtil.isNullOrEmpty(supervisorExtend.getIdentity())) {
+                        msg += "第" + (i + 2) + "行身份证号为空，";
+                    } else {
+
+                        if (map.containsKey(supervisorExtend.getIdentity())) {
+                            msg += "第" + (i + 2) + "行身份证号重复，";
+                        } else {
+                            map.put(supervisorExtend.getIdentity(), supervisorExtend.getId());
+                        }
+
+                        //校验数据库是否重复
+                        int count = supervisorMapper.getSupervisorByIdentity(supervisorExtend.getIdentity());
+                        if (count > 0) {
+                            msg += "第" + (i + 2) + "行身份证号在数据库已存在，";
+                        }
+                    }
+
+                    if (supervisorExtend.getBirthday() == null) {
+                        msg += "第" + (i + 2) + "行出生年月为空或格式不正确（yyyy-MM-dd），";
+                    }
+
+                    if (StrUtil.isNullOrEmpty(supervisorExtend.getOrgName())) {
+                        msg += "第" + (i + 2) + "行核安全授权监管机构名称为空，";
+                    } else {
+                        String orgId = orgMapper.getOrgIdByName(supervisorExtend.getOrgName());
+                        if (StrUtil.isNullOrEmpty(orgId)) {
+                            msg += "第" + (i + 2) + "行核安全授权监管机构名称在数据库不存在，";
+                        } else {
+                            supervisorExtend.setOrgId(orgId);
+                        }
+                    }
+
+                    if(StrUtil.isNullOrEmpty(supervisorExtend.getTypeValue())){
+                        msg += "第" + (i + 2) + "行监督员类别名称为空，";
+                    }else{
+                        mapConfig.put("tablename","config_supervisor_type");
+                        mapConfig.put("value",supervisorExtend.getTypeValue());
+                        String typeId = systemConfigMapper.getConfigIdByName(mapConfig);
+
+                        if(StrUtil.isNullOrEmpty(typeId)){
+                            msg += "第" + (i + 2) + "行监督员类别名称在数据库不存在，";
+                        }else{
+                            supervisorExtend.setTypeId(typeId);
+                        }
+                    }
+
+                    if(supervisorExtend.getEntryDate() == null){
+                        msg += "第" + (i + 2) + "行入职时间为空或格式不正确（yyyy-MM-dd），";
+                    }
+
+                    if(!StrUtil.isNullOrEmpty(supervisorExtend.getTitleName())){
+
+                        mapConfig.put("tablename","config_title");
+                        mapConfig.put("value",supervisorExtend.getTitleName());
+                        String titleId = systemConfigMapper.getConfigIdByName(mapConfig);
+
+                        if(StrUtil.isNullOrEmpty(titleId)){
+                            msg += "第" + (i + 2) + "行职称名称在数据库不存在，";
+                        }else{
+                            supervisorExtend.setTitleId(titleId);
+                        }
+                    }
+
+                    if(StrUtil.isNullOrEmpty(supervisorExtend.getPoliticalValue())){
+                        msg += "第" + (i + 2) + "行政治面貌名称为空，";
+                    }else{
+                        mapConfig.put("tablename","config_political");
+                        mapConfig.put("value",supervisorExtend.getPoliticalValue());
+                        String politicalId = systemConfigMapper.getConfigIdByName(mapConfig);
+
+                        if(StrUtil.isNullOrEmpty(politicalId)){
+                            msg += "第" + (i + 2) + "行政治面貌名称在数据库不存在，";
+                        }else{
+                            supervisorExtend.setPoliticalId(politicalId);
+                        }
+                    }
+
+                    if(StrUtil.isNullOrEmpty(supervisorExtend.getSexName())){
+                        msg += "第" + (i + 2) + "行性别为空，";
+                    }else{
+                        if(!supervisorExtend.getSexName().equals("男")&&!supervisorExtend.getSexName().equals("女")){
+                            msg += "第" + (i + 2) + "行性别填写有误，";
+                        }else{
+                            supervisorExtend.setSex(supervisorExtend.getSexName().equals("男")?0:1);
+                        }
+                    }
+
+                    if(StrUtil.isNullOrEmpty(supervisorExtend.getContact())){
+                        msg += "第" + (i + 2) + "行联系方式为空，";
+                    }
+
+                    if(!StrUtil.isNullOrEmpty(supervisorExtend.getEducationValue())){
+                        mapConfig.put("tablename","config_education");
+                        mapConfig.put("value",supervisorExtend.getEducationValue());
+                        String educationId = systemConfigMapper.getConfigIdByName(mapConfig);
+
+                        if(StrUtil.isNullOrEmpty(educationId)){
+                            msg += "第" + (i + 2) + "行学历名称在数据库不存在，";
+                        }else{
+                            supervisorExtend.setEducationId(educationId);
+                        }
+                    }
+
+                    if(!StrUtil.isNullOrEmpty(supervisorExtend.getDegreeValue())){
+                        mapConfig.put("tablename","config_degree");
+                        mapConfig.put("value",supervisorExtend.getDegreeValue());
+                        String degreeId = systemConfigMapper.getConfigIdByName(mapConfig);
+
+                        if(StrUtil.isNullOrEmpty(degreeId)){
+                            msg += "第" + (i + 2) + "行学位名称在数据库不存在，";
+                        }else{
+                            supervisorExtend.setDegreeId(degreeId);
+                        }
+                    }
+
+                }
+
+                //校验培训信息
+                for (int j=0;j<supervisionTrainRecordExtendList.size();j++){
+
+                    SupervisionTrainRecordExtend supervisionTrainRecordExtend = supervisionTrainRecordExtendList.get(j);
+                    supervisionTrainRecordExtend.setId(GuidHelper.getGuid());
+
+                    if(StrUtil.isNullOrEmpty(supervisionTrainRecordExtend.getIdentity())){
+                        msg += "培训信息第" + (j + 2) + "行身份证号为空，";
+                    }else{
+                        String supervisionId = map.get(supervisionTrainRecordExtend.getIdentity());
+                        if(StrUtil.isNullOrEmpty(supervisionId)){
+                            msg += "培训信息第" + (j + 2) + "行身份证号在核安全监督员信息中不存在，";
+                        }else{
+                            supervisionTrainRecordExtend.setSupervisorId(supervisionId);
+                        }
+                    }
+
+                    if(StrUtil.isNullOrEmpty(supervisionTrainRecordExtend.getTrainClass())){
+                        msg += "培训信息第" + (j + 2) + "行培训班次为空，";
+                    }else{
+                       String classId =  supervisorTrainMapper.getClassIdByName(supervisionTrainRecordExtend.getTrainClass());
+                       if(StrUtil.isNullOrEmpty(classId)){
+                           msg += "培训信息第" + (j + 2) + "行培训班次在数据库中不存在，";
+                       }else{
+                           supervisionTrainRecordExtend.setClassId(classId);
+                       }
+                    }
                 }
 
                 if(!msg.isEmpty()){
@@ -261,7 +424,6 @@ public class SupervisorServiceImpl extends BaseService<Supervisor> implements Su
                     for (SupervisorExtend supervisorExtend:list) {
 
                         supervisorExtend.setIsImport(1);
-                        supervisorExtend.setId(GuidHelper.getGuid());
                         supervisorExtend.setCreateDate(new Date());
                         supervisorExtend.setModifyDate(new Date());
                         supervisorExtend.setCreatorId(user.getId());
@@ -270,12 +432,18 @@ public class SupervisorServiceImpl extends BaseService<Supervisor> implements Su
                         supervisorMapper.insert(supervisorExtend);
 
                     }
+
+                    for (SupervisionTrainRecordExtend supervisionTrainRecordExtend:supervisionTrainRecordExtendList ) {
+
+                        supervisionTrainRecordMapper.insert(supervisionTrainRecordExtend);
+                    }
                 }
 
 
             }
         } catch (Exception e) {
-
+            e.printStackTrace();
+            return ResponseBo.error(msg);
         }
 
         return ResponseBo.ok();

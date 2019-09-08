@@ -33,4 +33,9 @@
   <update id="modifyConfigByTableNameAndValue" parameterType="java.util.Map">
     update ${map.tableName} set `value`= #{map.value} where id = #{map.id}
   </update>
+
+  <select id="getConfigIdByName" parameterType="map" resultType="String">
+    SELECT t.id from ${tablename} t where t.value =#{value}
+  </select>
+
 </mapper>

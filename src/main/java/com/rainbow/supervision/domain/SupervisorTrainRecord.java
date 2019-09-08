@@ -1,5 +1,7 @@
 package com.rainbow.supervision.domain;
 
+import com.rainbow.common.annotation.BeanFieldAnnotation;
+
 import java.util.Date;
 import javax.persistence.*;
 
@@ -10,36 +12,39 @@ public class SupervisorTrainRecord {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    public String id;
 
     /**
      * 核安全监督员外键ID，参考表：supervision_suprvisor
      */
     @Column(name = "supervisor_id")
-    private String supervisorId;
+    public String supervisorId;
 
     /**
      * 培训班次，
 外键关联supervision_monitor_train
      */
     @Column(name = "class_id")
-    private String classId;
+    public String classId;
 
     /**
      * 培训成绩
      */
-    private String score;
+    @BeanFieldAnnotation(order = 3)
+    public String score;
 
     /**
      * 监督员证号
      */
-    private String number;
+    @BeanFieldAnnotation(order = 4)
+    public String number;
 
     /**
      * 发证日期
      */
     @Column(name = "issue_date")
-    private Date issueDate;
+    @BeanFieldAnnotation(order = 5)
+    public Date issueDate;
 
     /**
      * 到期时间
@@ -47,7 +52,8 @@ public class SupervisorTrainRecord {
 按照发证时间自动填入，发证有效期三年
      */
     @Column(name = "expire_date")
-    private Date expireDate;
+    @BeanFieldAnnotation(order = 6)
+    public Date expireDate;
 
     /**
      * 获取主键id

@@ -17,4 +17,6 @@ public interface SupervisorMapper extends MyMapper<Supervisor> {
 
     int updateExpireDateById(String id, Date expireDate);
 
+    int getSupervisorByIdentity(String identity);
+
 }

@@ -76,4 +76,9 @@
     where org.id = #{id}
 
   </select>
+
+  <select id="getOrgIdByName" parameterType="String" resultType="String">
+    SELECT t.id from supervision_org t where t.`name`=#{name}
+  </select>
+
 </mapper>

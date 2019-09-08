@@ -56,5 +56,7 @@ public interface SystemConfigMapper extends MyMapper<SystemConfig> {
      */
     void modifyConfigByTableNameAndValue(@Param("map") Map<String,String> map);
 
+    String getConfigIdByName(Map<String,String> map);
+
 
 }
