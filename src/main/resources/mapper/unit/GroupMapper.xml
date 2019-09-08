@@ -58,4 +58,8 @@
     and not exists(select 1 from unit_umine b where b.group_id = t.id)
   </select>
 
+  <select id="getGroupIdByName" parameterType="String" resultType="String">
+    SELECT t.id from unit_group t where t.name=#{name}
+  </select>
+
 </mapper>

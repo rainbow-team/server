@@ -227,6 +227,10 @@ public class ExcelHelper {
                         }else{
                              formatter = new SimpleDateFormat("yyyy-MM-dd");
                         }
+
+                        if(args[i].length()==4){
+                            args[i]=args[i]+"-01-01";
+                        }
                         Date date= formatter.parse(args[i]);
                         field.set(bean, date);
 

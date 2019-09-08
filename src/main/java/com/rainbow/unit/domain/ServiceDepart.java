@@ -1,5 +1,6 @@
 package com.rainbow.unit.domain;
 
+import com.rainbow.common.annotation.BeanFieldAnnotation;
 import com.rainbow.common.domain.BaseExtendEntity;
 
 import java.util.Date;
@@ -12,112 +13,125 @@ public class ServiceDepart extends BaseExtendEntity {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    public String id;
 
     /**
      * 单位名称
      */
-    private String name;
+    @BeanFieldAnnotation(order = 1)
+    public String name;
 
     /**
      * 所属集团外键，参考表unit_group
      */
     @Column(name = "group_id")
-    private String groupId;
+    public String groupId;
 
     /**
      * 代号
      */
-    private String code;
+    @BeanFieldAnnotation(order = 5)
+    public String code;
 
     /**
      * 地址
      */
-    private String address;
+    @BeanFieldAnnotation(order = 6)
+    public String address;
 
     /**
      * 应急电话
      */
     @Column(name = "emergency_tel")
-    private String emergencyTel;
+    @BeanFieldAnnotation(order = 7)
+    public String emergencyTel;
 
     /**
      * 传真
      */
-    private String fax;
+    @BeanFieldAnnotation(order = 8)
+    public String fax;
 
     /**
      * 法人代表
      */
-    private String owner;
+    @BeanFieldAnnotation(order = 9)
+    public String owner;
 
     /**
      * 主管安全领导
      */
-    private String leader;
+    @BeanFieldAnnotation(order = 10)
+    public String leader;
 
     /**
      * 主管安全领导电话
      */
     @Column(name = "leader_tel")
-    private String leaderTel;
+    @BeanFieldAnnotation(order = 11)
+    public String leaderTel;
 
     /**
      * 安全部门领导
      */
     @Column(name = "depart_leader")
-    private String departLeader;
+    @BeanFieldAnnotation(order = 12)
+    public String departLeader;
 
     /**
      * 安全部门领导电话
      */
     @Column(name = "depart_leader_tel")
-    private String departLeaderTel;
+    @BeanFieldAnnotation(order = 13)
+    public String departLeaderTel;
 
     /**
      * 是否导入0 否 1 是
      */
     @Column(name = "is_import")
-    private Integer isImport;
+    public Integer isImport;
 
     /**
      * 创建人ID
      */
     @Column(name = "creator_id")
-    private String creatorId;
+    public String creatorId;
 
     /**
      * 创建时间
      */
     @Column(name = "create_date")
-    private Date createDate;
+    public Date createDate;
 
     /**
      * 修改人ID
      */
     @Column(name = "modify_id")
-    private String modifyId;
+    public String modifyId;
 
     /**
      * 修改时间
      */
     @Column(name = "modify_date")
-    private Date modifyDate;
+    public Date modifyDate;
 
     /**
      * 基本概况
      */
-    private String survey;
+    @BeanFieldAnnotation(order = 3)
+    public String survey;
 
     /**
      * 厂址特征
      */
-    private String feature;
+    @BeanFieldAnnotation(order = 4)
+    public String feature;
 
     /**
      * 备注
      */
-    private String note;
+    @BeanFieldAnnotation(order = 14)
+    public String note;
 
     /**
      * 获取核设施营运单位主键

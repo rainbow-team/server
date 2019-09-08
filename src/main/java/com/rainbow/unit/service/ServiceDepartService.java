@@ -6,6 +6,8 @@ import com.rainbow.common.service.IService;
 import com.rainbow.unit.domain.EquipDepart;
 import com.rainbow.unit.domain.ServiceDepart;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -25,4 +27,7 @@ public interface ServiceDepartService extends IService<ServiceDepart> {
 
     ResponseBo getServiceDepartById(String id);
 
+    void exportServiceDepart(Page page, HttpServletResponse response);
+
+    ResponseBo importServiceDepart(HttpServletRequest request);
 }

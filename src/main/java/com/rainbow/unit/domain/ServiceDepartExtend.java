@@ -1,5 +1,7 @@
 package com.rainbow.unit.domain;
 
+import com.rainbow.common.annotation.BeanFieldAnnotation;
+
 /**
  * @Author:deepblue
  * @Date:2019/7/7 14:39
@@ -8,10 +10,11 @@ package com.rainbow.unit.domain;
 public class ServiceDepartExtend extends ServiceDepart {
 
     //所属集团的名称
-    private String groupName;
+    @BeanFieldAnnotation(order = 2)
+    public String groupName;
 
     //核设施的数量
-    private int facNum;
+    public int facNum;
 
     public String getGroupName() {
         return groupName;

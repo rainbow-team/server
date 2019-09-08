@@ -238,7 +238,6 @@ public class SupervisorServiceImpl extends BaseService<Supervisor> implements Su
         MultipartFile file = part.getUploadFile(request);
         FileInputStream inputStream = null;
         FileInputStream inputStream1 = null;
-        ResponseBo result = new ResponseBo();
 
         String msg = "";
         try {
@@ -442,7 +441,7 @@ public class SupervisorServiceImpl extends BaseService<Supervisor> implements Su
 
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             return ResponseBo.error(msg);
         }
 

@@ -101,4 +101,9 @@
     and not exists(select 1 from security_equip m where m.service_id = t.id)
     and not exists(select 1 from security_accident n where n.service_id = t.id)
   </select>
+
+  <select id="getServiceDepartByName" parameterType="String" resultType="int">
+    select count(1) from unit_service_depart t WHERE t.name=#{name}
+  </select>
+
 </mapper>

@@ -1,6 +1,7 @@
 package com.rainbow.unit.controller;
 
 
+import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.unit.domain.EquipDepart;
@@ -12,6 +13,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -113,5 +117,35 @@ public class ServiceDepartController {
             return ResponseBo.ok(result);
         }
         return ResponseBo.error("获取失败");
+    }
+
+    @RequestMapping(value = "/exportServiceDepart", method = RequestMethod.GET)
+    public void exportServiceDepart( @RequestParam(value = "name", required = false) String name,
+                                  @RequestParam(value = "groupIds", required = false) String groupIds,
+                                  HttpServletResponse response) {
+
+        List<Condition> list = new ArrayList<>();
+        if (!name.isEmpty()) {
+            list.add(new Condition("name", name));
+        }
+
+        if (!groupIds.isEmpty()) {
+            List<String> listGroupIds = new ArrayList<>();
+            listGroupIds.add(groupIds);
+            list.add(new Condition("groupIds", listGroupIds));
+        }
+
+        Page page = new Page();
+        page.setConditions(list);
+
+        serviceDepartService.exportServiceDepart(page,response);
+
+    }
+
+    @RequestMapping(value = "/importServiceDepart", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseBo importServiceDepart(HttpServletRequest request) {
+
+        return serviceDepartService.importServiceDepart(request);
     }
 }

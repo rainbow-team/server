@@ -9,6 +9,10 @@
     <result column="report_year" jdbcType="DATE" property="reportYear" />
     <result column="service_id" jdbcType="VARCHAR" property="serviceId" />
   </resultMap>
+
+  <resultMap id="BaseResultMapExtend" extends="BaseResultMap" type="com.rainbow.unit.domain.ServiceAnnualReport">
+    <result column="serviceName" jdbcType="VARCHAR" property="serviceName"></result>
+  </resultMap>
   
   <delete id="deleteReportsByServiceId" parameterType="java.lang.String">
     delete from unit_service_annual_report where service_id = #{serviceId}
@@ -17,7 +21,9 @@
 
   <select id="getServiceAnnualReportList" parameterType="map" resultMap="BaseResultMap">
 
-    select *  from unit_service_annual_report t where t.service_id = #{serviceId}
+    select t.*,usd.name as serviceName from unit_service_annual_report t
+    left join unit_service_depart usd on t.service_id = usd.id
+    where t.service_id = #{serviceId}
 
   </select>
 </mapper>

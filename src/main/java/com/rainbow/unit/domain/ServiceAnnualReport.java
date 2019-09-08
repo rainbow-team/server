@@ -1,5 +1,6 @@
 package com.rainbow.unit.domain;
 
+import com.rainbow.common.annotation.BeanFieldAnnotation;
 import com.rainbow.common.domain.BaseExtendEntity;
 
 import java.util.Date;
@@ -12,19 +13,24 @@ public class ServiceAnnualReport extends BaseExtendEntity {
      */
     @Id
     @Column(name = "report_id")
-    private String reportId;
+    public String reportId;
 
     /**
      * 报告年度
      */
     @Column(name = "report_year")
-    private Date reportYear;
+    @BeanFieldAnnotation(order = 2)
+    public Date reportYear;
 
     /**
      * 核设施运营单位外键
      */
     @Column(name = "service_id")
-    private String serviceId;
+    public String serviceId;
+
+    @Transient
+    @BeanFieldAnnotation(order = 1)
+    public String serviceName;
 
     /**
      * 获取核设施营运单位年度报告id,file_info关联查找
@@ -78,5 +84,13 @@ public class ServiceAnnualReport extends BaseExtendEntity {
      */
     public void setServiceId(String serviceId) {
         this.serviceId = serviceId == null ? null : serviceId.trim();
+    }
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
     }
 }

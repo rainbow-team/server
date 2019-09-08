@@ -48,4 +48,13 @@ public class DateUtils {
         }
         return result;
     }
+
+    public static int getDateYear(Date d){
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(d);
+        int year = c.get(Calendar.YEAR);
+        return year;
+
+    }
 }
