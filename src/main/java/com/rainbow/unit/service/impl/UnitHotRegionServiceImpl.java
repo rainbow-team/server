@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -29,14 +30,19 @@ public class UnitHotRegionServiceImpl extends BaseService<UnitHotRegion> impleme
     @Autowired
     UnitHotRegionMapper mapper;
 
+    @Autowired
+    FileInfoService fileInfoService;
+
     @Override
     public int addUnitHotRegion(UnitHotRegion unitHotRegion) {
         unitHotRegion.setId(GuidHelper.getGuid());
+        fileInfoService.updateFileInfoByIds(unitHotRegion.getAttachmentList(), unitHotRegion.getId());
         return mapper.insert(unitHotRegion);
     }
 
     @Override
     public int modifyUnitHotRegion(UnitHotRegion unitHotRegion) {
+        fileInfoService.updateFileInfoByIds(unitHotRegion.getAttachmentList(), unitHotRegion.getId());
         return mapper.updateByPrimaryKey(unitHotRegion);
     }
 
@@ -71,5 +77,11 @@ public class UnitHotRegionServiceImpl extends BaseService<UnitHotRegion> impleme
     @Override
     public UnitHotRegion getUnitHotRegionById(String id) {
         return mapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public int deleteUnitHotRegionsByAddressId(String id) {
+
+        return mapper.deleteUnitHotRegionsByAddressId(id);
     }
 }

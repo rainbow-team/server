@@ -20,4 +20,6 @@ public interface UnitHotRegionMapper extends MyMapper<UnitHotRegion> {
     int insertRegionsBatch(List<UnitHotRegion> regions);
 
     List<UnitHotRegion> getUnitHotRegionListByUnitId(String unitId);
+
+    int deleteUnitHotRegionsByAddressId(String id);
 }

@@ -50,7 +50,7 @@ public class UnitAddressController {
     }
 
     @PostMapping("/deleteUnitAddressById")
-    public ResponseBo deleteUnitAddressByIds(@RequestBody String id) {
+    public ResponseBo deleteUnitAddressById(@RequestBody String id) {
         if (id != null) {
             int result = service.deleteUnitAddressById(id);
             return result == 0 ? ResponseBo.error("存在关联，不允许删除!") : ResponseBo.ok("删除成功");

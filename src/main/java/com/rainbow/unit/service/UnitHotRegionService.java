@@ -26,5 +26,7 @@ public interface UnitHotRegionService extends IService<UnitHotRegion> {
 
     ResponseBo getUnitHotRegionList(Page page);
 
-	UnitHotRegion getUnitHotRegionById(String id);
+    UnitHotRegion getUnitHotRegionById(String id);
+
+    int deleteUnitHotRegionsByAddressId(String id);
 }

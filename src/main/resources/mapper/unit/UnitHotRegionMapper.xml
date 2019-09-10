@@ -34,4 +34,8 @@
           )
       </foreach>
     </insert>
+
+    <delete id="deleteUnitHotRegionsByAddressId" parameterType="java.lang.String">
+        delete from unit_hot_region where address_id=#{id}
+    </delete>
 </mapper>
