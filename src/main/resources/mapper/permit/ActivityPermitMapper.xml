@@ -96,6 +96,11 @@
       and t.fac_id = #{facId}
     </if>
 
+    <if test="equipdepartId != null and equipdepartId != ''">
+      and t.equip_depart_id = #{equipdepartId}
+    </if>
+
+
   </select>
 
   <select id="getActivityPermitById" parameterType="java.lang.String" resultMap="ActivityPermitExtendMap">
