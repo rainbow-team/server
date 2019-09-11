@@ -78,6 +78,8 @@ public class LoginController extends BaseController{
             String ticket = GuidHelper.getGuid();
             result.put("ticket", ticket);
 
+            //去掉之前该用户的缓存(一个用户不能多次登录)
+            EHCacheUtils.deleteCacheByUserId(cacheManager,systemUser.getId());
             EHCacheUtils.setCache(cacheManager,ticket,systemUser);
 
             return ResponseBo.ok(result);
