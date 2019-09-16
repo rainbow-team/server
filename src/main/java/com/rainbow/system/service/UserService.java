@@ -76,4 +76,6 @@ public interface UserService extends IService<SystemUser> {
 
     ResponseBo getUserList(Page page);
 
+    int changePassword(SystemUser user);
+
 }

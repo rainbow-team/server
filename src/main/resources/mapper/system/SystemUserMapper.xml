@@ -69,4 +69,8 @@
     group by m.id
 
   </select>
+
+  <update id="changePassword" parameterType="com.rainbow.system.domain.SystemUser">
+    update system_user set password=#{password} where id =#{id}
+  </update>
 </mapper>

@@ -39,4 +39,6 @@ public interface UserMapper extends MyMapper<SystemUser> {
     SystemUser findUserByUsername(String username);
 
     List<SystemUser> getUserList(Map<String, Object> map);
+
+    int changePassword(SystemUser user);
 }
