@@ -205,4 +205,9 @@ public class UserServiceImpl extends BaseService<SystemUser> implements UserServ
     public SystemUser findUserByUsername(String username) {
         return userMapper.findUserByUsername(username);
     }
+
+    @Override
+    public int changePassword(SystemUser user) {
+        return userMapper.changePassword(user);
+    }
 }

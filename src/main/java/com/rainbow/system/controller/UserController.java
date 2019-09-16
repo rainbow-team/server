@@ -140,7 +140,7 @@ public class UserController extends BaseController {
     }
 
     /**
-     * 获取核设备单位信息列表
+     * 获取用户列表
      * 
      * @param page
      * @return
@@ -149,5 +149,29 @@ public class UserController extends BaseController {
     public ResponseBo getUserList(@RequestBody Page page) {
 
         return userService.getUserList(page);
+    }
+
+    /**
+     * 获取用户列表
+     * 
+     * @param page
+     * @return
+     */
+    @PostMapping("/changePassword")
+    public ResponseBo changePassword(@RequestBody SystemUser user) {
+
+        try {
+            int result = userService.changePassword(user);
+            if (result == 1) {
+                return ResponseBo.ok("密码修改成功。");
+            } else {
+                return ResponseBo.error("密码修改失败！");
+            }
+
+        } catch (Exception e) {
+            log.error("密码修改失败", e);
+            return ResponseBo.error("密码修改失败！");
+        }
+
     }
 }
