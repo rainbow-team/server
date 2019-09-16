@@ -136,6 +136,10 @@
     <if test="servicedepartId != null and servicedepartId != ''">
       and t.service_id = #{servicedepartId}
     </if>
+
+    <if test="umineId != null and umineId != ''">
+      and t.umine_id = #{umineId}
+    </if>
   </select>
 
 
