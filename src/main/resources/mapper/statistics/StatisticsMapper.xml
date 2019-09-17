@@ -78,7 +78,7 @@
         </if>
 
         <if test="isService !=null and isService == 'true'">
-            and t.fac_id = ''
+            and t.fac_id is null
         </if>
 
         <if test="isService !=null and isService == 'false'">
