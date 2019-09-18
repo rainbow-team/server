@@ -41,4 +41,7 @@ public interface StatisticsService {
 
     List<ResultObj> statisticsFacilitiesByRegion();
 
+
+    //首页根据新旧设施统计数量
+    ResponseBo getStatisticsResultByTypeAndDate(SearchCondition condition);
 }

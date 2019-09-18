@@ -27,6 +27,23 @@ public class StatisticsController {
     @Autowired
     StatisticsService statisticsService;
 
+
+    /**
+     * 首页根据新旧设施统计不同类型的核设施
+     *
+     * @param
+     * @return
+     */
+    @PostMapping("/getStatisticsResultByTypeAndDate")
+    public ResponseBo getStatisticsResultByTypeAndDate(@RequestBody SearchCondition condition) {
+        if (condition != null) {
+            return statisticsService.getStatisticsResultByTypeAndDate(condition);
+        } else {
+            return ResponseBo.error("查询错误");
+        }
+    }
+
+
     /**
      * 根据表名，要归类的属性以及属性对应的静态表查询 分组的和
      *
@@ -192,7 +209,7 @@ public class StatisticsController {
 
     /**
      * 
-     * @param null
+     * @param
      * @return
      */
     @PostMapping("/statisticsFacilitiesByRegion")
