@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.unit.dao.UmineplaceMapper">
   <resultMap id="UmineplaceBaseResultMap" type="com.rainbow.unit.domain.Umineplace">
@@ -45,7 +45,6 @@
   </select>
 
   <select id="getUmineplaceList" parameterType="map" resultMap="UmineplaceExtendMap">
-
     select
      t.*,
      u.name umineName,
@@ -60,7 +59,6 @@
     left join config_review_status rs on t.review_status_id = rs.id
     left join config_umine_place_permit_situation ps on t.permit_situation_id = ps.id
     where 1=1
-
     <if test="name != null and name != ''">
       and instr(t.name,#{name})>0
     </if>
@@ -70,11 +68,15 @@
     </if>
 
     <if test="build_start_year != null and build_start_year != ''">
-      and year(t.build_year) <![CDATA[  >=  ]]> year(#{build_start_year})
+      and year(t.build_year)
+      <![CDATA[  >=  ]]>
+      year(#{build_start_year})
     </if>
 
     <if test="build_end_year != null and build_end_year != ''">
-      and year(t.build_year) <![CDATA[  <=  ]]> year(#{build_end_year})
+      and year(t.build_year)
+      <![CDATA[  <=  ]]>
+      year(#{build_end_year})
     </if>
 
     <if test="levelIds != null">
@@ -112,6 +114,7 @@
     <if test="have_monitor != null and have_monitor != ''">
       and t.have_monitor = #{have_monitor}
     </if>
+    order by t.modify_date desc
   </select>
 
   <select id="getUmineplaceById" parameterType="java.lang.String" resultMap="UmineplaceExtendMap">

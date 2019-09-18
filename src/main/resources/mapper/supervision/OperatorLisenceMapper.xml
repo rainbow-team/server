@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.supervision.dao.OperatorLisenceMapper">
   <resultMap id="BaseOperatorLisenceResultMap" type="com.rainbow.supervision.domain.OperatorLisence">
@@ -28,14 +28,12 @@
   </resultMap>
 
   <select id="getOperatorLisenceList" parameterType="map" resultMap="OperatorLisenceExtendMap">
-
     select
       t.*,
       lt.value licenseTypeValue
     from supervision_operator t
     left join config_operator_license_type lt on t.license_type_id = lt.id
     where 1=1
-
     <if test="name != null and name != ''">
       and instr(t.name,#{name})>0
     </if>
@@ -57,13 +55,17 @@
     </if>
 
     <if test="start_date != null and start_date != ''">
-      and t.expire_date <![CDATA[  =>  ]]> #{start_date}
+      and t.expire_date
+      <![CDATA[  =>  ]]>
+      #{start_date}
     </if>
 
     <if test="end_date != null and end_date != ''">
-      and t.expire_date <![CDATA[  =>  ]]> #{end_date}
+      and t.expire_date
+      <![CDATA[  =>  ]]>
+      #{end_date}
     </if>
-
+    order by t.modify_date desc
   </select>
 
   <select id="getOperatorLisenceById" parameterType="map" resultMap="OperatorLisenceExtendMap">

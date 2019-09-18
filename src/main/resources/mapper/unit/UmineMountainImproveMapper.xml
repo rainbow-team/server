@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.unit.dao.UmineMountainImproveMapper">
   <resultMap id="BaseResultMap" type="com.rainbow.unit.domain.UmineMountainImprove">
@@ -14,6 +14,6 @@
   <select id="getUmineMountainImproveList" parameterType="map" resultMap="BaseResultMap">
 
     select  * from unit_umine_mountain_improve t
-    where t.umine_mountain_id = #{umineMountainId}
+    where t.umine_mountain_id = #{umineMountainId} order by t.improve_date desc
   </select>
 </mapper>

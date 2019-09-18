@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.permit.dao.UminePlacePermitMapper">
   <resultMap id="UminePlacePermitBaseResultMap" type="com.rainbow.permit.domain.UminePlacePermit">
@@ -31,7 +31,6 @@
 
 
   <select id="getUminePlacePermitList" parameterType="map" resultMap="UminePlacePermitExtendMap">
-
     select
     t.*,
     u.name umineName,
@@ -42,7 +41,6 @@
     left join  unit_umine_place up on t.umine_place_id = up.id
     left join  config_umine_place_permit_stage s on t.stage_id = s.id
     where 1=1
-
     <if test="umineName != null and umineName != ''">
       and instr(u.name,#{umineName})>0
     </if>
@@ -60,18 +58,21 @@
     </if>
 
     <if test="start_date != null and start_date != ''">
-      and DATE(t.permit_date) <![CDATA[  >=  ]]>  DATE(#{start_date})
+      and DATE(t.permit_date)
+      <![CDATA[  >=  ]]>
+      DATE(#{start_date})
     </if>
 
     <if test="end_date != null and end_date != ''">
-      and DATE(t.permit_date) <![CDATA[  <=  ]]>  DATE(#{end_date})
+      and DATE(t.permit_date)
+      <![CDATA[  <=  ]]>
+      DATE(#{end_date})
     </if>
 
     <if test="umineplaceId != null and umineplaceId != ''">
       and t.umine_place_id = #{umineplaceId}
     </if>
-
-
+    order by t.modify_date desc
   </select>
 
   <select id="getUminePlacePermitById" parameterType="map" resultMap="UminePlacePermitExtendMap">

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.unit.dao.GroupMapper">
   <resultMap id="BaseGroupResultMap" type="com.rainbow.unit.domain.Group">
@@ -24,17 +24,15 @@
     <result column="note" jdbcType="LONGVARCHAR" property="note" />
   </resultMap>
 
-  <resultMap id="GroupExtendMap" extends="BaseGroupResultMap" type="com.rainbow.unit.domain.GroupExtend">
-  </resultMap>
+  <resultMap id="GroupExtendMap" extends="BaseGroupResultMap" type="com.rainbow.unit.domain.GroupExtend"></resultMap>
 
   <select id="getGroupList" parameterType="map" resultMap="BaseGroupResultMap">
-
     select  * from unit_group t
     where 1=1
-
     <if test="name != null and name != ''">
       and instr(t.name,#{name})>0
     </if>
+    order by t.modify_date desc
   </select>
 
   <select id="getGroupById" parameterType="java.lang.String" resultMap="GroupExtendMap">

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.monitor.dao.WitnessMonitorMapper">
   <resultMap id="WitnessMonitorBaseResultMap" type="com.rainbow.monitor.domain.WitnessMonitor">
@@ -34,7 +34,6 @@
 
 
   <select id="getWitnessMonitorList" parameterType="map" resultMap="WitnessMonitorExtendMap">
-
     select
     t.*,
     sd.name serviceDepartName,
@@ -45,22 +44,21 @@
     left join unit_umine u on t.umine_id = u.id
     left join unit_equip_depart ed on t.equip_depart_id = ed.id
     where 1=1
+    <!--    <if test="serviceDepartName != null and serviceDepartName != ''">-->
+    <!--      and instr(sd.name,#{serviceDepartName})>0-->
+    <!--    </if>-->
 
-<!--    <if test="serviceDepartName != null and serviceDepartName != ''">-->
-<!--      and instr(sd.name,#{serviceDepartName})>0-->
-<!--    </if>-->
-
-<!--    <if test="umineName != null and umineName != ''">-->
-<!--      and instr(u.name,#{serviceDepartName})>0-->
-<!--    </if>-->
+    <!--    <if test="umineName != null and umineName != ''">-->
+    <!--      and instr(u.name,#{serviceDepartName})>0-->
+    <!--    </if>-->
 
     <if test="name != null and name != ''">
       and (instr(sd.name,#{name})>0 or instr(u.name,#{name})>0 or instr(ed.name,#{name})>0)
     </if>
 
-<!--    <if test="equipDepartName != null and equipDepartName != ''">-->
-<!--      and instr(ed.name,#{serviceDepartName})>0-->
-<!--    </if>-->
+    <!--    <if test="equipDepartName != null and equipDepartName != ''">-->
+    <!--      and instr(ed.name,#{serviceDepartName})>0-->
+    <!--    </if>-->
 
     <if test="witness_obj!= null and witness_obj != ''">
       and instr(t.witness_object,#{witness_obj})>0
@@ -71,11 +69,15 @@
     </if>
 
     <if test="start_date != null and start_date != ''">
-      and DATE(t.witness_date) <![CDATA[  >=  ]]> DATE(#{start_date})
+      and DATE(t.witness_date)
+      <![CDATA[  >=  ]]>
+      DATE(#{start_date})
     </if>
 
     <if test="end_date != null and end_date != ''">
-      and DATE(t.witness_date) <![CDATA[  <=  ]]> DATE(#{end_date})
+      and DATE(t.witness_date)
+      <![CDATA[  <=  ]]>
+      DATE(#{end_date})
     </if>
 
     <if test="servicedepartId != null and servicedepartId != ''">
@@ -88,10 +90,8 @@
     <if test="umineId != null and umineId != ''">
       and t.umine_id = #{umineId}
     </if>
-
-
+    order by t.modify_date desc
   </select>
-
 
 
   <select id="getWitnessMonitorById" parameterType="java.lang.String" resultMap="WitnessMonitorExtendMap">

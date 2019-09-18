@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.unit.dao.UmineMountainMapper">
   <resultMap id="MountainBaseResultMap" type="com.rainbow.unit.domain.UmineMountain">
@@ -38,7 +38,7 @@
     where t.umine_id = #{umineId}
   </select>
 
-  <select id="getUmineMountainList"  resultMap="MountainExtendMap" parameterType="map">
+  <select id="getUmineMountainList" resultMap="MountainExtendMap" parameterType="map">
     select
     t.*,
     u.name umineName,
@@ -51,7 +51,6 @@
     left join config_umine_mountain_record r on t.record_id = r.id
     left join  config_umine_mountain_accept a on t.accept_id = a.id
     where 1=1
-
     <if test="name != null and name != ''">
       and instr(t.name,#{name})>0
     </if>
@@ -62,11 +61,15 @@
 
 
     <if test="build_start_year != null and build_start_year != ''">
-      and year(t.build_year) <![CDATA[  >=  ]]> year(#{build_start_year})
+      and year(t.build_year)
+      <![CDATA[  >=  ]]>
+      year(#{build_start_year})
     </if>
 
     <if test="build_end_year != null and build_end_year != ''">
-      and year(t.build_year) <![CDATA[  <=  ]]> year(#{build_end_year})
+      and year(t.build_year)
+      <![CDATA[  <=  ]]>
+      year(#{build_end_year})
     </if>
 
     <if test="statusIds != null">
@@ -92,7 +95,7 @@
       </foreach>
       )
     </if>
-
+    order by t.modify_date desc
   </select>
 
   <select id="getUmineMountainById" parameterType="java.lang.String" resultMap="MountainExtendMap">

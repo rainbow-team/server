@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.monitor.dao.CheckMonitorMapper">
   <resultMap id="CheckMonitorBaseResultMap" type="com.rainbow.monitor.domain.CheckMonitor">
@@ -33,7 +33,6 @@
 
 
   <select id="getCheckMonitorList" parameterType="map" resultMap="CheckMonitorExtendMap">
-
     select
     t.*,
     sd.name serviceDepartName,
@@ -48,7 +47,6 @@
     left join config_monitor_check_type ty on t.type_id = ty.id
     left join supervision_org f on t.org_id = f.id
     where 1=1
-
     <if test="name != null and name != ''">
       and instr(sd.name,#{name})>0 or instr(u.name,#{name})>0 or instr(ed.name,#{name})>0
     </if>
@@ -66,11 +64,15 @@
     </if>
 
     <if test="start_date != null and start_date != ''">
-      and DATE(t.start_date) <![CDATA[  <=  ]]> DATE(#{start_date})
+      and DATE(t.start_date)
+      <![CDATA[  <=  ]]>
+      DATE(#{start_date})
     </if>
 
     <if test="end_date != null and end_date != ''">
-      and DATE(t.end_date) <![CDATA[  >=  ]]> DATE(#{start_date})
+      and DATE(t.end_date)
+      <![CDATA[  >=  ]]>
+      DATE(#{start_date})
     </if>
 
     <if test="servicedepartId != null and servicedepartId != ''">
@@ -84,10 +86,8 @@
     <if test="umineId != null and umineId != ''">
       and t.umine_id = #{umineId}
     </if>
-
-
+      order by t.modify_date desc
   </select>
-
 
 
   <select id="getCheckMonitorById" parameterType="java.lang.String" resultMap="CheckMonitorExtendMap">

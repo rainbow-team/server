@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.supervision.dao.ProduceTrainMapper">
   <resultMap id="ProduceTrainBaseResultMap" type="com.rainbow.supervision.domain.SupervisionProduceTrain">
@@ -21,16 +21,18 @@
   </resultMap>
 
   <select id="getProduceTrainRecordList" parameterType="map" resultMap="ProduceTrainBaseResultMap">
-
     select  * from supervision_produce_train t
     where 1=1
-
     <if test="begin_date != null and begin_date != ''">
-      and DATE(t.begin_date) <![CDATA[  >=  ]]> DATE(#{begin_date})
+      and DATE(t.begin_date)
+      <![CDATA[  >=  ]]>
+      DATE(#{begin_date})
     </if>
 
     <if test="end_date != null and end_date != ''">
-      and DATE(t.begin_date) <![CDATA[  <=  ]]> DATE(#{end_date})
+      and DATE(t.begin_date)
+      <![CDATA[  <=  ]]>
+      DATE(#{end_date})
     </if>
 
     <if test="batch != null and batch != ''">
@@ -40,7 +42,6 @@
     <if test="place != null and place != ''">
       and instr(t.place,#{place})>0
     </if>
-
-
+    order by t.modify_date desc
   </select>
 </mapper>

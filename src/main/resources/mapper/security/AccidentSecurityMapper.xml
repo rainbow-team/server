@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.security.dao.AccidentSecurityMapper">
   <resultMap id="AccidentSecurityBaseResultMap" type="com.rainbow.security.domain.AccidentSecurity">
@@ -43,7 +43,6 @@
 
 
   <select id="getAccidentSecurityList" parameterType="map" resultMap="AccidentSecurityExtendMap">
-
     select
     t.*,
     sd.name serviceDepartName,
@@ -64,13 +63,12 @@
     left join config_accident_type aty on t.type_id = aty.id
     left join config_accident_nature ana on t.nature_id = ana.id
     where 1=1
-
     <!--<if test="serviceDepartName != null and serviceDepartName != ''">-->
-      <!--and instr(sd.name,#{serviceDepartName})>0-->
+    <!--and instr(sd.name,#{serviceDepartName})>0-->
     <!--</if>-->
 
     <!--<if test="umineName != null and umineName != ''">-->
-      <!--or instr(u.name,#{umineName})>0-->
+    <!--or instr(u.name,#{umineName})>0-->
     <!--</if>-->
 
     <if test="depart != null and depart != ''">
@@ -78,11 +76,11 @@
     </if>
 
     <!--<if test="facName != null and facName != ''">-->
-      <!--and instr(f.name,#{facName})>0-->
+    <!--and instr(f.name,#{facName})>0-->
     <!--</if>-->
 
     <!--<if test="uminePlaceName != null and uminePlaceName != ''">-->
-      <!--or instr(up.name,#{uminePlaceName})>0-->
+    <!--or instr(up.name,#{uminePlaceName})>0-->
     <!--</if>-->
 
     <if test="fac != null and fac != ''">
@@ -110,11 +108,15 @@
     </if>
 
     <if test="start_date != null and start_date != ''">
-      and DATE(t.occur_date) <![CDATA[  >=  ]]> DATE(#{start_date})
+      and DATE(t.occur_date)
+      <![CDATA[  >=  ]]>
+      DATE(#{start_date})
     </if>
 
     <if test="end_date != null and end_date != ''">
-      and DATE(t.occur_date) <![CDATA[  <=  ]]> DATE(#{end_date})
+      and DATE(t.occur_date)
+      <![CDATA[  <=  ]]>
+      DATE(#{end_date})
     </if>
 
     <if test="typeIds != null">
@@ -140,8 +142,8 @@
     <if test="umineId != null and umineId != ''">
       and t.umine_id = #{umineId}
     </if>
+    order by t.modify_date desc
   </select>
-
 
 
   <select id="getAccidentSecurityById" parameterType="java.lang.String" resultMap="AccidentSecurityExtendMap">

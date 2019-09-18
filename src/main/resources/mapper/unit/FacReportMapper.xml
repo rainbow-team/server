@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.unit.dao.FacReportMapper">
   <resultMap id="BaseFacResultResultMap" type="com.rainbow.unit.domain.FacReport">
@@ -17,14 +17,12 @@
 
 
   <select id="getFacReportList" parameterType="map" resultMap="FacReportExtendMap">
-
     select
       t.*,
       rt.value reportTypeValue
     from unit_fac_report t
     left join config_fac_report_type rt on t.type_id = rt.id
     where t.fac_id = #{facId}
-
     <if test="typeIds != null">
       and t.type_id in (
       <foreach item="item" index="index" collection="typeIds" separator=",">
@@ -38,13 +36,17 @@
     </if>
 
     <if test="start_date != null and start_date != ''">
-      and date(t.report_date) <![CDATA[  >=  ]]> date(#{start_date})
+      and date(t.report_date)
+      <![CDATA[  >=  ]]>
+      date(#{start_date})
     </if>
 
     <if test="end_date != null and end_date != ''">
-      and date(t.report_date) <![CDATA[  <=  ]]> date(#{end_date})
+      and date(t.report_date)
+      <![CDATA[  <=  ]]>
+      date(#{end_date})
     </if>
-
+    order by t.report_date desc
   </select>
 
   <select id="getFacReportById" parameterType="java.lang.String" resultMap="FacReportExtendMap">

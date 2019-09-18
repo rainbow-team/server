@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.supervision.dao.SupervisorMapper">
   <resultMap id="SupervisorBaseResultMap" type="com.rainbow.supervision.domain.Supervisor">
@@ -42,7 +42,7 @@
   </resultMap>
 
   <select id="getSupervisorList" parameterType="map" resultMap="SupervisorExtendResultMap">
-      select
+    select
       t.*,
       o.`name` orgName,
       ty.value typeValue,
@@ -60,32 +60,37 @@
       left join config_degree de on de.id = t.degree_id
 
       where 1=1
-      <if test="name != null and name != ''">
+    <if test="name != null and name != ''">
          and instr(t.name,#{name})>0
       </if>
 
-      <if test="orgName != null and orgName != ''">
+    <if test="orgName != null and orgName != ''">
          and instr(o.name,#{orgName})>0
       </if>
 
-      <if test="start_date != null and start_date != ''">
-          and DATE(t.expire_date) <![CDATA[  >=  ]]> DATE(#{start_date})
-      </if>
+    <if test="start_date != null and start_date != ''">
+      and DATE(t.expire_date)
+      <![CDATA[  >=  ]]>
+      DATE(#{start_date})
+    </if>
 
-      <if test="end_date != null and end_date != ''">
-          and DATE(t.expire_date) <![CDATA[  <=  ]]> DATE(#{end_date})
-      </if>
+    <if test="end_date != null and end_date != ''">
+      and DATE(t.expire_date)
+      <![CDATA[  <=  ]]>
+      DATE(#{end_date})
+    </if>
 
-      <if test="typeIds != null">
-          and t.type_id in (
-          <foreach item="item" index="index" collection="typeIds" separator=",">
+    <if test="typeIds != null">
+      and t.type_id in (
+      <foreach item="item" index="index" collection="typeIds" separator=",">
               #{item}
           </foreach>
-          )
-      </if>
+      )
+    </if>
+    order by t.modify_date desc
   </select>
 
-    <select id="getSupervisorById"  parameterType="java.lang.String" resultMap="SupervisorExtendResultMap">
+  <select id="getSupervisorById" parameterType="java.lang.String" resultMap="SupervisorExtendResultMap">
     select
      t.*,
      o.`name` orgName,
@@ -106,13 +111,13 @@
       where t.id = #{id}
     </select>
 
-    <update id="updateExpireDateById">
+  <update id="updateExpireDateById">
         update supervision_supervisor t
         set t.expire_date = #{expireDate}
         where t.id = #{id}
     </update>
 
-    <select id="getSupervisorByIdentity" parameterType="String" resultType="int">
+  <select id="getSupervisorByIdentity" parameterType="String" resultType="int">
         select COUNT(1) from supervision_supervisor t where t.identity =#{identity}
     </select>
 

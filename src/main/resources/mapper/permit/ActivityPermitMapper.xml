@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.permit.dao.ActivityPermitMapper">
   <resultMap id="ActivityPermitBaseResultMap" type="com.rainbow.permit.domain.ActivityPermit">
@@ -34,7 +34,6 @@
 
 
   <select id="getActivityPermitList" parameterType="map" resultMap="ActivityPermitExtendMap">
-
     select
     t.*,
     sd.name serviceDepartName,
@@ -47,13 +46,12 @@
     left join  unit_fac f on t.fac_id = f.id
     left join  config_activity_type act on t.activity_type_id = act.id
     where 1=1
-
     <!--<if test="serviceDepartName != null and serviceDepartName != ''">-->
-      <!--and instr(sd.name,#{serviceDepartName})>0-->
+    <!--and instr(sd.name,#{serviceDepartName})>0-->
     <!--</if>-->
 
     <!--<if test="equipDepartName != null and equipDepartName != ''">-->
-      <!--and instr(ed.name,#{equipDepartName})>0-->
+    <!--and instr(ed.name,#{equipDepartName})>0-->
     <!--</if>-->
 
     <if test="departName != null and departName != ''">
@@ -81,11 +79,15 @@
     </if>
 
     <if test="start_date != null and start_date != ''">
-      and DATE(t.permit_date) <![CDATA[  >=  ]]>  DATE(#{start_date})
+      and DATE(t.permit_date)
+      <![CDATA[  >=  ]]>
+      DATE(#{start_date})
     </if>
 
     <if test="end_date != null and end_date != ''">
-      and DATE(t.permit_date) <![CDATA[  <=  ]]>  DATE(#{end_date})
+      and DATE(t.permit_date)
+      <![CDATA[  <=  ]]>
+      DATE(#{end_date})
     </if>
 
     <if test="servicedepartId != null and servicedepartId != ''">
@@ -99,8 +101,7 @@
     <if test="equipdepartId != null and equipdepartId != ''">
       and t.equip_depart_id = #{equipdepartId}
     </if>
-
-
+    order by t.modify_date desc
   </select>
 
   <select id="getActivityPermitById" parameterType="java.lang.String" resultMap="ActivityPermitExtendMap">

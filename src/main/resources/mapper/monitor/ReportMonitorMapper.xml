@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.monitor.dao.ReportMonitorMapper">
   <resultMap id="ReportMonitorBaseResultMap" type="com.rainbow.monitor.domain.ReportMonitor">
@@ -25,7 +25,6 @@
 
 
   <select id="getReportMonitorList" parameterType="map" resultMap="ReportMonitorExtendMap">
-
     select
     t.*,
     o.name orgName,
@@ -34,7 +33,6 @@
     left join supervision_org o on t.org_id = o.id
     left join config_monitor_report_type rt on t.report_type_id = rt.id
     where 1=1
-
     <if test="orgName != null and orgName != ''">
       and instr(o.name,#{orgName})>0
     </if>
@@ -52,14 +50,18 @@
     </if>
 
     <if test="start_date != null and start_date != ''">
-      and DATE(t.report_date) <![CDATA[  >=  ]]> DATE(#{start_date})
+      and DATE(t.report_date)
+      <![CDATA[  >=  ]]>
+      DATE(#{start_date})
     </if>
 
     <if test="end_date != null and end_date != ''">
-      and DATE(t.report_date) <![CDATA[  <=  ]]> DATE(#{end_date})
+      and DATE(t.report_date)
+      <![CDATA[  <=  ]]>
+      DATE(#{end_date})
     </if>
+    order by t.modify_date desc
   </select>
-
 
 
   <select id="getReportMonitorById" parameterType="java.lang.String" resultMap="ReportMonitorExtendMap">

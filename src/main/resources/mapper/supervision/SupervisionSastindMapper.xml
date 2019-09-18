@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.supervision.dao.SupervisionSastindMapper">
   <resultMap id="BaseResultMap" type="com.rainbow.supervision.domain.SupervisionSastind">
@@ -30,6 +30,7 @@
     <if test="name!=null and name!=''">
       and instr(t.name,#{name})>0
     </if>
+    order by t.modify_date desc
   </select>
 
 </mapper>

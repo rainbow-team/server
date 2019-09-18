@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.permit.dao.EquipPermitMapper">
   <resultMap id="EquipPermitBaseResultMap" type="com.rainbow.permit.domain.EquipPermit">
@@ -37,7 +37,6 @@
 
 
   <select id="getEquipPermitList" parameterType="map" resultMap="EquipPermitExtendMap">
-
     select
      t.*,
      ea.name equipDepartName,
@@ -54,7 +53,6 @@
     left join  config_equip_level el on t.level_id = el.id
     left join  config_equip_permit_stage ps on t.stage_id = ps.id
     where 1=1
-
     <if test="name != null and name != ''">
       and instr(t.name,#{name})>0
     </if>
@@ -96,18 +94,21 @@
     </if>
 
     <if test="start_date != null and start_date != ''">
-      and DATE(t.permit_date) <![CDATA[  >=  ]]>  DATE(#{start_date})
+      and DATE(t.permit_date)
+      <![CDATA[  >=  ]]>
+      DATE(#{start_date})
     </if>
 
     <if test="end_date != null and end_date != ''">
-      and DATE(t.permit_date) <![CDATA[  <=  ]]>  DATE(#{end_date})
+      and DATE(t.permit_date)
+      <![CDATA[  <=  ]]>
+      DATE(#{end_date})
     </if>
 
     <if test="equipdepartId != null and equipdepartId != ''">
       and t.equip_depart_id = #{equipdepartId}
     </if>
-
-
+    order by t.modify_date desc
   </select>
 
   <select id="getEquipPermitById" parameterType="java.lang.String" resultMap="EquipPermitExtendMap">

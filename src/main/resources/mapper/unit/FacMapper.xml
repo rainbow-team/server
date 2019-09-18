@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.unit.dao.FacMapper">
   <resultMap id="FacBaseResultMap" type="com.rainbow.unit.domain.Fac">
@@ -49,7 +49,6 @@
   </select>
 
   <select id="getFacList" parameterType="map" resultMap="FacExtendMap">
-
     select
      t.*,
      us.name serviceDepart,
@@ -66,7 +65,6 @@
     left join config_review_status rs on t.review_status_id = rs.id
     left join config_fac_permit_situation ps on t.fac_permit_situation_id = ps.id
     where 1=1
-
     <if test="name != null and name != ''">
       and instr(t.name,#{name})>0
     </if>
@@ -80,11 +78,15 @@
     </if>
 
     <if test="build_start_year != null and build_start_year != ''">
-      and year(t.build_year) <![CDATA[  >=  ]]> year(#{build_start_year})
+      and year(t.build_year)
+      <![CDATA[  >=  ]]>
+      year(#{build_start_year})
     </if>
 
     <if test="build_end_year != null and build_end_year != ''">
-      and year(t.build_year) <![CDATA[  <=  ]]> year(#{build_end_year})
+      and year(t.build_year)
+      <![CDATA[  <=  ]]>
+      year(#{build_end_year})
     </if>
 
     <if test="supervisionCategoryIds != null">
@@ -134,8 +136,8 @@
     <if test="is_flood != null and is_flood != ''">
       and t.is_flood = #{is_flood}
     </if>
+    order by t.modify_date desc
   </select>
-
 
 
   <select id="getFacById" parameterType="java.lang.String" resultMap="FacExtendMap">
@@ -182,7 +184,7 @@
     and not exists(select 1 from security_equip k where k.fac_id = t.id)
     and not exists(select 1 from security_accident l where l.fac_id = t.id)
   </select>
-  
+
   <select id="getFacListByServiceId" parameterType="java.lang.String" resultMap="FacBaseResultMap">
     select * from unit_fac t where t.service_id = #{serviceId}
   </select>

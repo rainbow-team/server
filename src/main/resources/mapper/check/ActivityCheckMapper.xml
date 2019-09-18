@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.check.dao.ActivityCheckMapper">
   <resultMap id="ActivityCheckBaseResultMap" type="com.rainbow.check.domain.ActivityCheck">
@@ -29,7 +29,6 @@
 
 
   <select id="getActivityCheckList" parameterType="map" resultMap="ActivityCheckExtendMap">
-
     select
     t.*,
     sd.name serviceDepartName,
@@ -42,13 +41,12 @@
     left join unit_fac f on t.fac_id = f.id
     left join config_activity_type ty on t.type_id = ty.id
     where 1=1
-
     <!--<if test="serviceDepartName != null and serviceDepartName != ''">-->
-      <!--and instr(sd.name,#{serviceDepartName})>0-->
+    <!--and instr(sd.name,#{serviceDepartName})>0-->
     <!--</if>-->
 
     <!--<if test="equipDepartName != null and equipDepartName != ''">-->
-      <!--and instr(ud.name,#{equipDepartName})>0-->
+    <!--and instr(ud.name,#{equipDepartName})>0-->
     <!--</if>-->
 
     <if test="name != null and name != ''">
@@ -82,11 +80,8 @@
     <if test="facId != null and facId != ''">
       and t.fac_id = #{facId}
     </if>
-
     order by t.check_date desc
-
   </select>
-
 
 
   <select id="getActivityCheckById" parameterType="java.lang.String" resultMap="ActivityCheckExtendMap">

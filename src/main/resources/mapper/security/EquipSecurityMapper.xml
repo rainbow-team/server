@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.security.dao.EquipSecurityMapper">
   <resultMap id="EquipSecurityBaseResultMap" type="com.rainbow.security.domain.EquipSecurity">
@@ -38,7 +38,6 @@
 
 
   <select id="getEquipSecurityList" parameterType="map" resultMap="EquipSecurityExtendMap">
-
     select
     t.*,
     ed.name equipDepartName,
@@ -55,7 +54,6 @@
     left join config_equip_security_question_type sqt on t.question_type_id = sqt.id
     left join config_security_reform_status rs on t.reform_status_id = rs.id
     where 1=1
-
     <if test="equipDepartName != null and equipDepartName != ''">
       and instr(ed.name,#{equipDepartName})>0
     </if>
@@ -85,11 +83,15 @@
     </if>
 
     <if test="start_date != null and start_date != ''">
-      and DATE(t.find_date) <![CDATA[  >=  ]]> DATE(#{start_date})
+      and DATE(t.find_date)
+      <![CDATA[  >=  ]]>
+      DATE(#{start_date})
     </if>
 
     <if test="end_date != null and end_date != ''">
-      and DATE(t.find_date) <![CDATA[  <=  ]]> DATE(#{end_date})
+      and DATE(t.find_date)
+      <![CDATA[  <=  ]]>
+      DATE(#{end_date})
     </if>
 
     <if test="questionTypeIds != null">
@@ -111,10 +113,8 @@
     <if test="equipdepartId != null and equipdepartId != ''">
       and t.equip_depart_id = #{equipdepartId}
     </if>
-
-
+    order by t.modify_date desc
   </select>
-
 
 
   <select id="getEquipSecurityById" parameterType="java.lang.String" resultMap="EquipSecurityExtendMap">

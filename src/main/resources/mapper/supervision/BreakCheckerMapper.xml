@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.supervision.dao.BreakCheckerMapper">
   <resultMap id="BreakCheckerBaseResultMap" type="com.rainbow.supervision.domain.BreakChecker">
@@ -31,7 +31,6 @@
 
 
   <select id="getBreakCheckerList" parameterType="map" resultMap="BreakCheckerExtendMap">
-
     select
       t.*,
       cm.value checkMethodValue,
@@ -40,7 +39,6 @@
     left join config_check_method cm on t.check_method_id = cm.id
     left join config_check_level cl on t.check_level_id = cl.id
     where 1=1
-
     <if test="name != null and name != ''">
       and instr(t.name,#{name})>0
     </if>
@@ -66,17 +64,21 @@
     </if>
 
     <if test="start_date != null and start_date != ''">
-      and DATE(t.valid_date) <![CDATA[  >=  ]]> DATE(#{start_date})
+      and DATE(t.valid_date)
+      <![CDATA[  >=  ]]>
+      DATE(#{start_date})
     </if>
 
     <if test="end_date != null and end_date != ''">
-      and DATE(t.valid_date) <![CDATA[  <=  ]]> DATE(#{end_date})
+      and DATE(t.valid_date)
+      <![CDATA[  <=  ]]>
+      DATE(#{end_date})
     </if>
 
     <if test="cert_number != null and cert_number != ''">
       and instr(t.cert_number,#{cert_number})>0
     </if>
-
+    order by t.modify_date desc
   </select>
 
 
