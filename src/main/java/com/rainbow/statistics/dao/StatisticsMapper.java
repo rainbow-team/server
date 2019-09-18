@@ -38,4 +38,5 @@ public interface StatisticsMapper extends MyMapper<ResultObj> {
 
     List<ResultObj> statisticsFacilitiesByRegion();
 
+    List<YearResultObj> getStatisticsResultByTypeAndDate(SearchCondition condition);
 }

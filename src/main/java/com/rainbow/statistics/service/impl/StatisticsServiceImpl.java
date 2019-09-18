@@ -116,7 +116,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     private List<PermitTypeNumber> GetReportResult(List<PermitReportDomainResult> result, List<String> yearList,
-            List<SystemConfig> systemConfigs) {
+                                                   List<SystemConfig> systemConfigs) {
 
         List<PermitTypeNumber> list = new ArrayList<PermitTypeNumber>() {
         };
@@ -287,5 +287,46 @@ public class StatisticsServiceImpl implements StatisticsService {
             result.add(obj);
         }
         return result;
+    }
+
+    @Override
+    public ResponseBo getStatisticsResultByTypeAndDate(SearchCondition condition) {
+        List<String> yearList = new ArrayList<>();
+        yearList.add(0, "2000年前建造");
+        yearList.add(1, "2000年后建造");
+
+        List<SystemConfig> systemConfigs = systemConfigMapper
+                .getSystemConfigByTableName(condition.getConfigTableName());
+
+        List<YearResultObj> result = statisticsMapper.getStatisticsResultByTypeAndDate(condition);
+
+        if (result != null) {
+            List<PermitTypeNumber> tempResult = new ArrayList<PermitTypeNumber>();
+
+            //List<PermitTypeNumber> tempResult = GetReportResult(result, yearList, systemConfigs);
+
+            for (SystemConfig config : systemConfigs) {
+
+                PermitTypeNumber permitTypeNumber = new PermitTypeNumber();
+                permitTypeNumber.setName(config.getValue());
+
+                List<String> numerResult = new ArrayList<String>();
+
+
+                for (YearResultObj obj : result) {
+                    if (obj.getTypeName().equalsIgnoreCase(config.getValue())) {
+                        numerResult.add(obj.getSmall().toString());
+                        numerResult.add(obj.getBig().toString());
+                    }
+                }
+                permitTypeNumber.setData(numerResult);
+                tempResult.add(permitTypeNumber);
+            }
+            PermitReportResult p = new PermitReportResult();
+            p.setYearDate(yearList);
+            p.setNumberList(tempResult);
+            return ResponseBo.ok(p);
+        }
+        return ResponseBo.error("获取失败");
     }
 }

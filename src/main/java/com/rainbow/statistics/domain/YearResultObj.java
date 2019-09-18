@@ -13,6 +13,8 @@ public class YearResultObj {
     //小于2000年的数量
     private Integer small;
 
+    private String typeName;
+
     public Integer getBig() {
         return big;
     }
@@ -27,5 +29,13 @@ public class YearResultObj {
 
     public void setSmall(Integer small) {
         this.small = small;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
     }
 }

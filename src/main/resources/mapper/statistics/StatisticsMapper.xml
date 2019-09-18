@@ -148,4 +148,21 @@
     <select id="statisticsFacilitiesByRegion" resultMap="BaseResultMap">
         select ua.province as name, count(uhr.id) as value from unit_hot_region uhr left join unit_address ua on uhr.unit_id=ua.unit_id WHERE ua.province is not null  GROUP BY ua.province
     </select>
+
+
+    <select id="getStatisticsResultByTypeAndDate" parameterType="com.rainbow.statistics.domain.SearchCondition" resultType="com.rainbow.statistics.domain.YearResultObj">
+        select c.`value` typeName,
+
+        sum(case when year(t.build_year)  <![CDATA[  >=  ]]> 2000 then 1 else 0 end) big ,
+
+        sum(case when year(t.build_year)  <![CDATA[  <   ]]> 2000 then 1 else 0 end) small
+
+        from  config_fac_type c
+
+        left join unit_fac t on c.id = t.type_id
+
+        group by t.type_id;
+
+    </select>
+
 </mapper>
