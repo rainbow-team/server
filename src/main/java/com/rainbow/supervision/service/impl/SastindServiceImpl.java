@@ -2,6 +2,7 @@ package com.rainbow.supervision.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -34,6 +35,7 @@ public class SastindServiceImpl extends BaseService<SupervisionSastind> implemen
      * @return
      */
     @Override
+    @SystemLog(description="添加国防科工局信息")
     public int addSastind(SupervisionSastind sastind) {
       sastind.setId(GuidHelper.getGuid());
       sastind.setCreateDate(new Date());
@@ -47,6 +49,7 @@ public class SastindServiceImpl extends BaseService<SupervisionSastind> implemen
      * @return
      */
     @Override
+    @SystemLog(description="修改国防科工局信息")
     public int modifySastind(SupervisionSastind sastind) {
         sastind.setModifyDate(new Date());
         return sastindMapper.updateByPrimaryKey(sastind);

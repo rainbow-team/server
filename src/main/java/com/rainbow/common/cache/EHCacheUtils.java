@@ -59,6 +59,24 @@ public class EHCacheUtils {
         }
     }
 
+    public static  SystemUser getCurrentUser(CacheManager cacheManager){
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                .getRequest();
+
+        String key = request.getHeader("auth_id");
+        if (null == key){
+            key =  request.getParameter("AUTH_ID");
+        }
+        SystemUser systemUser = null;
+
+        Cache cache = cacheManager.getCache("objectCache");
+        if(cache.get(key)!=null && !cache.get(key).equals("")){
+            systemUser =(SystemUser) cache.get(key).getObjectValue();
+        }
+
+        return systemUser;
+    }
+
     public static void deleteCacheByUserId(CacheManager cacheManager,String id){
         Cache cache = cacheManager.getCache("objectCache");
         SystemUser object = null;

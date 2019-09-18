@@ -1,5 +1,6 @@
 package com.rainbow.system.controller;
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.cache.EHCacheUtils;
 import com.rainbow.common.controller.BaseController;
 import com.rainbow.common.domain.ResponseBo;
@@ -53,7 +54,6 @@ public class LoginController extends BaseController{
     private CacheManager cacheManager;
 
     @PostMapping("/login")
-
     public ResponseBo login(@RequestBody Map<String,String> map, HttpServletRequest  request) {
 
 //        String code = request.getSession(true).getAttribute(CODE_KEY).toString();
