@@ -88,6 +88,7 @@ public class UserServiceImpl extends BaseService<SystemUser> implements UserServ
         return result;
     }
 
+    @Override
     public ResponseBo getUserList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();

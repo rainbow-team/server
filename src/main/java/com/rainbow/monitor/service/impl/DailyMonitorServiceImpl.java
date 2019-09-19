@@ -2,6 +2,7 @@ package com.rainbow.monitor.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -29,6 +30,7 @@ public class DailyMonitorServiceImpl extends BaseService<DailyMonitor> implement
     DailyMonitorMapper dailyMonitorMapper;
 
     @Override
+    @SystemLog(description="添加日常监督信息")
     public int addDailyMonitor(DailyMonitor activityCheck) {
         activityCheck.setId(GuidHelper.getGuid());
         activityCheck.setCreateDate(new Date());
@@ -37,6 +39,7 @@ public class DailyMonitorServiceImpl extends BaseService<DailyMonitor> implement
     }
 
     @Override
+    @SystemLog(description="修改日常监督信息")
     public int modifyDailyMonitor(DailyMonitor activityCheck) {
         activityCheck.setModifyDate(new Date());
         return dailyMonitorMapper.updateByPrimaryKey(activityCheck);

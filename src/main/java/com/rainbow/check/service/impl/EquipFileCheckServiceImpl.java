@@ -9,6 +9,7 @@ import com.rainbow.check.domain.EquipFileCheck;
 import com.rainbow.check.domain.FacFileCheck;
 import com.rainbow.check.service.EquipFileCheckService;
 import com.rainbow.check.service.FacFileCheckService;
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -35,6 +36,7 @@ public class EquipFileCheckServiceImpl extends BaseService<EquipFileCheck> imple
     FileInfoService fileInfoService;
 
     @Override
+    @SystemLog(description="添加核安全设备审评信息审评文件")
     public int addEquipFileCheck(EquipFileCheck equipFileCheck) {
         equipFileCheck.setId(GuidHelper.getGuid());
         fileInfoService.updateFileInfoByIds(equipFileCheck.getAttachmentList(),equipFileCheck.getId());

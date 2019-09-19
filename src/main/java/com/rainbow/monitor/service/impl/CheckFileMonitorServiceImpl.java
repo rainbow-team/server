@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.rainbow.check.dao.ActivityFileCheckMapper;
 import com.rainbow.check.domain.ActivityFileCheck;
 import com.rainbow.check.service.ActivityFileCheckService;
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -32,6 +33,7 @@ public class CheckFileMonitorServiceImpl extends BaseService<CheckFileMonitor> i
 
 
     @Override
+    @SystemLog(description="添加监督检查文件")
     public int addCheckFileMonitor(CheckFileMonitor checkFileMonitor) {
         checkFileMonitor.setId(GuidHelper.getGuid());
         return checkFileMonitorMapper.insert(checkFileMonitor);

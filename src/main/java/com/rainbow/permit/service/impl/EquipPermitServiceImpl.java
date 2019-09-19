@@ -2,6 +2,7 @@ package com.rainbow.permit.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -30,6 +31,7 @@ public class EquipPermitServiceImpl extends BaseService<EquipPermit> implements 
     EquipPermitMapper equipPermitMapper;
 
     @Override
+    @SystemLog(description="添加核安全设备许可信息")
     public int addEquipPermit(EquipPermit equipPermit) {
         equipPermit.setId(GuidHelper.getGuid());
         equipPermit.setCreateDate(new Date());
@@ -38,6 +40,7 @@ public class EquipPermitServiceImpl extends BaseService<EquipPermit> implements 
     }
 
     @Override
+    @SystemLog(description="修改核安全设备许可信息")
     public int modifyEquipPermit(EquipPermit equipPermit) {
         equipPermit.setModifyDate(new Date());
         return equipPermitMapper.updateByPrimaryKey(equipPermit);

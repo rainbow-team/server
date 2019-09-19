@@ -9,6 +9,7 @@ import com.rainbow.check.domain.ActivityFileCheck;
 import com.rainbow.check.domain.EquipFileCheck;
 import com.rainbow.check.service.ActivityFileCheckService;
 import com.rainbow.check.service.EquipFileCheckService;
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -35,6 +36,7 @@ public class ActivityFileCheckServiceImpl extends BaseService<ActivityFileCheck>
     FileInfoService fileInfoService;
 
     @Override
+    @SystemLog(description="添加核活动及其他审评信息审评文件")
     public int addActivityFileCheck(ActivityFileCheck activityFileCheck) {
         activityFileCheck.setId(GuidHelper.getGuid());
         fileInfoService.updateFileInfoByIds(activityFileCheck.getAttachmentList(),activityFileCheck.getId());

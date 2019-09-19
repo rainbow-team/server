@@ -11,4 +11,27 @@
     <result column="oper_time" jdbcType="TIMESTAMP" property="operTime" />
     <result column="oper_content" jdbcType="VARCHAR" property="operContent" />
   </resultMap>
+
+
+  <select id="getSystemLogList" parameterType="map" resultMap="BaseResultMap">
+
+    SELECT t.* from system_log t
+    WHERE  1=1
+    <if test="userId!=null and userId!=''">
+      and t.user_id = #{userId}
+    </if>
+
+    <if test="starttime != null and starttime != ''">
+      and DATE(t.oper_time)
+      <![CDATA[  >=  ]]>
+      DATE(#{starttime})
+    </if>
+
+    <if test="endtime != null and endtime != ''">
+      and DATE(t.oper_time)
+      <![CDATA[  <=  ]]>
+      DATE(#{endtime})
+    </if>
+  </select>
+
 </mapper>

@@ -1,5 +1,6 @@
 package com.rainbow.config.service.impl;
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
 import com.rainbow.common.util.GuidHelper;
@@ -31,6 +32,7 @@ public class LinkServiceImpl extends BaseService<LinkDetail> implements LinkServ
     LinkDetailMapper linkDetailMapper;
 
     @Override
+    @SystemLog(description="添加链接")
     public int addLinkDetail(LinkDetail linkDetail) {
         linkDetail.setId(GuidHelper.getGuid());
         return linkDetailMapper.insert(linkDetail);

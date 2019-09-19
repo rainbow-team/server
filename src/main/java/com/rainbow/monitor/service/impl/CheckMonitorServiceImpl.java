@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.rainbow.check.dao.ActivityCheckMapper;
 import com.rainbow.check.domain.ActivityCheck;
 import com.rainbow.check.service.ActivityCheckService;
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -32,6 +33,7 @@ public class CheckMonitorServiceImpl extends BaseService<CheckMonitor> implement
     CheckMonitorMapper checkMonitorMapper;
 
     @Override
+    @SystemLog(description="添加监督检查信息")
     public int addCheckMonitor(CheckMonitor checkMonitor) {
         checkMonitor.setId(GuidHelper.getGuid());
         checkMonitor.setCreateDate(new Date());
@@ -40,12 +42,14 @@ public class CheckMonitorServiceImpl extends BaseService<CheckMonitor> implement
     }
 
     @Override
+    @SystemLog(description="修改监督检查信息")
     public int modifyCheckMonitor(CheckMonitor checkMonitor) {
         checkMonitor.setModifyDate(new Date());
         return checkMonitorMapper.updateByPrimaryKey(checkMonitor);
     }
 
     @Override
+    @SystemLog(description="删除监督检查信息")
     public int deleteCheckMonitorById(String id) {
         Object result = checkMonitorMapper.getCheckMonitorRelationCount(id);
         if (result != null) {

@@ -3,6 +3,7 @@ package com.rainbow.attachment.service.impl;
 import com.rainbow.attachment.dao.FileInfoMapper;
 import com.rainbow.attachment.domain.FileInfo;
 import com.rainbow.attachment.service.FileInfoService;
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.config.RainbowProperties;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
@@ -40,6 +41,7 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
     private RainbowProperties rainbowProperties;
 
     @Override
+    @SystemLog(description="上传附件")
     public ResponseBo upload(MultipartFile multifile, HttpServletRequest request) {
 
         String guid = UUID.randomUUID().toString();
@@ -115,6 +117,7 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
     }
 
     @Override
+    @SystemLog(description="下载附件")
     public void downloadAccessoryByid(String id, HttpServletResponse response) {
 
         FileInfo fileInfo = fileInfoMapper.selectByPrimaryKey(id);

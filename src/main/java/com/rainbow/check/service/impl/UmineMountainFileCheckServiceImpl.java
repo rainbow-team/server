@@ -9,6 +9,7 @@ import com.rainbow.check.domain.UmineMountainFileCheck;
 import com.rainbow.check.domain.UminePlaceFileCheck;
 import com.rainbow.check.service.UmineMountainFileCheckService;
 import com.rainbow.check.service.UminePlaceFileCheckService;
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -35,6 +36,7 @@ public class UmineMountainFileCheckServiceImpl extends BaseService<UmineMountain
     FileInfoService fileInfoService;
 
     @Override
+    @SystemLog(description="添加铀矿山井下消防审查信息审评文件")
     public int addUmineMountainFileCheck(UmineMountainFileCheck umineMountainFileCheck) {
         umineMountainFileCheck.setId(GuidHelper.getGuid());
         fileInfoService.updateFileInfoByIds(umineMountainFileCheck.getAttachmentList(),umineMountainFileCheck.getId());

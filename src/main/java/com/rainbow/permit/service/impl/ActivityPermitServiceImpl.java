@@ -2,6 +2,7 @@ package com.rainbow.permit.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -32,6 +33,7 @@ public class ActivityPermitServiceImpl extends BaseService<ActivityPermit> imple
     ActivityPermitMapper activityPermitMapper;
 
     @Override
+    @SystemLog(description="添加核活动许可信息")
     public int addActivityPermit(ActivityPermit activityPermit) {
         activityPermit.setId(GuidHelper.getGuid());
         activityPermit.setCreateDate(new Date());
@@ -40,6 +42,7 @@ public class ActivityPermitServiceImpl extends BaseService<ActivityPermit> imple
     }
 
     @Override
+    @SystemLog(description="修改核活动许可信息")
     public int modifyActivityPermit(ActivityPermit activityPermit) {
         activityPermit.setModifyDate(new Date());
         return activityPermitMapper.updateByPrimaryKey(activityPermit);

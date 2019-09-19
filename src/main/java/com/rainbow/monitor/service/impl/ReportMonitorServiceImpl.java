@@ -2,6 +2,7 @@ package com.rainbow.monitor.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -32,6 +33,7 @@ public class ReportMonitorServiceImpl extends BaseService<ReportMonitor> impleme
     ReportMonitorMapper reportMonitorMapper;
 
     @Override
+    @SystemLog(description="添加监督报告信息")
     public int addReportMonitor(ReportMonitor reportMonitor) {
         reportMonitor.setId(GuidHelper.getGuid());
         reportMonitor.setCreateDate(new Date());
@@ -40,6 +42,7 @@ public class ReportMonitorServiceImpl extends BaseService<ReportMonitor> impleme
     }
 
     @Override
+    @SystemLog(description="修改监督报告信息")
     public int modifyReportMonitor(ReportMonitor reportMonitor) {
         reportMonitor.setModifyDate(new Date());
         return reportMonitorMapper.updateByPrimaryKey(reportMonitor);

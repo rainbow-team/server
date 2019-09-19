@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.rainbow.check.dao.FacCheckMapper;
 import com.rainbow.check.domain.FacCheck;
 import com.rainbow.check.service.FacCheckService;
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -32,6 +33,7 @@ public class FacCheckServiceImpl extends BaseService<FacCheck> implements FacChe
     FacCheckMapper facCheckMapper;
 
     @Override
+    @SystemLog(description="添加核设施审评信息")
     public int addFacCheck(FacCheck facCheck) {
         facCheck.setId(GuidHelper.getGuid());
         facCheck.setCreateDate(new Date());
@@ -40,12 +42,14 @@ public class FacCheckServiceImpl extends BaseService<FacCheck> implements FacChe
     }
 
     @Override
+    @SystemLog(description="修改核设施审评信息")
     public int modifyFacCheck(FacCheck facCheck) {
         facCheck.setModifyDate(new Date());
         return facCheckMapper.updateByPrimaryKey(facCheck);
     }
 
     @Override
+    @SystemLog(description="删除核设施审评信息")
     public int deleteFacCheckById(String id) {
         Object result = facCheckMapper.getFacCheckRelationCount(id);
         if (result != null) {

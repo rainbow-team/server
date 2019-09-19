@@ -7,6 +7,7 @@ import com.rainbow.check.dao.FacCheckMapper;
 import com.rainbow.check.dao.FacFileCheckMapper;
 import com.rainbow.check.domain.FacCheck;
 import com.rainbow.check.domain.FacFileCheck;
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.config.RainbowProperties;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.util.*;
@@ -80,6 +81,7 @@ public class DataMigrationServiceImpl implements DataMigrationService {
     FileInfoService fileInfoService;
 
     @Override
+    @SystemLog(description="数据迁移导出")
     public  void exportData(String type,HttpServletResponse response) {
 
         String[] tables = type.split(",");
@@ -584,6 +586,7 @@ public class DataMigrationServiceImpl implements DataMigrationService {
     }
 
     @Override
+    @SystemLog(description="数据迁移导入")
     public ResponseBo importData(HttpServletRequest request) {
 
         try {

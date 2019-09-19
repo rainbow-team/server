@@ -6,6 +6,7 @@ import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.check.dao.FacFileCheckMapper;
 import com.rainbow.check.domain.FacFileCheck;
 import com.rainbow.check.service.FacFileCheckService;
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -36,6 +37,7 @@ public class FacFileCheckServiceImpl extends BaseService<FacFileCheck> implement
     FileInfoService fileInfoService;
 
     @Override
+    @SystemLog(description="添加核设施审评信息审评文件")
     public int addFacFileCheck(FacFileCheck facFileCheck) {
         facFileCheck.setId(GuidHelper.getGuid());
         fileInfoService.updateFileInfoByIds(facFileCheck.getAttachmentList(),facFileCheck.getId());

@@ -174,4 +174,9 @@ public class UserController extends BaseController {
         }
 
     }
+
+    @PostMapping("/getAllUser")
+    public ResponseBo getAllUser(){
+        return ResponseBo.ok(userService.selectAll());
+    }
 }
