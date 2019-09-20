@@ -6,6 +6,8 @@ import com.rainbow.common.service.IService;
 import com.rainbow.security.domain.EquipSecurity;
 import com.rainbow.security.domain.FacSecurity;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @Author:deepblue
  * @Date:2019/6/27 17:08
@@ -20,4 +22,6 @@ public interface EquipSecurityService extends IService<EquipSecurity> {
     ResponseBo getEquipSecurityList(Page page);
 
     ResponseBo getEquipSecurityById(String id);
+
+    void exportEquipSecurity(Page page,HttpServletResponse response);
 }
