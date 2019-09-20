@@ -5,6 +5,8 @@ import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.IService;
 import com.rainbow.supervision.domain.SupervisionProduceTrain;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @Author:deepblue
  * @Date:2019/6/27 17:08
@@ -19,4 +21,6 @@ public interface ProduceTrainService extends IService<SupervisionProduceTrain> {
     ResponseBo getProduceTrainRecordList(Page page);
 
     ResponseBo getProduceTrainRecordById(String id);
+
+    void exportProduceTrain(Page page,HttpServletResponse response);
 }

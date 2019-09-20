@@ -5,6 +5,8 @@ import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.IService;
 import com.rainbow.supervision.domain.SupervisorTrain;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @Author:deepblue
  * @Date:2019/6/27 17:08
@@ -22,4 +24,5 @@ public interface SupervisorTrainService extends IService<SupervisorTrain> {
 
     ResponseBo deleteMonitorTrainById(String id);
 
+    void exportMonitorTrain(Page page,HttpServletResponse response);
 }

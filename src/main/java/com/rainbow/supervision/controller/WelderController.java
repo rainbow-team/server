@@ -1,8 +1,10 @@
 package com.rainbow.supervision.controller;
 
 
+import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
+import com.rainbow.common.util.DateUtils;
 import com.rainbow.supervision.domain.Welder;
 import com.rainbow.supervision.service.WelderService;
 import org.slf4j.Logger;
@@ -10,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -95,5 +99,42 @@ public class WelderController {
             return ResponseBo.ok("删除成功!");
         }
         return ResponseBo.error("删除失败，请重试!");
+    }
+
+    /**
+     * 导出焊接人员资质信息
+     */
+    @RequestMapping(value = "/exportWelder", method = RequestMethod.GET)
+    public void exportMonitorTrain( @RequestParam(value = "name", required = false) String name,
+                                    @RequestParam(value = "employ_depart", required = false) String employ_depart,
+                                    @RequestParam(value = "exam_project", required = false) String exam_project,
+                                    @RequestParam(value = "start_date", required = false) String start_date,
+                                    @RequestParam(value = "end_date", required = false) String end_date,
+                                    HttpServletResponse response) {
+
+        List<Condition> list = new ArrayList<>();
+        if (!name.isEmpty()) {
+            list.add(new Condition("name", name));
+        }
+        if (!employ_depart.isEmpty()) {
+            list.add(new Condition("employ_depart", employ_depart));
+        }
+        if (!exam_project.isEmpty()) {
+            list.add(new Condition("exam_project", exam_project));
+        }
+
+        if (!start_date.isEmpty()) {
+            list.add(new Condition("start_date", DateUtils.GmtStringToDate(start_date)));
+        }
+        if (!end_date.isEmpty()) {
+            list.add(new Condition("end_date", DateUtils.GmtStringToDate(end_date)));
+        }
+
+
+        Page page = new Page();
+        page.setConditions(list);
+
+        supervisionWelderService.exportWelderTrain(page,response);
+
     }
 }

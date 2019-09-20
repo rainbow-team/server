@@ -6,17 +6,23 @@ import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
+import com.rainbow.common.util.DateUtils;
+import com.rainbow.common.util.ExportExcel;
 import com.rainbow.common.util.GuidHelper;
 import com.rainbow.supervision.dao.ExpertMapper;
 import com.rainbow.supervision.domain.Expert;
+import com.rainbow.supervision.domain.SupervisionProduceTrain;
+import com.rainbow.supervision.domain.extend.ExpertExtend;
 import com.rainbow.supervision.service.ExpertService;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.util.*;
 
 /**
  * @Author:deepblue
@@ -70,11 +76,11 @@ public class ExpertServiceImpl extends BaseService<Expert> implements ExpertServ
             map.put("start_date",date);
         }
 
-        List<Expert> list = expertMapper.getExpertList(map);
+        List<ExpertExtend> list = expertMapper.getExpertList(map);
 
-        PageInfo<Expert> pageInfo = new PageInfo<Expert>(list);
+        PageInfo<ExpertExtend> pageInfo = new PageInfo<ExpertExtend>(list);
 
-        PagingEntity<Expert> result = new PagingEntity<>(pageInfo);
+        PagingEntity<ExpertExtend> result = new PagingEntity<>(pageInfo);
 
         return ResponseBo.ok(result);
     }
@@ -93,5 +99,59 @@ public class ExpertServiceImpl extends BaseService<Expert> implements ExpertServ
         //String name = userMapper.getUserNameById(result.getCreatorId());
         //result.setCreatorName(name);
 
+    }
+
+    @Override
+    public void exportExpert(Page page, HttpServletResponse response) {
+        Map<String, Object> map = page.getQueryParameter();
+        List<ExpertExtend> list = expertMapper.getExpertList(map);
+
+        List<String[]> cloumnValues = new ArrayList<>();
+
+        if (list != null && list.size() > 0) {
+
+            for (ExpertExtend expertExtend : list) {
+                String[] strs = new String[]{
+                        expertExtend.getName(),
+                        expertExtend.getIdentity(),
+                        expertExtend.getSex()==0?"男":"女",
+                        expertExtend.getMajor(),
+                        expertExtend.getTitleValue(),
+                        expertExtend.getAge().toString(),
+                        expertExtend.getContact(),
+                        expertExtend.getOrg(),
+                        expertExtend.getNote()
+                };
+                cloumnValues.add(strs);
+            }
+        }
+
+        String[] cloumnNames = new String[]{
+                "姓名",
+                "身份证号",
+                "性别",
+                "专业",
+                "职称",
+                "年龄",
+                "联系方式",
+                "所属单位",
+                "备注"
+        };
+
+        HSSFWorkbook wb = new HSSFWorkbook();
+        wb = ExportExcel.getHssfWorkBook(wb, "核安全监督专家", cloumnNames, cloumnValues);
+
+
+        try{
+            response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode("核安全监督专家", "utf-8") + ".xls");
+            OutputStream out = response.getOutputStream();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            wb.write(baos);
+            byte[] xlsBytes = baos.toByteArray();
+            out.write(xlsBytes);
+            out.close();
+        }catch (Exception e){
+
+        }
     }
 }

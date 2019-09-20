@@ -5,6 +5,8 @@ import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.IService;
 import com.rainbow.supervision.domain.Expert;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @Author:deepblue
  * @Date:2019/6/27 17:08
@@ -19,4 +21,6 @@ public interface ExpertService extends IService<Expert> {
     ResponseBo getExpertList(Page page);
 
     ResponseBo getExpertById(String id);
+
+    void exportExpert(Page page,HttpServletResponse response);
 }

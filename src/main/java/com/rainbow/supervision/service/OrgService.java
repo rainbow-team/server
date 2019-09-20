@@ -6,6 +6,7 @@ import com.rainbow.common.service.IService;
 import com.rainbow.supervision.domain.Org;
 import com.rainbow.supervision.domain.SupervisionSastind;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -25,4 +26,5 @@ public interface OrgService extends IService<Org> {
 
     ResponseBo getOrgById(String id);
 
+    void exportOrg(Page page,HttpServletResponse response);
 }

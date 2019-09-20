@@ -1,7 +1,9 @@
 package com.rainbow.supervision.controller;
 
+import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
+import com.rainbow.common.util.DateUtils;
 import com.rainbow.supervision.domain.OperatorLisence;
 import com.rainbow.supervision.domain.Org;
 import com.rainbow.supervision.domain.SupervisionSastind;
@@ -12,7 +14,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by 13260 on 2019/5/11.
@@ -108,4 +115,34 @@ public class OrgController {
         return ResponseBo.ok(list);
     }
 
+
+    /**
+     * 导出授权监管机构信息
+     */
+    @RequestMapping(value = "/exportOrg", method = RequestMethod.GET)
+    public void exportOrg( @RequestParam(value = "name", required = false) String name,
+                                  @RequestParam(value = "natureIds", required = false) String natureIds,
+                                  @RequestParam(value = "leader", required = false) String leader,
+                                  HttpServletResponse response) {
+
+        List<Condition> list = new ArrayList<>();
+        if (!name.isEmpty()) {
+            list.add(new Condition("name", name));
+        }
+
+        if (!natureIds.isEmpty()) {
+            list.add(new Condition("natureIds",  Stream.of(natureIds).collect(toList())));
+        }
+
+        if (!leader.isEmpty()) {
+            list.add(new Condition("leader", leader));
+        }
+
+
+        Page page = new Page();
+        page.setConditions(list);
+
+        orgService.exportOrg(page,response);
+
+    }
 }

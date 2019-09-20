@@ -101,36 +101,38 @@ public class SastindController {
     }
 
     @RequestMapping(value = "/exportSastind", method = RequestMethod.GET)
-    public void exportSastind( @RequestParam(value = "name", required = false) String name,HttpServletResponse response){
+    public void exportSastind(HttpServletResponse response){
 
         List<Condition> list = new ArrayList<>();
 
-        if (name != null&&!name.equals("")) {
-            list.add(new Condition("name", name));
-        }
+        //if (name != null&&!name.equals("")) {
+        //    list.add(new Condition("name", name));
+        //}
 
         Page page = new Page();
         page.setConditions(list);
-        page.setPageSize(Integer.MAX_VALUE);
-        page.setPageNo(1);
 
-        List<String[]> cloumnValues = new ArrayList<>();
-        PagingEntity<SupervisionSastind> listdata = ( PagingEntity<SupervisionSastind>)sastindService.getSastindList(page).get("msg");
+        sastindService.exportSastind(page,response);
+        //page.setPageSize(Integer.MAX_VALUE);
+        //page.setPageNo(1);
 
-        List<SupervisionSastind> data = listdata.getCurrentList();
-        if(data!=null&&data.size()>0){
-
-            for (SupervisionSastind supervisionSastind:data) {
-                String[] strs = new String[]{supervisionSastind.getName(),supervisionSastind.getLeader(),
-                        supervisionSastind.getSecurityLeader(),supervisionSastind.getPermitLeader(),supervisionSastind.getPermitLeader()};
-                cloumnValues.add(strs);
-            }
-        }
-
-
-        String[] cloumnNames=new String[]{"司局名称","司领导","分管核安全司领导","核安全许可处室领导","核安全监督处室领导"};
-
-        ExportExcel.exportExcelCommon(response,"国防科工局基本信息",cloumnNames,cloumnValues);
+        //List<String[]> cloumnValues = new ArrayList<>();
+        //PagingEntity<SupervisionSastind> listdata = ( PagingEntity<SupervisionSastind>)sastindService.getSastindList(page).get("msg");
+        //
+        //List<SupervisionSastind> data = listdata.getCurrentList();
+        //if(data!=null&&data.size()>0){
+        //
+        //    for (SupervisionSastind supervisionSastind:data) {
+        //        String[] strs = new String[]{supervisionSastind.getName(),supervisionSastind.getLeader(),
+        //                supervisionSastind.getSecurityLeader(),supervisionSastind.getPermitLeader(),supervisionSastind.getPermitLeader()};
+        //        cloumnValues.add(strs);
+        //    }
+        //}
+        //
+        //
+        //String[] cloumnNames=new String[]{"司局名称","司领导","分管核安全司领导","核安全许可处室领导","核安全监督处室领导"};
+        //
+        //ExportExcel.exportExcelCommon(response,"国防科工局基本信息",cloumnNames,cloumnValues);
     }
 
     @RequestMapping(value = "/import", method = RequestMethod.POST)

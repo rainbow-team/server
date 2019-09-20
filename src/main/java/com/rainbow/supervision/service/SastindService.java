@@ -5,6 +5,7 @@ import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.IService;
 import com.rainbow.supervision.domain.SupervisionSastind;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -22,4 +23,6 @@ public interface SastindService extends IService<SupervisionSastind> {
     ResponseBo getSastindList(Page page);
 
     ResponseBo importSastind(List<SupervisionSastind> list);
+
+    void exportSastind(Page page,HttpServletResponse response);
 }

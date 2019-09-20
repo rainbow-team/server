@@ -1,8 +1,10 @@
 package com.rainbow.supervision.controller;
 
 
+import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
+import com.rainbow.common.util.DateUtils;
 import com.rainbow.supervision.domain.SupervisorTrain;
 import com.rainbow.supervision.service.SupervisorTrainService;
 import org.slf4j.Logger;
@@ -10,7 +12,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by 13260 on 2019/5/11.
@@ -109,5 +116,36 @@ public class SupervisorTrainController {
     public ResponseBo deleteMonitorTrainByIds(@RequestBody List<String> ids){
         supervisorTrainService.batchDelete(ids,"id",SupervisorTrain.class);
         return ResponseBo.ok();
+    }
+
+    /**
+     * 导出核安全监督培训信息
+     */
+    @RequestMapping(value = "/exportMonitorTrain", method = RequestMethod.GET)
+    public void exportMonitorTrain( @RequestParam(value = "batch", required = false) String batch,
+                                  @RequestParam(value = "beginDate", required = false) String beginDate,
+                                  @RequestParam(value = "endDate", required = false) String endDate,
+                                  @RequestParam(value = "place", required = false) String place,
+                                  HttpServletResponse response) {
+
+        List<Condition> list = new ArrayList<>();
+        if (!batch.isEmpty()) {
+            list.add(new Condition("batch", batch));
+        }
+        if (!beginDate.isEmpty()) {
+            list.add(new Condition("beginDate", DateUtils.GmtStringToDate(beginDate)));
+        }
+        if (!endDate.isEmpty()) {
+            list.add(new Condition("endDate", DateUtils.GmtStringToDate(endDate)));
+        }
+        if (!place.isEmpty()) {
+            list.add(new Condition("place", place));
+        }
+
+        Page page = new Page();
+        page.setConditions(list);
+
+        supervisorTrainService.exportMonitorTrain(page,response);
+
     }
 }

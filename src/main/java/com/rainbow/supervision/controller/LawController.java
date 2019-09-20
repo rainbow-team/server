@@ -1,8 +1,10 @@
 package com.rainbow.supervision.controller;
 
 
+import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
+import com.rainbow.common.util.DateUtils;
 import com.rainbow.supervision.domain.SupervisionLaw;
 import com.rainbow.supervision.service.LawSupervisionService;
 import org.slf4j.Logger;
@@ -10,7 +12,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by 13260 on 2019/5/11.
@@ -91,5 +98,39 @@ public class LawController {
     public ResponseBo deleteLawByIds(@RequestBody List<String> ids){
         supervisionLawService.batchDelete(ids,"id",SupervisionLaw.class);
         return ResponseBo.ok();
+    }
+
+    /**
+     * 导出授权监管机构信息
+     */
+    @RequestMapping(value = "/exportLaw", method = RequestMethod.GET)
+    public void exportOrg( @RequestParam(value = "code", required = false) String code,
+                           @RequestParam(value = "name", required = false) String name,
+                           @RequestParam(value = "startTime", required = false) String startTime,
+                           @RequestParam(value = "endTime", required = false) String endTime,
+                           HttpServletResponse response) {
+
+        List<Condition> list = new ArrayList<>();
+        if (!code.isEmpty()) {
+            list.add(new Condition("code", code));
+        }
+
+        if (!name.isEmpty()) {
+            list.add(new Condition("name", name));
+        }
+
+        if (!startTime.isEmpty()) {
+            list.add(new Condition("startTime", DateUtils.GmtStringToDate(startTime)));
+        }
+        if (!endTime.isEmpty()) {
+            list.add(new Condition("endTime", DateUtils.GmtStringToDate(endTime)));
+        }
+
+
+        Page page = new Page();
+        page.setConditions(list);
+
+        supervisionLawService.exportLaw(page,response);
+
     }
 }
