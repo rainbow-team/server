@@ -76,7 +76,7 @@ public class LinkController extends BaseController {
     @PostMapping("/getAllLinkList")
     public ResponseBo getAllLinkList() {
 
-        return ResponseBo.ok(linkService.selectAll());
+        return linkService.getAllLinkList();
     }
 
     /**

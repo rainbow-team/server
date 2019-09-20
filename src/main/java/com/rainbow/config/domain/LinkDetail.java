@@ -24,7 +24,7 @@ public class LinkDetail {
     /**
      * 排序序号
      */
-    private Integer order;
+    private Integer linkorder;
 
     /**
      * 获取主键
@@ -80,21 +80,11 @@ public class LinkDetail {
         this.address = address == null ? null : address.trim();
     }
 
-    /**
-     * 获取排序序号
-     *
-     * @return order - 排序序号
-     */
-    public Integer getOrder() {
-        return order;
+    public Integer getLinkorder() {
+        return linkorder;
     }
 
-    /**
-     * 设置排序序号
-     *
-     * @param order 排序序号
-     */
-    public void setOrder(Integer order) {
-        this.order = order;
+    public void setLinkorder(Integer linkorder) {
+        this.linkorder = linkorder;
     }
 }

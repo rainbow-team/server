@@ -18,4 +18,5 @@ import java.util.Map;
 public interface LinkService extends IService<LinkDetail> {
     int addLinkDetail(LinkDetail linkDetail);
 
+    ResponseBo getAllLinkList();
 }

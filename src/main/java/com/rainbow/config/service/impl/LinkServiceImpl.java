@@ -37,5 +37,13 @@ public class LinkServiceImpl extends BaseService<LinkDetail> implements LinkServ
         linkDetail.setId(GuidHelper.getGuid());
         return linkDetailMapper.insert(linkDetail);
     }
+
+    @Override
+    public ResponseBo getAllLinkList(){
+
+        List<LinkDetail> list =  linkDetailMapper.getAllLinkList();
+
+        return ResponseBo.ok(list);
+    }
 }
 

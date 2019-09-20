@@ -73,7 +73,7 @@ public class SystemLogImpl {
         ResponseBo responseBo = (ResponseBo) returnValue;
 
         if(responseBo!=null){
-            if(responseBo.get("msg")!=null){
+            if(responseBo.get("msg")!=null&&responseBo.get("code")=="200"){
 
                 Map<String,Object> mapUser = (Map<String,Object>)responseBo.get("msg");
                 SystemUser user = (SystemUser) mapUser.get("userinfo");
