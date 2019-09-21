@@ -107,7 +107,7 @@ public class BreakCheckerController {
      * 导出无损检验人员资质信息
      */
     @RequestMapping(value = "/exportBreakChecker", method = RequestMethod.GET)
-    public void exportSupervisor( @RequestParam(value = "name", required = false) String name,
+    public void exportBreakChecker( @RequestParam(value = "name", required = false) String name,
                                   @RequestParam(value = "employ_depart", required = false) String employ_depart,
                                   @RequestParam(value = "checkMethodIds", required = false) String checkMethodIds,
                                   @RequestParam(value = "checkLevelIds", required = false) String checkLevelIds,

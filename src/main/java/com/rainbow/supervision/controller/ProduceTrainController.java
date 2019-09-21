@@ -101,7 +101,7 @@ public class ProduceTrainController {
      * 导出安全生产培训信息
      */
     @RequestMapping(value = "/exportProduceTrain", method = RequestMethod.GET)
-    public void exportMonitorTrain( @RequestParam(value = "batch", required = false) String batch,
+    public void exportProduceTrain( @RequestParam(value = "batch", required = false) String batch,
                                     @RequestParam(value = "begin_date", required = false) String beginDate,
                                     @RequestParam(value = "end_date", required = false) String endDate,
                                     @RequestParam(value = "place", required = false) String place,

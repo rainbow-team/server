@@ -105,7 +105,7 @@ public class WelderController {
      * 导出焊接人员资质信息
      */
     @RequestMapping(value = "/exportWelder", method = RequestMethod.GET)
-    public void exportMonitorTrain( @RequestParam(value = "name", required = false) String name,
+    public void exportWelder( @RequestParam(value = "name", required = false) String name,
                                     @RequestParam(value = "employ_depart", required = false) String employ_depart,
                                     @RequestParam(value = "exam_project", required = false) String exam_project,
                                     @RequestParam(value = "start_date", required = false) String start_date,

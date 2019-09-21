@@ -108,7 +108,7 @@ public class OperatorLisenceController {
      * 研究堆操纵员执照信息
      */
     @RequestMapping(value = "/exportOperator", method = RequestMethod.GET)
-    public void exportSupervisor( @RequestParam(value = "name", required = false) String name,
+    public void exportOperator( @RequestParam(value = "name", required = false) String name,
                                   @RequestParam(value = "employ_depart", required = false) String employ_depart,
                                   @RequestParam(value = "heap_name", required = false) String heap_name,
                                   @RequestParam(value = "lisenceTypeIds", required = false) String lisenceTypeIds,

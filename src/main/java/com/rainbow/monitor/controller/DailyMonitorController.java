@@ -1,8 +1,10 @@
 package com.rainbow.monitor.controller;
 
 
+import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
+import com.rainbow.common.util.DateUtils;
 import com.rainbow.monitor.domain.DailyMonitor;
 import com.rainbow.monitor.domain.ReportMonitor;
 import com.rainbow.monitor.service.DailyMonitorService;
@@ -11,7 +13,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by 13260 on 2019/5/11.
@@ -97,5 +104,48 @@ public class DailyMonitorController {
             return result == 0 ? ResponseBo.error("删除失败!") : ResponseBo.ok("删除成功");
         }
         return ResponseBo.ok();
+    }
+
+    /**
+     * 导出日常监督信息
+     */
+    @RequestMapping(value = "/exportDailyMonitor", method = RequestMethod.GET)
+    public void exportDailyMonitor(@RequestParam(value = "serviceDepartName", required = false) String serviceDepartName,
+                                 @RequestParam(value = "facName", required = false) String facName,
+                                 @RequestParam(value = "facStatusTypeIds", required = false) String facStatusTypeIds,
+                                 @RequestParam(value = "fileTypeIds", required = false) String fileTypeIds,
+                                 @RequestParam(value = "file_name", required = false) String file_name,
+                                 @RequestParam(value = "start_date", required = false) String start_date,
+                                 @RequestParam(value = "end_date", required = false) String end_date,
+                                 HttpServletResponse response) {
+
+        List<Condition> list = new ArrayList<>();
+        if (!serviceDepartName.isEmpty()) {
+            list.add(new Condition("serviceDepartName", serviceDepartName));
+        }
+        if (!facName.isEmpty()) {
+            list.add(new Condition("facName", facName));
+        }
+        if (!facStatusTypeIds.isEmpty()) {
+            list.add(new Condition("facStatusTypeIds",  Stream.of(facStatusTypeIds).collect(toList())));
+        }
+        if (!fileTypeIds.isEmpty()) {
+            list.add(new Condition("fileTypeIds",  Stream.of(fileTypeIds).collect(toList())));
+        }
+        if (!file_name.isEmpty()) {
+            list.add(new Condition("file_name", file_name));
+        }
+        if (!start_date.isEmpty()) {
+            list.add(new Condition("start_date", DateUtils.GmtStringToDate(start_date)));
+        }
+        if (!end_date.isEmpty()) {
+            list.add(new Condition("end_date", DateUtils.GmtStringToDate(end_date)));
+        }
+
+        Page page = new Page();
+        page.setConditions(list);
+
+        dailyMonitorService.exportDailyMonitor(page,response);
+
     }
 }

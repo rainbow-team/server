@@ -2,13 +2,14 @@ package com.rainbow.monitor.dao;
 
 import com.rainbow.common.config.MyMapper;
 import com.rainbow.monitor.domain.DailyMonitor;
+import com.rainbow.monitor.domain.extend.DailyMonitorExtend;
 
 import java.util.List;
 import java.util.Map;
 
 public interface DailyMonitorMapper extends MyMapper<DailyMonitor> {
 
-    DailyMonitor getDailyMonitorById(String id);
+    DailyMonitorExtend getDailyMonitorById(String id);
 
-    List<DailyMonitor> getDailyMonitorList(Map<String,Object> map);
+    List<DailyMonitorExtend> getDailyMonitorList(Map<String,Object> map);
 }

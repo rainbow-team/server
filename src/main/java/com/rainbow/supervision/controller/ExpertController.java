@@ -100,7 +100,7 @@ public class ExpertController {
      * 导出安全生产培训信息
      */
     @RequestMapping(value = "/exportExpert", method = RequestMethod.GET)
-    public void exportMonitorTrain( @RequestParam(value = "name", required = false) String name,
+    public void exportExpert( @RequestParam(value = "name", required = false) String name,
                                     @RequestParam(value = "major", required = false) String major,
                                     @RequestParam(value = "startAge", required = false) String startAge,
                                     @RequestParam(value = "endAge", required = false) String endAge,

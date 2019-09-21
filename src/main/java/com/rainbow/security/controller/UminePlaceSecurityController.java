@@ -111,7 +111,7 @@ public class UminePlaceSecurityController {
      * 导出核设施安全问题
      */
     @RequestMapping(value = "/exportUmineplaceSecurity", method = RequestMethod.GET)
-    public void exportSupervisor( @RequestParam(value = "umineName", required = false) String umineName,
+    public void exportUmineplaceSecurity( @RequestParam(value = "umineName", required = false) String umineName,
                                   @RequestParam(value = "uminePlaceName", required = false) String uminePlaceName,
                                   @RequestParam(value = "statusTypeIds", required = false) String statusTypeIds,
                                   @RequestParam(value = "checkTypeIds", required = false) String checkTypeIds,

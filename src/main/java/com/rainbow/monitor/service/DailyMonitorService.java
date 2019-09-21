@@ -5,6 +5,8 @@ import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.IService;
 import com.rainbow.monitor.domain.DailyMonitor;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @Author:deepblue
  * @Date:2019/6/27 17:08
@@ -19,4 +21,6 @@ public interface DailyMonitorService extends IService<DailyMonitor> {
     ResponseBo getDailyMonitorList(Page page);
 
     ResponseBo getDailyMonitorById(String id);
+
+    void exportDailyMonitor(Page page, HttpServletResponse response);
 }

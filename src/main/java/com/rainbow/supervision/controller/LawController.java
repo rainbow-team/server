@@ -104,7 +104,7 @@ public class LawController {
      * 导出授权监管机构信息
      */
     @RequestMapping(value = "/exportLaw", method = RequestMethod.GET)
-    public void exportOrg( @RequestParam(value = "code", required = false) String code,
+    public void exportLaw( @RequestParam(value = "code", required = false) String code,
                            @RequestParam(value = "name", required = false) String name,
                            @RequestParam(value = "startTime", required = false) String startTime,
                            @RequestParam(value = "endTime", required = false) String endTime,

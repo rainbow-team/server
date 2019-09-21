@@ -112,7 +112,7 @@ public class FacSecurityController {
      * 导出核设施安全问题
      */
     @RequestMapping(value = "/exportFacSecurity", method = RequestMethod.GET)
-    public void exportSupervisor( @RequestParam(value = "serviceDepartName", required = false) String serviceDepartName,
+    public void exportFacSecurity( @RequestParam(value = "serviceDepartName", required = false) String serviceDepartName,
                                   @RequestParam(value = "facName", required = false) String facName,
                                   @RequestParam(value = "facStatusTypeIds", required = false) String facStatusTypeIds,
                                   @RequestParam(value = "checkTypeIds", required = false) String checkTypeIds,

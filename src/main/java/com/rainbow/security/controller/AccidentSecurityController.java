@@ -111,7 +111,7 @@ public class AccidentSecurityController {
      * 导出核设施安全问题
      */
     @RequestMapping(value = "/exportAccidentSecurity", method = RequestMethod.GET)
-    public void exportSupervisor( @RequestParam(value = "depart", required = false) String depart,
+    public void exportAccidentSecurity( @RequestParam(value = "depart", required = false) String depart,
                                   @RequestParam(value = "fac", required = false) String fac,
                                   @RequestParam(value = "facStatusTypeIds", required = false) String facStatusTypeIds,
                                   @RequestParam(value = "uminePlaceStatusTypeIds", required = false) String uminePlaceStatusTypeIds,
