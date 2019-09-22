@@ -38,4 +38,9 @@
     SELECT t.id from ${tablename} t where t.value =#{value}
   </select>
 
+  <select id="getDicItemsByTable" parameterType="map" resultMap="SystemConfigResultMap">
+      SELECT * from ${tableName}
+  </select>
+
+
 </mapper>

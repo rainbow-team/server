@@ -46,7 +46,7 @@ public class CrossInterceptor extends HandlerInterceptorAdapter {
 
         System.out.print(url);
         String[] Urls = new String[]{"/login","/error","/getVerifyCode","/fileInfo/download","/fileInfo/upload",
-        "/config/getAllConfig","/statistics/getHomeNumer","/statistics/getStatisticsResultByCondition","/statistics/statisticsFacilitiesByRegion",
+        "/config/getAllConfig","/link/getAllLinkList","/statistics/getHomeNumer","/statistics/getStatisticsResultByCondition","/statistics/statisticsFacilitiesByRegion",
        };
 
         if (null == authid) {

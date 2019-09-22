@@ -1,5 +1,6 @@
 package com.rainbow.config.service.impl;
 
+import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
 import com.rainbow.common.util.GuidHelper;
 import com.rainbow.config.dao.SystemConfigMapper;
@@ -67,5 +68,15 @@ public class SystemConfigServiceImpl extends BaseService<SystemConfig> implement
     @Override
     public void modifyConfig(Map<String, String> map) {
         systemConfigMapper.modifyConfigByTableNameAndValue(map);
+    }
+
+    @Override
+    public ResponseBo getDicItemsByTable(String tableName){
+
+        Map<String,String> map = new HashMap<>();
+        map.put("tableName",tableName);
+        List<SystemConfig> list =  systemConfigMapper.getDicItemsByTable(map);
+
+        return ResponseBo.ok(list);
     }
 }

@@ -7,6 +7,8 @@ import com.rainbow.config.domain.SystemConfig;
 import com.rainbow.config.service.SystemConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,7 +39,7 @@ public class SystemConfigController extends BaseController {
      * @return
      */
     @RequestMapping("/addConfig")
-    public ResponseBo addConfig(Map<String, String> map) {
+    public ResponseBo addConfig(@RequestBody  Map<String, String> map) {
         if (map != null) {
             systemConfigService.saveConfigByTableNameAndValue(map);
         }
@@ -45,10 +47,15 @@ public class SystemConfigController extends BaseController {
     }
 
     @RequestMapping("/modifyConfig")
-    public ResponseBo modifyConfig(Map<String,String> map) {
+    public ResponseBo modifyConfig(@RequestBody Map<String,String> map) {
         if (map != null) {
             systemConfigService.modifyConfig(map);
         }
         return ResponseBo.ok("修改成功");
+    }
+
+    @GetMapping("/getDicItemsByTableName")
+    public ResponseBo getDicItemsByTableName(String tableName){
+        return systemConfigService.getDicItemsByTable(tableName);
     }
 }
