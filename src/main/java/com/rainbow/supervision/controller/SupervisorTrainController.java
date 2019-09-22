@@ -1,6 +1,7 @@
 package com.rainbow.supervision.controller;
 
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
@@ -38,6 +39,7 @@ public class SupervisorTrainController {
      * @return
      */
     @PostMapping("/addMonitorTrain")
+    @SystemLog(description="保存核安全监督培训信息")
     public ResponseBo add(@RequestBody SupervisorTrain supervisionMonitorTrain) {
         int result = supervisorTrainService.addMonitorTrain(supervisionMonitorTrain);
         if (result == 1) {
@@ -54,6 +56,7 @@ public class SupervisorTrainController {
      * @return
      */
     @PostMapping("/modifyMonitorTrain")
+    @SystemLog(description="修改核安全监督培训信息")
     public ResponseBo modify(@RequestBody SupervisorTrain supervisionMonitorTrain) {
 
         int result = supervisorTrainService.modifyMonitorTrain(supervisionMonitorTrain);
@@ -71,6 +74,7 @@ public class SupervisorTrainController {
      * @return
      */
     @PostMapping("/deleteMonitorTrainById")
+    @SystemLog(description="删除核安全监督培训信息")
     public ResponseBo delete(@RequestBody String id) {
         return supervisorTrainService.deleteMonitorTrainById(id);
     }
@@ -113,6 +117,7 @@ public class SupervisorTrainController {
      * @return
      */
     @PostMapping("/deleteMonitorTrainByIds")
+    @SystemLog(description="删除核安全监督培训信息")
     public ResponseBo deleteMonitorTrainByIds(@RequestBody List<String> ids){
         supervisorTrainService.batchDelete(ids,"id",SupervisorTrain.class);
         return ResponseBo.ok();
@@ -122,6 +127,7 @@ public class SupervisorTrainController {
      * 导出核安全监督培训信息
      */
     @RequestMapping(value = "/exportMonitorTrain", method = RequestMethod.GET)
+    @SystemLog(description="导出核安全监督培训信息")
     public void exportMonitorTrain( @RequestParam(value = "batch", required = false) String batch,
                                   @RequestParam(value = "beginDate", required = false) String beginDate,
                                   @RequestParam(value = "endDate", required = false) String endDate,

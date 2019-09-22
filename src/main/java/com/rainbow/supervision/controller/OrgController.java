@@ -1,5 +1,6 @@
 package com.rainbow.supervision.controller;
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
@@ -41,6 +42,7 @@ public class OrgController {
      * @return
      */
     @PostMapping("/addOrg")
+    @SystemLog(description="新增授权监管机构信息")
     public ResponseBo add(@RequestBody Org org) {
         int result = orgService.addOrg(org);
 
@@ -58,6 +60,7 @@ public class OrgController {
      * @return
      */
     @PostMapping("/modifyOrg")
+    @SystemLog(description="修改授权监管机构信息")
     public ResponseBo modify(@RequestBody Org org) {
         int result = orgService.modifyOrg(org);
         if (result == 1) {
@@ -75,6 +78,7 @@ public class OrgController {
      * @return
      */
     @PostMapping("/deleteOrgByIds")
+    @SystemLog(description="删除授权监管机构信息")
     public ResponseBo deleteOrgByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
             orgService.deleteOrgByIds(ids);
@@ -120,6 +124,7 @@ public class OrgController {
      * 导出授权监管机构信息
      */
     @RequestMapping(value = "/exportOrg", method = RequestMethod.GET)
+    @SystemLog(description="导出授权监管机构信息")
     public void exportOrg( @RequestParam(value = "name", required = false) String name,
                                   @RequestParam(value = "natureIds", required = false) String natureIds,
                                   @RequestParam(value = "leader", required = false) String leader,

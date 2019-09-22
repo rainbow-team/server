@@ -1,6 +1,7 @@
 package com.rainbow.unit.controller;
 
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.unit.domain.UmineMountainImprove;
@@ -34,6 +35,7 @@ public class UmineMoutainImproveController {
      * @return
      */
     @PostMapping("/addUmineMountainImprove")
+    @SystemLog(description="添加铀矿山安技改信息")
     public ResponseBo add(@RequestBody UmineMountainImprove umineMountainImprove) {
         int result = umineMountainImproveService.addUmineMountainImprove(umineMountainImprove);
 
@@ -51,6 +53,7 @@ public class UmineMoutainImproveController {
      * @return
      */
     @PostMapping("/modifyUmineMountainImprove")
+    @SystemLog(description="修改铀矿山安技改信息")
     public ResponseBo modify(@RequestBody UmineMountainImprove umineMountainImprove) {
 
         int result = umineMountainImproveService.updateAll(umineMountainImprove);
@@ -90,6 +93,7 @@ public class UmineMoutainImproveController {
      * @return
      */
     @PostMapping("/deleteUmineMountainImproveByIds")
+    @SystemLog(description="删除铀矿山安技改信息")
     public ResponseBo deleteUmineMountainImproveByByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
             umineMountainImproveService.batchDelete(ids,"id",UmineMountainImprove.class);

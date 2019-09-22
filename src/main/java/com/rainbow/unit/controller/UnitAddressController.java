@@ -3,6 +3,7 @@ package com.rainbow.unit.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.unit.domain.UnitAddress;
 import com.rainbow.unit.service.UnitAddressService;
@@ -28,6 +29,7 @@ public class UnitAddressController {
     UnitAddressService service;
 
     @PostMapping("/addUnitAddress")
+    @SystemLog(description="新增铀矿冶单位")
     public ResponseBo add(@RequestBody UnitAddress umine) {
         int result = service.addUnitAddress(umine);
 
@@ -39,6 +41,7 @@ public class UnitAddressController {
     }
 
     @PostMapping("/modifyUnitAddress")
+    @SystemLog(description="修改铀矿冶单位")
     public ResponseBo modify(@RequestBody UnitAddress umine) {
 
         int result = service.modifyUnitAddress(umine);
@@ -50,6 +53,7 @@ public class UnitAddressController {
     }
 
     @PostMapping("/deleteUnitAddressById")
+    @SystemLog(description="删除铀矿冶单位")
     public ResponseBo deleteUnitAddressById(@RequestBody String id) {
         if (id != null) {
             int result = service.deleteUnitAddressById(id);

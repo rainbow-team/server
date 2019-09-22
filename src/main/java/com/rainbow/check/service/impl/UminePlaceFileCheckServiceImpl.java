@@ -36,7 +36,6 @@ public class UminePlaceFileCheckServiceImpl extends BaseService<UminePlaceFileCh
     FileInfoService fileInfoService;
 
     @Override
-    @SystemLog(description="添加铀尾矿（渣）库审评信息审评文件")
     public int addUminePlaceFileCheck(UminePlaceFileCheck uminePlaceFileCheck) {
         uminePlaceFileCheck.setId(GuidHelper.getGuid());
         fileInfoService.updateFileInfoByIds(uminePlaceFileCheck.getAttachmentList(),uminePlaceFileCheck.getId());

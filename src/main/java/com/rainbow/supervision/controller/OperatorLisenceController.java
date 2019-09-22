@@ -1,6 +1,7 @@
 package com.rainbow.supervision.controller;
 
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
@@ -41,6 +42,7 @@ public class OperatorLisenceController {
      * @return
      */
     @PostMapping("/addOperatorLisence")
+    @SystemLog(description="添加研究堆操作员执照信息")
     public ResponseBo add(@RequestBody OperatorLisence operatorLisence) {
         int result = operatorLisenceService.addOperatorLisence(operatorLisence);
 
@@ -58,6 +60,7 @@ public class OperatorLisenceController {
      * @return
      */
     @PostMapping("/modifyOperatorLisence")
+    @SystemLog(description="修改研究堆操作员执照信息")
     public ResponseBo modify(@RequestBody OperatorLisence operatorLisence) {
 
         int result = operatorLisenceService.modifyOperatorLisence(operatorLisence);
@@ -99,6 +102,7 @@ public class OperatorLisenceController {
      * @return
      */
     @PostMapping("/deleteOperatorLisenceByIds")
+    @SystemLog(description="删除研究堆操作员执照信息")
     public ResponseBo deleteOperatorLisenceByIds(@RequestBody List<String> ids) {
         int result = operatorLisenceService.batchDelete(ids, "id", OperatorLisence.class);
         return result == 0 ? ResponseBo.error("删除失败") : ResponseBo.ok("删除成功");
@@ -108,6 +112,7 @@ public class OperatorLisenceController {
      * 研究堆操纵员执照信息
      */
     @RequestMapping(value = "/exportOperator", method = RequestMethod.GET)
+    @SystemLog(description="研究堆操纵员执照信息")
     public void exportOperator( @RequestParam(value = "name", required = false) String name,
                                   @RequestParam(value = "employ_depart", required = false) String employ_depart,
                                   @RequestParam(value = "heap_name", required = false) String heap_name,

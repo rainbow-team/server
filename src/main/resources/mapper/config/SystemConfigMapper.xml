@@ -31,7 +31,7 @@
   </select>
 
   <update id="modifyConfigByTableNameAndValue" parameterType="java.util.Map">
-    update ${map.tableName} set `value`= #{map.value} where id = #{map.id}
+    update ${map.tableName} set `value`= #{map.value},`order`=#{map.order} where id = #{map.id}
   </update>
 
   <select id="getConfigIdByName" parameterType="map" resultType="String">
@@ -39,7 +39,7 @@
   </select>
 
   <select id="getDicItemsByTable" parameterType="map" resultMap="SystemConfigResultMap">
-      SELECT * from ${tableName}
+      SELECT * from ${tableName} order by `order`
   </select>
 
 

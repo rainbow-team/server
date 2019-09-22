@@ -1,5 +1,6 @@
 package com.rainbow.config.controller;
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.controller.BaseController;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
@@ -39,6 +40,7 @@ public class LinkController extends BaseController {
      * @return
      */
     @PostMapping("/addLink")
+    @SystemLog(description="添加链接信息")
     public ResponseBo add(@RequestBody LinkDetail linkDetail) {
         int result = linkService.addLinkDetail(linkDetail);
 
@@ -56,6 +58,7 @@ public class LinkController extends BaseController {
      * @return
      */
     @PostMapping("/modifyLink")
+    @SystemLog(description="修改链接信息")
     public ResponseBo modify(@RequestBody LinkDetail linkDetail) {
 
         int result = linkService.updateAll(linkDetail);
@@ -97,6 +100,7 @@ public class LinkController extends BaseController {
      * @return
      */
     @PostMapping("/deleteLinkDetailById")
+    @SystemLog(description="删除链接信息")
     public ResponseBo deleteLinkDetailById(@RequestBody String id) {
         return ResponseBo.ok(linkService.deleteByKey(id));
     }

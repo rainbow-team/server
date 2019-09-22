@@ -33,7 +33,6 @@ public class ActivityCheckServiceImpl extends BaseService<ActivityCheck> impleme
     ActivityCheckMapper activityCheckMapper;
 
     @Override
-    @SystemLog(description="添加核活动及其他审评信息")
     public int addActivityCheck(ActivityCheck activityCheck) {
         activityCheck.setId(GuidHelper.getGuid());
         activityCheck.setCreateDate(new Date());
@@ -42,14 +41,12 @@ public class ActivityCheckServiceImpl extends BaseService<ActivityCheck> impleme
     }
 
     @Override
-    @SystemLog(description="修改核活动及其他审评信息")
     public int modifyActivityCheck(ActivityCheck activityCheck) {
         activityCheck.setModifyDate(new Date());
         return activityCheckMapper.updateByPrimaryKey(activityCheck);
     }
 
     @Override
-    @SystemLog(description="删除核活动及其他审评信息")
     public int deleteActivityCheckById(String id) {
         Object result = activityCheckMapper.getActivityCheckRelationCount(id);
         if (result != null) {

@@ -1,6 +1,7 @@
 package com.rainbow.unit.controller;
 
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.unit.domain.Fac;
@@ -35,6 +36,7 @@ public class ServiceAnnualReportController {
      * @return
      */
     @PostMapping("/addServiceAnnualReport")
+    @SystemLog(description="添加核设施营运单位年度总结报告")
     public ResponseBo add(@RequestBody ServiceAnnualReport serviceAnnualReport) {
         int result = annualReportService.addServiceAnnualReport(serviceAnnualReport);
 
@@ -52,6 +54,7 @@ public class ServiceAnnualReportController {
      * @return
      */
     @PostMapping("/modifyServiceAnnualReport")
+    @SystemLog(description="修改核设施营运单位年度总结报告")
     public ResponseBo modify(@RequestBody ServiceAnnualReport serviceAnnualReport) {
         int result = annualReportService.updateAll(serviceAnnualReport);
 
@@ -90,6 +93,7 @@ public class ServiceAnnualReportController {
      * @return
      */
     @PostMapping("/deleteServiceAnnualReportByIds")
+    @SystemLog(description="删除核设施营运单位年度安全报告")
     public ResponseBo deleteServiceAnnualReportByIds(@RequestBody List<String> ids){
         if ((ids != null) && (ids.size() > 0)) {
             annualReportService.batchDelete(ids,"reportId",ServiceAnnualReport.class);

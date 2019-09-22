@@ -40,7 +40,6 @@ public class DailyMonitorServiceImpl extends BaseService<DailyMonitor> implement
     DailyMonitorMapper dailyMonitorMapper;
 
     @Override
-    @SystemLog(description="添加日常监督信息")
     public int addDailyMonitor(DailyMonitor activityCheck) {
         activityCheck.setId(GuidHelper.getGuid());
         activityCheck.setCreateDate(new Date());
@@ -49,7 +48,6 @@ public class DailyMonitorServiceImpl extends BaseService<DailyMonitor> implement
     }
 
     @Override
-    @SystemLog(description="修改日常监督信息")
     public int modifyDailyMonitor(DailyMonitor activityCheck) {
         activityCheck.setModifyDate(new Date());
         return dailyMonitorMapper.updateByPrimaryKey(activityCheck);

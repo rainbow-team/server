@@ -5,6 +5,7 @@ import com.rainbow.check.domain.EquipFileCheck;
 import com.rainbow.check.domain.FacFileCheck;
 import com.rainbow.check.service.EquipFileCheckService;
 import com.rainbow.check.service.FacFileCheckService;
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import org.slf4j.Logger;
@@ -34,6 +35,7 @@ public class EquipFileCheckController {
      * @return
      */
     @PostMapping("/addEquipFileCheck")
+    @SystemLog(description="添加核安全设备审评信息审评文件")
     public ResponseBo add(@RequestBody EquipFileCheck equipFileCheck) {
         int result = equipFileCheckService.addEquipFileCheck(equipFileCheck);
 
@@ -51,6 +53,7 @@ public class EquipFileCheckController {
      * @return
      */
     @PostMapping("/modifyEquipFileCheck")
+    @SystemLog(description="修改核设施审评文件信息")
     public ResponseBo modify(@RequestBody EquipFileCheck equipFileCheck) {
 
         int result = equipFileCheckService.updateAll(equipFileCheck);
@@ -91,6 +94,7 @@ public class EquipFileCheckController {
      * @return
      */
     @PostMapping("/deleteEquipFileCheckByIds")
+    @SystemLog(description="删除核设施审评文件信息")
     public ResponseBo deleteFacFileCheckByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
             equipFileCheckService.batchDelete(ids, "id", EquipFileCheck.class);

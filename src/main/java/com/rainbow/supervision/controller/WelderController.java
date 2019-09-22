@@ -1,6 +1,7 @@
 package com.rainbow.supervision.controller;
 
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
@@ -36,6 +37,7 @@ public class WelderController {
      * @return
      */
     @PostMapping("/addWelder")
+    @SystemLog(description="添加焊接人员资质信息")
     public ResponseBo add(@RequestBody Welder supervisionWelder) {
         int result = supervisionWelderService.addWelder(supervisionWelder);
 
@@ -53,6 +55,7 @@ public class WelderController {
      * @return
      */
     @PostMapping("/modifyWelder")
+    @SystemLog(description="修改焊接人员资质信息")
     public ResponseBo modify(@RequestBody Welder supervisionWelder) {
 
         int result = supervisionWelderService.modifyWelder(supervisionWelder);
@@ -93,6 +96,7 @@ public class WelderController {
      * @return
      */
     @PostMapping("/deleteWelderByIds")
+    @SystemLog(description="删除焊接人员资质信息")
     public ResponseBo deleteWelderByIds(@RequestBody List<String> ids){
         if ((ids != null) && (ids.size() > 0)) {
             supervisionWelderService.batchDelete(ids,"id", Welder.class);
@@ -105,6 +109,7 @@ public class WelderController {
      * 导出焊接人员资质信息
      */
     @RequestMapping(value = "/exportWelder", method = RequestMethod.GET)
+    @SystemLog(description="导出焊接人员资质信息")
     public void exportWelder( @RequestParam(value = "name", required = false) String name,
                                     @RequestParam(value = "employ_depart", required = false) String employ_depart,
                                     @RequestParam(value = "exam_project", required = false) String exam_project,

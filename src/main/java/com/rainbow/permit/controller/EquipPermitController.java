@@ -1,6 +1,7 @@
 package com.rainbow.permit.controller;
 
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.permit.domain.EquipPermit;
@@ -34,6 +35,7 @@ public class EquipPermitController {
      * @return
      */
     @PostMapping("/addEquipPermit")
+    @SystemLog(description="添加核安全设备许可信息")
     public ResponseBo add(@RequestBody EquipPermit equipPermit) {
         int result = equipPermitService.addEquipPermit(equipPermit);
 
@@ -51,6 +53,7 @@ public class EquipPermitController {
      * @return
      */
     @PostMapping("/modifyEquipPermit")
+    @SystemLog(description="修改核安全设备许可信息")
     public ResponseBo modify(@RequestBody EquipPermit equipPermit) {
 
         int result = equipPermitService.modifyEquipPermit(equipPermit);
@@ -92,6 +95,7 @@ public class EquipPermitController {
      * @return
      */
     @PostMapping("/deleteEquipPermitByIds")
+    @SystemLog(description="删除核安全设备许可信息")
     public ResponseBo deleteEquipPermitByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
             equipPermitService.batchDelete(ids, "id", EquipPermit.class);

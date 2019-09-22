@@ -1,5 +1,6 @@
 package com.rainbow.system.controller;
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.system.domain.SystemMenu;
 import com.rainbow.system.service.MenuService;
@@ -32,6 +33,7 @@ public class MenuController {
      * @return
      */
     @PostMapping("/addMenu")
+    @SystemLog(description="添加权限菜单信息")
     public ResponseBo add(@RequestBody SystemMenu systemMenu) {
         int result = menuService.addSystemMenu(systemMenu);
 
@@ -49,6 +51,7 @@ public class MenuController {
      * @return
      */
     @PostMapping("/modifyMenu")
+    @SystemLog(description="修改权限菜单信息")
     public ResponseBo modify(@RequestBody SystemMenu systemMenu) {
 
         int result = menuService.updateAll(systemMenu);
@@ -67,6 +70,7 @@ public class MenuController {
      * @return
      */
     @PostMapping("/deleteMenuByIds")
+    @SystemLog(description="删除权限菜单信息")
     public ResponseBo deleteSystemMenuByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
             menuService.batchDelete(ids, "id", SystemMenu.class);

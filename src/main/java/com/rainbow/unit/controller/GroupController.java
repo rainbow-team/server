@@ -1,6 +1,7 @@
 package com.rainbow.unit.controller;
 
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.supervision.domain.BreakChecker;
@@ -34,6 +35,7 @@ public class GroupController {
      * @return
      */
     @PostMapping("/addGroup")
+    @SystemLog(description="添加集团信息")
     public ResponseBo add(@RequestBody Group group) {
         int result = groupService.addGroup(group);
 
@@ -51,6 +53,7 @@ public class GroupController {
      * @return
      */
     @PostMapping("/modifyGroup")
+    @SystemLog(description="修改集团信息")
     public ResponseBo modify(@RequestBody Group group) {
 
         int result = groupService.modifyGroup(group);
@@ -92,6 +95,7 @@ public class GroupController {
      * @return
      */
     @PostMapping("/deleteGroupById")
+    @SystemLog(description="删除集团信息")
     public ResponseBo deleteGroupById(@RequestBody String id) {
         if (id != null) {
             int result = groupService.deleteGroupById(id);

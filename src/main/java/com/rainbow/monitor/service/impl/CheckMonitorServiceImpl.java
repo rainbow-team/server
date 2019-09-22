@@ -33,7 +33,6 @@ public class CheckMonitorServiceImpl extends BaseService<CheckMonitor> implement
     CheckMonitorMapper checkMonitorMapper;
 
     @Override
-    @SystemLog(description="添加监督检查信息")
     public int addCheckMonitor(CheckMonitor checkMonitor) {
         checkMonitor.setId(GuidHelper.getGuid());
         checkMonitor.setCreateDate(new Date());
@@ -42,14 +41,12 @@ public class CheckMonitorServiceImpl extends BaseService<CheckMonitor> implement
     }
 
     @Override
-    @SystemLog(description="修改监督检查信息")
     public int modifyCheckMonitor(CheckMonitor checkMonitor) {
         checkMonitor.setModifyDate(new Date());
         return checkMonitorMapper.updateByPrimaryKey(checkMonitor);
     }
 
     @Override
-    @SystemLog(description="删除监督检查信息")
     public int deleteCheckMonitorById(String id) {
         Object result = checkMonitorMapper.getCheckMonitorRelationCount(id);
         if (result != null) {

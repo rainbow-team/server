@@ -5,6 +5,7 @@ import com.rainbow.check.domain.ActivityCheck;
 import com.rainbow.check.domain.UminePlaceCheck;
 import com.rainbow.check.service.ActivityCheckService;
 import com.rainbow.check.service.UminePlaceCheckService;
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import org.slf4j.Logger;
@@ -32,6 +33,7 @@ public class UminePlaceCheckController {
      * @return
      */
     @PostMapping("/addUminePlaceCheck")
+    @SystemLog(description="添加铀尾矿(渣)库审评信息")
     public ResponseBo add(@RequestBody UminePlaceCheck uminePlaceCheck) {
         int result = uminePlaceCheckService.addUminePlaceCheck(uminePlaceCheck);
 
@@ -49,6 +51,7 @@ public class UminePlaceCheckController {
      * @return
      */
     @PostMapping("/modifyUminePlaceCheck")
+    @SystemLog(description="修改铀尾矿(渣)库审评信息")
     public ResponseBo modify(@RequestBody UminePlaceCheck uminePlaceCheck) {
 
         int result = uminePlaceCheckService.modifyUminePlaceCheck(uminePlaceCheck);
@@ -90,6 +93,7 @@ public class UminePlaceCheckController {
      * @return
      */
     @PostMapping("/deleteUminePlaceCheckById")
+    @SystemLog(description="删除铀尾矿(渣)库审评信息")
     public ResponseBo deleteUminePlaceCheckById(@RequestBody String id) {
         if (id != null) {
             int result = uminePlaceCheckService.deleteUminePlaceCheckById(id);

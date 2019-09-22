@@ -36,7 +36,6 @@ public class UmineMountainFileCheckServiceImpl extends BaseService<UmineMountain
     FileInfoService fileInfoService;
 
     @Override
-    @SystemLog(description="添加铀矿山井下消防审查信息审评文件")
     public int addUmineMountainFileCheck(UmineMountainFileCheck umineMountainFileCheck) {
         umineMountainFileCheck.setId(GuidHelper.getGuid());
         fileInfoService.updateFileInfoByIds(umineMountainFileCheck.getAttachmentList(),umineMountainFileCheck.getId());

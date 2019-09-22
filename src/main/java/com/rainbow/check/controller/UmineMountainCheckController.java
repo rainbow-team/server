@@ -5,6 +5,7 @@ import com.rainbow.check.domain.UmineMountainCheck;
 import com.rainbow.check.domain.UminePlaceCheck;
 import com.rainbow.check.service.UmineMountainCheckService;
 import com.rainbow.check.service.UminePlaceCheckService;
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import org.slf4j.Logger;
@@ -32,6 +33,7 @@ public class UmineMountainCheckController {
      * @return
      */
     @PostMapping("/addUmineMountainCheck")
+    @SystemLog(description="添加铀矿山井下消防审评信息")
     public ResponseBo add(@RequestBody UmineMountainCheck umineMountainCheck) {
         int result = umineMountainCheckService.addUmineMountainCheck(umineMountainCheck);
 
@@ -49,6 +51,7 @@ public class UmineMountainCheckController {
      * @return
      */
     @PostMapping("/modifyUmineMountainCheck")
+    @SystemLog(description="修改铀矿山井下消防审查信息")
     public ResponseBo modify(@RequestBody UmineMountainCheck umineMountainCheck) {
 
         int result = umineMountainCheckService.modifyUmineMountainCheck(umineMountainCheck);
@@ -90,6 +93,7 @@ public class UmineMountainCheckController {
      * @return
      */
     @PostMapping("/deleteUmineMountainCheckById")
+    @SystemLog(description="删除铀矿山井下消防审查信息")
     public ResponseBo deleteUmineMountainCheckById(@RequestBody String id) {
         if (id != null) {
             int result = umineMountainCheckService.deleteUmineMountainCheckById(id);

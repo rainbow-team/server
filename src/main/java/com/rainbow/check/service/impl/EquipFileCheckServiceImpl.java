@@ -36,7 +36,6 @@ public class EquipFileCheckServiceImpl extends BaseService<EquipFileCheck> imple
     FileInfoService fileInfoService;
 
     @Override
-    @SystemLog(description="添加核安全设备审评信息审评文件")
     public int addEquipFileCheck(EquipFileCheck equipFileCheck) {
         equipFileCheck.setId(GuidHelper.getGuid());
         fileInfoService.updateFileInfoByIds(equipFileCheck.getAttachmentList(),equipFileCheck.getId());

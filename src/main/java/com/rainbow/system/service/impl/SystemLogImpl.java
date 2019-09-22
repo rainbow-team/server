@@ -34,7 +34,7 @@ public class SystemLogImpl {
     CacheManager cacheManager;
 
     //保存日志
-    @Pointcut("execution(* com.rainbow.*.service.*.*(..))")
+    @Pointcut("execution(* com.rainbow.*.controller.*.*(..))")
     public void  SaveLog(){
     }
 

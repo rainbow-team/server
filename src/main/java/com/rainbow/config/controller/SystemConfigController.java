@@ -1,5 +1,6 @@
 package com.rainbow.config.controller;
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.controller.BaseController;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.util.GuidHelper;
@@ -39,6 +40,7 @@ public class SystemConfigController extends BaseController {
      * @return
      */
     @RequestMapping("/addConfig")
+    @SystemLog(description="添加字典项")
     public ResponseBo addConfig(@RequestBody  Map<String, String> map) {
         if (map != null) {
             systemConfigService.saveConfigByTableNameAndValue(map);
@@ -47,6 +49,7 @@ public class SystemConfigController extends BaseController {
     }
 
     @RequestMapping("/modifyConfig")
+    @SystemLog(description="修改字典项")
     public ResponseBo modifyConfig(@RequestBody Map<String,String> map) {
         if (map != null) {
             systemConfigService.modifyConfig(map);

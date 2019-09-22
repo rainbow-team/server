@@ -1,6 +1,7 @@
 package com.rainbow.unit.controller;
 
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
@@ -42,6 +43,7 @@ public class FacController {
      * @return
      */
     @PostMapping("/addFac")
+    @SystemLog(description="添加核设施信息")
     public ResponseBo add(@RequestBody Fac fac) {
         int result = facService.addFac(fac);
 
@@ -59,6 +61,7 @@ public class FacController {
      * @return
      */
     @PostMapping("/modifyFac")
+    @SystemLog(description="修改核设施信息")
     public ResponseBo modify(@RequestBody Fac fac) {
 
         int result = facService.modifyFac(fac);
@@ -100,6 +103,7 @@ public class FacController {
      * @return
      */
     @PostMapping("/deleteFacById")
+    @SystemLog(description="删除核设施信息")
     public ResponseBo deleteFacByIds(@RequestBody String id) {
         if (id != null) {
             int result = facService.deleteFacById(id);
@@ -124,6 +128,7 @@ public class FacController {
     }
 
     @RequestMapping(value = "/exportFac", method = RequestMethod.GET)
+    @SystemLog(description="导出核设施信息")
     public void exportFac( @RequestParam(value = "name", required = false) String name,
                                   @RequestParam(value = "code", required = false) String code,
                                   @RequestParam(value = "serviceDepart", required = false) String serviceDepart,

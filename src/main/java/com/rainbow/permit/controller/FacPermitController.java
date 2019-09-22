@@ -1,6 +1,7 @@
 package com.rainbow.permit.controller;
 
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.permit.domain.FacPermit;
@@ -35,6 +36,7 @@ public class FacPermitController {
      * @return
      */
     @PostMapping("/addFacPermit")
+    @SystemLog(description="添加核设施许可信息")
     public ResponseBo add(@RequestBody FacPermit facPermit) {
         int result = facPermitService.addFacPermit(facPermit);
 
@@ -52,6 +54,7 @@ public class FacPermitController {
      * @return
      */
     @PostMapping("/modifyFacPermit")
+    @SystemLog(description="修改核设施许可信息")
     public ResponseBo modify(@RequestBody FacPermit facPermit) {
 
         int result = facPermitService.modifyFacPermit(facPermit);
@@ -90,6 +93,7 @@ public class FacPermitController {
      * @return
      */
     @PostMapping("/deleteFacPermitByIds")
+    @SystemLog(description="删除核设施许可信息")
     public ResponseBo deleteFacPermitByIds(@RequestBody List<String> ids){
         if ((ids != null) && (ids.size() > 0)) {
             facPermitService.batchDelete(ids,"id",FacPermit.class);

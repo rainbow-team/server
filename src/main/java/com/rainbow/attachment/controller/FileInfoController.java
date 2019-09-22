@@ -2,6 +2,7 @@ package com.rainbow.attachment.controller;
 
 import com.rainbow.attachment.domain.FileInfo;
 import com.rainbow.attachment.service.FileInfoService;
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.ResponseBo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,11 +25,13 @@ public class FileInfoController {
     private FileInfoService fileInfoService;
 
     @PostMapping(value = "/upload")
+    @SystemLog(description="上传附件")
     public ResponseBo upload(@RequestParam("file") MultipartFile file,HttpServletRequest request){
         return fileInfoService.upload(file,request);
     }
 
     @GetMapping("/delete")
+    @SystemLog(description="删除附件")
     public ResponseBo deleteFileById(String id){
         int num= fileInfoService.deleteByKey(id);
         return ResponseBo.ok();
@@ -40,6 +43,7 @@ public class FileInfoController {
     }
 
     @GetMapping("/download")
+    @SystemLog(description="下载附件")
     public void downloadAccessoryByid(String id,HttpServletResponse response){
         fileInfoService.downloadAccessoryByid(id,response);
     }
