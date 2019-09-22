@@ -10,7 +10,7 @@ import java.util.Map;
 
 public interface ServiceDepartMapper extends MyMapper<ServiceDepart> {
 
-    List<ServiceDepartExtend> getServiceDepartList(Map<String,Object> map);
+    List<ServiceDepartExtend> getServiceDepartList(Map<String, Object> map);
 
     ServiceDepartExtend getServiceDepartByServiceId(String id);
 
@@ -18,10 +18,11 @@ public interface ServiceDepartMapper extends MyMapper<ServiceDepart> {
 
     int deleteServiceDepartById(String id);
 
-    //根据核设施营运单位的主键寻找关联的记录，返回记录的和，如果不存在关联关系则返回1，如果存在关联关系则返回0
+    // 根据核设施营运单位的主键寻找关联的记录，返回记录的和，如果不存在关联关系则返回1，如果存在关联关系则返回0
     Object getServiceDepartRelationCount(String id);
 
     int getServiceDepartByName(String name);
 
+    String getServiceDepartIdByName(String name);
 
 }

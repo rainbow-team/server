@@ -65,4 +65,7 @@
     and not exists(select 1 from security_equip g where g.equip_depart_id = t.id)
   </select>
 
+  <select id="getEquipDepartIdByName" parameterType="java.lang.String" resultType="java.lang.String">
+    select t.id from unit_equip_depart t where t.name=#{name}
+  </select>
 </mapper>

@@ -3,6 +3,8 @@ package com.rainbow.monitor.domain;
 import java.util.Date;
 import javax.persistence.*;
 
+import com.rainbow.common.annotation.BeanFieldAnnotation;
+
 @Table(name = "monitor_report")
 public class ReportMonitor {
     /**
@@ -14,8 +16,8 @@ public class ReportMonitor {
 
     /**
      * 核安全监管机构信息，外键
-
-参考表:supervision_org
+     * 
+     * 参考表:supervision_org
      */
     @Column(name = "org_id")
     private String orgId;
@@ -23,12 +25,13 @@ public class ReportMonitor {
     /**
      * 报告名称
      */
-    private String name;
+    @BeanFieldAnnotation(order = 2)
+    public String name;
 
     /**
      * 监督报告类型，外键
-
-参考表：config_monitor_report_type
+     * 
+     * 参考表：config_monitor_report_type
      */
     @Column(name = "report_type_id")
     private String reportTypeId;
@@ -94,12 +97,12 @@ public class ReportMonitor {
 
     /**
      * 获取核安全监管机构信息，外键
-
-参考表:supervision_org
+     * 
+     * 参考表:supervision_org
      *
      * @return org_id - 核安全监管机构信息，外键
-
-参考表:supervision_org
+     * 
+     *         参考表:supervision_org
      */
     public String getOrgId() {
         return orgId;
@@ -107,12 +110,12 @@ public class ReportMonitor {
 
     /**
      * 设置核安全监管机构信息，外键
-
-参考表:supervision_org
+     * 
+     * 参考表:supervision_org
      *
      * @param orgId 核安全监管机构信息，外键
-
-参考表:supervision_org
+     * 
+     *              参考表:supervision_org
      */
     public void setOrgId(String orgId) {
         this.orgId = orgId == null ? null : orgId.trim();
@@ -138,12 +141,12 @@ public class ReportMonitor {
 
     /**
      * 获取监督报告类型，外键
-
-参考表：config_monitor_report_type
+     * 
+     * 参考表：config_monitor_report_type
      *
      * @return report_type - 监督报告类型，外键
-
-参考表：config_monitor_report_type
+     * 
+     *         参考表：config_monitor_report_type
      */
     public String getReportTypeId() {
         return reportTypeId;
@@ -151,12 +154,12 @@ public class ReportMonitor {
 
     /**
      * 设置监督报告类型，外键
-
-参考表：config_monitor_report_type
+     * 
+     * 参考表：config_monitor_report_type
      *
      * @param reportTypeId 监督报告类型，外键
-
-参考表：config_monitor_report_type
+     * 
+     *                     参考表：config_monitor_report_type
      */
     public void setReportTypeId(String reportTypeId) {
         this.reportTypeId = reportTypeId == null ? null : reportTypeId.trim();

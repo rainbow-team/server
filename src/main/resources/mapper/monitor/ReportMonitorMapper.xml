@@ -76,4 +76,9 @@
     where t.id = #{id}
 
   </select>
+
+  <select id="verifyDuplication" resultType="int" parameterType="java.util.Map">
+    select count(1) from monitor_daily t WHERE t.org_id=#{orgId} and t.name=#{name} and t.report_type_id=#{reportTypeId}
+     and t.report_date=#{reportDate}
+  </select>
 </mapper>

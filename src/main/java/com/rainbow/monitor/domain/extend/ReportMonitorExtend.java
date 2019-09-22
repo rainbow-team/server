@@ -1,5 +1,6 @@
 package com.rainbow.monitor.domain.extend;
 
+import com.rainbow.common.annotation.BeanFieldAnnotation;
 import com.rainbow.monitor.domain.ReportMonitor;
 import com.rainbow.unit.domain.FacReportExtend;
 
@@ -10,11 +11,13 @@ import com.rainbow.unit.domain.FacReportExtend;
  **/
 public class ReportMonitorExtend extends ReportMonitor {
 
-    //授权监管机构的名称
-    private String orgName;
+    // 授权监管机构的名称
+    @BeanFieldAnnotation(order = 1)
+    public String orgName;
 
-    //监督报告类型的值
-    private String reportTypeValue;
+    // 监督报告类型的值
+    @BeanFieldAnnotation(order = 3)
+    public String reportTypeValue;
 
     public String getOrgName() {
         return orgName;

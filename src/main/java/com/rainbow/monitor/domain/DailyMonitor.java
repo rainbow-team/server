@@ -3,6 +3,8 @@ package com.rainbow.monitor.domain;
 import java.util.Date;
 import javax.persistence.*;
 
+import com.rainbow.common.annotation.BeanFieldAnnotation;
+
 @Table(name = "monitor_daily")
 public class DailyMonitor {
     /**
@@ -14,24 +16,24 @@ public class DailyMonitor {
 
     /**
      * 核设施营运单位，外键
-
-参考表:unit_service
+     * 
+     * 参考表:unit_service
      */
     @Column(name = "service_id")
     private String serviceId;
 
     /**
      * 军工核设施名称,外键
-
-参考表:unit_fac
+     * 
+     * 参考表:unit_fac
      */
     @Column(name = "fac_id")
     private String facId;
 
     /**
      * 核设施状态，外键
-
- 参考表：config_fac_status
+     * 
+     * 参考表：config_fac_status
      */
     @Column(name = "status_id")
     private String statusId;
@@ -46,13 +48,15 @@ public class DailyMonitor {
      * 日常监督文件类型，外键参考表：config_monitor_daily_file_type
      */
     @Column(name = "file_type_id")
-    private String fileTypeId;
+    @BeanFieldAnnotation(order = 6)
+    public String fileTypeId;
 
     /**
      * 文件名称
      */
     @Column(name = "file_name")
-    private String fileName;
+    @BeanFieldAnnotation(order = 7)
+    public String fileName;
 
     /**
      * 文件时间
@@ -95,7 +99,6 @@ public class DailyMonitor {
     @Column(name = "modify_date")
     private Date modifyDate;
 
-
     /**
      * 获取主键
      *
@@ -116,12 +119,12 @@ public class DailyMonitor {
 
     /**
      * 获取核设施营运单位，外键
-
-参考表:unit_service
+     * 
+     * 参考表:unit_service
      *
      * @return service_id - 核设施营运单位，外键
-
-参考表:unit_service
+     * 
+     *         参考表:unit_service
      */
     public String getServiceId() {
         return serviceId;
@@ -129,12 +132,12 @@ public class DailyMonitor {
 
     /**
      * 设置核设施营运单位，外键
-
-参考表:unit_service
+     * 
+     * 参考表:unit_service
      *
      * @param serviceId 核设施营运单位，外键
-
-参考表:unit_service
+     * 
+     *                  参考表:unit_service
      */
     public void setServiceId(String serviceId) {
         this.serviceId = serviceId == null ? null : serviceId.trim();
@@ -142,12 +145,12 @@ public class DailyMonitor {
 
     /**
      * 获取军工核设施名称,外键
-
-参考表:unit_fac
+     * 
+     * 参考表:unit_fac
      *
      * @return fac_id - 军工核设施名称,外键
-
-参考表:unit_fac
+     * 
+     *         参考表:unit_fac
      */
     public String getFacId() {
         return facId;
@@ -155,12 +158,12 @@ public class DailyMonitor {
 
     /**
      * 设置军工核设施名称,外键
-
-参考表:unit_fac
+     * 
+     * 参考表:unit_fac
      *
      * @param facId 军工核设施名称,外键
-
-参考表:unit_fac
+     * 
+     *              参考表:unit_fac
      */
     public void setFacId(String facId) {
         this.facId = facId == null ? null : facId.trim();
@@ -168,12 +171,12 @@ public class DailyMonitor {
 
     /**
      * 获取核设施状态，外键
-
- 参考表：config_fac_status
+     * 
+     * 参考表：config_fac_status
      *
      * @return status_id - 核设施状态，外键
-
- 参考表：config_fac_status
+     * 
+     *         参考表：config_fac_status
      */
     public String getStatusId() {
         return statusId;
@@ -181,12 +184,12 @@ public class DailyMonitor {
 
     /**
      * 设置核设施状态，外键
-
- 参考表：config_fac_status
+     * 
+     * 参考表：config_fac_status
      *
      * @param statusId 核设施状态，外键
-
- 参考表：config_fac_status
+     * 
+     *                 参考表：config_fac_status
      */
     public void setStatusId(String statusId) {
         this.statusId = statusId == null ? null : statusId.trim();

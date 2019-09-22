@@ -1,5 +1,6 @@
 package com.rainbow.monitor.controller;
 
+import javax.servlet.http.HttpServletRequest;
 
 import com.rainbow.check.domain.ActivityCheck;
 import com.rainbow.check.service.ActivityCheckService;
@@ -13,8 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Created by 13260 on 2019/5/11.
- * 监督检查信息管理
+ * Created by 13260 on 2019/5/11. 监督检查信息管理
  */
 @RestController
 @RequestMapping("checkmonitor")
@@ -59,7 +59,6 @@ public class CheckMonitorController {
         }
     }
 
-
     /**
      * 获取监督检查信息
      *
@@ -96,5 +95,18 @@ public class CheckMonitorController {
             return result == 0 ? ResponseBo.error("存在关联，不允许删除!") : ResponseBo.ok("删除成功");
         }
         return ResponseBo.ok();
+    }
+
+    /**
+     * 导入
+     * 
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/importData", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseBo importSupervisor(HttpServletRequest request) {
+
+        return checkMonitorService.importData(request);
     }
 }
