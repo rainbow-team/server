@@ -6,6 +6,7 @@ import com.rainbow.check.domain.UmineMountainFileCheck;
 import com.rainbow.check.domain.UminePlaceFileCheck;
 import com.rainbow.check.service.UmineMountainFileCheckService;
 import com.rainbow.check.service.UminePlaceFileCheckService;
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import org.slf4j.Logger;
@@ -35,6 +36,7 @@ import java.util.List;
      * @return
      */
     @PostMapping("/addUmineMountainFileCheck")
+    @SystemLog(description="添加铀矿山井下消防审评文件信息")
     public ResponseBo add(@RequestBody UmineMountainFileCheck umineMountainFileCheck) {
         int result = umineMountainFileCheckService.addUmineMountainFileCheck(umineMountainFileCheck);
 
@@ -52,6 +54,7 @@ import java.util.List;
      * @return
      */
     @PostMapping("/modifyUmineMountainFileCheck")
+    @SystemLog(description="修改铀矿山井下消防审评文件信息")
     public ResponseBo modify(@RequestBody UmineMountainFileCheck umineMountainFileCheck) {
 
         int result = umineMountainFileCheckService.updateAll(umineMountainFileCheck);
@@ -92,6 +95,7 @@ import java.util.List;
      * @return
      */
     @PostMapping("/deleteUmineMountainFileCheckByIds")
+    @SystemLog(description="删除铀矿山井下消防审评文件信息")
     public ResponseBo deleteUmineMountainFileCheckByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
             umineMountainFileCheckService.batchDelete(ids, "id", UmineMountainFileCheck.class);

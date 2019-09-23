@@ -1,6 +1,7 @@
 package com.rainbow.security.controller;
 
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
@@ -41,6 +42,7 @@ public class AccidentSecurityController {
      * @return
      */
     @PostMapping("/addAccidentSecurity")
+    @SystemLog(description="添加事故事件")
     public ResponseBo add(@RequestBody AccidentSecurity accidentSecurity) {
         int result = accidentSecurityService.addAccidentSecurity(accidentSecurity);
 
@@ -58,6 +60,7 @@ public class AccidentSecurityController {
      * @return
      */
     @PostMapping("/modifyAccidentSecurity")
+    @SystemLog(description="修改事故事件")
     public ResponseBo modify(@RequestBody AccidentSecurity accidentSecurity) {
 
         int result = accidentSecurityService.modifyAccidentSecurity(accidentSecurity);
@@ -99,6 +102,7 @@ public class AccidentSecurityController {
      * @return
      */
     @PostMapping("/deleteAccidentSecurityById")
+    @SystemLog(description="删除事故事件信息")
     public ResponseBo deleteAccidentSecurityById(@RequestBody String id) {
         if (id != null) {
             int result = accidentSecurityService.deleteByKey(id);
@@ -111,6 +115,7 @@ public class AccidentSecurityController {
      * 导出核设施安全问题
      */
     @RequestMapping(value = "/exportAccidentSecurity", method = RequestMethod.GET)
+    @SystemLog(description="导出核设施安全问题")
     public void exportAccidentSecurity( @RequestParam(value = "depart", required = false) String depart,
                                   @RequestParam(value = "fac", required = false) String fac,
                                   @RequestParam(value = "facStatusTypeIds", required = false) String facStatusTypeIds,

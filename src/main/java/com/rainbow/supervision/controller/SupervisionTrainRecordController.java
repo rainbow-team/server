@@ -1,6 +1,7 @@
 package com.rainbow.supervision.controller;
 
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.supervision.domain.SupervisorTrainRecord;
@@ -32,6 +33,7 @@ public class SupervisionTrainRecordController {
      * @return
      */
     @PostMapping("/addTrainRecord")
+    @SystemLog(description="保存核安全监督员培训记录")
     public ResponseBo add(@RequestBody SupervisorTrainRecord record) {
         int result = trainRecordService.addSupervisionTrainRecord(record);
         trainRecordService.updateSupervisorExpireDate(record);
@@ -49,6 +51,7 @@ public class SupervisionTrainRecordController {
      * @return
      */
     @PostMapping("/modifyTrainRecord")
+    @SystemLog(description="修改核安全监督员培训记录")
     public ResponseBo modify(@RequestBody SupervisorTrainRecord record) {
 
         int result = trainRecordService.updateAll(record);
@@ -93,6 +96,7 @@ public class SupervisionTrainRecordController {
      * @return
      */
     @PostMapping("/deleteTrainRecordByIds")
+    @SystemLog(description="删除核安全监督员培训记录")
     public ResponseBo deleteTrainRecordByIds(@RequestBody List<String> ids){
         trainRecordService.batchDelete(ids,"id",SupervisorTrainRecord.class);
         return ResponseBo.ok();

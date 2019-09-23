@@ -1,6 +1,7 @@
 package com.rainbow.permit.controller;
 
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.permit.domain.ActivityPermit;
@@ -34,6 +35,7 @@ public class UminePlacePermitController {
      * @return
      */
     @PostMapping("/addUminePlacePermit")
+    @SystemLog(description="添加铀尾矿(渣)库许可信息")
     public ResponseBo add(@RequestBody UminePlacePermit uminePlacePermit) {
         int result = uminePlacePermitService.addUminePlacePermit(uminePlacePermit);
 
@@ -51,6 +53,7 @@ public class UminePlacePermitController {
      * @return
      */
     @PostMapping("/modifyUminePlacePermit")
+    @SystemLog(description="修改铀尾矿(渣)库许可信息")
     public ResponseBo modify(@RequestBody UminePlacePermit uminePlacePermit) {
 
         int result = uminePlacePermitService.modifyUminePlacePermit(uminePlacePermit);
@@ -92,6 +95,7 @@ public class UminePlacePermitController {
      * @return
      */
     @PostMapping("/deleteUminePlacePermitByIds")
+    @SystemLog(description="删除铀尾矿(渣)库许可信息")
     public ResponseBo deleteUminePlacePermitByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
             uminePlacePermitService.batchDelete(ids, "id", UminePlacePermit.class);

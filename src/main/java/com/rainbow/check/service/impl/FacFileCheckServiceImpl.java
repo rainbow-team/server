@@ -37,7 +37,6 @@ public class FacFileCheckServiceImpl extends BaseService<FacFileCheck> implement
     FileInfoService fileInfoService;
 
     @Override
-    @SystemLog(description="添加核设施审评信息审评文件")
     public int addFacFileCheck(FacFileCheck facFileCheck) {
         facFileCheck.setId(GuidHelper.getGuid());
         fileInfoService.updateFileInfoByIds(facFileCheck.getAttachmentList(),facFileCheck.getId());

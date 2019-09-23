@@ -1,5 +1,6 @@
 package com.rainbow.config.service;
 
+import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.IService;
 import com.rainbow.config.domain.SystemConfig;
 
@@ -19,4 +20,6 @@ public interface SystemConfigService extends IService<SystemConfig> {
     int saveConfigByTableNameAndValue(Map<String,String> insertMap);
 
     void modifyConfig(Map<String,String> map);
+
+    ResponseBo getDicItemsByTable(String tableName);
 }

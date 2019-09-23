@@ -1,5 +1,6 @@
 package com.rainbow.system.controller;
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.system.domain.Organization;
@@ -30,6 +31,7 @@ public class OrganizationController {
      * @return
      */
     @PostMapping("/addOrganization")
+    @SystemLog(description="添加组织信息")
     public ResponseBo add(@RequestBody Organization Organization) {
         int result = organizationService.addOrganization(Organization);
 
@@ -47,6 +49,7 @@ public class OrganizationController {
      * @return
      */
     @PostMapping("/modifyOrganization")
+    @SystemLog(description="修改组织信息")
     public ResponseBo modify(@RequestBody Organization Organization) {
 
         int result = organizationService.modifyOrganization(Organization);
@@ -87,6 +90,7 @@ public class OrganizationController {
      * @return
      */
     @PostMapping("/deleteOrganizationByIds")
+    @SystemLog(description="删除组织信息")
     public ResponseBo deleteOrganizationByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
             organizationService.batchDelete(ids, "id", Organization.class);

@@ -1,6 +1,7 @@
 package com.rainbow.unit.controller;
 
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
@@ -41,6 +42,7 @@ public class ServiceDepartController {
      * @return
      */
     @PostMapping("/addServiceDepart")
+    @SystemLog(description="添加核设施运营单位信息")
     public ResponseBo add(@RequestBody ServiceDepart serviceDepart) {
         int result = serviceDepartService.addServiceDepart(serviceDepart);
 
@@ -58,6 +60,7 @@ public class ServiceDepartController {
      * @return
      */
     @PostMapping("/modifyServiceDepart")
+    @SystemLog(description="修改核设施运营单位信息")
     public ResponseBo modify(@RequestBody ServiceDepart serviceDepart) {
 
         int result = serviceDepartService.modifyServiceDepart(serviceDepart);
@@ -99,6 +102,7 @@ public class ServiceDepartController {
      * @return
      */
     @PostMapping("/deleteServiceDepartById")
+    @SystemLog(description="删除核设施运营单位信息")
     public ResponseBo deleteServiceDepartById(@RequestBody String id) {
         if (id != null) {
             int result = serviceDepartService.deleteServiceDepartById(id);
@@ -123,6 +127,7 @@ public class ServiceDepartController {
     }
 
     @RequestMapping(value = "/exportServiceDepart", method = RequestMethod.GET)
+    @SystemLog(description="导出核设施运营单位信息")
     public void exportServiceDepart( @RequestParam(value = "name", required = false) String name,
                                   @RequestParam(value = "groupIds", required = false) String groupIds,
                                   HttpServletResponse response) {
@@ -146,6 +151,7 @@ public class ServiceDepartController {
 
     @RequestMapping(value = "/importServiceDepart", method = RequestMethod.POST)
     @ResponseBody
+    @SystemLog(description="导入核设施运营单位信息")
     public ResponseBo importServiceDepart(HttpServletRequest request) {
 
         return serviceDepartService.importServiceDepart(request);

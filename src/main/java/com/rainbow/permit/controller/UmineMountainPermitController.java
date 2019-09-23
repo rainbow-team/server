@@ -1,6 +1,7 @@
 package com.rainbow.permit.controller;
 
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.permit.domain.UmineMountainPermit;
@@ -34,6 +35,7 @@ public class UmineMountainPermitController {
      * @return
      */
     @PostMapping("/addUmineMountainPermit")
+    @SystemLog(description="添加铀矿山井下消防许可信息")
     public ResponseBo add(@RequestBody UmineMountainPermit umineMountainPermit) {
         int result = umineMountainPermitService.addUmineMountainPermit(umineMountainPermit);
 
@@ -51,6 +53,7 @@ public class UmineMountainPermitController {
      * @return
      */
     @PostMapping("/modifyUmineMountainPermit")
+    @SystemLog(description="修改铀矿山井下消防许可信息")
     public ResponseBo modify(@RequestBody UmineMountainPermit umineMountainPermit) {
 
         int result = umineMountainPermitService.modifyUmineMountainPermit(umineMountainPermit);
@@ -92,6 +95,7 @@ public class UmineMountainPermitController {
      * @return
      */
     @PostMapping("/deleteUmineMountainPermitByIds")
+    @SystemLog(description="删除铀矿山井下消防许可信息")
     public ResponseBo deleteUmineMountainPermitByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
             umineMountainPermitService.batchDelete(ids, "id", UmineMountainPermit.class);

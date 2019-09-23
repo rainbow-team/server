@@ -1,6 +1,7 @@
 package com.rainbow.permit.controller;
 
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.permit.domain.ActivityPermit;
@@ -34,6 +35,7 @@ public class ActivityPermitController {
      * @return
      */
     @PostMapping("/addActivityPermit")
+    @SystemLog(description="添加核活动许可信息")
     public ResponseBo add(@RequestBody ActivityPermit activityPermit) {
         int result = activityPermitService.addActivityPermit(activityPermit);
 
@@ -51,6 +53,7 @@ public class ActivityPermitController {
      * @return
      */
     @PostMapping("/modifyActivityPermit")
+    @SystemLog(description="修改核活动许可信息")
     public ResponseBo modify(@RequestBody ActivityPermit activityPermit) {
 
         int result = activityPermitService.modifyActivityPermit(activityPermit);
@@ -92,6 +95,7 @@ public class ActivityPermitController {
      * @return
      */
     @PostMapping("/deleteActivityPermitByIds")
+    @SystemLog(description="删除核活动许可信息")
     public ResponseBo deleteActivityPermitByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
             activityPermitService.batchDelete(ids, "id", ActivityPermit.class);

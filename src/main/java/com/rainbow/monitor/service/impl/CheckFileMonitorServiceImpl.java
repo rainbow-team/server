@@ -33,7 +33,6 @@ public class CheckFileMonitorServiceImpl extends BaseService<CheckFileMonitor> i
 
 
     @Override
-    @SystemLog(description="添加监督检查文件")
     public int addCheckFileMonitor(CheckFileMonitor checkFileMonitor) {
         checkFileMonitor.setId(GuidHelper.getGuid());
         return checkFileMonitorMapper.insert(checkFileMonitor);

@@ -1,6 +1,7 @@
 package com.rainbow.supervision.controller;
 
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
@@ -39,6 +40,7 @@ public class LawController {
      * @return
      */
     @PostMapping("/addLaw")
+    @SystemLog(description="保存监管法规信息")
     public ResponseBo add(@RequestBody SupervisionLaw supervisionLaw) {
         int result = supervisionLawService.addLaw(supervisionLaw);
 
@@ -56,6 +58,7 @@ public class LawController {
      * @return
      */
     @PostMapping("/modifyLaw")
+    @SystemLog(description="修改监管法规信息")
     public ResponseBo modify(@RequestBody SupervisionLaw supervisionLaw) {
 
         int result = supervisionLawService.modifyLaw(supervisionLaw);
@@ -95,6 +98,7 @@ public class LawController {
      * @return
      */
     @PostMapping("/deleteLawByIds")
+    @SystemLog(description="删除法规信息")
     public ResponseBo deleteLawByIds(@RequestBody List<String> ids){
         supervisionLawService.batchDelete(ids,"id",SupervisionLaw.class);
         return ResponseBo.ok();
@@ -104,6 +108,7 @@ public class LawController {
      * 导出授权监管机构信息
      */
     @RequestMapping(value = "/exportLaw", method = RequestMethod.GET)
+    @SystemLog(description="导出授权监管机构信息")
     public void exportLaw( @RequestParam(value = "code", required = false) String code,
                            @RequestParam(value = "name", required = false) String name,
                            @RequestParam(value = "startTime", required = false) String startTime,

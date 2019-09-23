@@ -33,7 +33,6 @@ public class UminePlaceCheckServiceImpl extends BaseService<UminePlaceCheck> imp
     UminePlaceCheckMapper uminePlaceCheckMapper;
 
     @Override
-    @SystemLog(description="添加铀尾矿（渣）库审评信息")
     public int addUminePlaceCheck(UminePlaceCheck uminePlaceCheck) {
         uminePlaceCheck.setId(GuidHelper.getGuid());
         uminePlaceCheck.setCreateDate(new Date());
@@ -42,14 +41,12 @@ public class UminePlaceCheckServiceImpl extends BaseService<UminePlaceCheck> imp
     }
 
     @Override
-    @SystemLog(description="修改铀尾矿（渣）库审评信息")
     public int modifyUminePlaceCheck(UminePlaceCheck uminePlaceCheck) {
         uminePlaceCheck.setModifyDate(new Date());
         return uminePlaceCheckMapper.updateByPrimaryKey(uminePlaceCheck);
     }
 
     @Override
-    @SystemLog(description="删除铀尾矿（渣）库审评信息")
     public int deleteUminePlaceCheckById(String id) {
         Object result = uminePlaceCheckMapper.getUminePlaceCheckRelationCount(id);
         if (result != null) {

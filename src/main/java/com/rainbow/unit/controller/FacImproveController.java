@@ -1,6 +1,7 @@
 package com.rainbow.unit.controller;
 
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.unit.dao.FacImproveMapper;
@@ -35,6 +36,7 @@ public class FacImproveController {
      * @return
      */
     @PostMapping("/addFacImprove")
+    @SystemLog(description="添加核设施安技改信息")
     public ResponseBo add(@RequestBody FacImprove facImprove) {
         int result = facImproveService.addFacImprove(facImprove);
 
@@ -52,6 +54,7 @@ public class FacImproveController {
      * @return
      */
     @PostMapping("/modifyFacImprove")
+    @SystemLog(description="修改核设施安技改信息")
     public ResponseBo modify(@RequestBody FacImprove facImprove) {
 
         int result = facImproveService.updateAll(facImprove);
@@ -91,6 +94,7 @@ public class FacImproveController {
      * @return
      */
     @PostMapping("/deleteFacImproveByIds")
+    @SystemLog(description="删除核设施安技改信息")
     public ResponseBo deleteImproveByByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
             facImproveService.batchDelete(ids,"id",FacImprove.class);

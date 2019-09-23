@@ -1,6 +1,7 @@
 package com.rainbow.unit.controller;
 
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.unit.domain.Group;
@@ -35,6 +36,7 @@ public class UmineController {
      * @return
      */
     @PostMapping("/addUmine")
+    @SystemLog(description="添加铀矿冶单位信息")
     public ResponseBo add(@RequestBody Umine umine) {
         int result = umineService.addUmine(umine);
 
@@ -52,6 +54,7 @@ public class UmineController {
      * @return
      */
     @PostMapping("/modifyUmine")
+    @SystemLog(description="修改铀矿冶单位信息")
     public ResponseBo modify(@RequestBody Umine umine) {
 
         int result = umineService.modifyUmine(umine);
@@ -90,6 +93,7 @@ public class UmineController {
      * @return
      */
     @PostMapping("/deleteUmineById")
+    @SystemLog(description="删除铀矿冶单位信息")
     public ResponseBo deleteUmineByIds(@RequestBody  String id){
         if (id != null) {
             int result = umineService.deleteUmineById(id);

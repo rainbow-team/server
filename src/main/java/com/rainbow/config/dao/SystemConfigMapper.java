@@ -58,5 +58,5 @@ public interface SystemConfigMapper extends MyMapper<SystemConfig> {
 
     String getConfigIdByName(Map<String,String> map);
 
-
+    List<SystemConfig> getDicItemsByTable(Map<String,String> map);
 }

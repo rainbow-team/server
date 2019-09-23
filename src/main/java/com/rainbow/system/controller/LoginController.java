@@ -87,6 +87,7 @@ public class LoginController extends BaseController{
     }
 
     @RequestMapping("/loginout")
+    @SystemLog(description="登出")
     public ResponseBo Loginout(){
         EHCacheUtils.deleteCache(cacheManager);
         return ResponseBo.ok();

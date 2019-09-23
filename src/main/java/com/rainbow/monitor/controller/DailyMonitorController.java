@@ -1,6 +1,7 @@
 package com.rainbow.monitor.controller;
 
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
@@ -40,6 +41,7 @@ public class DailyMonitorController {
      * @return
      */
     @PostMapping("/addDailyMonitor")
+    @SystemLog(description="添加日常监督信息")
     public ResponseBo add(@RequestBody DailyMonitor dailyMonitor) {
         int result = dailyMonitorService.addDailyMonitor(dailyMonitor);
 
@@ -57,6 +59,7 @@ public class DailyMonitorController {
      * @return
      */
     @PostMapping("/modifyDailyMonitor")
+    @SystemLog(description="修改日常监督信息")
     public ResponseBo modify(@RequestBody DailyMonitor dailyMonitor) {
 
         int result = dailyMonitorService.modifyDailyMonitor(dailyMonitor);
@@ -98,6 +101,7 @@ public class DailyMonitorController {
      * @return
      */
     @PostMapping("/deleteDailyMonitorById")
+    @SystemLog(description="删除日常监督信息")
     public ResponseBo deleteDailyMonitorById(@RequestBody String id) {
         if (id != null) {
             int result = dailyMonitorService.deleteByKey(id);
@@ -110,6 +114,7 @@ public class DailyMonitorController {
      * 导出日常监督信息
      */
     @RequestMapping(value = "/exportDailyMonitor", method = RequestMethod.GET)
+    @SystemLog(description="导出日常监督信息")
     public void exportDailyMonitor(@RequestParam(value = "serviceDepartName", required = false) String serviceDepartName,
                                  @RequestParam(value = "facName", required = false) String facName,
                                  @RequestParam(value = "facStatusTypeIds", required = false) String facStatusTypeIds,

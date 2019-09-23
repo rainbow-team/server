@@ -32,6 +32,8 @@
       <![CDATA[  <=  ]]>
       DATE(#{endtime})
     </if>
+
+    order by t.oper_time desc
   </select>
 
 </mapper>

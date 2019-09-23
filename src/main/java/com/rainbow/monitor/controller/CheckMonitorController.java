@@ -3,6 +3,7 @@ package com.rainbow.monitor.controller;
 
 import com.rainbow.check.domain.ActivityCheck;
 import com.rainbow.check.service.ActivityCheckService;
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.monitor.domain.CheckMonitor;
@@ -32,6 +33,7 @@ public class CheckMonitorController {
      * @return
      */
     @PostMapping("/addCheckMonitor")
+    @SystemLog(description="添加监督检查信息")
     public ResponseBo add(@RequestBody CheckMonitor checkMonitor) {
         int result = checkMonitorService.addCheckMonitor(checkMonitor);
 
@@ -49,6 +51,7 @@ public class CheckMonitorController {
      * @return
      */
     @PostMapping("/modifyCheckMonitor")
+    @SystemLog(description="修改监督检查信息")
     public ResponseBo modify(@RequestBody CheckMonitor checkMonitor) {
 
         int result = checkMonitorService.modifyCheckMonitor(checkMonitor);
@@ -90,6 +93,7 @@ public class CheckMonitorController {
      * @return
      */
     @PostMapping("/deleteCheckMonitorById")
+    @SystemLog(description="删除监督检查信息")
     public ResponseBo deleteCheckMonitorById(@RequestBody String id) {
         if (id != null) {
             int result = checkMonitorService.deleteCheckMonitorById(id);

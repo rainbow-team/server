@@ -1,6 +1,7 @@
 package com.rainbow.monitor.controller;
 
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.monitor.domain.CheckFileMonitor;
@@ -37,6 +38,7 @@ public class WitnessMonitorController {
      * @return
      */
     @PostMapping("/addWitnessMonitor")
+    @SystemLog(description="添加监督见证信息")
     public ResponseBo add(@RequestBody WitnessMonitor witnessMonitor) {
         int result = witnessMonitorService.addWitnessMonitor(witnessMonitor);
 
@@ -54,6 +56,7 @@ public class WitnessMonitorController {
      * @return
      */
     @PostMapping("/modifyWitnessMonitor")
+    @SystemLog(description="修改监督见证信息")
     public ResponseBo modify(@RequestBody WitnessMonitor witnessMonitor) {
 
         int result = witnessMonitorService.modifyWitnessMonitor(witnessMonitor);
@@ -95,6 +98,7 @@ public class WitnessMonitorController {
      * @return
      */
     @PostMapping("/deleteWitnessMonitorById")
+    @SystemLog(description="删除监督见证信息")
     public ResponseBo deleteWitnessMonitorByIds(@RequestBody String id) {
         if (id != null) {
             int result = witnessMonitorService.deleteByKey(id);

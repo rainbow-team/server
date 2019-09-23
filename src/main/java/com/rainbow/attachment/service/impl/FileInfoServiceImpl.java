@@ -41,7 +41,6 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
     private RainbowProperties rainbowProperties;
 
     @Override
-    @SystemLog(description="上传附件")
     public ResponseBo upload(MultipartFile multifile, HttpServletRequest request) {
 
         String guid = UUID.randomUUID().toString();
@@ -117,7 +116,6 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
     }
 
     @Override
-    @SystemLog(description="下载附件")
     public void downloadAccessoryByid(String id, HttpServletResponse response) {
 
         FileInfo fileInfo = fileInfoMapper.selectByPrimaryKey(id);

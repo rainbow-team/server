@@ -1,6 +1,7 @@
 package com.rainbow.supervision.controller;
 
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
@@ -36,6 +37,7 @@ public class ProduceTrainController {
      * @return
      */
     @PostMapping("/addProduceTrainRecord")
+    @SystemLog(description="保存安全生产培训信息")
     public ResponseBo add(@RequestBody SupervisionProduceTrain supervisionProduceTrain) {
         int result = supervisionProduceTrainService.addProduceTrainRecord(supervisionProduceTrain);
 
@@ -53,6 +55,7 @@ public class ProduceTrainController {
      * @return
      */
     @PostMapping("/modifyProduceTrainRecord")
+    @SystemLog(description="修改安全生产培训信息")
     public ResponseBo modify(@RequestBody SupervisionProduceTrain supervisionProduceTrain) {
 
         int result = supervisionProduceTrainService.modifyProduceTrainRecord(supervisionProduceTrain);
@@ -82,6 +85,7 @@ public class ProduceTrainController {
      * @return
      */
     @PostMapping("/deleteProduceTrainRecordByIds")
+    @SystemLog(description="删除安全生产培训")
     public ResponseBo deleteTrainRecordByIds(@RequestBody List<String> ids) {
         supervisionProduceTrainService.batchDelete(ids, "id", SupervisionProduceTrain.class);
         return ResponseBo.ok();
@@ -101,6 +105,7 @@ public class ProduceTrainController {
      * 导出安全生产培训信息
      */
     @RequestMapping(value = "/exportProduceTrain", method = RequestMethod.GET)
+    @SystemLog(description="导出安全生产培训信息")
     public void exportProduceTrain( @RequestParam(value = "batch", required = false) String batch,
                                     @RequestParam(value = "begin_date", required = false) String beginDate,
                                     @RequestParam(value = "end_date", required = false) String endDate,

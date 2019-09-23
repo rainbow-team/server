@@ -1,6 +1,7 @@
 package com.rainbow.monitor.controller;
 
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.monitor.domain.CheckMonitor;
@@ -34,6 +35,7 @@ public class ReportMonitorController {
      * @return
      */
     @PostMapping("/addReportMonitor")
+    @SystemLog(description="添加监督报告信息")
     public ResponseBo add(@RequestBody ReportMonitor reportMonitor) {
         int result = reportMonitorService.addReportMonitor(reportMonitor);
 
@@ -51,6 +53,7 @@ public class ReportMonitorController {
      * @return
      */
     @PostMapping("/modifyReportMonitor")
+    @SystemLog(description="修改监督报告信息")
     public ResponseBo modify(@RequestBody ReportMonitor reportMonitor) {
 
         int result = reportMonitorService.modifyReportMonitor(reportMonitor);
@@ -92,6 +95,7 @@ public class ReportMonitorController {
      * @return
      */
     @PostMapping("/deleteReportMonitorById")
+    @SystemLog(description="删除监督报告信息")
     public ResponseBo deleteReportMonitorByIds(@RequestBody String id) {
 
         if (id != null) {

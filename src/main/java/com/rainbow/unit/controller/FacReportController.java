@@ -2,6 +2,7 @@ package com.rainbow.unit.controller;
 
 
 import com.rainbow.attachment.service.FileInfoService;
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.unit.domain.FacImprove;
@@ -37,6 +38,7 @@ public class FacReportController {
      * @return
      */
     @PostMapping("/addFacReport")
+    @SystemLog(description="添加核设施定期报告信息")
     public ResponseBo add(@RequestBody FacReport facReport) {
         int result = facReportService.addFacReport(facReport);
 
@@ -54,6 +56,7 @@ public class FacReportController {
      * @return
      */
     @PostMapping("/modifyFacReport")
+    @SystemLog(description="修改核设施定期报告信息")
     public ResponseBo modify(@RequestBody FacReport facReport) {
 
         int result = facReportService.updateAll(facReport);
@@ -93,6 +96,7 @@ public class FacReportController {
      * @return
      */
     @PostMapping("/deleteFacReportByIds")
+    @SystemLog(description="删除核设施定期报告信息")
     public ResponseBo deleteFacReportByByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
             facReportService.batchDelete(ids,"id",FacReport.class);

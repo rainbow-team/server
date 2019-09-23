@@ -5,6 +5,7 @@ import com.rainbow.check.domain.EquipCheck;
 import com.rainbow.check.domain.FacCheck;
 import com.rainbow.check.service.EquipCheckService;
 import com.rainbow.check.service.FacCheckService;
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import org.slf4j.Logger;
@@ -32,6 +33,7 @@ public class EquipCheckController {
      * @return
      */
     @PostMapping("/addEquipCheck")
+    @SystemLog(description="添加核安全设备审评信息")
     public ResponseBo add(@RequestBody EquipCheck equipCheck) {
         int result = equipCheckService.addEquipCheck(equipCheck);
 
@@ -49,6 +51,7 @@ public class EquipCheckController {
      * @return
      */
     @PostMapping("/modifyEquipCheck")
+    @SystemLog(description="修改核安全设备审评信息")
     public ResponseBo modify(@RequestBody EquipCheck equipCheck) {
 
         int result = equipCheckService.modifyEquipCheck(equipCheck);
@@ -90,6 +93,7 @@ public class EquipCheckController {
      * @return
      */
     @PostMapping("/deleteEquipCheckById")
+    @SystemLog(description="删除核安全设备审评信息")
     public ResponseBo deleteEquipCheckById(@RequestBody String id) {
         if (id != null) {
             int result = equipCheckService.deleteEquipCheckById(id);

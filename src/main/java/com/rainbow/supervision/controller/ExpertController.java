@@ -1,6 +1,7 @@
 package com.rainbow.supervision.controller;
 
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
@@ -36,6 +37,7 @@ public class ExpertController {
      * @return
      */
     @PostMapping("/addExpert")
+    @SystemLog(description="添加核安全监督专家信息")
     public ResponseBo add(@RequestBody Expert supervisionExpert) {
         int result = supervisionExportService.addExpert(supervisionExpert);
 
@@ -53,6 +55,7 @@ public class ExpertController {
      * @return
      */
     @PostMapping("/modifyExpert")
+    @SystemLog(description="修改核安全监督专家信息")
     public ResponseBo modify(@RequestBody Expert supervisionExpert) {
 
         int result = supervisionExportService.modifyExpert(supervisionExpert);
@@ -70,6 +73,7 @@ public class ExpertController {
      * @return
      */
     @PostMapping("/getExpertList")
+    @SystemLog(description="获取核安全监督专家列表")
     public ResponseBo getExpertList(@RequestBody Page page){
 
         return supervisionExportService.getExpertList(page);
@@ -91,6 +95,7 @@ public class ExpertController {
      * @return
      */
     @PostMapping("/deleteExpertByIds")
+    @SystemLog(description="删除和安全监督专家信息")
     public ResponseBo deleteLawByIds(@RequestBody List<String> ids){
         supervisionExportService.batchDelete(ids,"id", Expert.class);
         return ResponseBo.ok();
@@ -100,6 +105,7 @@ public class ExpertController {
      * 导出安全生产培训信息
      */
     @RequestMapping(value = "/exportExpert", method = RequestMethod.GET)
+    @SystemLog(description="导出安全生产培训信息")
     public void exportExpert( @RequestParam(value = "name", required = false) String name,
                                     @RequestParam(value = "major", required = false) String major,
                                     @RequestParam(value = "startAge", required = false) String startAge,

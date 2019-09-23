@@ -1,6 +1,7 @@
 package com.rainbow.monitor.controller;
 
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.monitor.domain.CheckFileMonitor;
@@ -35,6 +36,7 @@ public class CheckFileMonitorController {
      * @return
      */
     @PostMapping("/addCheckFileMonitor")
+    @SystemLog(description="添加监督检查文件信息")
     public ResponseBo add(@RequestBody CheckFileMonitor checkMonitor) {
         int result = checkFileMonitorService.addCheckFileMonitor(checkMonitor);
 
@@ -52,6 +54,7 @@ public class CheckFileMonitorController {
      * @return
      */
     @PostMapping("/modifyCheckFileMonitor")
+    @SystemLog(description="修改监督检查文件信息")
     public ResponseBo modify(@RequestBody CheckFileMonitor checkMonitor) {
 
         int result = checkFileMonitorService.updateAll(checkMonitor);
@@ -93,6 +96,7 @@ public class CheckFileMonitorController {
      * @return
      */
     @PostMapping("/deleteCheckFileMonitorByIds")
+    @SystemLog(description="删除监督检查文件信息")
     public ResponseBo deleteCheckMonitorByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
             checkFileMonitorService.batchDelete(ids, "id", CheckFileMonitor.class);

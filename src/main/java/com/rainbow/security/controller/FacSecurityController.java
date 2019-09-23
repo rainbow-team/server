@@ -1,6 +1,7 @@
 package com.rainbow.security.controller;
 
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
@@ -41,6 +42,7 @@ public class FacSecurityController {
      * @return
      */
     @PostMapping("/addFacSecurity")
+    @SystemLog(description="添加核设施安全问题")
     public ResponseBo add(@RequestBody FacSecurity facSecurity) {
         int result = facSecurityService.addFacSecurity(facSecurity);
 
@@ -58,6 +60,7 @@ public class FacSecurityController {
      * @return
      */
     @PostMapping("/modifyFacSecurity")
+    @SystemLog(description="修改核设施安全问题")
     public ResponseBo modify(@RequestBody FacSecurity facSecurity) {
 
         int result = facSecurityService.modifyFacSecurity(facSecurity);
@@ -99,6 +102,7 @@ public class FacSecurityController {
      * @return
      */
     @PostMapping("/deleteFacSecurityById")
+    @SystemLog(description="删除核设施安全问题信息")
     public ResponseBo deleteFacSecurityById(@RequestBody String id) {
         if (id != null) {
             int result = facSecurityService.deleteByKey(id);
@@ -112,6 +116,7 @@ public class FacSecurityController {
      * 导出核设施安全问题
      */
     @RequestMapping(value = "/exportFacSecurity", method = RequestMethod.GET)
+    @SystemLog(description="导出核设施安全问题")
     public void exportFacSecurity( @RequestParam(value = "serviceDepartName", required = false) String serviceDepartName,
                                   @RequestParam(value = "facName", required = false) String facName,
                                   @RequestParam(value = "facStatusTypeIds", required = false) String facStatusTypeIds,

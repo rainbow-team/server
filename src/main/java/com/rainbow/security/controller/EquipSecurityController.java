@@ -1,6 +1,7 @@
 package com.rainbow.security.controller;
 
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
@@ -41,6 +42,7 @@ public class EquipSecurityController {
      * @return
      */
     @PostMapping("/addEquipSecurity")
+    @SystemLog(description="添加核安全设备安全问题")
     public ResponseBo add(@RequestBody EquipSecurity equipSecurity) {
         int result = equipSecurityService.addEquipSecurity(equipSecurity);
 
@@ -58,6 +60,7 @@ public class EquipSecurityController {
      * @return
      */
     @PostMapping("/modifyEquipSecurity")
+    @SystemLog(description="修改核安全设备安全问题")
     public ResponseBo modify(@RequestBody EquipSecurity equipSecurity) {
 
         int result = equipSecurityService.modifyEquipSecurity(equipSecurity);
@@ -99,6 +102,7 @@ public class EquipSecurityController {
      * @return
      */
     @PostMapping("/deleteEquipSecurityById")
+    @SystemLog(description="删除核安全设备安全问题信息")
     public ResponseBo deleteEquipSecurityById(@RequestBody String id) {
         if (id != null) {
             int result = equipSecurityService.deleteByKey(id);
@@ -111,6 +115,7 @@ public class EquipSecurityController {
      * 导出核设施安全问题
      */
     @RequestMapping(value = "/exportEquipSecurity", method = RequestMethod.GET)
+    @SystemLog(description="导出核设施安全问题")
     public void exportSupervisor(@RequestParam(value = "equipDepartName", required = false) String equipDepartName,
                                   @RequestParam(value = "name", required = false) String name,
                                  @RequestParam(value = "serviceDepartName", required = false) String serviceDepartName,

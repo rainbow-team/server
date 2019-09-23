@@ -33,7 +33,6 @@ public class EquipCheckServiceImpl extends BaseService<EquipCheck> implements Eq
     EquipCheckMapper equipCheckMapper;
 
     @Override
-    @SystemLog(description="添加核安全设备审评信息")
     public int addEquipCheck(EquipCheck equipCheck) {
         equipCheck.setId(GuidHelper.getGuid());
         equipCheck.setCreateDate(new Date());
@@ -42,14 +41,12 @@ public class EquipCheckServiceImpl extends BaseService<EquipCheck> implements Eq
     }
 
     @Override
-    @SystemLog(description="修改核安全设备审评信息")
     public int modifyEquipCheck(EquipCheck equipCheck) {
         equipCheck.setModifyDate(new Date());
         return equipCheckMapper.updateByPrimaryKey(equipCheck);
     }
 
     @Override
-    @SystemLog(description="删除核安全设备审评信息")
     public int deleteEquipCheckById(String id) {
         Object result = equipCheckMapper.getEquipCheckRelationCount(id);
         if (result != null) {

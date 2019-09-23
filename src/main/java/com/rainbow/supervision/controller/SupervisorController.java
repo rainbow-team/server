@@ -1,6 +1,7 @@
 package com.rainbow.supervision.controller;
 
 import com.rainbow.attachment.service.FileInfoService;
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
@@ -47,6 +48,7 @@ public class SupervisorController {
      * @return
      */
     @PostMapping("/addSupervisor")
+    @SystemLog(description="新增核安全监督员")
     public ResponseBo addSupervisor(@RequestBody Supervisor supervisor){
         int result = supervisorService.addSupervisor(supervisor);
 
@@ -63,6 +65,7 @@ public class SupervisorController {
      * @return
      */
     @PostMapping("/modifySupervisor")
+    @SystemLog(description="修改核安全监督员")
     public ResponseBo modifySupervisor(@RequestBody Supervisor supervisor){
         int result = supervisorService.modifySupervisor(supervisor);
         if (result == 1) {
@@ -78,6 +81,7 @@ public class SupervisorController {
      * @return
      */
     @PostMapping("/deleteSupervisorById")
+    @SystemLog(description="删除核安全监督员")
     public ResponseBo deleteSupervisionSupervisorById(@RequestBody String id){
 
         return supervisorService.deleteSupervisorById(id);
@@ -120,6 +124,7 @@ public class SupervisorController {
      * @param response
      */
     @RequestMapping(value = "/exportSupervisor", method = RequestMethod.GET)
+    @SystemLog(description="导出核安全监督员")
     public void exportSupervisor( @RequestParam(value = "name", required = false) String name,
                                   @RequestParam(value = "orgName", required = false) String orgName,
                                   @RequestParam(value = "start_date", required = false) String start_date,
@@ -160,6 +165,7 @@ public class SupervisorController {
      */
     @RequestMapping(value = "/importSupervisor", method = RequestMethod.POST)
     @ResponseBody
+    @SystemLog(description="导入核安全监督员")
     public ResponseBo importSupervisor(HttpServletRequest request) {
 
        return supervisorService.importSupervisor(request);

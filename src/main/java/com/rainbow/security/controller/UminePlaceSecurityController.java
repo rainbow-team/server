@@ -1,6 +1,7 @@
 package com.rainbow.security.controller;
 
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
@@ -41,6 +42,7 @@ public class UminePlaceSecurityController {
      * @return
      */
     @PostMapping("/addUminePlaceSecurity")
+    @SystemLog(description="添加铀尾矿(渣)库安全问题")
     public ResponseBo add(@RequestBody UminePlaceSecurity uminePlaceSecurity) {
         int result = uminePlaceSecurityService.addUminePlaceSecurity(uminePlaceSecurity);
 
@@ -58,6 +60,7 @@ public class UminePlaceSecurityController {
      * @return
      */
     @PostMapping("/modifyUminePlaceSecurity")
+    @SystemLog(description="修改铀尾矿(渣)库安全问题")
     public ResponseBo modify(@RequestBody UminePlaceSecurity uminePlaceSecurity) {
 
         int result = uminePlaceSecurityService.modifyUminePlaceSecurity(uminePlaceSecurity);
@@ -99,6 +102,7 @@ public class UminePlaceSecurityController {
      * @return
      */
     @PostMapping("/deleteUminePlaceSecurityById")
+    @SystemLog(description="删除铀尾矿(渣)库安全问题信息")
     public ResponseBo deleteUminePlaceSecurityByIds(@RequestBody String id) {
         if (id != null) {
             int result = uminePlaceSecurityService.deleteByKey(id);
@@ -111,6 +115,7 @@ public class UminePlaceSecurityController {
      * 导出核设施安全问题
      */
     @RequestMapping(value = "/exportUmineplaceSecurity", method = RequestMethod.GET)
+    @SystemLog(description="导出核设施安全问题")
     public void exportUmineplaceSecurity( @RequestParam(value = "umineName", required = false) String umineName,
                                   @RequestParam(value = "uminePlaceName", required = false) String uminePlaceName,
                                   @RequestParam(value = "statusTypeIds", required = false) String statusTypeIds,

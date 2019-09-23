@@ -32,7 +32,6 @@ public class LinkServiceImpl extends BaseService<LinkDetail> implements LinkServ
     LinkDetailMapper linkDetailMapper;
 
     @Override
-    @SystemLog(description="添加链接")
     public int addLinkDetail(LinkDetail linkDetail) {
         linkDetail.setId(GuidHelper.getGuid());
         return linkDetailMapper.insert(linkDetail);

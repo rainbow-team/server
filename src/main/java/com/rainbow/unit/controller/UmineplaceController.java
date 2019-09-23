@@ -1,6 +1,7 @@
 package com.rainbow.unit.controller;
 
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.unit.domain.EquipDepart;
@@ -34,6 +35,7 @@ public class UmineplaceController {
      * @return
      */
     @PostMapping("/addUmineplace")
+    @SystemLog(description="添加铀尾矿(渣)库信息")
     public ResponseBo add(@RequestBody Umineplace umineplace) {
         int result = umineplaceService.addUmineplace(umineplace);
 
@@ -51,6 +53,7 @@ public class UmineplaceController {
      * @return
      */
     @PostMapping("/modifyUmineplace")
+    @SystemLog(description="修改铀尾矿(渣)库信息")
     public ResponseBo modify(@RequestBody Umineplace umineplace) {
 
         int result = umineplaceService.modifyUmineplace(umineplace);
@@ -92,6 +95,7 @@ public class UmineplaceController {
      * @return
      */
     @PostMapping("/deleteUmineplaceById")
+    @SystemLog(description="删除铀尾矿(渣)库信息信息")
     public ResponseBo deleteUmineplaceById(@RequestBody String id) {
         if (id != null) {
             int result = umineplaceService.deleteUmineplaceById(id);

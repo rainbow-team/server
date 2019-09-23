@@ -1,5 +1,6 @@
 package com.rainbow.supervision.controller;
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
@@ -42,6 +43,7 @@ public class SastindController {
      * @return
      */
     @PostMapping("/addSastind")
+    @SystemLog(description="保存国防科工局信息")
     public ResponseBo addSastind(@RequestBody SupervisionSastind sastind) {
         int result = sastindService.addSastind(sastind);
 
@@ -59,6 +61,7 @@ public class SastindController {
      * @return
      */
     @PostMapping("/modifySastind")
+    @SystemLog(description="修改国防科工局信息")
     public ResponseBo modifySastind(@RequestBody SupervisionSastind sastind) {
         int result = sastindService.modifySastind(sastind);
         if (result == 1) {
@@ -75,6 +78,7 @@ public class SastindController {
      * @return
      */
     @PostMapping("/deleteSastindById")
+    @SystemLog(description="删除国防科工局信息")
     public ResponseBo deleteSastind(@RequestBody String id) {
         int result = sastindService.deleteByKey(id);
         if (result == 1) {
@@ -101,6 +105,7 @@ public class SastindController {
     }
 
     @RequestMapping(value = "/exportSastind", method = RequestMethod.GET)
+    @SystemLog(description="导出国防科工局信息")
     public void exportSastind(HttpServletResponse response){
 
         List<Condition> list = new ArrayList<>();
@@ -137,6 +142,7 @@ public class SastindController {
 
     @RequestMapping(value = "/import", method = RequestMethod.POST)
     @ResponseBody
+    @SystemLog(description="导入国防科工局信息")
     public ResponseBo importSastind(HttpServletRequest request) {
 
         Multipart part = new Multipart();

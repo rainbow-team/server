@@ -3,6 +3,7 @@ package com.rainbow.check.controller;
 
 import com.rainbow.check.domain.FacFileCheck;
 import com.rainbow.check.service.FacFileCheckService;
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.permit.domain.ActivityPermit;
@@ -34,6 +35,7 @@ public class FacFileCheckController {
      * @return
      */
     @PostMapping("/addFacFileCheck")
+    @SystemLog(description="添加核设施审评文件信息")
     public ResponseBo add(@RequestBody FacFileCheck facFileCheck) {
         int result = facFileCheckService.addFacFileCheck(facFileCheck);
 
@@ -51,6 +53,7 @@ public class FacFileCheckController {
      * @return
      */
     @PostMapping("/modifyFacFileCheck")
+    @SystemLog(description="修改核设施审评文件信息")
     public ResponseBo modify(@RequestBody FacFileCheck facFileCheck) {
 
         int result = facFileCheckService.updateAll(facFileCheck);
@@ -91,6 +94,7 @@ public class FacFileCheckController {
      * @return
      */
     @PostMapping("/deleteFacFileCheckByIds")
+    @SystemLog(description="删除核设施审评文件信息")
     public ResponseBo deleteFacFileCheckByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
             facFileCheckService.batchDelete(ids, "id", FacFileCheck.class);

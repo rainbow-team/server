@@ -1,6 +1,7 @@
 package com.rainbow.unit.controller;
 
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.unit.domain.EquipDepart;
@@ -34,6 +35,7 @@ public class EquipDepartController {
      * @return
      */
     @PostMapping("/addEquipDepart")
+    @SystemLog(description="添加核设备单位信息")
     public ResponseBo add(@RequestBody EquipDepart equipDepart) {
         int result = equipDepartService.addEquipDepart(equipDepart);
 
@@ -51,6 +53,7 @@ public class EquipDepartController {
      * @return
      */
     @PostMapping("/modifyEquipDepart")
+    @SystemLog(description="修改核设备单位信息")
     public ResponseBo modify(@RequestBody EquipDepart equipDepart) {
 
         int result = equipDepartService.modifyEquipDepart(equipDepart);
@@ -90,6 +93,7 @@ public class EquipDepartController {
      * @return
      */
     @PostMapping("/deleteEquipDepartById")
+    @SystemLog(description="删除核设备单位信息")
     public ResponseBo deleteGroupById(@RequestBody String id){
         if (id != null) {
             int result = equipDepartService.deleteEquipDepartById(id);

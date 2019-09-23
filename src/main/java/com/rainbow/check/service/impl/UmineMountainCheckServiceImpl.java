@@ -33,7 +33,6 @@ public class UmineMountainCheckServiceImpl extends BaseService<UmineMountainChec
     UmineMountainCheckMapper umineMountainCheckMapper;
 
     @Override
-    @SystemLog(description="添加铀矿山井下消防审查信息")
     public int addUmineMountainCheck(UmineMountainCheck umineMountainCheck) {
         umineMountainCheck.setId(GuidHelper.getGuid());
         umineMountainCheck.setCreateDate(new Date());
@@ -42,14 +41,12 @@ public class UmineMountainCheckServiceImpl extends BaseService<UmineMountainChec
     }
 
     @Override
-    @SystemLog(description="修改铀矿山井下消防审查信息")
     public int modifyUmineMountainCheck(UmineMountainCheck umineMountainCheck) {
         umineMountainCheck.setModifyDate(new Date());
         return umineMountainCheckMapper.updateByPrimaryKey(umineMountainCheck);
     }
 
     @Override
-    @SystemLog(description="删除铀矿山井下消防审查信息")
     public int deleteUmineMountainCheckById(String id) {
         Object result = umineMountainCheckMapper.getUmineMountainCheckRelationCount(id);
         if (result != null) {

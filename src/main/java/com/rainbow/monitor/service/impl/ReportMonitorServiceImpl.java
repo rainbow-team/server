@@ -33,7 +33,6 @@ public class ReportMonitorServiceImpl extends BaseService<ReportMonitor> impleme
     ReportMonitorMapper reportMonitorMapper;
 
     @Override
-    @SystemLog(description="添加监督报告信息")
     public int addReportMonitor(ReportMonitor reportMonitor) {
         reportMonitor.setId(GuidHelper.getGuid());
         reportMonitor.setCreateDate(new Date());
@@ -42,7 +41,6 @@ public class ReportMonitorServiceImpl extends BaseService<ReportMonitor> impleme
     }
 
     @Override
-    @SystemLog(description="修改监督报告信息")
     public int modifyReportMonitor(ReportMonitor reportMonitor) {
         reportMonitor.setModifyDate(new Date());
         return reportMonitorMapper.updateByPrimaryKey(reportMonitor);

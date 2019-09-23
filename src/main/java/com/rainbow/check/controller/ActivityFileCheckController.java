@@ -5,6 +5,7 @@ import com.rainbow.check.domain.ActivityFileCheck;
 import com.rainbow.check.domain.ActivityFileCheck;
 import com.rainbow.check.service.ActivityFileCheckService;
 import com.rainbow.check.service.FacFileCheckService;
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import org.slf4j.Logger;
@@ -34,6 +35,7 @@ import java.util.List;
      * @return
      */
     @PostMapping("/addActivityFileCheck")
+    @SystemLog(description="添加核活动及其他审评信息审评文件")
     public ResponseBo add(@RequestBody ActivityFileCheck ActivityFileCheck) {
         int result = activityFileCheckService.addActivityFileCheck(ActivityFileCheck);
 
@@ -51,6 +53,7 @@ import java.util.List;
      * @return
      */
     @PostMapping("/modifyActivityFileCheck")
+    @SystemLog(description="修改核活动及其他审评文件信息")
     public ResponseBo modify(@RequestBody ActivityFileCheck ActivityFileCheck) {
 
         int result = activityFileCheckService.updateAll(ActivityFileCheck);
@@ -91,6 +94,7 @@ import java.util.List;
      * @return
      */
     @PostMapping("/deleteActivityFileCheckByIds")
+    @SystemLog(description="删除核活动及其他审评文件信息")
     public ResponseBo deleteActivityFileCheckByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
             activityFileCheckService.batchDelete(ids, "id", ActivityFileCheck.class);

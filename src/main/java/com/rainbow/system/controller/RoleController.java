@@ -1,5 +1,6 @@
 package com.rainbow.system.controller;
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.supervision.domain.Welder;
@@ -35,6 +36,7 @@ public class RoleController {
      * @return
      */
     @PostMapping("/addRole")
+    @SystemLog(description="添加角色信息")
     public ResponseBo add(@RequestBody RoleWithMenu roleWithMenu) {
         int result = roleService.addRole(roleWithMenu);
 
@@ -52,6 +54,7 @@ public class RoleController {
      * @return
      */
     @PostMapping("/modifyRole")
+    @SystemLog(description="修改角色信息")
     public ResponseBo modify(@RequestBody RoleWithMenu roleWithMenu) {
 
         int result = roleService.modifyRole(roleWithMenu);
@@ -94,6 +97,7 @@ public class RoleController {
      * @return
      */
     @PostMapping("/deleteRoleByIds")
+    @SystemLog(description="删除角色信息")
     public ResponseBo deleteRoleByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
             for (String id : ids) {

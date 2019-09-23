@@ -33,7 +33,6 @@ public class WitnessMonitorServiceImpl extends BaseService<WitnessMonitor> imple
     WitnessMonitorMapper witnessMonitorMapper;
 
     @Override
-    @SystemLog(description="添加监督见证信息")
     public int addWitnessMonitor(WitnessMonitor witnessMonitor) {
         witnessMonitor.setId(GuidHelper.getGuid());
         witnessMonitor.setCreateDate(new Date());
@@ -42,7 +41,6 @@ public class WitnessMonitorServiceImpl extends BaseService<WitnessMonitor> imple
     }
 
     @Override
-    @SystemLog(description="修改监督见证信息")
     public int modifyWitnessMonitor(WitnessMonitor witnessMonitor) {
         witnessMonitor.setModifyDate(new Date());
         return witnessMonitorMapper.updateByPrimaryKey(witnessMonitor);

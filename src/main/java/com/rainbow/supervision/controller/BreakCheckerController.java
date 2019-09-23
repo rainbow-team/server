@@ -1,6 +1,7 @@
 package com.rainbow.supervision.controller;
 
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
@@ -39,6 +40,7 @@ public class BreakCheckerController {
      * @return
      */
     @PostMapping("/addBreakChecker")
+    @SystemLog(description="添加无损检验人员资质信息")
     public ResponseBo add(@RequestBody BreakChecker breakChecker) {
         int result = breakCheckerService.addBreakChecker(breakChecker);
 
@@ -56,6 +58,7 @@ public class BreakCheckerController {
      * @return
      */
     @PostMapping("/modifyBreakChecker")
+    @SystemLog(description="修改无损检验人员资质信息")
     public ResponseBo modify(@RequestBody BreakChecker breakChecker) {
 
         int result = breakCheckerService.modifyBreakChecker(breakChecker);
@@ -94,6 +97,7 @@ public class BreakCheckerController {
      * @return
      */
     @PostMapping("/deleteBreakCheckerByIds")
+    @SystemLog(description="删除无损检验人员资质信息")
     public ResponseBo deleteBreakCheckerByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
             breakCheckerService.batchDelete(ids, "id", BreakChecker.class);
@@ -107,6 +111,7 @@ public class BreakCheckerController {
      * 导出无损检验人员资质信息
      */
     @RequestMapping(value = "/exportBreakChecker", method = RequestMethod.GET)
+    @SystemLog(description="导出无损检验人员资质信息")
     public void exportBreakChecker( @RequestParam(value = "name", required = false) String name,
                                   @RequestParam(value = "employ_depart", required = false) String employ_depart,
                                   @RequestParam(value = "checkMethodIds", required = false) String checkMethodIds,

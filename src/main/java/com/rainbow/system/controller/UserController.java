@@ -1,5 +1,6 @@
 package com.rainbow.system.controller;
 
+import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.annotation.Log;
 import com.rainbow.common.controller.BaseController;
@@ -46,6 +47,7 @@ public class UserController extends BaseController {
     // @Log("新增用户")
     // @RequiresPermissions("user:add")
     @PostMapping("/addUser")
+    @SystemLog(description="新增用户")
     public ResponseBo addUser(@RequestBody UserWithRole user) {
 
         int result = this.userService.addUser(user);
@@ -63,6 +65,7 @@ public class UserController extends BaseController {
      * @return
      */
     @PostMapping("/modifyUser")
+    @SystemLog(description="修改用户信息")
     public ResponseBo modify(@RequestBody UserWithRole user) {
         int result = userService.modifyUser(user);
         if (result == 1) {
@@ -77,6 +80,7 @@ public class UserController extends BaseController {
     // @Log("删除用户")
 
     @PostMapping("/deleteUsersByIds")
+    @SystemLog(description="删除用户")
     public ResponseBo deleteUsers(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
             for (String id : ids) {
