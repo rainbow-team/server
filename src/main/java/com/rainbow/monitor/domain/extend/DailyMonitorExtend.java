@@ -1,6 +1,5 @@
 package com.rainbow.monitor.domain.extend;
 
-import com.rainbow.common.annotation.BeanFieldAnnotation;
 import com.rainbow.monitor.domain.DailyMonitor;
 
 /**
@@ -10,25 +9,20 @@ import com.rainbow.monitor.domain.DailyMonitor;
  **/
 public class DailyMonitorExtend extends DailyMonitor {
 
-    // 核设施运营单位的名称
-    @BeanFieldAnnotation(order = 1)
-    public String serviceDepartName;
+    //核设施运营单位的名称
+    private String serviceDepartName;
 
-    // 核设施的名称
-    @BeanFieldAnnotation(order = 2)
-    public String facName;
+    //核设施的名称
+    private String facName;
 
-    // 核设施状态的值
-    @BeanFieldAnnotation(order = 3)
-    public String statusValue;
+    //核设施状态的值
+    private String statusValue;
 
-    // 核设施监管机构的值
-    @BeanFieldAnnotation(order = 4)
-    public String orgName;
+    //核设施监管机构的值
+    private String orgName;
 
-    // 日常监督文件类型的值
-    @BeanFieldAnnotation(order = 5)
-    public String fileTypeValue;
+    //日常监督文件类型的值
+    private String fileTypeValue;
 
     public String getFileTypeValue() {
         return fileTypeValue;

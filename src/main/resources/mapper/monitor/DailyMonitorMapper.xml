@@ -115,8 +115,4 @@
     where t.id = #{id}
 
   </select>
-
-  <select id="verifyDuplication" resultType="int" parameterType="java.util.Map">
-    select count(1) from monitor_daily t WHERE t.service_id=#{serviceId} and t.file_type_id=#{fileTypeId} and t.file_date=#{fileDate}
-  </select>
 </mapper>

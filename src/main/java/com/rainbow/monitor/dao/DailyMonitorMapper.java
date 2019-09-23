@@ -11,7 +11,5 @@ public interface DailyMonitorMapper extends MyMapper<DailyMonitor> {
 
     DailyMonitorExtend getDailyMonitorById(String id);
 
-    List<DailyMonitorExtend> getDailyMonitorList(Map<String, Object> map);
-
-    int verifyDuplication(Map<String, Object> map);
+    List<DailyMonitorExtend> getDailyMonitorList(Map<String,Object> map);
 }

@@ -11,6 +11,4 @@ public interface ReportMonitorMapper extends MyMapper<ReportMonitor> {
     List<ReportMonitor> getReportMonitorList(Map<String,Object> map);
 
     ReportMonitor getReportMonitorById(String id);
-
-	int verifyDuplication(Map<String, Object> params);
 }

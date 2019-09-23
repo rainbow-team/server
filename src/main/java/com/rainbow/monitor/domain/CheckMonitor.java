@@ -3,8 +3,6 @@ package com.rainbow.monitor.domain;
 import java.util.Date;
 import javax.persistence.*;
 
-import com.rainbow.common.annotation.BeanFieldAnnotation;
-
 @Table(name = "monitor_check")
 public class CheckMonitor {
     /**
@@ -12,29 +10,28 @@ public class CheckMonitor {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @BeanFieldAnnotation(order = 1)
-    public String id;
+    private String id;
 
     /**
      * 核设施营运单位，外键
-     * 
-     * 参考表：unit_service
+
+参考表：unit_service
      */
     @Column(name = "service_id")
     private String serviceId;
 
     /**
      * 铀矿冶单位信息,外键
-     * 
-     * 参考表：unit_umine
+
+参考表：unit_umine
      */
     @Column(name = "umine_id")
     private String umineId;
 
     /**
      * 核安全设备单位，外键
-     * 
-     * 参考表：unit_equip_depart
+
+参考表：unit_equip_depart
      */
     @Column(name = "equip_depart_id")
     private String equipDepartId;
@@ -42,12 +39,11 @@ public class CheckMonitor {
     /**
      * 检查内容
      */
-    @BeanFieldAnnotation(order = 5)
-    public String content;
+    private String content;
     /**
      * 监督检查类型，外键
-     * 
-     * 参考表：config_monitor_check_type
+
+参考表：config_monitor_check_type
      */
     @Column(name = "type_id")
     private String typeId;
@@ -62,15 +58,13 @@ public class CheckMonitor {
      * 检查时间
      */
     @Column(name = "start_date")
-    @BeanFieldAnnotation(order = 8)
-    public Date startDate;
+    private Date startDate;
 
     /**
      * 检查结束时间
      */
     @Column(name = "end_date")
-    @BeanFieldAnnotation(order = 9)
-    public Date endDate;
+    private Date endDate;
 
     /**
      * 备注
@@ -105,6 +99,10 @@ public class CheckMonitor {
     @Column(name = "modify_date")
     private Date modifyDate;
 
+
+
+
+
     /**
      * 获取主键
      *
@@ -125,12 +123,12 @@ public class CheckMonitor {
 
     /**
      * 获取核设施营运单位，外键
-     * 
-     * 参考表：unit_service
+
+参考表：unit_service
      *
      * @return service_id - 核设施营运单位，外键
-     * 
-     *         参考表：unit_service
+
+参考表：unit_service
      */
     public String getServiceId() {
         return serviceId;
@@ -138,12 +136,12 @@ public class CheckMonitor {
 
     /**
      * 设置核设施营运单位，外键
-     * 
-     * 参考表：unit_service
+
+参考表：unit_service
      *
      * @param serviceId 核设施营运单位，外键
-     * 
-     *                  参考表：unit_service
+
+参考表：unit_service
      */
     public void setServiceId(String serviceId) {
         this.serviceId = serviceId == null ? null : serviceId.trim();
@@ -151,12 +149,12 @@ public class CheckMonitor {
 
     /**
      * 获取铀矿冶单位信息,外键
-     * 
-     * 参考表：unit_umine
+
+参考表：unit_umine
      *
      * @return umine_id - 铀矿冶单位信息,外键
-     * 
-     *         参考表：unit_umine
+
+参考表：unit_umine
      */
     public String getUmineId() {
         return umineId;
@@ -164,12 +162,12 @@ public class CheckMonitor {
 
     /**
      * 设置铀矿冶单位信息,外键
-     * 
-     * 参考表：unit_umine
+
+参考表：unit_umine
      *
      * @param umineId 铀矿冶单位信息,外键
-     * 
-     *                参考表：unit_umine
+
+参考表：unit_umine
      */
     public void setUmineId(String umineId) {
         this.umineId = umineId == null ? null : umineId.trim();
@@ -177,12 +175,12 @@ public class CheckMonitor {
 
     /**
      * 获取核安全设备单位，外键
-     * 
-     * 参考表：unit_equip_depart
+
+参考表：unit_equip_depart
      *
      * @return equip_depart_id - 核安全设备单位，外键
-     * 
-     *         参考表：unit_equip_depart
+
+参考表：unit_equip_depart
      */
     public String getEquipDepartId() {
         return equipDepartId;
@@ -190,12 +188,12 @@ public class CheckMonitor {
 
     /**
      * 设置核安全设备单位，外键
-     * 
-     * 参考表：unit_equip_depart
+
+参考表：unit_equip_depart
      *
      * @param equipDepartId 核安全设备单位，外键
-     * 
-     *                      参考表：unit_equip_depart
+
+参考表：unit_equip_depart
      */
     public void setEquipDepartId(String equipDepartId) {
         this.equipDepartId = equipDepartId == null ? null : equipDepartId.trim();
@@ -203,12 +201,12 @@ public class CheckMonitor {
 
     /**
      * 获取监督检查类型，外键
-     * 
-     * 参考表：config_monitor_check_type
+
+参考表：config_monitor_check_type
      *
      * @return type_id - 监督检查类型，外键
-     * 
-     *         参考表：config_monitor_check_type
+
+参考表：config_monitor_check_type
      */
     public String getTypeId() {
         return typeId;
@@ -216,12 +214,12 @@ public class CheckMonitor {
 
     /**
      * 设置监督检查类型，外键
-     * 
-     * 参考表：config_monitor_check_type
+
+参考表：config_monitor_check_type
      *
      * @param typeId 监督检查类型，外键
-     * 
-     *               参考表：config_monitor_check_type
+
+参考表：config_monitor_check_type
      */
     public void setTypeId(String typeId) {
         this.typeId = typeId == null ? null : typeId.trim();

@@ -109,16 +109,4 @@
 
   </select>
 
-  <select id="verifyDuplication" resultType="int" parameterType="java.util.Map">
-    select count(1) from monitor_check t where 1=1 and t.witness_items=#{witnessItems} and t.witness_date=#{witnessDate}
-    <if test="equipDepartId != null and equipDepartId != ''">
-      and t.equip_depart_id = #{equipdepartId}
-    </if>
-    <if test="umineId != null and umineId != ''">
-      and t.umine_id = #{umineId}
-    </if>
-    <if test="serviceId != null and serviceId != ''">
-      and t.service_id = #{serviceId}
-    </if>
-  </select>
 </mapper>

@@ -3,8 +3,6 @@ package com.rainbow.monitor.domain;
 import java.util.Date;
 import javax.persistence.*;
 
-import com.rainbow.common.annotation.BeanFieldAnnotation;
-
 @Table(name = "monitor_check_file")
 public class CheckFileMonitor {
     /**
@@ -15,18 +13,17 @@ public class CheckFileMonitor {
     private String id;
 
     /**
-     * 监督检查信息 外键id
-     * 
-     * 参考表:monitor_check
+     * 监督检查信息  外键id
+
+参考表:monitor_check
      */
     @Column(name = "monitor_check_id")
-    @BeanFieldAnnotation(order = 1)
-    public String monitorCheckId;
+    private String monitorCheckId;
 
     /**
-     * 监督检查文件类型外键
-     * 
-     * 参考表:config_monitor_check_file_type
+     * 监督检查文件类型外键 
+
+参考表:config_monitor_check_file_type
      */
     @Column(name = "monitor_check_file_type_id")
     private String monitorCheckFileTypeId;
@@ -35,15 +32,13 @@ public class CheckFileMonitor {
      * 文件文号
      */
     @Column(name = "file_no")
-    @BeanFieldAnnotation(order = 3)
-    public String fileNo;
+    private String fileNo;
 
     /**
      * 文件时间
      */
     @Column(name = "file_date")
-    @BeanFieldAnnotation(order = 4)
-    public Date fileDate;
+    private Date fileDate;
 
     /**
      * 是否导入0 否 1 是
@@ -78,52 +73,52 @@ public class CheckFileMonitor {
     }
 
     /**
-     * 获取监督检查信息 外键id
-     * 
-     * 参考表:monitor_check
+     * 获取监督检查信息  外键id
+
+参考表:monitor_check
      *
-     * @return monitor_check_id - 监督检查信息 外键id
-     * 
-     *         参考表:monitor_check
+     * @return monitor_check_id - 监督检查信息  外键id
+
+参考表:monitor_check
      */
     public String getMonitorCheckId() {
         return monitorCheckId;
     }
 
     /**
-     * 设置监督检查信息 外键id
-     * 
-     * 参考表:monitor_check
+     * 设置监督检查信息  外键id
+
+参考表:monitor_check
      *
-     * @param monitorCheckId 监督检查信息 外键id
-     * 
-     *                       参考表:monitor_check
+     * @param monitorCheckId 监督检查信息  外键id
+
+参考表:monitor_check
      */
     public void setMonitorCheckId(String monitorCheckId) {
         this.monitorCheckId = monitorCheckId == null ? null : monitorCheckId.trim();
     }
 
     /**
-     * 获取监督检查文件类型外键
-     * 
-     * 参考表:config_monitor_check_file_type
+     * 获取监督检查文件类型外键 
+
+参考表:config_monitor_check_file_type
      *
-     * @return monitor_check_file_type_id - 监督检查文件类型外键
-     * 
-     *         参考表:config_monitor_check_file_type
+     * @return monitor_check_file_type_id - 监督检查文件类型外键 
+
+参考表:config_monitor_check_file_type
      */
     public String getMonitorCheckFileTypeId() {
         return monitorCheckFileTypeId;
     }
 
     /**
-     * 设置监督检查文件类型外键
-     * 
-     * 参考表:config_monitor_check_file_type
+     * 设置监督检查文件类型外键 
+
+参考表:config_monitor_check_file_type
      *
-     * @param monitorCheckFileTypeId 监督检查文件类型外键
-     * 
-     *                               参考表:config_monitor_check_file_type
+     * @param monitorCheckFileTypeId 监督检查文件类型外键 
+
+参考表:config_monitor_check_file_type
      */
     public void setMonitorCheckFileTypeId(String monitorCheckFileTypeId) {
         this.monitorCheckFileTypeId = monitorCheckFileTypeId == null ? null : monitorCheckFileTypeId.trim();

@@ -1,5 +1,6 @@
 package com.rainbow.monitor.controller;
 
+
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.monitor.domain.CheckFileMonitor;
@@ -16,10 +17,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
- * Created by 13260 on 2019/5/11. 监督见证信息管理
+ * Created by 13260 on 2019/5/11.
+ * 监督见证信息管理
  */
 @RestController
 @RequestMapping("witnessmonitor")
@@ -64,6 +64,7 @@ public class WitnessMonitorController {
         }
     }
 
+
     /**
      * 获取监督见证信息
      *
@@ -100,18 +101,5 @@ public class WitnessMonitorController {
             return result == 0 ? ResponseBo.error("删除失败!") : ResponseBo.ok("删除成功");
         }
         return ResponseBo.ok();
-    }
-
-    /**
-     * 导入
-     * 
-     * @param request
-     * @return
-     */
-    @RequestMapping(value = "/importData", method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseBo importSupervisor(HttpServletRequest request) {
-
-        return witnessMonitorService.importData(request);
     }
 }

@@ -1,6 +1,5 @@
 package com.rainbow.monitor.domain.extend;
 
-import com.rainbow.common.annotation.BeanFieldAnnotation;
 import com.rainbow.monitor.domain.WitnessMonitor;
 
 /**
@@ -10,17 +9,15 @@ import com.rainbow.monitor.domain.WitnessMonitor;
  **/
 public class WitnessMonitorExtend extends WitnessMonitor {
 
-    // 核设施营运单位信息的名称
-    @BeanFieldAnnotation(order = 1)
-    public String serviceDepartName;
+    //核设施营运单位信息的名称
+    private String serviceDepartName;
 
-    // 铀矿冶单位信息的名称
-    @BeanFieldAnnotation(order = 2)
-    public String umineName;
+    //铀矿冶单位信息的名称
+    private String umineName;
 
-    // 核设备单位的名称
-    @BeanFieldAnnotation(order = 3)
-    public String equipDepartName;
+    //核设备单位的名称
+    private String equipDepartName;
+
 
     public String getServiceDepartName() {
         return serviceDepartName;
@@ -46,3 +43,5 @@ public class WitnessMonitorExtend extends WitnessMonitor {
         this.equipDepartName = equipDepartName;
     }
 }
+
+

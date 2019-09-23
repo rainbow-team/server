@@ -1,6 +1,5 @@
 package com.rainbow.monitor.domain.extend;
 
-import com.rainbow.common.annotation.BeanFieldAnnotation;
 import com.rainbow.monitor.domain.CheckMonitor;
 
 /**
@@ -10,25 +9,20 @@ import com.rainbow.monitor.domain.CheckMonitor;
  **/
 public class CheckMonitorExtend extends CheckMonitor {
 
-    // 核设施营运单位信息的名称
-    @BeanFieldAnnotation(order = 2)
-    public String serviceDepartName;
+    //核设施营运单位信息的名称
+    private String serviceDepartName;
 
-    // 铀矿冶单位信息的名称
-    @BeanFieldAnnotation(order = 3)
-    public String umineName;
+    //铀矿冶单位信息的名称
+    private String umineName;
 
-    // 核设备单位的名称
-    @BeanFieldAnnotation(order = 4)
-    public String equipDepartName;
+    //核设备单位的名称
+    private String equipDepartName;
 
-    // 监督检查类型的值
-    @BeanFieldAnnotation(order = 6)
-    public String typeValue;
+    //监督检查类型的值
+    private String typeValue;
 
-    // 监督检查机构的名称
-    @BeanFieldAnnotation(order = 7)
-    public String orgName;
+    //监督检查机构的名称
+    private String orgName;
 
     public String getOrgName() {
         return orgName;
