@@ -1,6 +1,5 @@
 package com.rainbow.monitor.controller;
 
-
 import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
@@ -14,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +22,7 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 
 /**
- * Created by 13260 on 2019/5/11.
- * 日常监督信息管理
+ * Created by 13260 on 2019/5/11. 日常监督信息管理
  */
 @RestController
 @RequestMapping("dailymonitor")
@@ -41,7 +40,7 @@ public class DailyMonitorController {
      * @return
      */
     @PostMapping("/addDailyMonitor")
-    @SystemLog(description="添加日常监督信息")
+    @SystemLog(description = "添加日常监督信息")
     public ResponseBo add(@RequestBody DailyMonitor dailyMonitor) {
         int result = dailyMonitorService.addDailyMonitor(dailyMonitor);
 
@@ -59,7 +58,7 @@ public class DailyMonitorController {
      * @return
      */
     @PostMapping("/modifyDailyMonitor")
-    @SystemLog(description="修改日常监督信息")
+    @SystemLog(description = "修改日常监督信息")
     public ResponseBo modify(@RequestBody DailyMonitor dailyMonitor) {
 
         int result = dailyMonitorService.modifyDailyMonitor(dailyMonitor);
@@ -69,7 +68,6 @@ public class DailyMonitorController {
             return ResponseBo.error("修改失败");
         }
     }
-
 
     /**
      * 获取日常监督信息
@@ -101,7 +99,7 @@ public class DailyMonitorController {
      * @return
      */
     @PostMapping("/deleteDailyMonitorById")
-    @SystemLog(description="删除日常监督信息")
+    @SystemLog(description = "删除日常监督信息")
     public ResponseBo deleteDailyMonitorById(@RequestBody String id) {
         if (id != null) {
             int result = dailyMonitorService.deleteByKey(id);
@@ -114,15 +112,15 @@ public class DailyMonitorController {
      * 导出日常监督信息
      */
     @RequestMapping(value = "/exportDailyMonitor", method = RequestMethod.GET)
-    @SystemLog(description="导出日常监督信息")
-    public void exportDailyMonitor(@RequestParam(value = "serviceDepartName", required = false) String serviceDepartName,
-                                 @RequestParam(value = "facName", required = false) String facName,
-                                 @RequestParam(value = "facStatusTypeIds", required = false) String facStatusTypeIds,
-                                 @RequestParam(value = "fileTypeIds", required = false) String fileTypeIds,
-                                 @RequestParam(value = "file_name", required = false) String file_name,
-                                 @RequestParam(value = "start_date", required = false) String start_date,
-                                 @RequestParam(value = "end_date", required = false) String end_date,
-                                 HttpServletResponse response) {
+    @SystemLog(description = "导出日常监督信息")
+    public void exportDailyMonitor(
+            @RequestParam(value = "serviceDepartName", required = false) String serviceDepartName,
+            @RequestParam(value = "facName", required = false) String facName,
+            @RequestParam(value = "facStatusTypeIds", required = false) String facStatusTypeIds,
+            @RequestParam(value = "fileTypeIds", required = false) String fileTypeIds,
+            @RequestParam(value = "file_name", required = false) String file_name,
+            @RequestParam(value = "start_date", required = false) String start_date,
+            @RequestParam(value = "end_date", required = false) String end_date, HttpServletResponse response) {
 
         List<Condition> list = new ArrayList<>();
         if (!serviceDepartName.isEmpty()) {
@@ -132,10 +130,10 @@ public class DailyMonitorController {
             list.add(new Condition("facName", facName));
         }
         if (!facStatusTypeIds.isEmpty()) {
-            list.add(new Condition("facStatusTypeIds",  Stream.of(facStatusTypeIds).collect(toList())));
+            list.add(new Condition("facStatusTypeIds", Stream.of(facStatusTypeIds).collect(toList())));
         }
         if (!fileTypeIds.isEmpty()) {
-            list.add(new Condition("fileTypeIds",  Stream.of(fileTypeIds).collect(toList())));
+            list.add(new Condition("fileTypeIds", Stream.of(fileTypeIds).collect(toList())));
         }
         if (!file_name.isEmpty()) {
             list.add(new Condition("file_name", file_name));
@@ -150,7 +148,20 @@ public class DailyMonitorController {
         Page page = new Page();
         page.setConditions(list);
 
-        dailyMonitorService.exportDailyMonitor(page,response);
+        dailyMonitorService.exportDailyMonitor(page, response);
 
+    }
+
+    /**
+     * 导入
+     * 
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/importData", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseBo importSupervisor(HttpServletRequest request) {
+
+        return dailyMonitorService.importData(request);
     }
 }

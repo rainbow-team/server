@@ -23,5 +23,7 @@ public interface ServiceDepartMapper extends MyMapper<ServiceDepart> {
 
     int getServiceDepartByName(String name);
 
+	String getServiceDepartIdByName(String serviceDepartName);
+
 
 }

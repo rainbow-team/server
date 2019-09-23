@@ -1,6 +1,5 @@
 package com.rainbow.monitor.controller;
 
-
 import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
@@ -18,9 +17,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
- * Created by 13260 on 2019/5/11.
- * 监督见证信息管理
+ * Created by 13260 on 2019/5/11. 监督见证信息管理
  */
 @RestController
 @RequestMapping("witnessmonitor")
@@ -38,7 +38,7 @@ public class WitnessMonitorController {
      * @return
      */
     @PostMapping("/addWitnessMonitor")
-    @SystemLog(description="添加监督见证信息")
+    @SystemLog(description = "添加监督见证信息")
     public ResponseBo add(@RequestBody WitnessMonitor witnessMonitor) {
         int result = witnessMonitorService.addWitnessMonitor(witnessMonitor);
 
@@ -56,7 +56,7 @@ public class WitnessMonitorController {
      * @return
      */
     @PostMapping("/modifyWitnessMonitor")
-    @SystemLog(description="修改监督见证信息")
+    @SystemLog(description = "修改监督见证信息")
     public ResponseBo modify(@RequestBody WitnessMonitor witnessMonitor) {
 
         int result = witnessMonitorService.modifyWitnessMonitor(witnessMonitor);
@@ -66,7 +66,6 @@ public class WitnessMonitorController {
             return ResponseBo.error("修改失败");
         }
     }
-
 
     /**
      * 获取监督见证信息
@@ -98,12 +97,26 @@ public class WitnessMonitorController {
      * @return
      */
     @PostMapping("/deleteWitnessMonitorById")
-    @SystemLog(description="删除监督见证信息")
+    @SystemLog(description = "删除监督见证信息")
     public ResponseBo deleteWitnessMonitorByIds(@RequestBody String id) {
         if (id != null) {
             int result = witnessMonitorService.deleteByKey(id);
             return result == 0 ? ResponseBo.error("删除失败!") : ResponseBo.ok("删除成功");
         }
         return ResponseBo.ok();
+    }
+
+    /**
+     * 导入
+     * 
+     * @param request
+     * @return
+     */
+    @SystemLog(description = "导入监督见证信息")
+    @RequestMapping(value = "/importData", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseBo importSupervisor(HttpServletRequest request) {
+
+        return witnessMonitorService.importData(request);
     }
 }

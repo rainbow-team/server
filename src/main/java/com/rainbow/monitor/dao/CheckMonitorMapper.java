@@ -16,4 +16,6 @@ public interface CheckMonitorMapper extends MyMapper<CheckMonitor> {
 
     //根据监督检查的主键寻找关联的记录，返回记录的和，如果不存在关联关系则返回1，如果存在关联关系则返回0
     Object getCheckMonitorRelationCount(String id);
+
+    int verifyDuplication(Map<String, Object> params);
 }

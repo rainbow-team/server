@@ -11,4 +11,6 @@ public interface WitnessMonitorMapper extends MyMapper<WitnessMonitor> {
     List<WitnessMonitor> getWitnessMonitorList(Map<String,Object> map);
 
     WitnessMonitor getWitnessMonitorById(String id);
+
+	int verifyDuplication(Map<String, Object> params);
 }

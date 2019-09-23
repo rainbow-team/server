@@ -31,7 +31,6 @@ public class CheckFileMonitorServiceImpl extends BaseService<CheckFileMonitor> i
     @Autowired
     CheckFileMonitorMapper checkFileMonitorMapper;
 
-
     @Override
     public int addCheckFileMonitor(CheckFileMonitor checkFileMonitor) {
         checkFileMonitor.setId(GuidHelper.getGuid());

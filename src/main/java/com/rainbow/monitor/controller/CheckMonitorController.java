@@ -1,5 +1,6 @@
 package com.rainbow.monitor.controller;
 
+import javax.servlet.http.HttpServletRequest;
 
 import com.rainbow.check.domain.ActivityCheck;
 import com.rainbow.check.service.ActivityCheckService;
@@ -14,8 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Created by 13260 on 2019/5/11.
- * 监督检查信息管理
+ * Created by 13260 on 2019/5/11. 监督检查信息管理
  */
 @RestController
 @RequestMapping("checkmonitor")
@@ -33,7 +33,7 @@ public class CheckMonitorController {
      * @return
      */
     @PostMapping("/addCheckMonitor")
-    @SystemLog(description="添加监督检查信息")
+    @SystemLog(description = "添加监督检查信息")
     public ResponseBo add(@RequestBody CheckMonitor checkMonitor) {
         int result = checkMonitorService.addCheckMonitor(checkMonitor);
 
@@ -51,7 +51,7 @@ public class CheckMonitorController {
      * @return
      */
     @PostMapping("/modifyCheckMonitor")
-    @SystemLog(description="修改监督检查信息")
+    @SystemLog(description = "修改监督检查信息")
     public ResponseBo modify(@RequestBody CheckMonitor checkMonitor) {
 
         int result = checkMonitorService.modifyCheckMonitor(checkMonitor);
@@ -61,7 +61,6 @@ public class CheckMonitorController {
             return ResponseBo.error("修改失败");
         }
     }
-
 
     /**
      * 获取监督检查信息
@@ -93,12 +92,26 @@ public class CheckMonitorController {
      * @return
      */
     @PostMapping("/deleteCheckMonitorById")
-    @SystemLog(description="删除监督检查信息")
+    @SystemLog(description = "删除监督检查信息")
     public ResponseBo deleteCheckMonitorById(@RequestBody String id) {
         if (id != null) {
             int result = checkMonitorService.deleteCheckMonitorById(id);
             return result == 0 ? ResponseBo.error("存在关联，不允许删除!") : ResponseBo.ok("删除成功");
         }
         return ResponseBo.ok();
+    }
+
+    /**
+     * 导入
+     * 
+     * @param request
+     * @return
+     */
+    @SystemLog(description = "导入监督检查信息")
+    @RequestMapping(value = "/importData", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseBo importSupervisor(HttpServletRequest request) {
+
+        return checkMonitorService.importData(request);
     }
 }

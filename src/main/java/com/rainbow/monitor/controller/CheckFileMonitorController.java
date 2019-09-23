@@ -1,6 +1,5 @@
 package com.rainbow.monitor.controller;
 
-
 import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
@@ -17,8 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * Created by 13260 on 2019/5/11.
- * 监督检查文件信息管理
+ * Created by 13260 on 2019/5/11. 监督检查文件信息管理
  */
 @RestController
 @RequestMapping("checkfilemonitor")
@@ -36,7 +34,7 @@ public class CheckFileMonitorController {
      * @return
      */
     @PostMapping("/addCheckFileMonitor")
-    @SystemLog(description="添加监督检查文件信息")
+    @SystemLog(description = "添加监督检查文件信息")
     public ResponseBo add(@RequestBody CheckFileMonitor checkMonitor) {
         int result = checkFileMonitorService.addCheckFileMonitor(checkMonitor);
 
@@ -54,7 +52,7 @@ public class CheckFileMonitorController {
      * @return
      */
     @PostMapping("/modifyCheckFileMonitor")
-    @SystemLog(description="修改监督检查文件信息")
+    @SystemLog(description = "修改监督检查文件信息")
     public ResponseBo modify(@RequestBody CheckFileMonitor checkMonitor) {
 
         int result = checkFileMonitorService.updateAll(checkMonitor);
@@ -64,7 +62,6 @@ public class CheckFileMonitorController {
             return ResponseBo.error("修改失败");
         }
     }
-
 
     /**
      * 获取监督检查文件信息
@@ -96,7 +93,7 @@ public class CheckFileMonitorController {
      * @return
      */
     @PostMapping("/deleteCheckFileMonitorByIds")
-    @SystemLog(description="删除监督检查文件信息")
+    @SystemLog(description = "删除监督检查文件信息")
     public ResponseBo deleteCheckMonitorByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
             checkFileMonitorService.batchDelete(ids, "id", CheckFileMonitor.class);

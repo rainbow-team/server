@@ -1,6 +1,5 @@
 package com.rainbow.monitor.controller;
 
-
 import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
@@ -15,9 +14,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
- * Created by 13260 on 2019/5/11.
- * 监督报告信息管理
+ * Created by 13260 on 2019/5/11. 监督报告信息管理
  */
 @RestController
 @RequestMapping("reportmonitor")
@@ -35,7 +35,7 @@ public class ReportMonitorController {
      * @return
      */
     @PostMapping("/addReportMonitor")
-    @SystemLog(description="添加监督报告信息")
+    @SystemLog(description = "添加监督报告信息")
     public ResponseBo add(@RequestBody ReportMonitor reportMonitor) {
         int result = reportMonitorService.addReportMonitor(reportMonitor);
 
@@ -53,7 +53,7 @@ public class ReportMonitorController {
      * @return
      */
     @PostMapping("/modifyReportMonitor")
-    @SystemLog(description="修改监督报告信息")
+    @SystemLog(description = "修改监督报告信息")
     public ResponseBo modify(@RequestBody ReportMonitor reportMonitor) {
 
         int result = reportMonitorService.modifyReportMonitor(reportMonitor);
@@ -63,7 +63,6 @@ public class ReportMonitorController {
             return ResponseBo.error("修改失败");
         }
     }
-
 
     /**
      * 获取监督报告信息
@@ -95,7 +94,7 @@ public class ReportMonitorController {
      * @return
      */
     @PostMapping("/deleteReportMonitorById")
-    @SystemLog(description="删除监督报告信息")
+    @SystemLog(description = "删除监督报告信息")
     public ResponseBo deleteReportMonitorByIds(@RequestBody String id) {
 
         if (id != null) {
@@ -103,5 +102,19 @@ public class ReportMonitorController {
             return result == 0 ? ResponseBo.error("删除失败!") : ResponseBo.ok("删除成功");
         }
         return ResponseBo.ok();
+    }
+
+    /**
+     * 导入
+     * 
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/importData", method = RequestMethod.POST)
+    @ResponseBody
+    @SystemLog(description = "导入监督报告信息")
+    public ResponseBo importSupervisor(HttpServletRequest request) {
+
+        return reportMonitorService.importData(request);
     }
 }

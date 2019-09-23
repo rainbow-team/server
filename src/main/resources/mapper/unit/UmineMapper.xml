@@ -82,4 +82,8 @@
     and not exists(select 1 from security_umine_place j where j.umine_id = t.id)
     and not exists(select 1 from security_accident k where k.umine_id = t.id)
   </select>
+
+  <select id="getUmineIdByName" parameterType="java.lang.String" resultType="java.lang.String">
+    select t.id from unit_umine t where t.name=#{name}
+  </select>
 </mapper>
