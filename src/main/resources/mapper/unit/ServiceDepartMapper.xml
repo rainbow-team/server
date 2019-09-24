@@ -104,7 +104,7 @@
   </select>
 
   <select id="getServiceDepartIdByName" parameterType="String" resultType="int">
-    select id from unit_service_depart t WHERE t.name=#{name}
+    select id from unit_service_depart t WHERE t.`name`=#{name} limit 1;
   </select>
 
 </mapper>

@@ -160,6 +160,7 @@ public class DailyMonitorController {
      */
     @RequestMapping(value = "/importData", method = RequestMethod.POST)
     @ResponseBody
+    @SystemLog(description = "导入日常监督信息")
     public ResponseBo importSupervisor(HttpServletRequest request) {
 
         return dailyMonitorService.importData(request);

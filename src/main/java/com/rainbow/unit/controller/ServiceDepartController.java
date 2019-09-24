@@ -1,6 +1,5 @@
 package com.rainbow.unit.controller;
 
-
 import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
@@ -23,8 +22,7 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 
 /**
- * Created by 13260 on 2019/5/11.
- * 核设施运营单位管理
+ * Created by 13260 on 2019/5/11. 核设施运营单位管理
  */
 @RestController
 @RequestMapping("servicedepart")
@@ -42,7 +40,7 @@ public class ServiceDepartController {
      * @return
      */
     @PostMapping("/addServiceDepart")
-    @SystemLog(description="添加核设施运营单位信息")
+    @SystemLog(description = "添加核设施运营单位信息")
     public ResponseBo add(@RequestBody ServiceDepart serviceDepart) {
         int result = serviceDepartService.addServiceDepart(serviceDepart);
 
@@ -60,7 +58,7 @@ public class ServiceDepartController {
      * @return
      */
     @PostMapping("/modifyServiceDepart")
-    @SystemLog(description="修改核设施运营单位信息")
+    @SystemLog(description = "修改核设施运营单位信息")
     public ResponseBo modify(@RequestBody ServiceDepart serviceDepart) {
 
         int result = serviceDepartService.modifyServiceDepart(serviceDepart);
@@ -70,7 +68,6 @@ public class ServiceDepartController {
             return ResponseBo.error("修改失败");
         }
     }
-
 
     /**
      * 获取核设施运营单位信息列表
@@ -91,7 +88,7 @@ public class ServiceDepartController {
      * @return
      */
     @GetMapping("/getServiceDepartById")
-    public ResponseBo getServiceDepartById( String id) {
+    public ResponseBo getServiceDepartById(String id) {
         return serviceDepartService.getServiceDepartById(id);
     }
 
@@ -102,7 +99,7 @@ public class ServiceDepartController {
      * @return
      */
     @PostMapping("/deleteServiceDepartById")
-    @SystemLog(description="删除核设施运营单位信息")
+    @SystemLog(description = "删除核设施运营单位信息")
     public ResponseBo deleteServiceDepartById(@RequestBody String id) {
         if (id != null) {
             int result = serviceDepartService.deleteServiceDepartById(id);
@@ -127,10 +124,9 @@ public class ServiceDepartController {
     }
 
     @RequestMapping(value = "/exportServiceDepart", method = RequestMethod.GET)
-    @SystemLog(description="导出核设施运营单位信息")
-    public void exportServiceDepart( @RequestParam(value = "name", required = false) String name,
-                                  @RequestParam(value = "groupIds", required = false) String groupIds,
-                                  HttpServletResponse response) {
+    @SystemLog(description = "导出核设施运营单位信息")
+    public void exportServiceDepart(@RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "groupIds", required = false) String groupIds, HttpServletResponse response) {
 
         List<Condition> list = new ArrayList<>();
         if (!name.isEmpty()) {
@@ -139,19 +135,19 @@ public class ServiceDepartController {
 
         if (!groupIds.isEmpty()) {
 
-            list.add(new Condition("groupIds",  Stream.of(groupIds).collect(toList())));
+            list.add(new Condition("groupIds", Stream.of(groupIds).collect(toList())));
         }
 
         Page page = new Page();
         page.setConditions(list);
 
-        serviceDepartService.exportServiceDepart(page,response);
+        serviceDepartService.exportServiceDepart(page, response);
 
     }
 
     @RequestMapping(value = "/importServiceDepart", method = RequestMethod.POST)
     @ResponseBody
-    @SystemLog(description="导入核设施运营单位信息")
+    @SystemLog(description = "导入核设施运营单位信息")
     public ResponseBo importServiceDepart(HttpServletRequest request) {
 
         return serviceDepartService.importServiceDepart(request);

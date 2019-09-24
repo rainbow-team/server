@@ -8,9 +8,11 @@ import java.util.Map;
 
 public interface EquipPermitMapper extends MyMapper<EquipPermit> {
 
-    List<EquipPermit> getEquipPermitList(Map<String,Object> map);
+    List<EquipPermit> getEquipPermitList(Map<String, Object> map);
 
     EquipPermit getEquipPermitById(String id);
 
     int getEquipNum();
+
+    int verifyDuplication(Map<String, Object> params);
 }

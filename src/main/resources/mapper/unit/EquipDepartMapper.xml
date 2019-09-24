@@ -66,6 +66,6 @@
   </select>
 
   <select id="getEquipDepartIdByName" parameterType="java.lang.String" resultType="java.lang.String">
-    select t.id from unit_equip_depart t where t.name=#{name}
+    select t.id from unit_equip_depart t where t.`name`=#{name} limit 1;
   </select>
 </mapper>

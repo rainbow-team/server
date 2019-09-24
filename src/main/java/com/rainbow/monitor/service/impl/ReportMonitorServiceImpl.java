@@ -159,6 +159,14 @@ public class ReportMonitorServiceImpl extends BaseService<ReportMonitor> impleme
                         }
                     }
 
+                    // Excel数据重复判断
+                    if (map.containsKey(item.getOrgId() + item.getName() + item.getReportTypeId()
+                            + item.getreportDate().toString())) {
+                        msg += "第" + (i + 2) + "行【监管机构】+【报告名称】+【报告类型】+【报告时间】数据重复，";
+                    } else {
+                        map.put(item.getOrgId() + item.getName() + item.getReportTypeId()
+                                + item.getreportDate().toString(), item.toString());
+                    }
                     // 重复判断
                     Map<String, Object> params = new HashMap<String, Object>();
                     params.put("orgId", item.getOrgId());

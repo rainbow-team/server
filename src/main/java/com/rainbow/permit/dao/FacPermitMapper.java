@@ -10,7 +10,9 @@ import java.util.Map;
 
 public interface FacPermitMapper extends MyMapper<FacPermit> {
 
-    List<FacPermit> getFacPermitList(Map<String,Object> map);
+    List<FacPermit> getFacPermitList(Map<String, Object> map);
 
     FacPermit getFacPermitById(String id);
+
+    int verifyDuplication(Map<String, Object> params);
 }

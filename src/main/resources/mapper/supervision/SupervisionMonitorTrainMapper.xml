@@ -1,63 +1,63 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.supervision.dao.SupervisorTrainMapper">
-    <resultMap id="BaseResultMap" type="com.rainbow.supervision.domain.SupervisorTrain">
-        <!--
+  <resultMap id="BaseResultMap" type="com.rainbow.supervision.domain.SupervisorTrain">
+    <!--
       WARNING - @mbg.generated
     -->
-        <id column="id" jdbcType="VARCHAR" property="id" />
-        <result column="batch" jdbcType="VARCHAR" property="batch" />
-        <result column="begin_date" jdbcType="DATE" property="beginDate" />
-        <result column="end_date" jdbcType="DATE" property="endDate" />
-        <result column="place" jdbcType="VARCHAR" property="place" />
-        <result column="number" jdbcType="INTEGER" property="number" />
-        <result column="is_import" jdbcType="INTEGER" property="isImport" />
-        <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
-        <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
-        <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
-        <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
-        <result column="content" jdbcType="LONGVARCHAR" property="content" />
-        <result column="note" jdbcType="LONGVARCHAR" property="note" />
-    </resultMap>
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="batch" jdbcType="VARCHAR" property="batch" />
+    <result column="begin_date" jdbcType="DATE" property="beginDate" />
+    <result column="end_date" jdbcType="DATE" property="endDate" />
+    <result column="place" jdbcType="VARCHAR" property="place" />
+    <result column="number" jdbcType="INTEGER" property="number" />
+    <result column="is_import" jdbcType="INTEGER" property="isImport" />
+    <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="note" jdbcType="LONGVARCHAR" property="note" />
+  </resultMap>
 
-    <select id="getMonitorTrainList" parameterType="map" resultMap="BaseResultMap">
-        select  * from supervision_monitor_train t
+  <select id="getMonitorTrainList" parameterType="map" resultMap="BaseResultMap">
+    select  * from supervision_monitor_train t
      where 1=1
-        <if test="beginDate != null and beginDate != ''">
-            and DATE(t.begin_date)
-            <![CDATA[  >=  ]]>
-            DATE(#{beginDate})
-        </if>
+    <if test="beginDate != null and beginDate != ''">
+      and DATE(t.begin_date)
+      <![CDATA[  >=  ]]>
+      DATE(#{beginDate})
+    </if>
 
-        <if test="endDate != null and endDate != ''">
-            and DATE(t.begin_date)
-            <![CDATA[  <=  ]]>
-            DATE(#{endDate})
-        </if>
+    <if test="endDate != null and endDate != ''">
+      and DATE(t.begin_date)
+      <![CDATA[  <=  ]]>
+      DATE(#{endDate})
+    </if>
 
-        <if test="batch != null and batch != ''">
+    <if test="batch != null and batch != ''">
           and instr(t.batch,#{batch})>0
       </if>
 
-        <if test="place != null and place != ''">
+    <if test="place != null and place != ''">
           and instr(t.place,#{place})>0
       </if>
 
-        <choose>
-            <when test="sortValue != null and sortValue != ''">
-                order by ${sortName}
-                <if test="sortValue=='descend'.toString()">
+    <choose>
+      <when test="sortValue != null and sortValue != ''">
+        order by ${sortName}
+        <if test="sortValue=='descend'.toString()">
                   desc
               </if>
-            </when>
-            <otherwise>
+      </when>
+      <otherwise>
               order by t.begin_date,t.batch
           </otherwise>
-        </choose>
-    </select>
+    </choose>
+  </select>
 
-    <select id="getClassIdByName" parameterType="String" resultType="String">
-      SELECT t.id from supervision_monitor_train t where t.batch = #{name}
+  <select id="getClassIdByName" parameterType="String" resultType="String">
+      SELECT t.id from supervision_monitor_train t where t.batch = #{name} limit 1;
    </select>
 
 </mapper>

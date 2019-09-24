@@ -1,6 +1,5 @@
 package com.rainbow.permit.controller;
 
-
 import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
@@ -15,9 +14,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
- * Created by 13260 on 2019/5/11.
- * 核活动许可信息管理
+ * Created by 13260 on 2019/5/11. 核活动许可信息管理
  */
 @RestController
 @RequestMapping("activitypermit")
@@ -35,7 +35,7 @@ public class ActivityPermitController {
      * @return
      */
     @PostMapping("/addActivityPermit")
-    @SystemLog(description="添加核活动许可信息")
+    @SystemLog(description = "添加核活动许可信息")
     public ResponseBo add(@RequestBody ActivityPermit activityPermit) {
         int result = activityPermitService.addActivityPermit(activityPermit);
 
@@ -53,7 +53,7 @@ public class ActivityPermitController {
      * @return
      */
     @PostMapping("/modifyActivityPermit")
-    @SystemLog(description="修改核活动许可信息")
+    @SystemLog(description = "修改核活动许可信息")
     public ResponseBo modify(@RequestBody ActivityPermit activityPermit) {
 
         int result = activityPermitService.modifyActivityPermit(activityPermit);
@@ -63,7 +63,6 @@ public class ActivityPermitController {
             return ResponseBo.error("修改失败");
         }
     }
-
 
     /**
      * 获取核活动许可信息
@@ -95,11 +94,25 @@ public class ActivityPermitController {
      * @return
      */
     @PostMapping("/deleteActivityPermitByIds")
-    @SystemLog(description="删除核活动许可信息")
+    @SystemLog(description = "删除核活动许可信息")
     public ResponseBo deleteActivityPermitByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
             activityPermitService.batchDelete(ids, "id", ActivityPermit.class);
         }
         return ResponseBo.ok();
+    }
+
+    /**
+     * 导入
+     * 
+     * @param request
+     * @return
+     */
+    @SystemLog(description = "导入核活动许可信息")
+    @RequestMapping(value = "/importData", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseBo importData(HttpServletRequest request) {
+
+        return activityPermitService.importData(request);
     }
 }

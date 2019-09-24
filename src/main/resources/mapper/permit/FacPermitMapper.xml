@@ -90,4 +90,8 @@
 
   </select>
 
+  <select id="verifyDuplication" resultType="int" parameterType="java.util.Map">
+    select count(1) from permit_fac t WHERE t.service_id=#{serviceId} and t.fac_id=#{facId} and t.stage_id=#{stageId}
+     and t.permit_date=#{permitDate};
+  </select>
 </mapper>

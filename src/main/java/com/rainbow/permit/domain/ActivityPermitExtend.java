@@ -1,22 +1,28 @@
 package com.rainbow.permit.domain;
 
+import com.rainbow.common.annotation.BeanFieldAnnotation;
+
 /**
  * @Author:deepblue
  * @Date:2019/7/9 15:39
  * @Description:
  **/
 public class ActivityPermitExtend extends ActivityPermit {
-    //营运单位的名称
-    private String serviceDepartName;
+    // 营运单位的名称
+    @BeanFieldAnnotation(order = 1)
+    public String serviceDepartName;
 
-    //核设备单位信息名称
-    private String equipDepartName;
+    // 核设备单位信息名称
+    @BeanFieldAnnotation(order = 2)
+    public String equipDepartName;
 
-    //核设施信息的名称
-    private String facName;
+    // 核设施信息的名称
+    @BeanFieldAnnotation(order = 3)
+    public String facName;
 
-    //核活动类型的值
-    private String typeValue;
+    // 核活动类型的值
+    @BeanFieldAnnotation(order = 6)
+    public String typeValue;
 
     public String getServiceDepartName() {
         return serviceDepartName;

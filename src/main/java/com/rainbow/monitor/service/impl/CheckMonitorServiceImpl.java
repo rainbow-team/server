@@ -210,7 +210,7 @@ public class CheckMonitorServiceImpl extends BaseService<CheckMonitor> implement
                         }
                     }
 
-                    // 重复判断
+                    // 数据库重复判断
                     Map<String, Object> params = new HashMap<String, Object>();
                     params.put("umineId", item.getUmineId());
                     params.put("serviceId", item.getServiceId());
@@ -221,7 +221,18 @@ public class CheckMonitorServiceImpl extends BaseService<CheckMonitor> implement
                     params.put("endDate", item.getEndDate());
 
                     if (checkMonitorMapper.verifyDuplication(params) >= 1) {
-                        msg += "第" + (i + 2) + "行单位名称】+【检查内容】+【检查类型】+【检查时间】与数据库中的数据存在重复，";
+                        msg += "第" + (i + 2) + "【行单位名称】+【检查内容】+【检查类型】+【检查时间】与数据库中的数据存在重复，";
+                    }
+
+                    // Excel数据重复判断
+                    if (map.containsKey(item.getUmineId() + item.getServiceId() + item.getEquipDepartId()
+                            + item.getContent() + item.getTypeId() + item.getStartDate().toString()
+                            + item.getEndDate().toString())) {
+                        msg += "第" + (i + 2) + "行【行单位名称】+【检查内容】+【检查类型】+【检查时间】数据重复，";
+                    } else {
+                        map.put(item.getUmineId() + item.getServiceId() + item.getEquipDepartId() + item.getContent()
+                                + item.getTypeId() + item.getStartDate().toString() + item.getEndDate().toString(),
+                                item.toString());
                     }
 
                     // 获取关联的文件列表

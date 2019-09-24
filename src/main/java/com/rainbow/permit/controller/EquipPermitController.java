@@ -1,6 +1,5 @@
 package com.rainbow.permit.controller;
 
-
 import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
@@ -15,9 +14,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
- * Created by 13260 on 2019/5/11.
- * 核安全设备许可信息管理
+ * Created by 13260 on 2019/5/11. 核安全设备许可信息管理
  */
 @RestController
 @RequestMapping("equippermit")
@@ -35,7 +35,7 @@ public class EquipPermitController {
      * @return
      */
     @PostMapping("/addEquipPermit")
-    @SystemLog(description="添加核安全设备许可信息")
+    @SystemLog(description = "添加核安全设备许可信息")
     public ResponseBo add(@RequestBody EquipPermit equipPermit) {
         int result = equipPermitService.addEquipPermit(equipPermit);
 
@@ -53,7 +53,7 @@ public class EquipPermitController {
      * @return
      */
     @PostMapping("/modifyEquipPermit")
-    @SystemLog(description="修改核安全设备许可信息")
+    @SystemLog(description = "修改核安全设备许可信息")
     public ResponseBo modify(@RequestBody EquipPermit equipPermit) {
 
         int result = equipPermitService.modifyEquipPermit(equipPermit);
@@ -63,7 +63,6 @@ public class EquipPermitController {
             return ResponseBo.error("修改失败");
         }
     }
-
 
     /**
      * 获取核安全设备许可信息
@@ -95,11 +94,25 @@ public class EquipPermitController {
      * @return
      */
     @PostMapping("/deleteEquipPermitByIds")
-    @SystemLog(description="删除核安全设备许可信息")
+    @SystemLog(description = "删除核安全设备许可信息")
     public ResponseBo deleteEquipPermitByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
             equipPermitService.batchDelete(ids, "id", EquipPermit.class);
         }
         return ResponseBo.ok();
+    }
+
+    /**
+     * 导入
+     * 
+     * @param request
+     * @return
+     */
+    @SystemLog(description = "导入核安全设备许可信息")
+    @RequestMapping(value = "/importData", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseBo importData(HttpServletRequest request) {
+
+        return equipPermitService.importData(request);
     }
 }

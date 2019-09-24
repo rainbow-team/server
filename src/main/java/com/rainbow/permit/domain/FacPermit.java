@@ -1,5 +1,6 @@
 package com.rainbow.permit.domain;
 
+import com.rainbow.common.annotation.BeanFieldAnnotation;
 import com.rainbow.common.domain.BaseExtendEntity;
 
 import java.util.Date;
@@ -21,16 +22,13 @@ public class FacPermit extends BaseExtendEntity {
     private String serviceId;
 
     /**
-     * 核设施名称,外键
-     1、跟营运单位相关联动
-     2、关联表umine_fac
+     * 核设施名称,外键 1、跟营运单位相关联动 2、关联表umine_fac
      */
     @Column(name = "fac_id")
     private String facId;
 
     /**
-     * 核设施许可阶段,外键.
-     参考表：config_fac_permit_stage
+     * 核设施许可阶段,外键. 参考表：config_fac_permit_stage
      */
     @Column(name = "stage_id")
     private String stageId;
@@ -39,12 +37,14 @@ public class FacPermit extends BaseExtendEntity {
      * 许可时间
      */
     @Column(name = "permit_date")
-    private Date permitDate;
+    @BeanFieldAnnotation(order = 5)
+    public Date permitDate;
 
     /**
      * 许可文号
      */
-    private String licence;
+    @BeanFieldAnnotation(order = 6)
+    public String licence;
 
     /**
      * 是否导入0 否 1 是
@@ -79,18 +79,21 @@ public class FacPermit extends BaseExtendEntity {
     /**
      * 许可范围
      */
-    private String scope;
+    @BeanFieldAnnotation(order = 4)
+    public String scope;
 
     /**
      * 许可条件
      */
     @Column(name = "permit_condition")
-    private String condition;
+    @BeanFieldAnnotation(order = 7)
+    public String condition;
 
     /**
      * 审评承诺
      */
-    private String promise;
+    @BeanFieldAnnotation(order = 8)
+    public String promise;
 
     /**
      * 备注
@@ -134,48 +137,36 @@ public class FacPermit extends BaseExtendEntity {
     }
 
     /**
-     * 获取核设施名称,外键
-     1、跟营运单位相关联动
-     2、关联表umine_fac
+     * 获取核设施名称,外键 1、跟营运单位相关联动 2、关联表umine_fac
      *
-     * @return fac_id - 核设施名称,外键
-    1、跟营运单位相关联动
-    2、关联表umine_fac
+     * @return fac_id - 核设施名称,外键 1、跟营运单位相关联动 2、关联表umine_fac
      */
     public String getFacId() {
         return facId;
     }
 
     /**
-     * 设置核设施名称,外键
-     1、跟营运单位相关联动
-     2、关联表umine_fac
+     * 设置核设施名称,外键 1、跟营运单位相关联动 2、关联表umine_fac
      *
-     * @param facId 核设施名称,外键
-    1、跟营运单位相关联动
-    2、关联表umine_fac
+     * @param facId 核设施名称,外键 1、跟营运单位相关联动 2、关联表umine_fac
      */
     public void setFacId(String facId) {
         this.facId = facId == null ? null : facId.trim();
     }
 
     /**
-     * 获取核设施许可阶段,外键.
-     参考表：config_fac_permit_stage
+     * 获取核设施许可阶段,外键. 参考表：config_fac_permit_stage
      *
-     * @return stage_id - 核设施许可阶段,外键.
-    参考表：config_fac_permit_stage
+     * @return stage_id - 核设施许可阶段,外键. 参考表：config_fac_permit_stage
      */
     public String getStageId() {
         return stageId;
     }
 
     /**
-     * 设置核设施许可阶段,外键.
-     参考表：config_fac_permit_stage
+     * 设置核设施许可阶段,外键. 参考表：config_fac_permit_stage
      *
-     * @param stageId 核设施许可阶段,外键.
-    参考表：config_fac_permit_stage
+     * @param stageId 核设施许可阶段,外键. 参考表：config_fac_permit_stage
      */
     public void setStageId(String stageId) {
         this.stageId = stageId == null ? null : stageId.trim();

@@ -3,6 +3,8 @@ package com.rainbow.permit.domain;
 import java.util.Date;
 import javax.persistence.*;
 
+import com.rainbow.common.annotation.BeanFieldAnnotation;
+
 @Table(name = "permit_activity")
 public class ActivityPermit {
     /**
@@ -14,23 +16,22 @@ public class ActivityPermit {
 
     /**
      * 核设施营运单位,外键
-
-关联表:unit_service
+     * 
+     * 关联表:unit_service
      */
     @Column(name = "service_id")
     private String serviceId;
 
     /**
-     * 单位名称(外键)，来源于核设备单位信息
-关联表：unit_equip_depart
+     * 单位名称(外键)，来源于核设备单位信息 关联表：unit_equip_depart
      */
     @Column(name = "equip_depart_id")
     private String equipDepartId;
 
     /**
      * 核设施名称,外键
-
-关联表：unit_fac
+     * 
+     * 关联表：unit_fac
      */
     @Column(name = "fac_id")
     private String facId;
@@ -38,16 +39,17 @@ public class ActivityPermit {
     /**
      * 许可名称
      */
-    private String name;
+    @BeanFieldAnnotation(order = 4)
+    public String name;
 
     /**
      * 许可内容
      */
-    private String content;
+    @BeanFieldAnnotation(order = 5)
+    public String content;
 
     /**
-     * 核活动类型外键.
-关联表：config_activity_type
+     * 核活动类型外键. 关联表：config_activity_type
      */
     @Column(name = "activity_type_id")
     private String activityTypeId;
@@ -56,18 +58,21 @@ public class ActivityPermit {
      * 许可时间
      */
     @Column(name = "permit_date")
-    private Date permitDate;
+    @BeanFieldAnnotation(order = 7)
+    public Date permitDate;
 
     /**
      * 有效期限
      */
     @Column(name = "validate_time")
-    private Date validateTime;
+    @BeanFieldAnnotation(order = 8)
+    public Date validateTime;
 
     /**
      * 许可文号
      */
-    private String licence;
+    @BeanFieldAnnotation(order = 9)
+    public String licence;
 
     /**
      * 是否导入0 否 1 是
@@ -103,12 +108,14 @@ public class ActivityPermit {
      * 许可条件
      */
     @Column(name = "permit_condition")
-    private String permitCondition;
+    @BeanFieldAnnotation(order = 10)
+    public String permitCondition;
 
     /**
      * 审评承诺
      */
-    private String promise;
+    @BeanFieldAnnotation(order = 11)
+    public String promise;
 
     /**
      * 备注
@@ -135,12 +142,12 @@ public class ActivityPermit {
 
     /**
      * 获取核设施营运单位,外键
-
-关联表:unit_service
+     * 
+     * 关联表:unit_service
      *
      * @return service_id - 核设施营运单位,外键
-
-关联表:unit_service
+     * 
+     *         关联表:unit_service
      */
     public String getServiceId() {
         return serviceId;
@@ -148,34 +155,30 @@ public class ActivityPermit {
 
     /**
      * 设置核设施营运单位,外键
-
-关联表:unit_service
+     * 
+     * 关联表:unit_service
      *
      * @param serviceId 核设施营运单位,外键
-
-关联表:unit_service
+     * 
+     *                  关联表:unit_service
      */
     public void setServiceId(String serviceId) {
         this.serviceId = serviceId == null ? null : serviceId.trim();
     }
 
     /**
-     * 获取单位名称(外键)，来源于核设备单位信息
-关联表：unit_equip_depart
+     * 获取单位名称(外键)，来源于核设备单位信息 关联表：unit_equip_depart
      *
-     * @return equip_depart_id - 单位名称(外键)，来源于核设备单位信息
-关联表：unit_equip_depart
+     * @return equip_depart_id - 单位名称(外键)，来源于核设备单位信息 关联表：unit_equip_depart
      */
     public String getEquipDepartId() {
         return equipDepartId;
     }
 
     /**
-     * 设置单位名称(外键)，来源于核设备单位信息
-关联表：unit_equip_depart
+     * 设置单位名称(外键)，来源于核设备单位信息 关联表：unit_equip_depart
      *
-     * @param equipDepartId 单位名称(外键)，来源于核设备单位信息
-关联表：unit_equip_depart
+     * @param equipDepartId 单位名称(外键)，来源于核设备单位信息 关联表：unit_equip_depart
      */
     public void setEquipDepartId(String equipDepartId) {
         this.equipDepartId = equipDepartId == null ? null : equipDepartId.trim();
@@ -183,12 +186,12 @@ public class ActivityPermit {
 
     /**
      * 获取核设施名称,外键
-
-关联表：unit_fac
+     * 
+     * 关联表：unit_fac
      *
      * @return fac_id - 核设施名称,外键
-
-关联表：unit_fac
+     * 
+     *         关联表：unit_fac
      */
     public String getFacId() {
         return facId;
@@ -196,12 +199,12 @@ public class ActivityPermit {
 
     /**
      * 设置核设施名称,外键
-
-关联表：unit_fac
+     * 
+     * 关联表：unit_fac
      *
      * @param facId 核设施名称,外键
-
-关联表：unit_fac
+     * 
+     *              关联表：unit_fac
      */
     public void setFacId(String facId) {
         this.facId = facId == null ? null : facId.trim();
@@ -244,22 +247,18 @@ public class ActivityPermit {
     }
 
     /**
-     * 获取核活动类型外键.
-关联表：config_activity_type
+     * 获取核活动类型外键. 关联表：config_activity_type
      *
-     * @return activity_type_id - 核活动类型外键.
-关联表：config_activity_type
+     * @return activity_type_id - 核活动类型外键. 关联表：config_activity_type
      */
     public String getActivityTypeId() {
         return activityTypeId;
     }
 
     /**
-     * 设置核活动类型外键.
-关联表：config_activity_type
+     * 设置核活动类型外键. 关联表：config_activity_type
      *
-     * @param activityTypeId 核活动类型外键.
-关联表：config_activity_type
+     * @param activityTypeId 核活动类型外键. 关联表：config_activity_type
      */
     public void setActivityTypeId(String activityTypeId) {
         this.activityTypeId = activityTypeId == null ? null : activityTypeId.trim();

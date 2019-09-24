@@ -57,7 +57,7 @@
   </select>
 
   <select id="getGroupIdByName" parameterType="String" resultType="String">
-    SELECT t.id from unit_group t where t.name=#{name}
+    SELECT t.id from unit_group t where t.`name`=#{name} limit 1;
   </select>
 
 </mapper>

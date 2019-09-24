@@ -7,6 +7,7 @@ import com.rainbow.unit.domain.Fac;
 import com.rainbow.unit.domain.FacExtend;
 import com.rainbow.unit.domain.Group;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
@@ -30,4 +31,6 @@ public interface FacService extends IService<Fac> {
     ResponseBo getFacListByServiceId(String serviceId);
 
     void exportFac(Page page, HttpServletResponse response);
+
+    ResponseBo importData(HttpServletRequest request);
 }

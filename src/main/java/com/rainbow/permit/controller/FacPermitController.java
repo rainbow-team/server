@@ -1,6 +1,5 @@
 package com.rainbow.permit.controller;
 
-
 import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
@@ -16,9 +15,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
- * Created by 13260 on 2019/5/11.
- * 核设施许可信息管理
+ * Created by 13260 on 2019/5/11. 核设施许可信息管理
  */
 @RestController
 @RequestMapping("facpermit")
@@ -36,7 +36,7 @@ public class FacPermitController {
      * @return
      */
     @PostMapping("/addFacPermit")
-    @SystemLog(description="添加核设施许可信息")
+    @SystemLog(description = "添加核设施许可信息")
     public ResponseBo add(@RequestBody FacPermit facPermit) {
         int result = facPermitService.addFacPermit(facPermit);
 
@@ -54,7 +54,7 @@ public class FacPermitController {
      * @return
      */
     @PostMapping("/modifyFacPermit")
-    @SystemLog(description="修改核设施许可信息")
+    @SystemLog(description = "修改核设施许可信息")
     public ResponseBo modify(@RequestBody FacPermit facPermit) {
 
         int result = facPermitService.modifyFacPermit(facPermit);
@@ -65,39 +65,55 @@ public class FacPermitController {
         }
     }
 
-
     /**
      * 获取核设施许可信息列表
+     * 
      * @param page
      * @return
      */
     @PostMapping("/getFacPermitList")
-    public ResponseBo getFacPermitList(@RequestBody Page page){
+    public ResponseBo getFacPermitList(@RequestBody Page page) {
 
         return facPermitService.getFacPermitList(page);
     }
 
     /**
      * 获取核设施许可信息详情
+     * 
      * @param id
      * @return
      */
     @GetMapping("/getFacPermitById")
-    public ResponseBo getFacPermitById(String id){
+    public ResponseBo getFacPermitById(String id) {
         return facPermitService.getFacPermitById(id);
     }
 
     /**
      * 删除核设施许可信息
+     * 
      * @param ids
      * @return
      */
     @PostMapping("/deleteFacPermitByIds")
-    @SystemLog(description="删除核设施许可信息")
-    public ResponseBo deleteFacPermitByIds(@RequestBody List<String> ids){
+    @SystemLog(description = "删除核设施许可信息")
+    public ResponseBo deleteFacPermitByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
-            facPermitService.batchDelete(ids,"id",FacPermit.class);
+            facPermitService.batchDelete(ids, "id", FacPermit.class);
         }
         return ResponseBo.ok();
+    }
+
+    /**
+     * 导入
+     * 
+     * @param request
+     * @return
+     */
+    @SystemLog(description = "导入核设施许可信息")
+    @RequestMapping(value = "/importData", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseBo importData(HttpServletRequest request) {
+
+        return facPermitService.importData(request);
     }
 }

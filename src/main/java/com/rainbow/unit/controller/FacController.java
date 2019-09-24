@@ -1,6 +1,5 @@
 package com.rainbow.unit.controller;
 
-
 import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
@@ -16,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +24,7 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 
 /**
- * Created by 13260 on 2019/5/11.
- * 核设施信息管理
+ * Created by 13260 on 2019/5/11. 核设施信息管理
  */
 @RestController
 @RequestMapping("fac")
@@ -43,7 +42,7 @@ public class FacController {
      * @return
      */
     @PostMapping("/addFac")
-    @SystemLog(description="添加核设施信息")
+    @SystemLog(description = "添加核设施信息")
     public ResponseBo add(@RequestBody Fac fac) {
         int result = facService.addFac(fac);
 
@@ -61,7 +60,7 @@ public class FacController {
      * @return
      */
     @PostMapping("/modifyFac")
-    @SystemLog(description="修改核设施信息")
+    @SystemLog(description = "修改核设施信息")
     public ResponseBo modify(@RequestBody Fac fac) {
 
         int result = facService.modifyFac(fac);
@@ -71,7 +70,6 @@ public class FacController {
             return ResponseBo.error("修改失败");
         }
     }
-
 
     /**
      * 获取核设施信息列表
@@ -103,7 +101,7 @@ public class FacController {
      * @return
      */
     @PostMapping("/deleteFacById")
-    @SystemLog(description="删除核设施信息")
+    @SystemLog(description = "删除核设施信息")
     public ResponseBo deleteFacByIds(@RequestBody String id) {
         if (id != null) {
             int result = facService.deleteFacById(id);
@@ -111,7 +109,6 @@ public class FacController {
         }
         return ResponseBo.ok();
     }
-
 
     /**
      * 根据核设施运营单位的ID获取对应的核设施信息表
@@ -128,20 +125,19 @@ public class FacController {
     }
 
     @RequestMapping(value = "/exportFac", method = RequestMethod.GET)
-    @SystemLog(description="导出核设施信息")
-    public void exportFac( @RequestParam(value = "name", required = false) String name,
-                                  @RequestParam(value = "code", required = false) String code,
-                                  @RequestParam(value = "serviceDepart", required = false) String serviceDepart,
-                                  @RequestParam(value = "build_start_year", required = false) String build_start_year,
-                                  @RequestParam(value = "build_end_year", required = false) String build_end_year,
-                                  @RequestParam(value = "supervisionCategoryIds", required = false) String supervisionCategoryIds,
-                           @RequestParam(value = "typeIds", required = false) String typeIds,
-                           @RequestParam(value = "statusIds", required = false) String statusIds,
-                           @RequestParam(value = "reviewStatusIds", required = false) String reviewStatusIds,
-                           @RequestParam(value = "permitSituationIds", required = false) String permitSituationIds,
-                           @RequestParam(value = "is_earthquake", required = false) String is_earthquake,
-                           @RequestParam(value = "is_flood", required = false) String is_flood,
-                           HttpServletResponse response) {
+    @SystemLog(description = "导出核设施信息")
+    public void exportFac(@RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "code", required = false) String code,
+            @RequestParam(value = "serviceDepart", required = false) String serviceDepart,
+            @RequestParam(value = "build_start_year", required = false) String build_start_year,
+            @RequestParam(value = "build_end_year", required = false) String build_end_year,
+            @RequestParam(value = "supervisionCategoryIds", required = false) String supervisionCategoryIds,
+            @RequestParam(value = "typeIds", required = false) String typeIds,
+            @RequestParam(value = "statusIds", required = false) String statusIds,
+            @RequestParam(value = "reviewStatusIds", required = false) String reviewStatusIds,
+            @RequestParam(value = "permitSituationIds", required = false) String permitSituationIds,
+            @RequestParam(value = "is_earthquake", required = false) String is_earthquake,
+            @RequestParam(value = "is_flood", required = false) String is_flood, HttpServletResponse response) {
 
         List<Condition> list = new ArrayList<>();
         if (!name.isEmpty()) {
@@ -196,5 +192,19 @@ public class FacController {
 
         facService.exportFac(page, response);
 
+    }
+
+    /**
+     * 导入
+     * 
+     * @param request
+     * @return
+     */
+    @SystemLog(description = "导入核设施信息")
+    @RequestMapping(value = "/importData", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseBo importData(HttpServletRequest request) {
+
+        return facService.importData(request);
     }
 }

@@ -192,4 +192,8 @@
   <select id="getFacCount" resultType="java.lang.Integer">
     select count(id) from unit_fac;
   </select>
+
+  <select id="getFacIdByName" parameterType="java.lang.String" resultType="java.lang.String">
+    select t.id from unit_fac t where t.`name`=#{name} limit 1;
+  </select>
 </mapper>

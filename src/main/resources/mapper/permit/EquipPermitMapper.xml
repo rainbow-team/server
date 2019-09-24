@@ -135,4 +135,9 @@
   <select id="getEquipNum" resultType="java.lang.Integer">
     select count(*) from permit_equip t where t.stage_id='a8952e71-a1e4-11e9-988b-507b9dae29a9'
   </select>
+
+  <select id="verifyDuplication" resultType="int" parameterType="java.util.Map">
+    select count(1) from permit_activity t WHERE t.name=#{name} and t.equip_depart_id=#{equipDepartId} and t.stage_id=#{stageId}
+     and t.permit_date=#{permitDate};
+  </select>
 </mapper>

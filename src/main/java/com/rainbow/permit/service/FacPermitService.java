@@ -1,5 +1,7 @@
 package com.rainbow.permit.service;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.IService;
@@ -20,4 +22,6 @@ public interface FacPermitService extends IService<FacPermit> {
     ResponseBo getFacPermitList(Page page);
 
     ResponseBo getFacPermitById(String id);
+
+    ResponseBo importData(HttpServletRequest request);
 }

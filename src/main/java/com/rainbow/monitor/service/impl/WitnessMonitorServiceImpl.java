@@ -183,6 +183,14 @@ public class WitnessMonitorServiceImpl extends BaseService<WitnessMonitor> imple
                         msg += "第" + (i + 2) + "行见证时间为空,";
                     }
 
+                    // Excel数据重复判断
+                    if (map.containsKey(item.getUmineId() + item.getServiceId() + item.getEquipDepartId()
+                            + item.getWitnessItems() + item.getWitnessDate().toString())) {
+                        msg += "第" + (i + 2) + "行【单位名称】+【见证事项】+【见证时间】数据重复，";
+                    } else {
+                        map.put(item.getUmineId() + item.getServiceId() + item.getEquipDepartId()
+                                + item.getWitnessItems() + item.getWitnessDate().toString(), item.toString());
+                    }
                     // 重复判断
                     Map<String, Object> params = new HashMap<String, Object>();
                     params.put("umineId", item.getUmineId());

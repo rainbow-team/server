@@ -3,6 +3,8 @@ package com.rainbow.permit.domain;
 import java.util.Date;
 import javax.persistence.*;
 
+import com.rainbow.common.annotation.BeanFieldAnnotation;
+
 @Table(name = "permit_equip")
 public class EquipPermit {
     /**
@@ -15,50 +17,49 @@ public class EquipPermit {
     /**
      * 设备名称
      */
-    private String name;
+    @BeanFieldAnnotation(order = 1)
+    public String name;
 
     /**
-     * 单位名称(外键)，来源于核设备单位信息
-关联表：unit_equip_depart
+     * 单位名称(外键)，来源于核设备单位信息 关联表：unit_equip_depart
      */
     @Column(name = "equip_depart_id")
     private String equipDepartId;
 
     /**
      * 核设施营运单位，外键
-
-关联表:unit_service
+     * 
+     * 关联表:unit_service
      */
     @Column(name = "service_id")
     private String serviceId;
 
     /**
      * 核设施名称,外键
-
-关联表：unit_fac
+     * 
+     * 关联表：unit_fac
      */
     @Column(name = "fac_id")
     private String facId;
 
     /**
      * 核安全设备类别，外键
-
-参考表：config_equip_type
+     * 
+     * 参考表：config_equip_type
      */
     @Column(name = "type_id")
     private String typeId;
 
     /**
      * 设备核安全级别，外键
-
-关联表：config_equip_level
+     * 
+     * 关联表：config_equip_level
      */
     @Column(name = "level_id")
     private String levelId;
 
     /**
-     * 核安全设备许可阶段，外键
-关联表：config_equip_permit_stage
+     * 核安全设备许可阶段，外键 关联表：config_equip_permit_stage
      */
     @Column(name = "stage_id")
     private String stageId;
@@ -67,18 +68,21 @@ public class EquipPermit {
      * 许可时间
      */
     @Column(name = "permit_date")
-    private Date permitDate;
+    @BeanFieldAnnotation(order = 8)
+    public Date permitDate;
 
     /**
      * 有效期限
      */
     @Column(name = "validate_time")
-    private String validateTime;
+    @BeanFieldAnnotation(order = 9)
+    public String validateTime;
 
     /**
      * 许可文号
      */
-    private String licence;
+    @BeanFieldAnnotation(order = 10)
+    public String licence;
 
     /**
      * 是否导入0 否 1 是
@@ -114,12 +118,14 @@ public class EquipPermit {
      * 许可条件
      */
     @Column(name = "permit_condition")
-    private String condition;
+    @BeanFieldAnnotation(order = 11)
+    public String condition;
 
     /**
      * 审评承诺
      */
-    private String promise;
+    @BeanFieldAnnotation(order = 12)
+    public String promise;
 
     /**
      * 备注
@@ -163,22 +169,18 @@ public class EquipPermit {
     }
 
     /**
-     * 获取单位名称(外键)，来源于核设备单位信息
-关联表：unit_equip_depart
+     * 获取单位名称(外键)，来源于核设备单位信息 关联表：unit_equip_depart
      *
-     * @return equip_depart_id - 单位名称(外键)，来源于核设备单位信息
-关联表：unit_equip_depart
+     * @return equip_depart_id - 单位名称(外键)，来源于核设备单位信息 关联表：unit_equip_depart
      */
     public String getEquipDepartId() {
         return equipDepartId;
     }
 
     /**
-     * 设置单位名称(外键)，来源于核设备单位信息
-关联表：unit_equip_depart
+     * 设置单位名称(外键)，来源于核设备单位信息 关联表：unit_equip_depart
      *
-     * @param equipDepartId 单位名称(外键)，来源于核设备单位信息
-关联表：unit_equip_depart
+     * @param equipDepartId 单位名称(外键)，来源于核设备单位信息 关联表：unit_equip_depart
      */
     public void setEquipDepartId(String equipDepartId) {
         this.equipDepartId = equipDepartId == null ? null : equipDepartId.trim();
@@ -186,12 +188,12 @@ public class EquipPermit {
 
     /**
      * 获取核设施营运单位，外键
-
-关联表:unit_service
+     * 
+     * 关联表:unit_service
      *
      * @return service_id - 核设施营运单位，外键
-
-关联表:unit_service
+     * 
+     *         关联表:unit_service
      */
     public String getServiceId() {
         return serviceId;
@@ -199,12 +201,12 @@ public class EquipPermit {
 
     /**
      * 设置核设施营运单位，外键
-
-关联表:unit_service
+     * 
+     * 关联表:unit_service
      *
      * @param serviceId 核设施营运单位，外键
-
-关联表:unit_service
+     * 
+     *                  关联表:unit_service
      */
     public void setServiceId(String serviceId) {
         this.serviceId = serviceId == null ? null : serviceId.trim();
@@ -212,12 +214,12 @@ public class EquipPermit {
 
     /**
      * 获取核设施名称,外键
-
-关联表：unit_fac
+     * 
+     * 关联表：unit_fac
      *
      * @return fac_id - 核设施名称,外键
-
-关联表：unit_fac
+     * 
+     *         关联表：unit_fac
      */
     public String getFacId() {
         return facId;
@@ -225,12 +227,12 @@ public class EquipPermit {
 
     /**
      * 设置核设施名称,外键
-
-关联表：unit_fac
+     * 
+     * 关联表：unit_fac
      *
      * @param facId 核设施名称,外键
-
-关联表：unit_fac
+     * 
+     *              关联表：unit_fac
      */
     public void setFacId(String facId) {
         this.facId = facId == null ? null : facId.trim();
@@ -238,12 +240,12 @@ public class EquipPermit {
 
     /**
      * 获取核安全设备类别，外键
-
-参考表：config_equip_type
+     * 
+     * 参考表：config_equip_type
      *
      * @return type_id - 核安全设备类别，外键
-
-参考表：config_equip_type
+     * 
+     *         参考表：config_equip_type
      */
     public String getTypeId() {
         return typeId;
@@ -251,12 +253,12 @@ public class EquipPermit {
 
     /**
      * 设置核安全设备类别，外键
-
-参考表：config_equip_type
+     * 
+     * 参考表：config_equip_type
      *
      * @param typeId 核安全设备类别，外键
-
-参考表：config_equip_type
+     * 
+     *               参考表：config_equip_type
      */
     public void setTypeId(String typeId) {
         this.typeId = typeId == null ? null : typeId.trim();
@@ -264,12 +266,12 @@ public class EquipPermit {
 
     /**
      * 获取设备核安全级别，外键
-
-关联表：config_equip_level
+     * 
+     * 关联表：config_equip_level
      *
      * @return level_id - 设备核安全级别，外键
-
-关联表：config_equip_level
+     * 
+     *         关联表：config_equip_level
      */
     public String getLevelId() {
         return levelId;
@@ -277,34 +279,30 @@ public class EquipPermit {
 
     /**
      * 设置设备核安全级别，外键
-
-关联表：config_equip_level
+     * 
+     * 关联表：config_equip_level
      *
      * @param levelId 设备核安全级别，外键
-
-关联表：config_equip_level
+     * 
+     *                关联表：config_equip_level
      */
     public void setLevelId(String levelId) {
         this.levelId = levelId == null ? null : levelId.trim();
     }
 
     /**
-     * 获取核安全设备许可阶段，外键
-关联表：config_equip_permit_stage
+     * 获取核安全设备许可阶段，外键 关联表：config_equip_permit_stage
      *
-     * @return stage_id - 核安全设备许可阶段，外键
-关联表：config_equip_permit_stage
+     * @return stage_id - 核安全设备许可阶段，外键 关联表：config_equip_permit_stage
      */
     public String getStageId() {
         return stageId;
     }
 
     /**
-     * 设置核安全设备许可阶段，外键
-关联表：config_equip_permit_stage
+     * 设置核安全设备许可阶段，外键 关联表：config_equip_permit_stage
      *
-     * @param stageId 核安全设备许可阶段，外键
-关联表：config_equip_permit_stage
+     * @param stageId 核安全设备许可阶段，外键 关联表：config_equip_permit_stage
      */
     public void setStageId(String stageId) {
         this.stageId = stageId == null ? null : stageId.trim();

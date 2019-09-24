@@ -9,7 +9,9 @@ import java.util.Map;
 
 public interface ActivityPermitMapper extends MyMapper<ActivityPermit> {
 
-    List<ActivityPermit> getActivityPermitList(Map<String,Object> map);
+    List<ActivityPermit> getActivityPermitList(Map<String, Object> map);
 
     ActivityPermit getActivityPermitById(String id);
+
+    int verifyDuplication(Map<String, Object> params);
 }

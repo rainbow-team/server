@@ -219,7 +219,14 @@ public class DailyMonitorServiceImpl extends BaseService<DailyMonitor> implement
                         }
                     }
 
-                    // 重复判断
+                    // Excel数据重复判断
+                    if (map.containsKey(item.getServiceId() + item.getFileTypeId() + item.getFileDate().toString())) {
+                        msg += "第" + (i + 2) + "行【营运单位】+【文件类型】+【文件时间】数据重复，";
+                    } else {
+                        map.put(item.getServiceId() + item.getFileTypeId() + item.getFileDate().toString(),
+                                item.toString());
+                    }
+                    // 数据库重复判断
                     Map<String, Object> params = new HashMap<String, Object>();
                     params.put("serviceId", item.getServiceId());
                     params.put("fileTypeId", item.getFileTypeId());
