@@ -1,5 +1,6 @@
 package com.rainbow.security.domain;
 
+import com.rainbow.common.annotation.BeanFieldAnnotation;
 import com.rainbow.common.domain.BaseExtendEntity;
 
 import java.util.Date;
@@ -16,8 +17,8 @@ public class UminePlaceSecurity extends BaseExtendEntity {
 
     /**
      * 铀矿冶单位信息外键，
-
-参考表：unit_umine
+     * 
+     * 参考表：unit_umine
      */
     @Column(name = "umine_id")
     private String umineId;
@@ -30,16 +31,16 @@ public class UminePlaceSecurity extends BaseExtendEntity {
 
     /**
      * 铀尾矿(渣)库设施状态外键
-
-参考表：config_umine_place_status
+     * 
+     * 参考表：config_umine_place_status
      */
     @Column(name = "status_id")
     private String statusId;
 
     /**
      * 安全问题检查类型，外键
-
-参考表：config_security_check_type
+     * 
+     * 参考表：config_security_check_type
      */
     @Column(name = "check_type_id")
     private String checkTypeId;
@@ -48,12 +49,13 @@ public class UminePlaceSecurity extends BaseExtendEntity {
      * 发现时间
      */
     @Column(name = "find_date")
-    private Date findDate;
+    @BeanFieldAnnotation(order = 6)
+    public Date findDate;
 
     /**
      * 铀尾矿(渣)库安全问题类别外键。
-
-参考表：config_umine_place_security_question_type
+     * 
+     * 参考表：config_umine_place_security_question_type
      */
     @Column(name = "question_type_id")
     private String questionTypeId;
@@ -73,8 +75,9 @@ public class UminePlaceSecurity extends BaseExtendEntity {
     /**
      * 整改完成时间
      */
+    @BeanFieldAnnotation(order = 12)
     @Column(name = "reform_complete_date")
-    private Date reformCompleteDate;
+    public Date reformCompleteDate;
 
     /**
      * 是否导入0 否 1 是
@@ -109,19 +112,22 @@ public class UminePlaceSecurity extends BaseExtendEntity {
     /**
      * 问题内容
      */
-    private String content;
+    @BeanFieldAnnotation(order = 5)
+    public String content;
 
     /**
      * 监督要求
      */
+    @BeanFieldAnnotation(order = 10)
     @Column(name = "supervise_require")
-    private String superviseRequire;
+    public String superviseRequire;
 
     /**
      * 整改方案
      */
+    @BeanFieldAnnotation(order = 11)
     @Column(name = "reform_plan")
-    private String reformPlan;
+    public String reformPlan;
 
     /**
      * 备注
@@ -148,12 +154,12 @@ public class UminePlaceSecurity extends BaseExtendEntity {
 
     /**
      * 获取铀矿冶单位信息外键，
-
-参考表：unit_umine
+     * 
+     * 参考表：unit_umine
      *
      * @return umine_id - 铀矿冶单位信息外键，
-
-参考表：unit_umine
+     * 
+     *         参考表：unit_umine
      */
     public String getUmineId() {
         return umineId;
@@ -161,12 +167,12 @@ public class UminePlaceSecurity extends BaseExtendEntity {
 
     /**
      * 设置铀矿冶单位信息外键，
-
-参考表：unit_umine
+     * 
+     * 参考表：unit_umine
      *
      * @param umineId 铀矿冶单位信息外键，
-
-参考表：unit_umine
+     * 
+     *                参考表：unit_umine
      */
     public void setUmineId(String umineId) {
         this.umineId = umineId == null ? null : umineId.trim();
@@ -192,12 +198,12 @@ public class UminePlaceSecurity extends BaseExtendEntity {
 
     /**
      * 获取铀尾矿(渣)库设施状态外键
-
-参考表：config_umine_place_status
+     * 
+     * 参考表：config_umine_place_status
      *
      * @return status_id - 铀尾矿(渣)库设施状态外键
-
-参考表：config_umine_place_status
+     * 
+     *         参考表：config_umine_place_status
      */
     public String getStatusId() {
         return statusId;
@@ -205,12 +211,12 @@ public class UminePlaceSecurity extends BaseExtendEntity {
 
     /**
      * 设置铀尾矿(渣)库设施状态外键
-
-参考表：config_umine_place_status
+     * 
+     * 参考表：config_umine_place_status
      *
      * @param statusId 铀尾矿(渣)库设施状态外键
-
-参考表：config_umine_place_status
+     * 
+     *                 参考表：config_umine_place_status
      */
     public void setStatusId(String statusId) {
         this.statusId = statusId == null ? null : statusId.trim();
@@ -218,12 +224,12 @@ public class UminePlaceSecurity extends BaseExtendEntity {
 
     /**
      * 获取安全问题检查类型，外键
-
-参考表：config_security_check_type
+     * 
+     * 参考表：config_security_check_type
      *
      * @return check_type_id - 安全问题检查类型，外键
-
-参考表：config_security_check_type
+     * 
+     *         参考表：config_security_check_type
      */
     public String getCheckTypeId() {
         return checkTypeId;
@@ -231,12 +237,12 @@ public class UminePlaceSecurity extends BaseExtendEntity {
 
     /**
      * 设置安全问题检查类型，外键
-
-参考表：config_security_check_type
+     * 
+     * 参考表：config_security_check_type
      *
      * @param checkTypeId 安全问题检查类型，外键
-
-参考表：config_security_check_type
+     * 
+     *                    参考表：config_security_check_type
      */
     public void setCheckTypeId(String checkTypeId) {
         this.checkTypeId = checkTypeId == null ? null : checkTypeId.trim();
@@ -262,12 +268,12 @@ public class UminePlaceSecurity extends BaseExtendEntity {
 
     /**
      * 获取铀尾矿(渣)库安全问题类别外键。
-
-参考表：config_umine_place_security_question_type
+     * 
+     * 参考表：config_umine_place_security_question_type
      *
      * @return question_type_id - 铀尾矿(渣)库安全问题类别外键。
-
-参考表：config_umine_place_security_question_type
+     * 
+     *         参考表：config_umine_place_security_question_type
      */
     public String getQuestionTypeId() {
         return questionTypeId;
@@ -275,12 +281,12 @@ public class UminePlaceSecurity extends BaseExtendEntity {
 
     /**
      * 设置铀尾矿(渣)库安全问题类别外键。
-
-参考表：config_umine_place_security_question_type
+     * 
+     * 参考表：config_umine_place_security_question_type
      *
      * @param questionTypeId 铀尾矿(渣)库安全问题类别外键。
-
-参考表：config_umine_place_security_question_type
+     * 
+     *                       参考表：config_umine_place_security_question_type
      */
     public void setQuestionTypeId(String questionTypeId) {
         this.questionTypeId = questionTypeId == null ? null : questionTypeId.trim();
@@ -289,7 +295,8 @@ public class UminePlaceSecurity extends BaseExtendEntity {
     /**
      * 获取铀尾矿(渣)库安全问题性质外键，参考表：config_umine_place_security_question_type
      *
-     * @return question_nature_id - 铀尾矿(渣)库安全问题性质外键，参考表：config_umine_place_security_question_type
+     * @return question_nature_id -
+     *         铀尾矿(渣)库安全问题性质外键，参考表：config_umine_place_security_question_type
      */
     public String getQuestionNatureId() {
         return questionNatureId;

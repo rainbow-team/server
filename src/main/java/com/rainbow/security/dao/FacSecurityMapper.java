@@ -9,7 +9,9 @@ import java.util.Map;
 
 public interface FacSecurityMapper extends MyMapper<FacSecurity> {
 
-    List<FacSecurityExtend> getFacSecurityList(Map<String,Object> map);
+    List<FacSecurityExtend> getFacSecurityList(Map<String, Object> map);
 
     FacSecurityExtend getFacSecurityById(String id);
+
+    int verifyDuplication(Map<String, Object> params);
 }

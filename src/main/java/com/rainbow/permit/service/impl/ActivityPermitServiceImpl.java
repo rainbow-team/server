@@ -122,7 +122,7 @@ public class ActivityPermitServiceImpl extends BaseService<ActivityPermit> imple
                         inputStream, 2, 11, 0);
 
                 if (list.size() == 0) {
-                    return ResponseBo.error("??????");
+                    return ResponseBo.error("文件内容为空");
                 }
 
                 Map<String, String> map = new HashMap<>();
@@ -134,20 +134,20 @@ public class ActivityPermitServiceImpl extends BaseService<ActivityPermit> imple
 
                     if (StrUtil.isNullOrEmpty(item.getServiceDepartName())
                             && StrUtil.isNullOrEmpty(item.getEquipDepartName())) {
-                        msg += "?" + (i + 2) + "?????????????????????,";
+                        msg += "第" + (i + 2) + "行营运单位为空,";
                     } else {
                         if (!StrUtil.isNullOrEmpty(item.getServiceDepartName())) {
                             String serviceDepartId = serviceDepartMapper
                                     .getServiceDepartIdByName(item.getServiceDepartName());
                             if (StrUtil.isNullOrEmpty(serviceDepartId)) {
-                                msg += "?" + (i + 2) + "???????????????";
+                                msg += "第" + (i + 2) + "行营运单位在数据库中不存在，";
                             } else {
                                 item.setServiceId(serviceDepartId);
                             }
                         } else {
                             String equipDepartId = equipDepartMapper.getEquipDepartIdByName(item.getEquipDepartName());
                             if (StrUtil.isNullOrEmpty(equipDepartId)) {
-                                msg += "?" + (i + 2) + "???????????????";
+                                msg += "第" + (i + 2) + "行核设备单位信息在数据库中不存在，";
                             } else {
                                 item.setEquipDepartId(equipDepartId);
                             }
@@ -158,46 +158,46 @@ public class ActivityPermitServiceImpl extends BaseService<ActivityPermit> imple
                     if (!StrUtil.isNullOrEmpty(item.getFacName())) {
                         String facId = facMapper.getFacIdByName(item.getFacName());
                         if (StrUtil.isNullOrEmpty(facId)) {
-                            msg += "?" + (i + 2) + "?????????????";
+                            msg += "第" + (i + 2) + "行核设施信息在数据库中不存在，";
                         } else {
                             item.setFacId(facId);
                         }
                     }
 
                     if (StrUtil.isNullOrEmpty(item.getName())) {
-                        msg += "?" + (i + 2) + "???????,";
+                        msg += "第" + (i + 2) + "行许可名称为空,";
                     }
 
                     if (StrUtil.isNullOrEmpty(item.getContent())) {
-                        msg += "?" + (i + 2) + "???????,";
+                        msg += "第" + (i + 2) + "行许可内容为空,";
                     }
 
                     if (StrUtil.isNullOrEmpty(item.getTypeValue())) {
-                        msg += "?" + (i + 2) + "????????";
+                        msg += "第" + (i + 2) + "行活动类型为空，";
                     } else {
                         mapConfig.put("tablename", "config_activity_type");
                         mapConfig.put("value", item.getTypeValue());
                         String typeId = systemConfigMapper.getConfigIdByName(mapConfig);
 
                         if (StrUtil.isNullOrEmpty(typeId)) {
-                            msg += "?" + (i + 2) + "???????????????";
+                            msg += "第" + (i + 2) + "行活动类型在数据库不存在，";
                         } else {
                             item.setActivityTypeId(typeId);
                         }
                     }
 
                     if (item.getPermitDate() == null) {
-                        msg += "?" + (i + 2) + "???????,";
+                        msg += "第" + (i + 2) + "许可时间为空,";
                     }
 
                     if (StrUtil.isNullOrEmpty(item.getLicence())) {
-                        msg += "?" + (i + 2) + "???????,";
+                        msg += "第" + (i + 2) + "许可文号为空,";
                     }
 
                     // Excel??????
                     if (map.containsKey(
                             item.getServiceId() + item.getFacId() + item.getActivityTypeId() + item.getPermitDate())) {
-                        msg += "?" + (i + 2) + "???????+??????+??????+???????????";
+                        msg += "第" + (i + 2) + "行【单位名称】+【设施名称】+【活动类型】+【许可时间】数据重复";
                     } else {
                         map.put(item.getServiceId() + item.getFacId() + item.getActivityTypeId() + item.getPermitDate(),
                                 item.toString());
@@ -211,7 +211,7 @@ public class ActivityPermitServiceImpl extends BaseService<ActivityPermit> imple
                     params.put("permitDate", item.getPermitDate());
 
                     if (activityPermitMapper.verifyDuplication(params) > 0) {
-                        msg += "?" + (i + 2) + "???????+??????+??????+???????????????????";
+                        msg += "第" + (i + 2) + "行【单位名称】+【设施名称】+【活动类型】+【许可时间】在数据库中重复";
                     }
 
                 }

@@ -130,7 +130,7 @@ public class FacPermitServiceImpl extends BaseService<FacPermit> implements FacP
                         8, 0);
 
                 if (list.size() == 0) {
-                    return ResponseBo.error("??????");
+                    return ResponseBo.error("文件内容为空");
                 }
 
                 Map<String, String> map = new HashMap<>();
@@ -141,12 +141,12 @@ public class FacPermitServiceImpl extends BaseService<FacPermit> implements FacP
                     item.setId(GuidHelper.getGuid());
 
                     if (StrUtil.isNullOrEmpty(item.getServiceDepartName())) {
-                        msg += "?" + (i + 2) + "????????????????,";
+                        msg += "第" + (i + 2) + "行营运单位为空,";
                     } else {
                         String serviceDepartId = serviceDepartMapper
                                 .getServiceDepartIdByName(item.getServiceDepartName());
                         if (StrUtil.isNullOrEmpty(serviceDepartId)) {
-                            msg += "?" + (i + 2) + "??????????????????";
+                            msg += "第" + (i + 2) + "行营运单位在数据库不存在,";
                         } else {
                             item.setServiceId(serviceDepartId);
                         }
@@ -156,38 +156,38 @@ public class FacPermitServiceImpl extends BaseService<FacPermit> implements FacP
                     if (!StrUtil.isNullOrEmpty(item.getFacName())) {
                         String facId = facMapper.getFacIdByName(item.getFacName());
                         if (StrUtil.isNullOrEmpty(facId)) {
-                            msg += "?" + (i + 2) + "?????????????";
+                            msg += "第" + (i + 2) + "行核设施信息在数据库中不存在,";
                         } else {
                             item.setFacId(facId);
                         }
                     }
 
                     if (StrUtil.isNullOrEmpty(item.getPermitStageValue())) {
-                        msg += "?" + (i + 2) + "????????";
+                        msg += "第" + (i + 2) + "行许可阶段为空,";
                     } else {
                         mapConfig.put("tablename", "config_fac_permit_stage");
                         mapConfig.put("value", item.getPermitStageValue());
                         String typeId = systemConfigMapper.getConfigIdByName(mapConfig);
 
                         if (StrUtil.isNullOrEmpty(typeId)) {
-                            msg += "?" + (i + 2) + "?????????????";
+                            msg += "第" + (i + 2) + "行许可阶段在数据库中不存在,";
                         } else {
                             item.setStageId(typeId);
                         }
                     }
 
                     if (item.getPermitDate() == null) {
-                        msg += "?" + (i + 2) + "???????,";
+                        msg += "第" + (i + 2) + "行许可时间为空,";
                     }
 
                     if (StrUtil.isNullOrEmpty(item.getLicence())) {
-                        msg += "?" + (i + 2) + "????????";
+                        msg += "第" + (i + 2) + "行许可文号为空,";
                     }
 
                     // Excel??????
                     if (map.containsKey(
                             item.getServiceId() + item.getFacId() + item.getStageId() + item.getPermitDate())) {
-                        msg += "?" + (i + 2) + "???????+???????+??????+???????????";
+                        msg += "第" + (i + 2) + "行【单位名称】+【核设施名称】+【许可阶段】+【许可时间】在数据库中重复,";
                     } else {
                         map.put(item.getServiceId() + item.getFacId() + item.getStageId() + item.getPermitDate(),
                                 item.toString());
@@ -201,7 +201,7 @@ public class FacPermitServiceImpl extends BaseService<FacPermit> implements FacP
                     params.put("permitDate", item.getPermitDate());
 
                     if (facPermitMapper.verifyDuplication(params) > 0) {
-                        msg += "?" + (i + 2) + "???????+???????+??????+???????????????????";
+                        msg += "第" + (i + 2) + "行【单位名称】+【核设施名称】+【许可阶段】+【许可时间】在数据库中重复,";
                     }
 
                 }

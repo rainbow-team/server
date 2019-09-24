@@ -160,4 +160,9 @@
   <select id="getUmineplaceCount" resultType="java.lang.Integer">
     select count(*) from unit_umine_place
   </select>
+
+  <select id="getUminePlaceIdByName" parameterType="String" resultType="int">
+    select id from unit_umine_place t WHERE t.`name`=#{name} limit 1;
+  </select>
+
 </mapper>

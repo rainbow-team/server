@@ -6,6 +6,7 @@ import com.rainbow.common.service.IService;
 import com.rainbow.monitor.domain.WitnessMonitor;
 import com.rainbow.security.domain.FacSecurity;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -23,6 +24,8 @@ public interface FacSecurityService extends IService<FacSecurity> {
 
     ResponseBo getFacSecurityById(String id);
 
-    void exportFacSecurity(Page page,HttpServletResponse response);
+    void exportFacSecurity(Page page, HttpServletResponse response);
+
+    ResponseBo importData(HttpServletRequest request);
 
 }

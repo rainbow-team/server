@@ -1,6 +1,5 @@
 package com.rainbow.security.controller;
 
-
 import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
@@ -15,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +23,7 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 
 /**
- * Created by 13260 on 2019/5/11.
- * 核设施安全问题管理
+ * Created by 13260 on 2019/5/11. 核设施安全问题管理
  */
 @RestController
 @RequestMapping("facsecurity")
@@ -42,7 +41,7 @@ public class FacSecurityController {
      * @return
      */
     @PostMapping("/addFacSecurity")
-    @SystemLog(description="添加核设施安全问题")
+    @SystemLog(description = "添加核设施安全问题")
     public ResponseBo add(@RequestBody FacSecurity facSecurity) {
         int result = facSecurityService.addFacSecurity(facSecurity);
 
@@ -60,7 +59,7 @@ public class FacSecurityController {
      * @return
      */
     @PostMapping("/modifyFacSecurity")
-    @SystemLog(description="修改核设施安全问题")
+    @SystemLog(description = "修改核设施安全问题")
     public ResponseBo modify(@RequestBody FacSecurity facSecurity) {
 
         int result = facSecurityService.modifyFacSecurity(facSecurity);
@@ -70,7 +69,6 @@ public class FacSecurityController {
             return ResponseBo.error("修改失败");
         }
     }
-
 
     /**
      * 获取核设施安全问题
@@ -102,7 +100,7 @@ public class FacSecurityController {
      * @return
      */
     @PostMapping("/deleteFacSecurityById")
-    @SystemLog(description="删除核设施安全问题信息")
+    @SystemLog(description = "删除核设施安全问题信息")
     public ResponseBo deleteFacSecurityById(@RequestBody String id) {
         if (id != null) {
             int result = facSecurityService.deleteByKey(id);
@@ -111,23 +109,22 @@ public class FacSecurityController {
         return ResponseBo.ok();
     }
 
-
     /**
      * 导出核设施安全问题
      */
     @RequestMapping(value = "/exportFacSecurity", method = RequestMethod.GET)
-    @SystemLog(description="导出核设施安全问题")
-    public void exportFacSecurity( @RequestParam(value = "serviceDepartName", required = false) String serviceDepartName,
-                                  @RequestParam(value = "facName", required = false) String facName,
-                                  @RequestParam(value = "facStatusTypeIds", required = false) String facStatusTypeIds,
-                                  @RequestParam(value = "checkTypeIds", required = false) String checkTypeIds,
-                                  @RequestParam(value = "content", required = false) String content,
-                                  @RequestParam(value = "start_date", required = false) String start_date,
-                                  @RequestParam(value = "end_date", required = false) String end_date,
-                                  @RequestParam(value = "questionTypeIds", required = false) String questionTypeIds,
-                                  @RequestParam(value = "questionNatureIds", required = false) String questionNatureIds,
-                                  @RequestParam(value = "reformStatusTypeIds", required = false) String reformStatusTypeIds,
-                                  HttpServletResponse response) {
+    @SystemLog(description = "导出核设施安全问题")
+    public void exportFacSecurity(@RequestParam(value = "serviceDepartName", required = false) String serviceDepartName,
+            @RequestParam(value = "facName", required = false) String facName,
+            @RequestParam(value = "facStatusTypeIds", required = false) String facStatusTypeIds,
+            @RequestParam(value = "checkTypeIds", required = false) String checkTypeIds,
+            @RequestParam(value = "content", required = false) String content,
+            @RequestParam(value = "start_date", required = false) String start_date,
+            @RequestParam(value = "end_date", required = false) String end_date,
+            @RequestParam(value = "questionTypeIds", required = false) String questionTypeIds,
+            @RequestParam(value = "questionNatureIds", required = false) String questionNatureIds,
+            @RequestParam(value = "reformStatusTypeIds", required = false) String reformStatusTypeIds,
+            HttpServletResponse response) {
 
         List<Condition> list = new ArrayList<>();
         if (!serviceDepartName.isEmpty()) {
@@ -137,10 +134,10 @@ public class FacSecurityController {
             list.add(new Condition("facName", facName));
         }
         if (!facStatusTypeIds.isEmpty()) {
-            list.add(new Condition("facStatusTypeIds",  Stream.of(facStatusTypeIds).collect(toList())));
+            list.add(new Condition("facStatusTypeIds", Stream.of(facStatusTypeIds).collect(toList())));
         }
         if (!checkTypeIds.isEmpty()) {
-            list.add(new Condition("checkLevelIds",  Stream.of(checkTypeIds).collect(toList())));
+            list.add(new Condition("checkLevelIds", Stream.of(checkTypeIds).collect(toList())));
         }
         if (!content.isEmpty()) {
             list.add(new Condition("content", content));
@@ -152,19 +149,33 @@ public class FacSecurityController {
             list.add(new Condition("end_date", DateUtils.GmtStringToDate(end_date)));
         }
         if (!questionTypeIds.isEmpty()) {
-            list.add(new Condition("questionTypeIds",  Stream.of(questionTypeIds).collect(toList())));
+            list.add(new Condition("questionTypeIds", Stream.of(questionTypeIds).collect(toList())));
         }
         if (!questionNatureIds.isEmpty()) {
-            list.add(new Condition("questionNatureIds",  Stream.of(questionNatureIds).collect(toList())));
+            list.add(new Condition("questionNatureIds", Stream.of(questionNatureIds).collect(toList())));
         }
         if (!reformStatusTypeIds.isEmpty()) {
-            list.add(new Condition("reformStatusTypeIds",  Stream.of(reformStatusTypeIds).collect(toList())));
+            list.add(new Condition("reformStatusTypeIds", Stream.of(reformStatusTypeIds).collect(toList())));
         }
 
         Page page = new Page();
         page.setConditions(list);
 
-        facSecurityService.exportFacSecurity(page,response);
+        facSecurityService.exportFacSecurity(page, response);
 
+    }
+
+    /**
+     * 导入
+     * 
+     * @param request
+     * @return
+     */
+    @SystemLog(description = "导入核设施安全问题")
+    @RequestMapping(value = "/importData", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseBo importData(HttpServletRequest request) {
+
+        return facSecurityService.importData(request);
     }
 }

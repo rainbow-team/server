@@ -1,5 +1,6 @@
 package com.rainbow.security.domain;
 
+import com.rainbow.common.annotation.BeanFieldAnnotation;
 import com.rainbow.common.domain.BaseExtendEntity;
 
 import java.util.Date;
@@ -45,8 +46,7 @@ public class AccidentSecurity extends BaseExtendEntity {
     private String facStatusId;
 
     /**
-     * 铀尾矿(渣)库状态外键，
-参考表：config_umine_place_status
+     * 铀尾矿(渣)库状态外键， 参考表：config_umine_place_status
      */
     @Column(name = "umine_place_status_id")
     private String uminePlaceStatusId;
@@ -54,24 +54,24 @@ public class AccidentSecurity extends BaseExtendEntity {
     /**
      * 事件名称
      */
-    private String name;
+    @BeanFieldAnnotation(order = 7)
+    public String name;
 
     /**
      * 发生时间
      */
     @Column(name = "occur_date")
-    private Date occurDate;
+    @BeanFieldAnnotation(order = 8)
+    public Date occurDate;
 
     /**
-     * 事故时间类别外键，
-参考表：config_accident_type
+     * 事故时间类别外键， 参考表：config_accident_type
      */
     @Column(name = "type_id")
     private String typeId;
 
     /**
-     * 事故时间性质外键，
-参考表：config_accident_nature
+     * 事故时间性质外键， 参考表：config_accident_nature
      */
     @Column(name = "nature_id")
     private String natureId;
@@ -109,27 +109,32 @@ public class AccidentSecurity extends BaseExtendEntity {
     /**
      * 事件过程
      */
-    private String process;
+    @BeanFieldAnnotation(order = 9)
+    public String process;
 
     /**
      * 事件后果
      */
-    private String consequence;
+    @BeanFieldAnnotation(order = 10)
+    public String consequence;
 
     /**
      * 原因分析
      */
-    private String reason;
+    @BeanFieldAnnotation(order = 11)
+    public String reason;
 
     /**
      * 处理措施
      */
-    private String measure;
+    @BeanFieldAnnotation(order = 14)
+    public String measure;
 
     /**
      * 反馈
      */
-    private String feedback;
+    @BeanFieldAnnotation(order = 15)
+    public String feedback;
 
     /**
      * 备注
@@ -245,22 +250,18 @@ public class AccidentSecurity extends BaseExtendEntity {
     }
 
     /**
-     * 获取铀尾矿(渣)库状态外键，
-参考表：config_umine_place_status
+     * 获取铀尾矿(渣)库状态外键， 参考表：config_umine_place_status
      *
-     * @return umine_place_status_id - 铀尾矿(渣)库状态外键，
-参考表：config_umine_place_status
+     * @return umine_place_status_id - 铀尾矿(渣)库状态外键， 参考表：config_umine_place_status
      */
     public String getUminePlaceStatusId() {
         return uminePlaceStatusId;
     }
 
     /**
-     * 设置铀尾矿(渣)库状态外键，
-参考表：config_umine_place_status
+     * 设置铀尾矿(渣)库状态外键， 参考表：config_umine_place_status
      *
-     * @param uminePlaceStatusId 铀尾矿(渣)库状态外键，
-参考表：config_umine_place_status
+     * @param uminePlaceStatusId 铀尾矿(渣)库状态外键， 参考表：config_umine_place_status
      */
     public void setUminePlaceStatusId(String uminePlaceStatusId) {
         this.uminePlaceStatusId = uminePlaceStatusId == null ? null : uminePlaceStatusId.trim();
@@ -303,44 +304,36 @@ public class AccidentSecurity extends BaseExtendEntity {
     }
 
     /**
-     * 获取事故时间类别外键，
-参考表：config_accident_type
+     * 获取事故时间类别外键， 参考表：config_accident_type
      *
-     * @return type_id - 事故时间类别外键，
-参考表：config_accident_type
+     * @return type_id - 事故时间类别外键， 参考表：config_accident_type
      */
     public String getTypeId() {
         return typeId;
     }
 
     /**
-     * 设置事故时间类别外键，
-参考表：config_accident_type
+     * 设置事故时间类别外键， 参考表：config_accident_type
      *
-     * @param typeId 事故时间类别外键，
-参考表：config_accident_type
+     * @param typeId 事故时间类别外键， 参考表：config_accident_type
      */
     public void setTypeId(String typeId) {
         this.typeId = typeId == null ? null : typeId.trim();
     }
 
     /**
-     * 获取事故时间性质外键，
-参考表：config_accident_nature
+     * 获取事故时间性质外键， 参考表：config_accident_nature
      *
-     * @return nature_id - 事故时间性质外键，
-参考表：config_accident_nature
+     * @return nature_id - 事故时间性质外键， 参考表：config_accident_nature
      */
     public String getNatureId() {
         return natureId;
     }
 
     /**
-     * 设置事故时间性质外键，
-参考表：config_accident_nature
+     * 设置事故时间性质外键， 参考表：config_accident_nature
      *
-     * @param natureId 事故时间性质外键，
-参考表：config_accident_nature
+     * @param natureId 事故时间性质外键， 参考表：config_accident_nature
      */
     public void setNatureId(String natureId) {
         this.natureId = natureId == null ? null : natureId.trim();

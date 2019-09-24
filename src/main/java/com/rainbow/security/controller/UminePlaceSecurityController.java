@@ -1,6 +1,5 @@
 package com.rainbow.security.controller;
 
-
 import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
@@ -15,16 +14,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
 /**
- * Created by 13260 on 2019/5/11.
- * 铀尾矿(渣)库安全问题管理
+ * Created by 13260 on 2019/5/11. 铀尾矿(渣)库安全问题管理
  */
 @RestController
 @RequestMapping("umineplacesecurity")
@@ -42,7 +42,7 @@ public class UminePlaceSecurityController {
      * @return
      */
     @PostMapping("/addUminePlaceSecurity")
-    @SystemLog(description="添加铀尾矿(渣)库安全问题")
+    @SystemLog(description = "添加铀尾矿(渣)库安全问题")
     public ResponseBo add(@RequestBody UminePlaceSecurity uminePlaceSecurity) {
         int result = uminePlaceSecurityService.addUminePlaceSecurity(uminePlaceSecurity);
 
@@ -60,7 +60,7 @@ public class UminePlaceSecurityController {
      * @return
      */
     @PostMapping("/modifyUminePlaceSecurity")
-    @SystemLog(description="修改铀尾矿(渣)库安全问题")
+    @SystemLog(description = "修改铀尾矿(渣)库安全问题")
     public ResponseBo modify(@RequestBody UminePlaceSecurity uminePlaceSecurity) {
 
         int result = uminePlaceSecurityService.modifyUminePlaceSecurity(uminePlaceSecurity);
@@ -70,7 +70,6 @@ public class UminePlaceSecurityController {
             return ResponseBo.error("修改失败");
         }
     }
-
 
     /**
      * 获取铀尾矿(渣)库安全问题
@@ -102,7 +101,7 @@ public class UminePlaceSecurityController {
      * @return
      */
     @PostMapping("/deleteUminePlaceSecurityById")
-    @SystemLog(description="删除铀尾矿(渣)库安全问题信息")
+    @SystemLog(description = "删除铀尾矿(渣)库安全问题信息")
     public ResponseBo deleteUminePlaceSecurityByIds(@RequestBody String id) {
         if (id != null) {
             int result = uminePlaceSecurityService.deleteByKey(id);
@@ -115,18 +114,18 @@ public class UminePlaceSecurityController {
      * 导出核设施安全问题
      */
     @RequestMapping(value = "/exportUmineplaceSecurity", method = RequestMethod.GET)
-    @SystemLog(description="导出核设施安全问题")
-    public void exportUmineplaceSecurity( @RequestParam(value = "umineName", required = false) String umineName,
-                                  @RequestParam(value = "uminePlaceName", required = false) String uminePlaceName,
-                                  @RequestParam(value = "statusTypeIds", required = false) String statusTypeIds,
-                                  @RequestParam(value = "checkTypeIds", required = false) String checkTypeIds,
-                                  @RequestParam(value = "content", required = false) String content,
-                                  @RequestParam(value = "start_date", required = false) String start_date,
-                                  @RequestParam(value = "end_date", required = false) String end_date,
-                                  @RequestParam(value = "questionTypeIds", required = false) String questionTypeIds,
-                                  @RequestParam(value = "questionNatureIds", required = false) String questionNatureIds,
-                                  @RequestParam(value = "reformStatusTypeIds", required = false) String reformStatusTypeIds,
-                                  HttpServletResponse response) {
+    @SystemLog(description = "导出铀尾矿(渣)库安全问题信息")
+    public void exportUmineplaceSecurity(@RequestParam(value = "umineName", required = false) String umineName,
+            @RequestParam(value = "uminePlaceName", required = false) String uminePlaceName,
+            @RequestParam(value = "statusTypeIds", required = false) String statusTypeIds,
+            @RequestParam(value = "checkTypeIds", required = false) String checkTypeIds,
+            @RequestParam(value = "content", required = false) String content,
+            @RequestParam(value = "start_date", required = false) String start_date,
+            @RequestParam(value = "end_date", required = false) String end_date,
+            @RequestParam(value = "questionTypeIds", required = false) String questionTypeIds,
+            @RequestParam(value = "questionNatureIds", required = false) String questionNatureIds,
+            @RequestParam(value = "reformStatusTypeIds", required = false) String reformStatusTypeIds,
+            HttpServletResponse response) {
 
         List<Condition> list = new ArrayList<>();
         if (!umineName.isEmpty()) {
@@ -136,10 +135,10 @@ public class UminePlaceSecurityController {
             list.add(new Condition("uminePlaceName", uminePlaceName));
         }
         if (!statusTypeIds.isEmpty()) {
-            list.add(new Condition("statusTypeIds",  Stream.of(statusTypeIds).collect(toList())));
+            list.add(new Condition("statusTypeIds", Stream.of(statusTypeIds).collect(toList())));
         }
         if (!checkTypeIds.isEmpty()) {
-            list.add(new Condition("checkLevelIds",  Stream.of(checkTypeIds).collect(toList())));
+            list.add(new Condition("checkLevelIds", Stream.of(checkTypeIds).collect(toList())));
         }
         if (!content.isEmpty()) {
             list.add(new Condition("content", content));
@@ -151,19 +150,33 @@ public class UminePlaceSecurityController {
             list.add(new Condition("end_date", DateUtils.GmtStringToDate(end_date)));
         }
         if (!questionTypeIds.isEmpty()) {
-            list.add(new Condition("questionTypeIds",  Stream.of(questionTypeIds).collect(toList())));
+            list.add(new Condition("questionTypeIds", Stream.of(questionTypeIds).collect(toList())));
         }
         if (!questionNatureIds.isEmpty()) {
-            list.add(new Condition("questionNatureIds",  Stream.of(questionNatureIds).collect(toList())));
+            list.add(new Condition("questionNatureIds", Stream.of(questionNatureIds).collect(toList())));
         }
         if (!reformStatusTypeIds.isEmpty()) {
-            list.add(new Condition("reformStatusTypeIds",  Stream.of(reformStatusTypeIds).collect(toList())));
+            list.add(new Condition("reformStatusTypeIds", Stream.of(reformStatusTypeIds).collect(toList())));
         }
 
         Page page = new Page();
         page.setConditions(list);
 
-        uminePlaceSecurityService.exportUmineplaceSecurity(page,response);
+        uminePlaceSecurityService.exportUmineplaceSecurity(page, response);
 
+    }
+
+    /**
+     * 导入
+     * 
+     * @param request
+     * @return
+     */
+    @SystemLog(description = "导入铀尾矿(渣)库安全问题信息")
+    @RequestMapping(value = "/importData", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseBo importData(HttpServletRequest request) {
+
+        return uminePlaceSecurityService.importData(request);
     }
 }

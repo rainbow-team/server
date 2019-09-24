@@ -6,6 +6,7 @@ import com.rainbow.common.service.IService;
 import com.rainbow.security.domain.AccidentSecurity;
 import com.rainbow.security.domain.UminePlaceSecurity;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -23,5 +24,7 @@ public interface AccidentSecurityService extends IService<AccidentSecurity> {
 
     ResponseBo getAccidentSecurityById(String id);
 
-    void exportAccidentSecurity(Page page,HttpServletResponse response);
+    void exportAccidentSecurity(Page page, HttpServletResponse response);
+
+    ResponseBo importData(HttpServletRequest request);
 }

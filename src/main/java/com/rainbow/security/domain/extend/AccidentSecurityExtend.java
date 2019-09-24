@@ -1,5 +1,6 @@
 package com.rainbow.security.domain.extend;
 
+import com.rainbow.common.annotation.BeanFieldAnnotation;
 import com.rainbow.security.domain.AccidentSecurity;
 
 /**
@@ -9,29 +10,37 @@ import com.rainbow.security.domain.AccidentSecurity;
  **/
 public class AccidentSecurityExtend extends AccidentSecurity {
 
-    //核设施营运单位的名称
-    private String serviceDepartName;
+    // 核设施营运单位的名称
+    @BeanFieldAnnotation(order = 1)
+    public String serviceDepartName;
 
-    //铀矿冶单位的名称
-    private String umineName;
+    // 铀矿冶单位的名称
+    @BeanFieldAnnotation(order = 2)
+    public String umineName;
 
-    //核设施信息的名称
-    private String facName;
+    // 核设施信息的名称
+    @BeanFieldAnnotation(order = 3)
+    public String facName;
 
-    //铀尾矿(渣)库信息的名称
-    private String uminePlaceName;
+    // 铀尾矿(渣)库信息的名称
+    @BeanFieldAnnotation(order = 4)
+    public String uminePlaceName;
 
-    //核设施状态的值
-    private String facStatusValue;
+    // 核设施状态的值
+    @BeanFieldAnnotation(order = 5)
+    public String facStatusValue;
 
-    //铀尾矿(渣)库的状态的值
-    private String uminePlaceStatusValue;
+    // 铀尾矿(渣)库的状态的值
+    @BeanFieldAnnotation(order = 6)
+    public String uminePlaceStatusValue;
 
-    //事故事件的类别的值
-    private String typeValue;
+    // 事故事件的类别的值
+    @BeanFieldAnnotation(order = 12)
+    public String typeValue;
 
-    //事故事件性质的值
-    private String natureValue;
+    // 事故事件性质的值
+    @BeanFieldAnnotation(order = 13)
+    public String natureValue;
 
     public String getServiceDepartName() {
         return serviceDepartName;

@@ -1,5 +1,6 @@
 package com.rainbow.security.domain;
 
+import com.rainbow.common.annotation.BeanFieldAnnotation;
 import com.rainbow.common.domain.BaseExtendEntity;
 
 import java.util.Date;
@@ -16,32 +17,32 @@ public class FacSecurity extends BaseExtendEntity {
 
     /**
      * 核设施营运单位，外键
-
-参考表：unit_service
+     * 
+     * 参考表：unit_service
      */
     @Column(name = "service_id")
     private String serviceId;
 
     /**
      * 军工核设施名称,外键
-
-参考表:unit_fac，如果是空则为综合性安全问题
+     * 
+     * 参考表:unit_fac，如果是空则为综合性安全问题
      */
     @Column(name = "fac_id")
     private String facId;
 
     /**
      * 核设施状态，外键
-
-config_fac_status
+     * 
+     * config_fac_status
      */
     @Column(name = "fac_status_id")
     private String facStatusId;
 
     /**
      * 安全问题检查类型，外键
-
-参考表：config_security_check_type
+     * 
+     * 参考表：config_security_check_type
      */
     @Column(name = "check_type_id")
     private String checkTypeId;
@@ -49,24 +50,24 @@ config_fac_status
     /**
      * 问题内容
      */
-    private String content;
+    @BeanFieldAnnotation(order = 5)
+    public String content;
 
     /**
      * 发现时间
      */
     @Column(name = "find_date")
-    private Date findDate;
+    @BeanFieldAnnotation(order = 6)
+    public Date findDate;
 
     /**
-     * 核设施安全问题类别，外键。
-参考表：config_fac_security_question_type
+     * 核设施安全问题类别，外键。 参考表：config_fac_security_question_type
      */
     @Column(name = "question_type_id")
     private String questionTypeId;
 
     /**
-     * 核设施安全问题性质外键，
-参考表：config_fac_security_question_nature
+     * 核设施安全问题性质外键， 参考表：config_fac_security_question_nature
      */
     @Column(name = "question_nature_id")
     private String questionNatureId;
@@ -81,21 +82,22 @@ config_fac_status
      * 监督要求
      */
     @Column(name = "supervise_require")
-    private String superviseRequire;
+    @BeanFieldAnnotation(order = 10)
+    public String superviseRequire;
 
     /**
      * 整改方案
      */
     @Column(name = "reform_plan")
-    private String reformPlan;
-
+    @BeanFieldAnnotation(order = 11)
+    public String reformPlan;
 
     /**
      * 整改完成时间
      */
+    @BeanFieldAnnotation(order = 12)
     @Column(name = "reform_complete_date")
-    private Date reformCompleteDate;
-
+    public Date reformCompleteDate;
 
     /**
      * 备注
@@ -132,12 +134,6 @@ config_fac_status
     @Column(name = "modify_date")
     private Date modifyDate;
 
-
-
-
-
-
-
     /**
      * 获取主键
      *
@@ -158,12 +154,12 @@ config_fac_status
 
     /**
      * 获取核设施营运单位，外键
-
-参考表：unit_service
+     * 
+     * 参考表：unit_service
      *
      * @return service_id - 核设施营运单位，外键
-
-参考表：unit_service
+     * 
+     *         参考表：unit_service
      */
     public String getServiceId() {
         return serviceId;
@@ -171,12 +167,12 @@ config_fac_status
 
     /**
      * 设置核设施营运单位，外键
-
-参考表：unit_service
+     * 
+     * 参考表：unit_service
      *
      * @param serviceId 核设施营运单位，外键
-
-参考表：unit_service
+     * 
+     *                  参考表：unit_service
      */
     public void setServiceId(String serviceId) {
         this.serviceId = serviceId == null ? null : serviceId.trim();
@@ -184,12 +180,12 @@ config_fac_status
 
     /**
      * 获取军工核设施名称,外键
-
-参考表:unit_fac，如果是空则为综合性安全问题
+     * 
+     * 参考表:unit_fac，如果是空则为综合性安全问题
      *
      * @return fac_id - 军工核设施名称,外键
-
-参考表:unit_fac，如果是空则为综合性安全问题
+     * 
+     *         参考表:unit_fac，如果是空则为综合性安全问题
      */
     public String getFacId() {
         return facId;
@@ -197,12 +193,12 @@ config_fac_status
 
     /**
      * 设置军工核设施名称,外键
-
-参考表:unit_fac，如果是空则为综合性安全问题
+     * 
+     * 参考表:unit_fac，如果是空则为综合性安全问题
      *
      * @param facId 军工核设施名称,外键
-
-参考表:unit_fac，如果是空则为综合性安全问题
+     * 
+     *              参考表:unit_fac，如果是空则为综合性安全问题
      */
     public void setFacId(String facId) {
         this.facId = facId == null ? null : facId.trim();
@@ -210,12 +206,12 @@ config_fac_status
 
     /**
      * 获取核设施状态，外键
-
-config_fac_status
+     * 
+     * config_fac_status
      *
      * @return fac_status_id - 核设施状态，外键
-
-config_fac_status
+     * 
+     *         config_fac_status
      */
     public String getFacStatusId() {
         return facStatusId;
@@ -223,12 +219,12 @@ config_fac_status
 
     /**
      * 设置核设施状态，外键
-
-config_fac_status
+     * 
+     * config_fac_status
      *
      * @param facStatusId 核设施状态，外键
-
-config_fac_status
+     * 
+     *                    config_fac_status
      */
     public void setFacStatusId(String facStatusId) {
         this.facStatusId = facStatusId == null ? null : facStatusId.trim();
@@ -236,12 +232,12 @@ config_fac_status
 
     /**
      * 获取安全问题检查类型，外键
-
-参考表：config_security_check_type
+     * 
+     * 参考表：config_security_check_type
      *
      * @return check_type_id - 安全问题检查类型，外键
-
-参考表：config_security_check_type
+     * 
+     *         参考表：config_security_check_type
      */
     public String getCheckTypeId() {
         return checkTypeId;
@@ -249,12 +245,12 @@ config_fac_status
 
     /**
      * 设置安全问题检查类型，外键
-
-参考表：config_security_check_type
+     * 
+     * 参考表：config_security_check_type
      *
      * @param checkTypeId 安全问题检查类型，外键
-
-参考表：config_security_check_type
+     * 
+     *                    参考表：config_security_check_type
      */
     public void setCheckTypeId(String checkTypeId) {
         this.checkTypeId = checkTypeId == null ? null : checkTypeId.trim();
@@ -279,44 +275,38 @@ config_fac_status
     }
 
     /**
-     * 获取核设施安全问题类别，外键。
-参考表：config_fac_security_question_type
+     * 获取核设施安全问题类别，外键。 参考表：config_fac_security_question_type
      *
      * @return question_type_id - 核设施安全问题类别，外键。
-参考表：config_fac_security_question_type
+     *         参考表：config_fac_security_question_type
      */
     public String getQuestionTypeId() {
         return questionTypeId;
     }
 
     /**
-     * 设置核设施安全问题类别，外键。
-参考表：config_fac_security_question_type
+     * 设置核设施安全问题类别，外键。 参考表：config_fac_security_question_type
      *
-     * @param questionTypeId 核设施安全问题类别，外键。
-参考表：config_fac_security_question_type
+     * @param questionTypeId 核设施安全问题类别，外键。 参考表：config_fac_security_question_type
      */
     public void setQuestionTypeId(String questionTypeId) {
         this.questionTypeId = questionTypeId == null ? null : questionTypeId.trim();
     }
 
     /**
-     * 获取核设施安全问题性质外键，
-参考表：config_fac_security_question_nature
+     * 获取核设施安全问题性质外键， 参考表：config_fac_security_question_nature
      *
      * @return question_nature_id - 核设施安全问题性质外键，
-参考表：config_fac_security_question_nature
+     *         参考表：config_fac_security_question_nature
      */
     public String getQuestionNatureId() {
         return questionNatureId;
     }
 
     /**
-     * 设置核设施安全问题性质外键，
-参考表：config_fac_security_question_nature
+     * 设置核设施安全问题性质外键， 参考表：config_fac_security_question_nature
      *
-     * @param questionNatureId 核设施安全问题性质外键，
-参考表：config_fac_security_question_nature
+     * @param questionNatureId 核设施安全问题性质外键， 参考表：config_fac_security_question_nature
      */
     public void setQuestionNatureId(String questionNatureId) {
         this.questionNatureId = questionNatureId == null ? null : questionNatureId.trim();

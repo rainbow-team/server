@@ -172,4 +172,9 @@
 
   </select>
 
+  <select id="verifyDuplication" resultType="int" parameterType="java.util.Map">
+    select count(1) from security_accident WHERE service_id=#{serviceId} and umine_id=#{umineId} and fac_id=#{facId} and 
+    umine_place_id=#{uminePlaceId}  and fac_status_id=#{facStatusId} and umine_place_status_id=#{uminePlaceStatusId} and 
+    `name`=#{name} and occur_date=#{occurDate};
+  </select>
 </mapper>

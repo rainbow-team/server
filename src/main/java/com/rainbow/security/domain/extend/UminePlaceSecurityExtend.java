@@ -1,5 +1,6 @@
 package com.rainbow.security.domain.extend;
 
+import com.rainbow.common.annotation.BeanFieldAnnotation;
 import com.rainbow.security.domain.UminePlaceSecurity;
 
 /**
@@ -9,26 +10,33 @@ import com.rainbow.security.domain.UminePlaceSecurity;
  **/
 public class UminePlaceSecurityExtend extends UminePlaceSecurity {
 
-    //铀矿冶单位的名称
-    private String umineName;
+    // 铀矿冶单位的名称
+    @BeanFieldAnnotation(order = 1)
+    public String umineName;
 
-    //铀尾矿(渣)库的信息的值
-    private String uminePlaceName;
+    // 铀尾矿(渣)库的信息的值--设施名称
+    @BeanFieldAnnotation(order = 2)
+    public String uminePlaceName;
 
-    //铀尾矿(渣)库设施状态的值
-    private String uminePlaceStatusTypeValue;
+    // 铀尾矿(渣)库设施状态的值
+    @BeanFieldAnnotation(order = 3)
+    public String uminePlaceStatusTypeValue;
 
-    //安全问题检查类型的值
-    private String checkTypeValue;
+    // 安全问题检查类型的值
+    @BeanFieldAnnotation(order = 4)
+    public String checkTypeValue;
 
-    //核设施安全问题类别的值
-    private String questionTypeValue;
+    // 核设施安全问题类别的值
+    @BeanFieldAnnotation(order = 7)
+    public String questionTypeValue;
 
-    //核设施安全问题性质的值
-    private String questionNatureValue;
+    // 核设施安全问题性质的值
+    @BeanFieldAnnotation(order = 8)
+    public String questionNatureValue;
 
-    //安全问题整改状态的值
-    private String reformStatusTypeValue;
+    // 安全问题整改状态的值
+    @BeanFieldAnnotation(order = 9)
+    public String reformStatusTypeValue;
 
     public String getUmineName() {
         return umineName;

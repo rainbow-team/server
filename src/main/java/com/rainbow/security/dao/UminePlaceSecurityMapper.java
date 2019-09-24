@@ -10,7 +10,9 @@ import java.util.Map;
 
 public interface UminePlaceSecurityMapper extends MyMapper<UminePlaceSecurity> {
 
-    List<UminePlaceSecurityExtend> getUminePlaceSecurityList(Map<String,Object> map);
+    List<UminePlaceSecurityExtend> getUminePlaceSecurityList(Map<String, Object> map);
 
     UminePlaceSecurityExtend getUminePlaceSecurityById(String id);
+
+    int verifyDuplication(Map<String, Object> params);
 }

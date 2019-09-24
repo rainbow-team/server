@@ -6,6 +6,7 @@ import com.rainbow.common.service.IService;
 import com.rainbow.security.domain.FacSecurity;
 import com.rainbow.security.domain.UminePlaceSecurity;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -23,5 +24,7 @@ public interface UminePlaceSecurityService extends IService<UminePlaceSecurity> 
 
     ResponseBo getUminePlaceSecurityById(String id);
 
-    void exportUmineplaceSecurity(Page page,HttpServletResponse response);
+    void exportUmineplaceSecurity(Page page, HttpServletResponse response);
+
+    ResponseBo importData(HttpServletRequest request);
 }

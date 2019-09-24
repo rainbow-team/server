@@ -1,5 +1,6 @@
 package com.rainbow.security.domain.extend;
 
+import com.rainbow.common.annotation.BeanFieldAnnotation;
 import com.rainbow.security.domain.FacSecurity;
 
 /**
@@ -9,26 +10,33 @@ import com.rainbow.security.domain.FacSecurity;
  **/
 public class FacSecurityExtend extends FacSecurity {
 
-    //核设施营运单位名称
-    private String serviceDepartName;
+    // 核设施营运单位名称
+    @BeanFieldAnnotation(order = 1)
+    public String serviceDepartName;
 
-    //核设施信息名称
-    private String facName;
+    // 核设施信息名称
+    @BeanFieldAnnotation(order = 2)
+    public String facName;
 
-    //核设施状态的值
-    private String facStatusTypeValue;
+    // 核设施状态的值
+    @BeanFieldAnnotation(order = 3)
+    public String facStatusTypeValue;
 
-    //安全问题检查类型的值
-    private String checkTypeValue;
+    // 安全问题检查类型的值
+    @BeanFieldAnnotation(order = 4)
+    public String checkTypeValue;
 
-    //核设施安全问题类别的值
-    private String questionTypeValue;
+    // 核设施安全问题类别的值
+    @BeanFieldAnnotation(order = 7)
+    public String questionTypeValue;
 
-    //核设施安全问题性质的值
-    private String questionNatureValue;
+    // 核设施安全问题性质的值
+    @BeanFieldAnnotation(order = 8)
+    public String questionNatureValue;
 
-    //安全问题整改状态的值
-    private String reformStatusTypeValue;
+    // 安全问题整改状态的值
+    @BeanFieldAnnotation(order = 9)
+    public String reformStatusTypeValue;
 
     public String getServiceDepartName() {
         return serviceDepartName;

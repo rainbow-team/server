@@ -124,7 +124,7 @@ public class EquipPermitServiceImpl extends BaseService<EquipPermit> implements 
                         2, 12, 0);
 
                 if (list.size() == 0) {
-                    return ResponseBo.error("??????");
+                    return ResponseBo.error("文件内容为空");
                 }
 
                 Map<String, String> map = new HashMap<>();
@@ -135,16 +135,16 @@ public class EquipPermitServiceImpl extends BaseService<EquipPermit> implements 
                     item.setId(GuidHelper.getGuid());
 
                     if (StrUtil.isNullOrEmpty(item.getName())) {
-                        msg += "?" + (i + 2) + "???????,";
+                        msg += "第" + (i + 2) + "行设备名称为空,";
                     }
 
                     if (StrUtil.isNullOrEmpty(item.getServiceDepartName())) {
-                        msg += "?" + (i + 2) + "????????????????,";
+                        msg += "第" + (i + 2) + "行营运单位为空,";
                     } else {
                         String serviceDepartId = serviceDepartMapper
                                 .getServiceDepartIdByName(item.getServiceDepartName());
                         if (StrUtil.isNullOrEmpty(serviceDepartId)) {
-                            msg += "?" + (i + 2) + "??????????????????";
+                            msg += "第" + (i + 2) + "行营运单位在数据库中不存在,";
                         } else {
                             item.setServiceId(serviceDepartId);
                         }
@@ -152,11 +152,11 @@ public class EquipPermitServiceImpl extends BaseService<EquipPermit> implements 
                     }
 
                     if (StrUtil.isNullOrEmpty(item.getEquipDepartName())) {
-                        msg += "?" + (i + 2) + "??????????????,";
+                        msg += "第" + (i + 2) + "行核设备单位为空,";
                     } else {
                         String equipDepartId = equipDepartMapper.getEquipDepartIdByName(item.getEquipDepartName());
                         if (StrUtil.isNullOrEmpty(equipDepartId)) {
-                            msg += "?" + (i + 2) + "??????????????????";
+                            msg += "第" + (i + 2) + "行核设备单位在数据库中不存在,";
                         } else {
                             item.setEquipDepartId(equipDepartId);
                         }
@@ -165,70 +165,70 @@ public class EquipPermitServiceImpl extends BaseService<EquipPermit> implements 
                     if (!StrUtil.isNullOrEmpty(item.getFacName())) {
                         String facId = facMapper.getFacIdByName(item.getFacName());
                         if (StrUtil.isNullOrEmpty(facId)) {
-                            msg += "?" + (i + 2) + "?????????????";
+                            msg += "第" + (i + 2) + "行核设施名称在数据库中不存在,";
                         } else {
                             item.setFacId(facId);
                         }
                     }
 
                     if (StrUtil.isNullOrEmpty(item.getTypeValue())) {
-                        msg += "?" + (i + 2) + "????????";
+                        msg += "第" + (i + 2) + "行设备类别为空,";
                     } else {
                         mapConfig.put("tablename", "config_equip_type");
                         mapConfig.put("value", item.getTypeValue());
                         String typeId = systemConfigMapper.getConfigIdByName(mapConfig);
 
                         if (StrUtil.isNullOrEmpty(typeId)) {
-                            msg += "?" + (i + 2) + "?????????????";
+                            msg += "第" + (i + 2) + "行设备类别在数据库中不存在,";
                         } else {
                             item.setTypeId(typeId);
                         }
                     }
 
                     if (StrUtil.isNullOrEmpty(item.getLevelValue())) {
-                        msg += "?" + (i + 2) + "?????????";
+                        msg += "第" + (i + 2) + "行安全级别为空,";
                     } else {
                         mapConfig.put("tablename", "config_equip_level");
                         mapConfig.put("value", item.getLevelValue());
                         String typeId = systemConfigMapper.getConfigIdByName(mapConfig);
 
                         if (StrUtil.isNullOrEmpty(typeId)) {
-                            msg += "?" + (i + 2) + "??????????????";
+                            msg += "第" + (i + 2) + "行安全级别在数据库中不存在,";
                         } else {
                             item.setLevelId(typeId);
                         }
                     }
 
                     if (StrUtil.isNullOrEmpty(item.getStageValue())) {
-                        msg += "?" + (i + 2) + "????????";
+                        msg += "第" + (i + 2) + "行许可阶段为空,";
                     } else {
                         mapConfig.put("tablename", "config_equip_permit_stage");
                         mapConfig.put("value", item.getStageValue());
                         String typeId = systemConfigMapper.getConfigIdByName(mapConfig);
 
                         if (StrUtil.isNullOrEmpty(typeId)) {
-                            msg += "?" + (i + 2) + "?????????????";
+                            msg += "第" + (i + 2) + "行许可阶段在数据库中不存在,";
                         } else {
                             item.setStageId(typeId);
                         }
                     }
 
                     if (item.getPermitDate() == null) {
-                        msg += "?" + (i + 2) + "???????,";
+                        msg += "第" + (i + 2) + "行许可时间为空,";
                     }
 
                     if (item.getValidateTime() == null) {
-                        msg += "?" + (i + 2) + "???????,";
+                        msg += "第" + (i + 2) + "行有效期限为空,";
                     }
 
                     if (StrUtil.isNullOrEmpty(item.getLicence())) {
-                        msg += "?" + (i + 2) + "????????";
+                        msg += "第" + (i + 2) + "行许可文号为空,";
                     }
 
                     // Excel??????
                     if (map.containsKey(
                             item.getName() + item.getEquipDepartId() + item.getStageId() + item.getPermitDate())) {
-                        msg += "?" + (i + 2) + "???????+???????+??????+???????????";
+                        msg += "?" + (i + 2) + "行【设备名称】+【核设备单位】+【许可阶段】+【许可时间】数据重复";
                     } else {
                         map.put(item.getName() + item.getEquipDepartId() + item.getStageId() + item.getPermitDate(),
                                 item.toString());
@@ -242,7 +242,8 @@ public class EquipPermitServiceImpl extends BaseService<EquipPermit> implements 
                     params.put("permitDate", item.getPermitDate());
 
                     if (equipPermitMapper.verifyDuplication(params) > 0) {
-                        msg += "?" + (i + 2) + "???????+???????+??????+???????????????????";
+                        msg += "?" + (i + 2) + "行【设备名称】+【核设备单位】+【许可阶段】+【许可时间】在数据库中重复";
+                        ;
                     }
 
                 }

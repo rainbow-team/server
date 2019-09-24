@@ -10,7 +10,9 @@ import java.util.Map;
 
 public interface AccidentSecurityMapper extends MyMapper<AccidentSecurity> {
 
-    List<AccidentSecurityExtend> getAccidentSecurityList(Map<String,Object> map);
+    List<AccidentSecurityExtend> getAccidentSecurityList(Map<String, Object> map);
 
     AccidentSecurityExtend getAccidentSecurityById(String id);
+
+    int verifyDuplication(Map<String, Object> params);
 }

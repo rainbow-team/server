@@ -155,4 +155,14 @@
 
   </select>
 
+  <select id="verifyDuplication" resultType="int" parameterType="java.util.Map">
+    select count(1) from security_fac t WHERE t.service_id=#{serviceId}
+    <if test="facId != null and facId != ''">
+      and t.fac_id = #{facId}
+    </if>
+    <if test="facStatusId != null and facStatusId != ''">
+      and t.fac_status_id = #{facStatusId}
+    </if>
+    and t.content=#{content} and t.find_date=#{findDate};
+  </select>
 </mapper>
