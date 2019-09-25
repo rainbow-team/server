@@ -6,6 +6,8 @@ import com.rainbow.common.service.IService;
 import com.rainbow.unit.domain.Group;
 import com.rainbow.unit.domain.GroupExtend;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @Author:deepblue
  * @Date:2019/6/27 17:08
@@ -22,4 +24,6 @@ public interface GroupService extends IService<Group> {
     ResponseBo getGroupList(Page page);
 
     ResponseBo getGroupById(String id);
+
+    void exportGroup(Page page,HttpServletResponse response);
 }

@@ -2,6 +2,7 @@ package com.rainbow.unit.controller;
 
 
 import com.rainbow.common.annotation.SystemLog;
+import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.unit.domain.Group;
@@ -14,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -114,5 +117,22 @@ public class UmineController {
             return ResponseBo.ok(result);
         }
         return ResponseBo.ok("获取失败!");
+    }
+
+    @RequestMapping(value = "/exportUmine", method = RequestMethod.GET)
+    @SystemLog(description = "导出集团信息")
+    public void exportUmine(@RequestParam(value = "name", required = false) String name
+            , HttpServletResponse response) {
+
+        List<Condition> list = new ArrayList<>();
+        if (!name.isEmpty()) {
+            list.add(new Condition("name", name));
+        }
+
+        Page page = new Page();
+        page.setConditions(list);
+
+        umineService.exportUmine(page, response);
+
     }
 }

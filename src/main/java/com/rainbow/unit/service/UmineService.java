@@ -6,6 +6,8 @@ import com.rainbow.common.service.IService;
 import com.rainbow.unit.domain.Fac;
 import com.rainbow.unit.domain.Umine;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @Author:deepblue
  * @Date:2019/6/27 17:08
@@ -22,4 +24,6 @@ public interface UmineService extends IService<Umine> {
     ResponseBo getUmineList(Page page);
 
     ResponseBo getUmineById(String id);
+
+    void exportUmine(Page page,HttpServletResponse response);
 }

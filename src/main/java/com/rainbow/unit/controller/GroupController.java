@@ -2,8 +2,10 @@ package com.rainbow.unit.controller;
 
 
 import com.rainbow.common.annotation.SystemLog;
+import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
+import com.rainbow.common.util.DateUtils;
 import com.rainbow.supervision.domain.BreakChecker;
 import com.rainbow.supervision.service.BreakCheckerService;
 import com.rainbow.unit.domain.Group;
@@ -13,7 +15,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by 13260 on 2019/5/11.
@@ -118,5 +125,22 @@ public class GroupController {
             return ResponseBo.ok(result);
         }
         return ResponseBo.ok("获取失败!");
+    }
+
+    @RequestMapping(value = "/exportGroup", method = RequestMethod.GET)
+    @SystemLog(description = "导出集团信息")
+    public void exportGroup(@RequestParam(value = "name", required = false) String name
+                         , HttpServletResponse response) {
+
+        List<Condition> list = new ArrayList<>();
+        if (!name.isEmpty()) {
+            list.add(new Condition("name", name));
+        }
+
+        Page page = new Page();
+        page.setConditions(list);
+
+        groupService.exportGroup(page, response);
+
     }
 }

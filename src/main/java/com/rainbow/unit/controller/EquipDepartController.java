@@ -2,6 +2,7 @@ package com.rainbow.unit.controller;
 
 
 import com.rainbow.common.annotation.SystemLog;
+import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.unit.domain.EquipDepart;
@@ -13,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -116,5 +119,27 @@ public class EquipDepartController {
             return ResponseBo.ok(result);
         }
         return ResponseBo.ok("获取失败!");
+    }
+
+    @RequestMapping(value = "/exportEquipDepart", method = RequestMethod.GET)
+    @SystemLog(description = "导出集团信息")
+    public void exportEquipDepart(@RequestParam(value = "name", required = false) String name,
+                                  @RequestParam(value = "product", required = false) String product
+            , HttpServletResponse response) {
+
+        List<Condition> list = new ArrayList<>();
+        if (!name.isEmpty()) {
+            list.add(new Condition("name", name));
+        }
+
+        if (!product.isEmpty()) {
+            list.add(new Condition("product", product));
+        }
+
+        Page page = new Page();
+        page.setConditions(list);
+
+        equipDepartService.exportEquipDepart(page, response);
+
     }
 }

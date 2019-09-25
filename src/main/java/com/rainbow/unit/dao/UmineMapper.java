@@ -10,7 +10,7 @@ import java.util.Map;
 
 public interface UmineMapper extends MyMapper<Umine> {
 
-    List<Umine> getUmineList(Map<String, Object> map);
+    List<UmineExtend> getUmineList(Map<String, Object> map);
 
     UmineExtend getUmineById(String id);
 
