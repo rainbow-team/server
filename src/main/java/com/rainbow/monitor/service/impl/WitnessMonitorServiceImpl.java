@@ -7,17 +7,14 @@ import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
-import com.rainbow.common.util.ExcelHelper;
-import com.rainbow.common.util.GuidHelper;
-import com.rainbow.common.util.Multipart;
-import com.rainbow.common.util.StrUtil;
-import com.rainbow.common.util.UserUtils;
+import com.rainbow.common.util.*;
 import com.rainbow.config.dao.SystemConfigMapper;
 import com.rainbow.monitor.dao.CheckFileMonitorMapper;
 import com.rainbow.monitor.dao.CheckMonitorMapper;
 import com.rainbow.monitor.dao.WitnessMonitorMapper;
 import com.rainbow.monitor.domain.CheckMonitor;
 import com.rainbow.monitor.domain.WitnessMonitor;
+import com.rainbow.monitor.domain.extend.DailyMonitorExtend;
 import com.rainbow.monitor.domain.extend.WitnessMonitorExtend;
 import com.rainbow.monitor.service.CheckMonitorService;
 import com.rainbow.monitor.service.WitnessMonitorService;
@@ -27,6 +24,7 @@ import com.rainbow.unit.dao.EquipDepartMapper;
 import com.rainbow.unit.dao.ServiceDepartMapper;
 import com.rainbow.unit.dao.UmineMapper;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,13 +32,15 @@ import org.springframework.web.multipart.MultipartFile;
 import net.sf.ehcache.CacheManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @Author:deepblue
@@ -92,11 +92,11 @@ public class WitnessMonitorServiceImpl extends BaseService<WitnessMonitor> imple
     public ResponseBo getWitnessMonitorList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
-        List<WitnessMonitor> list = witnessMonitorMapper.getWitnessMonitorList(map);
+        List<WitnessMonitorExtend> list = witnessMonitorMapper.getWitnessMonitorList(map);
 
-        PageInfo<WitnessMonitor> pageInfo = new PageInfo<WitnessMonitor>(list);
+        PageInfo<WitnessMonitorExtend> pageInfo = new PageInfo<WitnessMonitorExtend>(list);
 
-        PagingEntity<WitnessMonitor> result = new PagingEntity<>(pageInfo);
+        PagingEntity<WitnessMonitorExtend> result = new PagingEntity<>(pageInfo);
 
         return ResponseBo.ok(result);
     }
@@ -108,6 +108,52 @@ public class WitnessMonitorServiceImpl extends BaseService<WitnessMonitor> imple
             return ResponseBo.ok(result);
         }
         return ResponseBo.error("查询失败");
+    }
+
+    @Override
+    public void exportWitnessMonitor(Page page, HttpServletResponse response) {
+        Map<String, Object> map = page.getQueryParameter();
+        List<WitnessMonitorExtend> list = witnessMonitorMapper.getWitnessMonitorList(map);
+
+        List<String[]> cloumnValues = new ArrayList<>();
+
+        if (list != null && list.size() > 0) {
+
+            for (WitnessMonitorExtend witnessMonitorExtend : list) {
+                StringBuffer buf=new StringBuffer();
+                buf.append(witnessMonitorExtend.getServiceDepartName() == null ? "" : witnessMonitorExtend.getServiceDepartName())
+                .append(witnessMonitorExtend.getUmineName() == null ? "" : witnessMonitorExtend.getUmineName())
+                        .append(witnessMonitorExtend.getEquipDepartName() == null ? "" : witnessMonitorExtend.getEquipDepartName());
+//                String name = witnessMonitorExtend.getServiceDepartName() == null ? "" : witnessMonitorExtend.getServiceDepartName()
+//                        + witnessMonitorExtend.getUmineName() == null ? "" : witnessMonitorExtend.getUmineName()
+//                        + witnessMonitorExtend.getEquipDepartName() == null ? "" : witnessMonitorExtend.getEquipDepartName();
+                String[] strs = new String[]{
+                        buf.toString(),
+                        witnessMonitorExtend.getWitnessObject(), witnessMonitorExtend.getWitnessItems(),
+                        DateUtils.DateToString(witnessMonitorExtend.getWitnessDate()),
+                        witnessMonitorExtend.getWitnessResult(), witnessMonitorExtend.getWitnessQuestion(),
+                        witnessMonitorExtend.getReform(), witnessMonitorExtend.getWitness()};
+                cloumnValues.add(strs);
+            }
+        }
+
+        String[] cloumnNames = new String[] { "单位名称", "见证对象", "见证事项", "见证时间", "见证结论", "存在问题", "整改情况","见证人" };
+
+        HSSFWorkbook wb = new HSSFWorkbook();
+        wb = ExportExcel.getHssfWorkBook(wb, "日常监督信息列表", cloumnNames, cloumnValues);
+
+        try {
+            response.setHeader("content-disposition",
+                    "attachment;filename=" + URLEncoder.encode("日常监督信息列表", "utf-8") + ".xls");
+            OutputStream out = response.getOutputStream();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            wb.write(baos);
+            byte[] xlsBytes = baos.toByteArray();
+            out.write(xlsBytes);
+            out.close();
+        } catch (Exception e) {
+
+        }
     }
 
     @Override
