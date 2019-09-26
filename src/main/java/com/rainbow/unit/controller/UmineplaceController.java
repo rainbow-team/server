@@ -1,6 +1,5 @@
 package com.rainbow.unit.controller;
 
-
 import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
@@ -15,9 +14,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
- * Created by 13260 on 2019/5/11.
- * 铀尾矿(渣)库信息管理
+ * Created by 13260 on 2019/5/11. 铀尾矿(渣)库信息管理
  */
 @RestController
 @RequestMapping("umineplace")
@@ -35,7 +35,7 @@ public class UmineplaceController {
      * @return
      */
     @PostMapping("/addUmineplace")
-    @SystemLog(description="添加铀尾矿(渣)库信息")
+    @SystemLog(description = "添加铀尾矿(渣)库信息")
     public ResponseBo add(@RequestBody Umineplace umineplace) {
         int result = umineplaceService.addUmineplace(umineplace);
 
@@ -53,7 +53,7 @@ public class UmineplaceController {
      * @return
      */
     @PostMapping("/modifyUmineplace")
-    @SystemLog(description="修改铀尾矿(渣)库信息")
+    @SystemLog(description = "修改铀尾矿(渣)库信息")
     public ResponseBo modify(@RequestBody Umineplace umineplace) {
 
         int result = umineplaceService.modifyUmineplace(umineplace);
@@ -63,7 +63,6 @@ public class UmineplaceController {
             return ResponseBo.error("修改失败");
         }
     }
-
 
     /**
      * 获取铀尾矿(渣)库信息列表
@@ -95,7 +94,7 @@ public class UmineplaceController {
      * @return
      */
     @PostMapping("/deleteUmineplaceById")
-    @SystemLog(description="删除铀尾矿(渣)库信息信息")
+    @SystemLog(description = "删除铀尾矿(渣)库信息")
     public ResponseBo deleteUmineplaceById(@RequestBody String id) {
         if (id != null) {
             int result = umineplaceService.deleteUmineplaceById(id);
@@ -116,5 +115,19 @@ public class UmineplaceController {
             return umineplaceService.getUmineplaceListByUmineId(umineId);
         }
         return ResponseBo.ok("获取失败");
+    }
+
+    /**
+     * 导入
+     * 
+     * @param request
+     * @return
+     */
+    @SystemLog(description = "导入铀尾矿(渣)库信息")
+    @RequestMapping(value = "/importData", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseBo importData(HttpServletRequest request) {
+
+        return umineplaceService.importData(request);
     }
 }

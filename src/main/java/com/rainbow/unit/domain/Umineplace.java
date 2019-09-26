@@ -1,5 +1,6 @@
 package com.rainbow.unit.domain;
 
+import com.rainbow.common.annotation.BeanFieldAnnotation;
 import com.rainbow.common.domain.BaseExtendEntity;
 
 import java.util.Date;
@@ -12,12 +13,14 @@ public class Umineplace extends BaseExtendEntity {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    @BeanFieldAnnotation(order = 1)
+    public String id;
 
     /**
      * 铀尾矿(渣)库名称
      */
-    private String name;
+    @BeanFieldAnnotation(order = 2)
+    public String name;
 
     /**
      * 营运单位,来源于【铀尾矿单位信息】,关联表：unit_service
@@ -28,8 +31,9 @@ public class Umineplace extends BaseExtendEntity {
     /**
      * 建造年代
      */
+    @BeanFieldAnnotation(order = 4)
     @Column(name = "build_year")
-    private Date buildYear;
+    public Date buildYear;
 
     /**
      * 铀尾矿(渣)库等别，参考表：config_umine_place_level
@@ -38,8 +42,7 @@ public class Umineplace extends BaseExtendEntity {
     private String levelId;
 
     /**
-     * 铀尾矿(库)设施状态的外键，
-参考表：config_umine_place_status
+     * 铀尾矿(库)设施状态的外键， 参考表：config_umine_place_status
      */
     @Column(name = "status_id")
     private String statusId;
@@ -51,8 +54,7 @@ public class Umineplace extends BaseExtendEntity {
     private String reviewStatusId;
 
     /**
-     * 铀尾矿(渣)库许可情况的值，
-参考表:config_umine_place_permit_situation
+     * 铀尾矿(渣)库许可情况的值， 参考表:config_umine_place_permit_situation
      */
     @Column(name = "permit_situation_id")
     private String permitSituationId;
@@ -60,8 +62,9 @@ public class Umineplace extends BaseExtendEntity {
     /**
      * 是否设置坝体监测设施
      */
+    @BeanFieldAnnotation(order = 16)
     @Column(name = "have_monitor")
-    private Integer haveMonitor;
+    public Integer haveMonitor;
 
     /**
      * 是否导入0 否 1 是
@@ -96,41 +99,48 @@ public class Umineplace extends BaseExtendEntity {
     /**
      * 设施简介
      */
-    private String survey;
+    @BeanFieldAnnotation(order = 9)
+    public String survey;
 
     /**
      * 场址特征
      */
-    private String feature;
+    @BeanFieldAnnotation(order = 10)
+    public String feature;
 
     /**
      * 设计有效库容
      */
-    private String capacity;
+    @BeanFieldAnnotation(order = 11)
+    public String capacity;
 
     /**
      * 设计洪水重现期
      */
+    @BeanFieldAnnotation(order = 12)
     @Column(name = "design_flood_reproduce")
-    private String designFloodReproduce;
+    public String designFloodReproduce;
 
     /**
      * 校核洪水重现期
      */
+    @BeanFieldAnnotation(order = 13)
     @Column(name = "check_flood_reproduce")
-    private String checkFloodReproduce;
+    public String checkFloodReproduce;
 
     /**
      * 初期坝型
      */
+    @BeanFieldAnnotation(order = 14)
     @Column(name = "early_dam_type")
-    private String earlyDamType;
+    public String earlyDamType;
 
     /**
      * 初期坝高
      */
+    @BeanFieldAnnotation(order = 15)
     @Column(name = "early_dam_height")
-    private String earlyDamHeight;
+    public String earlyDamHeight;
 
     /**
      * 备注
@@ -228,22 +238,18 @@ public class Umineplace extends BaseExtendEntity {
     }
 
     /**
-     * 获取铀尾矿(库)设施状态的外键，
-参考表：config_umine_place_status
+     * 获取铀尾矿(库)设施状态的外键， 参考表：config_umine_place_status
      *
-     * @return status_id - 铀尾矿(库)设施状态的外键，
-参考表：config_umine_place_status
+     * @return status_id - 铀尾矿(库)设施状态的外键， 参考表：config_umine_place_status
      */
     public String getStatusId() {
         return statusId;
     }
 
     /**
-     * 设置铀尾矿(库)设施状态的外键，
-参考表：config_umine_place_status
+     * 设置铀尾矿(库)设施状态的外键， 参考表：config_umine_place_status
      *
-     * @param statusId 铀尾矿(库)设施状态的外键，
-参考表：config_umine_place_status
+     * @param statusId 铀尾矿(库)设施状态的外键， 参考表：config_umine_place_status
      */
     public void setStatusId(String statusId) {
         this.statusId = statusId == null ? null : statusId.trim();
@@ -268,22 +274,20 @@ public class Umineplace extends BaseExtendEntity {
     }
 
     /**
-     * 获取铀尾矿(渣)库许可情况的值，
-参考表:config_umine_place_permit_situation
+     * 获取铀尾矿(渣)库许可情况的值， 参考表:config_umine_place_permit_situation
      *
      * @return permit_situation_id - 铀尾矿(渣)库许可情况的值，
-参考表:config_umine_place_permit_situation
+     *         参考表:config_umine_place_permit_situation
      */
     public String getPermitSituationId() {
         return permitSituationId;
     }
 
     /**
-     * 设置铀尾矿(渣)库许可情况的值，
-参考表:config_umine_place_permit_situation
+     * 设置铀尾矿(渣)库许可情况的值， 参考表:config_umine_place_permit_situation
      *
      * @param permitSituationId 铀尾矿(渣)库许可情况的值，
-参考表:config_umine_place_permit_situation
+     *                          参考表:config_umine_place_permit_situation
      */
     public void setPermitSituationId(String permitSituationId) {
         this.permitSituationId = permitSituationId == null ? null : permitSituationId.trim();

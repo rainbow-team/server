@@ -1,5 +1,6 @@
 package com.rainbow.unit.domain;
 
+import com.rainbow.common.annotation.BeanFieldAnnotation;
 import com.rainbow.common.domain.BaseExtendEntity;
 
 import java.util.Date;
@@ -12,22 +13,25 @@ public class Fac extends BaseExtendEntity {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    @BeanFieldAnnotation(order = 1)
+    public String id;
 
     /**
      * 核设施名称
      */
-    private String name;
+    @BeanFieldAnnotation(order = 2)
+    public String name;
 
     /**
      * 核设施编号
      */
-    private String code;
+    @BeanFieldAnnotation(order = 3)
+    public String code;
 
     /**
      * 核设施营运单位
-
-关联表:unit_service
+     * 
+     * 关联表:unit_service
      */
     @Column(name = "service_id")
     private String serviceId;
@@ -35,34 +39,36 @@ public class Fac extends BaseExtendEntity {
     /**
      * 参建单位
      */
-    private String builder;
+    @BeanFieldAnnotation(order = 5)
+    public String builder;
 
     /**
      * 建造年代
      */
     @Column(name = "build_year")
-    private Date buildYear;
+    @BeanFieldAnnotation(order = 6)
+    public Date buildYear;
 
     /**
      * 监管类别外键
-
- 参考表：config_fac_supervison_category
+     * 
+     * 参考表：config_fac_supervison_category
      */
     @Column(name = "supervision_category_id")
     private String supervisionCategoryId;
 
     /**
      * 设施类型
-
-参考表：config_fac_type
+     * 
+     * 参考表：config_fac_type
      */
     @Column(name = "type_id")
     private String typeId;
 
     /**
      * 设施状态
-
- 参考表：config_fac_status
+     * 
+     * 参考表：config_fac_status
      */
     @Column(name = "status_id")
     private String statusId;
@@ -82,14 +88,16 @@ public class Fac extends BaseExtendEntity {
     /**
      * 是否满足抗震设防登记 0 不满足，1满足
      */
+    @BeanFieldAnnotation(order = 14)
     @Column(name = "is_earthquake")
-    private Integer isEarthquake;
+    public Integer isEarthquake;
 
     /**
      * 是否满足防洪要求0不满足，1满足
      */
+    @BeanFieldAnnotation(order = 15)
     @Column(name = "is_flood")
-    private Integer isFlood;
+    public Integer isFlood;
 
     /**
      * 是否导入0 否 1 是
@@ -124,34 +132,40 @@ public class Fac extends BaseExtendEntity {
     /**
      * 设施简介
      */
-    private String survey;
+    @BeanFieldAnnotation(order = 12)
+    public String survey;
 
     /**
      * 场址特征
      */
+    @BeanFieldAnnotation(order = 13)
     private String feature;
 
     /**
      * 工艺描述
      */
+    @BeanFieldAnnotation(order = 16)
     @Column(name = "tech_des")
-    private String techDes;
+    public String techDes;
 
     /**
      * 设计基准事故
      */
     @Column(name = "design_standard_accident")
-    private String designStandardAccident;
+    @BeanFieldAnnotation(order = 17)
+    public String designStandardAccident;
 
     /**
      * 工作人员剂量约束
      */
-    private String measure;
+    @BeanFieldAnnotation(order = 18)
+    public String measure;
 
     /**
      * 备注
      */
-    private String note;
+    @BeanFieldAnnotation(order = 19)
+    public String note;
 
     /**
      * 获取主键
@@ -209,12 +223,12 @@ public class Fac extends BaseExtendEntity {
 
     /**
      * 获取核设施营运单位
-
-关联表:unit_service
+     * 
+     * 关联表:unit_service
      *
      * @return service_id - 核设施营运单位
-
-关联表:unit_service
+     * 
+     *         关联表:unit_service
      */
     public String getServiceId() {
         return serviceId;
@@ -222,12 +236,12 @@ public class Fac extends BaseExtendEntity {
 
     /**
      * 设置核设施营运单位
-
-关联表:unit_service
+     * 
+     * 关联表:unit_service
      *
      * @param serviceId 核设施营运单位
-
-关联表:unit_service
+     * 
+     *                  关联表:unit_service
      */
     public void setServiceId(String serviceId) {
         this.serviceId = serviceId == null ? null : serviceId.trim();
@@ -271,12 +285,12 @@ public class Fac extends BaseExtendEntity {
 
     /**
      * 获取监管类别外键
-
- 参考表：config_fac_supervison_category
+     * 
+     * 参考表：config_fac_supervison_category
      *
      * @return supervision_category_id - 监管类别外键
-
- 参考表：config_fac_supervison_category
+     * 
+     *         参考表：config_fac_supervison_category
      */
     public String getSupervisionCategoryId() {
         return supervisionCategoryId;
@@ -284,12 +298,12 @@ public class Fac extends BaseExtendEntity {
 
     /**
      * 设置监管类别外键
-
- 参考表：config_fac_supervison_category
+     * 
+     * 参考表：config_fac_supervison_category
      *
      * @param supervisionCategoryId 监管类别外键
-
- 参考表：config_fac_supervison_category
+     * 
+     *                              参考表：config_fac_supervison_category
      */
     public void setSupervisionCategoryId(String supervisionCategoryId) {
         this.supervisionCategoryId = supervisionCategoryId == null ? null : supervisionCategoryId.trim();
@@ -297,12 +311,12 @@ public class Fac extends BaseExtendEntity {
 
     /**
      * 获取设施类型
-
-参考表：config_fac_type
+     * 
+     * 参考表：config_fac_type
      *
      * @return type_id - 设施类型
-
-参考表：config_fac_type
+     * 
+     *         参考表：config_fac_type
      */
     public String getTypeId() {
         return typeId;
@@ -310,12 +324,12 @@ public class Fac extends BaseExtendEntity {
 
     /**
      * 设置设施类型
-
-参考表：config_fac_type
+     * 
+     * 参考表：config_fac_type
      *
      * @param typeId 设施类型
-
-参考表：config_fac_type
+     * 
+     *               参考表：config_fac_type
      */
     public void setTypeId(String typeId) {
         this.typeId = typeId == null ? null : typeId.trim();
@@ -323,12 +337,12 @@ public class Fac extends BaseExtendEntity {
 
     /**
      * 获取设施状态
-
- 参考表：config_fac_status
+     * 
+     * 参考表：config_fac_status
      *
      * @return status_id - 设施状态
-
- 参考表：config_fac_status
+     * 
+     *         参考表：config_fac_status
      */
     public String getStatusId() {
         return statusId;
@@ -336,12 +350,12 @@ public class Fac extends BaseExtendEntity {
 
     /**
      * 设置设施状态
-
- 参考表：config_fac_status
+     * 
+     * 参考表：config_fac_status
      *
      * @param statusId 设施状态
-
- 参考表：config_fac_status
+     * 
+     *                 参考表：config_fac_status
      */
     public void setStatusId(String statusId) {
         this.statusId = statusId == null ? null : statusId.trim();

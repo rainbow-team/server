@@ -196,4 +196,8 @@
   <select id="getFacIdByName" parameterType="java.lang.String" resultType="java.lang.String">
     select t.id from unit_fac t where t.`name`=#{name} limit 1;
   </select>
+
+  <select id="verifyDuplication" resultType="int" parameterType="java.util.Map">
+    select count(1) from unit_fac t where and t.service_id=#{serviceId} and t.name=#{name} ;
+  </select>
 </mapper>
