@@ -232,7 +232,7 @@ public class DailyMonitorServiceImpl extends BaseService<DailyMonitor> implement
                     params.put("fileTypeId", item.getFileTypeId());
                     params.put("fileDate", item.getFileDate());
 
-                    if (dailyMonitorMapper.verifyDuplication(params) >= 1) {
+                    if (dailyMonitorMapper.verifyDuplication(params) > 0) {
                         msg += "第" + (i + 2) + "行【营运单位】+【文件类型】+【文件时间】与数据库中的数据存在重复，";
                     }
 

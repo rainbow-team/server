@@ -1,5 +1,19 @@
 package com.rainbow.unit.service.impl;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.rainbow.attachment.service.FileInfoService;
@@ -8,27 +22,31 @@ import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
 import com.rainbow.common.util.DateUtils;
+import com.rainbow.common.util.ExcelHelper;
 import com.rainbow.common.util.ExportExcel;
 import com.rainbow.common.util.GuidHelper;
 import com.rainbow.common.util.Multipart;
+import com.rainbow.common.util.StrUtil;
+import com.rainbow.common.util.UserUtils;
+import com.rainbow.config.dao.SystemConfigMapper;
+import com.rainbow.system.domain.SystemUser;
 import com.rainbow.unit.dao.FacImproveMapper;
 import com.rainbow.unit.dao.FacMapper;
 import com.rainbow.unit.dao.FacReportMapper;
-import com.rainbow.unit.dao.GroupMapper;
-import com.rainbow.unit.domain.*;
+import com.rainbow.unit.dao.ServiceDepartMapper;
+import com.rainbow.unit.domain.Fac;
+import com.rainbow.unit.domain.FacExtend;
+import com.rainbow.unit.domain.FacImprove;
 import com.rainbow.unit.service.FacService;
-import com.rainbow.unit.service.GroupService;
+
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-import java.net.URLEncoder;
-import java.util.*;
+import net.sf.ehcache.CacheManager;
 
 /**
  * @Author:deepblue
@@ -38,6 +56,7 @@ import java.util.*;
 @Service("facservice")
 public class FacServiceImpl extends BaseService<Fac> implements FacService {
 
+    private Logger log = LoggerFactory.getLogger(this.getClass());
     @Autowired
     FacMapper facMapper;
 
@@ -49,6 +68,15 @@ public class FacServiceImpl extends BaseService<Fac> implements FacService {
 
     @Autowired
     FileInfoService fileInfoService;
+
+    @Autowired
+    ServiceDepartMapper serviceDepartMapper;
+
+    @Autowired
+    SystemConfigMapper systemConfigMapper;
+
+    @Autowired
+    CacheManager cacheManager;
 
     @Override
     public int addFac(Fac fac) {
@@ -177,123 +205,206 @@ public class FacServiceImpl extends BaseService<Fac> implements FacService {
         }
     }
 
-    @Override
     public ResponseBo importData(HttpServletRequest request) {
-        // Multipart part = new Multipart();
-        // // 获取前端传过来的file
-        // MultipartFile file = part.getUploadFile(request);
-        // FileInputStream inputStream = null;
-        // FileInputStream inputStream1 = null;
+        Multipart part = new Multipart();
+        // 获取前端传过来的file
+        MultipartFile file = part.getUploadFile(request);
+        FileInputStream inputStream = null;
+        FileInputStream inputStream1 = null;
 
-        // String msg = "";
+        String msg = "";
+        try {
+            if (file != null) {
+                // 转化文件名，避免乱码
+                String fileName = new String(file.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8");
+                inputStream = (FileInputStream) file.getInputStream();
+                inputStream1 = (FileInputStream) file.getInputStream();
 
-        // try {
-        // if (file != null) {
-        // // 转化文件名，避免乱码
-        // String fileName = new
-        // String(file.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8");
-        // inputStream = (FileInputStream) file.getInputStream();
-        // inputStream1 = (FileInputStream) file.getInputStream();
-        // // 将导入的excel转化为实体
-        // List<ServiceDepartExtend> list =
-        // ExcelHelper.convertToList(ServiceDepartExtend.class, fileName,
-        // inputStream, 2, 14, 0);
-        // List<ServiceAnnualReport> serviceAnnualReportList =
-        // ExcelHelper.convertToList(ServiceAnnualReport.class,
-        // fileName, inputStream1, 2, 2, 1);
+                // 将导入的excel转化为实体
+                List<FacExtend> list = ExcelHelper.convertToList(FacExtend.class, fileName, inputStream, 2, 19, 0);
+                List<FacImprove> facImproveList = ExcelHelper.convertToList(FacImprove.class, fileName, inputStream1, 2,
+                        3, 1);
 
-        // if (list.size() == 0) {
-        // return ResponseBo.error("文件内容为空");
-        // }
+                if (list.size() == 0) {
+                    return ResponseBo.error("文件内容为空");
+                }
 
-        // Map<String, String> map = new HashMap<>();
-        // // 校验
-        // for (int i = 0; i < list.size(); i++) {
+                Map<String, String> map = new HashMap<>();
+                Map<String, String> mapConfig = new HashMap<>();
+                // 校验
+                for (int i = 0; i < list.size(); i++) {
+                    FacExtend item = list.get(i);
 
-        // ServiceDepartExtend serviceDepartExtend = list.get(i);
+                    if (StrUtil.isNullOrEmpty(item.getServiceDepart())) {
+                        msg += "第" + (i + 2) + "行营运单位为空,";
+                    } else {
+                        String serviceDepartId = serviceDepartMapper.getServiceDepartIdByName(item.getServiceDepart());
+                        if (StrUtil.isNullOrEmpty(serviceDepartId)) {
+                            msg += "第" + (i + 2) + "行营运单位名称在数据库不存在，";
+                        } else {
+                            item.setServiceId(serviceDepartId);
+                        }
+                    }
 
-        // serviceDepartExtend.setId(GuidHelper.getGuid());
-        // if (StrUtil.isNullOrEmpty(serviceDepartExtend.getName())) {
-        // msg += "第" + (i + 2) + "行单位名称为空，";
-        // } else {
+                    if (StrUtil.isNullOrEmpty(item.getName())) {
+                        msg += "第" + (i + 2) + "行核设施名称为空,";
+                    }
 
-        // if (map.containsKey(serviceDepartExtend.getName())) {
-        // msg += "第" + (i + 2) + "行单位名称重复，";
-        // } else {
-        // map.put(serviceDepartExtend.getName(), serviceDepartExtend.getId());
-        // }
+                    if (StrUtil.isNullOrEmpty(item.getSupervisionCategoryValue())) {
+                        msg += "第" + (i + 2) + "行监管类别为空，";
+                    } else {
+                        mapConfig.put("tablename", "config_fac_supervison_category");
+                        mapConfig.put("value", item.getSupervisionCategoryValue());
+                        String typeId = systemConfigMapper.getConfigIdByName(mapConfig);
 
-        // // 校验数据库是否重复
-        // int count =
-        // serviceDepartMapper.getServiceDepartByName(serviceDepartExtend.getName());
-        // if (count > 0) {
-        // msg += "第" + (i + 2) + "行单位名称在数据库已存在，";
-        // }
-        // }
+                        if (StrUtil.isNullOrEmpty(typeId)) {
+                            msg += "第" + (i + 2) + "行监管类别在数据库不存在，";
+                        } else {
+                            item.setSupervisionCategoryId(typeId);
+                        }
+                    }
 
-        // if (StrUtil.isNullOrEmpty(serviceDepartExtend.getGroupName())) {
-        // msg += "第" + (i + 2) + "行所属集团为空，";
-        // } else {
+                    if (StrUtil.isNullOrEmpty(item.getTypeValue())) {
+                        msg += "第" + (i + 2) + "行设施类型为空，";
+                    } else {
+                        mapConfig.put("tablename", "config_fac_type");
+                        mapConfig.put("value", item.getTypeValue());
+                        String typeId = systemConfigMapper.getConfigIdByName(mapConfig);
 
-        // String groupId =
-        // groupMapper.getGroupIdByName(serviceDepartExtend.getGroupName());
+                        if (StrUtil.isNullOrEmpty(typeId)) {
+                            msg += "第" + (i + 2) + "行设施类型在数据库不存在，";
+                        } else {
+                            item.setTypeId(typeId);
+                        }
+                    }
 
-        // if (StrUtil.isNullOrEmpty(groupId)) {
-        // msg += "第" + (i + 2) + "行所属集团在数据库中不存在，";
-        // } else {
-        // serviceDepartExtend.setGroupId(groupId);
-        // }
+                    if (StrUtil.isNullOrEmpty(item.getStatusValue())) {
+                        msg += "第" + (i + 2) + "行设施状态为空，";
+                    } else {
+                        mapConfig.put("tablename", "config_fac_status");
+                        mapConfig.put("value", item.getStatusValue());
+                        String typeId = systemConfigMapper.getConfigIdByName(mapConfig);
 
-        // }
-        // }
+                        if (StrUtil.isNullOrEmpty(typeId)) {
+                            msg += "第" + (i + 2) + "行设施状态在数据库不存在，";
+                        } else {
+                            item.setStatusId(typeId);
+                        }
+                    }
 
-        // for (int j = 0; j < serviceAnnualReportList.size(); j++) {
+                    if (StrUtil.isNullOrEmpty(item.getReviewStatusValue())) {
+                        msg += "第" + (i + 2) + "行审评状态为空，";
+                    } else {
+                        mapConfig.put("tablename", "config_review_status");
+                        mapConfig.put("value", item.getReviewStatusValue());
+                        String typeId = systemConfigMapper.getConfigIdByName(mapConfig);
 
-        // ServiceAnnualReport serviceAnnualReport = serviceAnnualReportList.get(j);
-        // serviceAnnualReport.setReportId(GuidHelper.getGuid());
+                        if (StrUtil.isNullOrEmpty(typeId)) {
+                            msg += "第" + (i + 2) + "行审评状态在数据库不存在，";
+                        } else {
+                            item.setReviewStatusId(typeId);
+                        }
+                    }
 
-        // if (StrUtil.isNullOrEmpty(serviceAnnualReport.getServiceName())) {
-        // msg += "年度报告信息第" + (j + 2) + "行单位名称为空，";
-        // } else {
-        // String serviceId = map.get(serviceAnnualReport.getServiceName());
-        // if (StrUtil.isNullOrEmpty(serviceId)) {
-        // msg += "年度报告信息第" + (j + 2) + "行单位名称在核设施营运单位信息中不存在，";
-        // } else {
-        // serviceAnnualReport.setServiceId(serviceId);
-        // }
-        // }
+                    if (StrUtil.isNullOrEmpty(item.getPermitSituationValue())) {
+                        msg += "第" + (i + 2) + "行许可情况为空，";
+                    } else {
+                        mapConfig.put("tablename", "config_fac_permit_situation");
+                        mapConfig.put("value", item.getPermitSituationValue());
+                        String typeId = systemConfigMapper.getConfigIdByName(mapConfig);
 
-        // }
+                        if (StrUtil.isNullOrEmpty(typeId)) {
+                            msg += "第" + (i + 2) + "行许可情况在数据库不存在，";
+                        } else {
+                            item.setFacPermitSituationId(typeId);
+                        }
+                    }
 
-        // if (!msg.isEmpty()) {
-        // return ResponseBo.error(msg);
-        // } else {
-        // // 插入数据库
-        // SystemUser user = UserUtils.getCurrentUser(cacheManager);
-        // if (user == null) {
-        // user = new SystemUser();
-        // }
+                    // if (StrUtil.isNullOrEmpty(item.getIsEarthquake())) {
+                    // msg += "第" + (i + 2) + "行文件类型名称为空，";
+                    // }
+                    // if (StrUtil.isNullOrEmpty(item.getIsFlood())) {
+                    // msg += "第" + (i + 2) + "行文件类型名称为空，";
+                    // }
 
-        // for (ServiceDepartExtend serviceDepartExtend : list) {
+                    // Excel数据重复判断
+                    if (map.containsKey(item.getServiceId() + item.getName())) {
+                        msg += "第" + (i + 2) + "行【单位名称】+【核设施名称】数据重复，";
+                    } else {
+                        map.put(item.getServiceId() + item.getName(), item.toString());
+                    }
 
-        // serviceDepartExtend.setIsImport(1);
-        // serviceDepartExtend.setCreateDate(new Date());
-        // serviceDepartExtend.setModifyDate(new Date());
-        // serviceDepartExtend.setCreatorId(user.getId());
-        // serviceDepartExtend.setModifyId(user.getId());
+                    // 数据库重复判断
+                    Map<String, Object> params = new HashMap<String, Object>();
+                    params.put("serviceId", item.getServiceId());
+                    params.put("name", item.getName());
 
-        // serviceDepartMapper.insert(serviceDepartExtend);
-        // }
+                    if (facMapper.verifyDuplication(params) > 0) {
+                        msg += "第" + (i + 2) + "【单位名称】+【核设施名称】与数据库中的数据存在重复，";
+                    }
 
-        // for (ServiceAnnualReport serviceAnnualReport : serviceAnnualReportList) {
-        // annualReportMapper.insert(serviceAnnualReport);
-        // }
-        // }
+                    // 获取关联的文件列表
+                    List<FacImprove> filterList = facImproveList.stream().filter(a -> a.getFacId().equals(item.getId()))
+                            .collect(Collectors.toList());
 
-        // }
-        // } catch (Exception e) {
-        // return ResponseBo.error(msg);
-        // }
+                    if (filterList.size() == 0) {
+                        msg += "第" + (i + 2) + "核设施安技改ID列存在未关联数据情况，";
+                    } else {
+                        String guid = GuidHelper.getGuid();
+                        item.setId(guid);
+                        filterList.forEach((cf) -> cf.setFacId(guid));
+                    }
+
+                }
+
+                // 核设施安技改
+                for (int j = 0; j < facImproveList.size(); j++) {
+
+                    FacImprove item = facImproveList.get(j);
+
+                    if (StrUtil.isNullOrEmpty(item.getFacName())) {
+                        msg += "第" + (j + 2) + "行核设施安技改-核设施名称为空，";
+                    }
+                    if (StrUtil.isNullOrEmpty(item.getImproveContent())) {
+                        msg += "第" + (j + 2) + "行核设施安技改-安技改内容为空，";
+                    }
+                    if (null == item.getImproveDate()) {
+                        msg += "第" + (j + 2) + "行核设施安技改-安技改时间为空，";
+                    }
+                }
+                if (!msg.isEmpty()) {
+                    return ResponseBo.error(msg);
+                } else {
+                    // 插入数据库
+                    SystemUser user = UserUtils.getCurrentUser(cacheManager);
+                    if (user == null) {
+                        user = new SystemUser();
+                    }
+
+                    for (FacExtend data : list) {
+
+                        data.setIsImport(1);
+                        data.setCreateDate(new Date());
+                        data.setModifyDate(new Date());
+                        data.setCreatorId(user.getId());
+                        data.setModifyId(user.getId());
+
+                        facMapper.insert(data);
+
+                    }
+
+                    for (FacImprove facImprove : facImproveList) {
+                        // facImprove.setIsImport(1);
+                        facImprove.setId(GuidHelper.getGuid());
+                        facImproveMapper.insert(facImprove);
+                    }
+                }
+
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseBo.error(msg);
+        }
 
         return ResponseBo.ok();
     }

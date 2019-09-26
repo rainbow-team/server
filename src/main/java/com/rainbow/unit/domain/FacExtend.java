@@ -1,28 +1,36 @@
 package com.rainbow.unit.domain;
 
+import com.rainbow.common.annotation.BeanFieldAnnotation;
+
 /**
  * @Author:deepblue
  * @Date:2019/7/7 16:34
  * @Description:
  **/
 public class FacExtend extends Fac {
-    //营运单位信息
-    private String serviceDepart;
+    // 营运单位信息
+    @BeanFieldAnnotation(order = 4)
+    public String serviceDepart;
 
-    //监管类别信息
-    private String supervisionCategoryValue;
+    // 监管类别信息
+    @BeanFieldAnnotation(order = 7)
+    public String supervisionCategoryValue;
 
-    //设施类型信息
-    private String typeValue;
+    // 设施类型信息
+    @BeanFieldAnnotation(order = 8)
+    public String typeValue;
 
-    //设施状态信息
-    private String statusValue;
+    // 设施状态信息
+    @BeanFieldAnnotation(order = 9)
+    public String statusValue;
 
-    //审评状态信息
-    private String reviewStatusValue;
+    // 审评状态信息
+    @BeanFieldAnnotation(order = 10)
+    public String reviewStatusValue;
 
-    //许可情况信息
-    private String permitSituationValue;
+    // 许可情况信息
+    @BeanFieldAnnotation(order = 11)
+    public String permitSituationValue;
 
     public String getServiceDepart() {
         return serviceDepart;

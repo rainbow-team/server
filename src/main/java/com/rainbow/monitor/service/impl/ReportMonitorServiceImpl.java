@@ -174,7 +174,7 @@ public class ReportMonitorServiceImpl extends BaseService<ReportMonitor> impleme
                     params.put("reportTypeId", item.getReportTypeId());
                     params.put("reportDate", item.getreportDate());
 
-                    if (reportMonitorMapper.verifyDuplication(params) >= 1) {
+                    if (reportMonitorMapper.verifyDuplication(params) > 0) {
                         msg += "第" + (i + 2) + "行【监管机构】+【报告名称】+【报告类型】+【报告时间】与数据库中的数据存在重复，";
                     }
 

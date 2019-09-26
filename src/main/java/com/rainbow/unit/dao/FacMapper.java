@@ -25,4 +25,6 @@ public interface FacMapper extends MyMapper<Fac> {
     int getFacCount();
 
     String getFacIdByName(String name);
+
+    int verifyDuplication(Map<String, Object> params);
 }

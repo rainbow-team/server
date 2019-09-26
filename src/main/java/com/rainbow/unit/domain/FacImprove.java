@@ -3,6 +3,8 @@ package com.rainbow.unit.domain;
 import java.util.Date;
 import javax.persistence.*;
 
+import com.rainbow.common.annotation.BeanFieldAnnotation;
+
 @Table(name = "unit_fac_improve")
 public class FacImprove {
     /**
@@ -15,32 +17,35 @@ public class FacImprove {
     /**
      * 核设施外键ID，关联表unit_fac
      */
+    @BeanFieldAnnotation(order = 1)
     @Column(name = "fac_id")
-    private String facId;
+    public String facId;
 
     /**
      * 安技改时间
      */
     @Column(name = "improve_date")
-    private Date improveDate;
+    @BeanFieldAnnotation(order = 2)
+    public Date improveDate;
 
     /**
      * 安技改内容
      */
+    @BeanFieldAnnotation(order = 3)
     @Column(name = "improve_content")
-    private String improveContent;
+    public String improveContent;
 
     /**
      * 核设施名称
      */
     @Transient
-    private String facName;
+    public String facName;
 
     /**
      * 单位名称
      */
     @Transient
-    private String serviceName;
+    public String serviceName;
 
     /**
      * 获取主键

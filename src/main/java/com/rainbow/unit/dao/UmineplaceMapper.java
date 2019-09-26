@@ -26,4 +26,6 @@ public interface UmineplaceMapper extends MyMapper<Umineplace> {
 
     String getUminePlaceIdByName(String name);
 
+    int verifyDuplication(Map<String, Object> params);
+
 }

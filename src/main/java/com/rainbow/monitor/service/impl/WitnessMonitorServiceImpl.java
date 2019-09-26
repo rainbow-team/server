@@ -199,7 +199,7 @@ public class WitnessMonitorServiceImpl extends BaseService<WitnessMonitor> imple
                     params.put("witnessItems", item.getWitnessItems());
                     params.put("witnessDate", item.getWitnessDate());
 
-                    if (witnessMonitorMapper.verifyDuplication(params) >= 1) {
+                    if (witnessMonitorMapper.verifyDuplication(params) > 0) {
                         msg += "第" + (i + 2) + "行【单位名称】+【见证事项】+【见证时间】与数据库中的数据存在重复，";
                     }
 

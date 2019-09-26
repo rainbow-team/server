@@ -164,5 +164,7 @@
   <select id="getUminePlaceIdByName" parameterType="String" resultType="int">
     select id from unit_umine_place t WHERE t.`name`=#{name} limit 1;
   </select>
-
+  <select id="verifyDuplication" resultType="int" parameterType="java.util.Map">
+    select count(1) from unit_umine_place t where and t.umine_id=#{umineId} and t.name=#{name}
+  </select>
 </mapper>

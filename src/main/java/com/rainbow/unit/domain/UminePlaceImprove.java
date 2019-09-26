@@ -3,6 +3,8 @@ package com.rainbow.unit.domain;
 import java.util.Date;
 import javax.persistence.*;
 
+import com.rainbow.common.annotation.BeanFieldAnnotation;
+
 @Table(name = "unit_umine_place_improve")
 public class UminePlaceImprove {
     /**
@@ -10,25 +12,28 @@ public class UminePlaceImprove {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    public String id;
 
     /**
      * 铀尾矿(渣)库ID，关联表unit_umine_place
      */
+    @BeanFieldAnnotation(order = 1)
     @Column(name = "umine_place_id")
-    private String uminePlaceId;
+    public String uminePlaceId;
 
     /**
      * 安技改时间
      */
+    @BeanFieldAnnotation(order = 2)
     @Column(name = "improve_date")
-    private Date improveDate;
+    public Date improveDate;
 
     /**
      * 安技改内容
      */
+    @BeanFieldAnnotation(order = 3)
     @Column(name = "improve_content")
-    private String improveContent;
+    public String improveContent;
 
     /**
      * 获取主键

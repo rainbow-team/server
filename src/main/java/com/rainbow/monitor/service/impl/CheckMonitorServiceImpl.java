@@ -220,7 +220,7 @@ public class CheckMonitorServiceImpl extends BaseService<CheckMonitor> implement
                     params.put("startDate", item.getStartDate());
                     params.put("endDate", item.getEndDate());
 
-                    if (checkMonitorMapper.verifyDuplication(params) >= 1) {
+                    if (checkMonitorMapper.verifyDuplication(params) > 0) {
                         msg += "第" + (i + 2) + "【行单位名称】+【检查内容】+【检查类型】+【检查时间】与数据库中的数据存在重复，";
                     }
 
@@ -295,6 +295,7 @@ public class CheckMonitorServiceImpl extends BaseService<CheckMonitor> implement
 
                     for (CheckFileMonitorExtend ckFile : checkFileMonitorExtendList) {
                         ckFile.setIsImport(1);
+                        ckFile.setId(GuidHelper.getGuid());
                         checkFileMonitorMapper.insert(ckFile);
                     }
                 }

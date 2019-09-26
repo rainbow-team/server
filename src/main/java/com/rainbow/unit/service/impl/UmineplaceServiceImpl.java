@@ -7,22 +7,42 @@ import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
+import com.rainbow.common.util.ExcelHelper;
 import com.rainbow.common.util.GuidHelper;
+import com.rainbow.common.util.Multipart;
+import com.rainbow.common.util.StrUtil;
+import com.rainbow.common.util.UserUtils;
+import com.rainbow.config.dao.SystemConfigMapper;
+import com.rainbow.system.domain.SystemUser;
 import com.rainbow.unit.dao.EquipDepartMapper;
+import com.rainbow.unit.dao.UmineMapper;
 import com.rainbow.unit.dao.UminePlaceImproveMapper;
 import com.rainbow.unit.dao.UmineplaceMapper;
 import com.rainbow.unit.domain.EquipDepart;
 import com.rainbow.unit.domain.Fac;
 import com.rainbow.unit.domain.ServiceDepart;
+import com.rainbow.unit.domain.UminePlaceImprove;
 import com.rainbow.unit.domain.Umineplace;
+import com.rainbow.unit.domain.UmineplaceExtend;
 import com.rainbow.unit.service.EquipDepartService;
 import com.rainbow.unit.service.UmineplaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import net.sf.ehcache.CacheManager;
+
+import java.io.FileInputStream;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @Author:deepblue
@@ -32,7 +52,13 @@ import java.util.Map;
 @Service("umineplaceservice")
 public class UmineplaceServiceImpl extends BaseService<Umineplace> implements UmineplaceService {
 
+    private Logger log = LoggerFactory.getLogger(this.getClass());
 
+    @Autowired
+    SystemConfigMapper systemConfigMapper;
+
+    @Autowired
+    CacheManager cacheManager;
     @Autowired
     UmineplaceMapper umineplaceMapper;
 
@@ -42,13 +68,16 @@ public class UmineplaceServiceImpl extends BaseService<Umineplace> implements Um
     @Autowired
     FileInfoService fileInfoService;
 
+    @Autowired
+    UmineMapper umineMapper;
+
     @Override
     public int addUmineplace(Umineplace umineplace) {
         umineplace.setId(GuidHelper.getGuid());
         umineplace.setCreateDate(new Date());
         umineplace.setModifyDate(new Date());
 
-        fileInfoService.updateFileInfoByIds(umineplace.getAttachmentList(),umineplace.getId());
+        fileInfoService.updateFileInfoByIds(umineplace.getAttachmentList(), umineplace.getId());
         return umineplaceMapper.insert(umineplace);
     }
 
@@ -56,7 +85,7 @@ public class UmineplaceServiceImpl extends BaseService<Umineplace> implements Um
     public int modifyUmineplace(Umineplace umineplace) {
         umineplace.setModifyDate(new Date());
 
-        fileInfoService.updateFileInfoByIds(umineplace.getAttachmentList(),umineplace.getId());
+        fileInfoService.updateFileInfoByIds(umineplace.getAttachmentList(), umineplace.getId());
         return umineplaceMapper.updateByPrimaryKey(umineplace);
     }
 
@@ -95,5 +124,199 @@ public class UmineplaceServiceImpl extends BaseService<Umineplace> implements Um
             return ResponseBo.ok(result);
         }
         return ResponseBo.error("查询失败");
+    }
+
+    public ResponseBo importData(HttpServletRequest request) {
+        Multipart part = new Multipart();
+        // 获取前端传过来的file
+        MultipartFile file = part.getUploadFile(request);
+        FileInputStream inputStream = null;
+        FileInputStream inputStream1 = null;
+
+        String msg = "";
+        try {
+            if (file != null) {
+                // 转化文件名，避免乱码
+                String fileName = new String(file.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8");
+                inputStream = (FileInputStream) file.getInputStream();
+                inputStream1 = (FileInputStream) file.getInputStream();
+
+                // 将导入的excel转化为实体
+                List<UmineplaceExtend> list = ExcelHelper.convertToList(UmineplaceExtend.class, fileName, inputStream,
+                        2, 19, 0);
+                List<UminePlaceImprove> uminePlaceImproveList = ExcelHelper.convertToList(UminePlaceImprove.class,
+                        fileName, inputStream1, 2, 3, 1);
+
+                if (list.size() == 0) {
+                    return ResponseBo.error("文件内容为空");
+                }
+
+                Map<String, String> map = new HashMap<>();
+                Map<String, String> mapConfig = new HashMap<>();
+                // 校验
+                for (int i = 0; i < list.size(); i++) {
+                    UmineplaceExtend item = list.get(i);
+
+                    if (StrUtil.isNullOrEmpty(item.getUmineName())) {
+                        msg += "第" + (i + 2) + "行营运单位为空,";
+                    } else {
+                        String umineId = umineMapper.getUmineIdByName(item.getUmineName());
+                        if (StrUtil.isNullOrEmpty(umineId)) {
+                            msg += "第" + (i + 2) + "行营运单位名称在数据库不存在，";
+                        } else {
+                            item.setUmineId(umineId);
+                        }
+                    }
+
+                    if (StrUtil.isNullOrEmpty(item.getName())) {
+                        msg += "第" + (i + 2) + "行铀尾矿(渣)库名称为空,";
+                    }
+                    if (null == item.getBuildYear()) {
+                        msg += "第" + (i + 2) + "行建造年代为空,";
+                    }
+
+                    if (StrUtil.isNullOrEmpty(item.getLevelValue())) {
+                        msg += "第" + (i + 2) + "行铀尾矿(渣)库等别为空，";
+                    } else {
+                        mapConfig.put("tablename", "config_umine_place_level");
+                        mapConfig.put("value", item.getLevelValue());
+                        String typeId = systemConfigMapper.getConfigIdByName(mapConfig);
+
+                        if (StrUtil.isNullOrEmpty(typeId)) {
+                            msg += "第" + (i + 2) + "行铀尾矿(渣)库等别在数据库不存在，";
+                        } else {
+                            item.setLevelId(typeId);
+                        }
+                    }
+
+                    if (StrUtil.isNullOrEmpty(item.getStatusValue())) {
+                        msg += "第" + (i + 2) + "行设施状态为空，";
+                    } else {
+                        mapConfig.put("tablename", "config_umine_place_status");
+                        mapConfig.put("value", item.getStatusValue());
+                        String typeId = systemConfigMapper.getConfigIdByName(mapConfig);
+
+                        if (StrUtil.isNullOrEmpty(typeId)) {
+                            msg += "第" + (i + 2) + "行设施状态在数据库不存在，";
+                        } else {
+                            item.setStatusId(typeId);
+                        }
+                    }
+
+                    if (StrUtil.isNullOrEmpty(item.getReviewStatus())) {
+                        msg += "第" + (i + 2) + "行审评状态为空，";
+                    } else {
+                        mapConfig.put("tablename", "config_review_status");
+                        mapConfig.put("value", item.getReviewStatus());
+                        String typeId = systemConfigMapper.getConfigIdByName(mapConfig);
+
+                        if (StrUtil.isNullOrEmpty(typeId)) {
+                            msg += "第" + (i + 2) + "行审评状态在数据库不存在，";
+                        } else {
+                            item.setReviewStatusId(typeId);
+                        }
+                    }
+
+                    if (StrUtil.isNullOrEmpty(item.getPermitSituationValue())) {
+                        msg += "第" + (i + 2) + "行许可情况为空，";
+                    } else {
+                        mapConfig.put("tablename", "config_umine_place_permit_situation");
+                        mapConfig.put("value", item.getPermitSituationValue());
+                        String typeId = systemConfigMapper.getConfigIdByName(mapConfig);
+
+                        if (StrUtil.isNullOrEmpty(typeId)) {
+                            msg += "第" + (i + 2) + "行许可情况在数据库不存在，";
+                        } else {
+                            item.setPermitSituationId(typeId);
+                        }
+                    }
+
+                    // if (StrUtil.isNullOrEmpty(item.getIsEarthquake())) {
+                    // msg += "第" + (i + 2) + "行文件类型名称为空，";
+                    // }
+                    // if (StrUtil.isNullOrEmpty(item.getIsFlood())) {
+                    // msg += "第" + (i + 2) + "行文件类型名称为空，";
+                    // }
+
+                    // Excel数据重复判断
+                    if (map.containsKey(item.getUmineId() + item.getName())) {
+                        msg += "第" + (i + 2) + "行【单位名称】+【铀尾矿（渣）库名称】数据重复，";
+                    } else {
+                        map.put(item.getUmineId() + item.getName(), item.toString());
+                    }
+
+                    // 数据库重复判断
+                    Map<String, Object> params = new HashMap<String, Object>();
+                    params.put("umineId", item.getUmineId());
+                    params.put("name", item.getName());
+
+                    if (umineplaceMapper.verifyDuplication(params) > 0) {
+                        msg += "第" + (i + 2) + "【单位名称】+【铀尾矿（渣）库名称】与数据库中的数据存在重复，";
+                    }
+
+                    // 获取关联的文件列表
+                    List<UminePlaceImprove> filterList = uminePlaceImproveList.stream()
+                            .filter(a -> a.getUminePlaceId().equals(item.getId())).collect(Collectors.toList());
+
+                    if (filterList.size() == 0) {
+                        msg += "第" + (i + 2) + "核设施安技改ID列存在未关联数据情况，";
+                    } else {
+                        String guid = GuidHelper.getGuid();
+                        item.setId(guid);
+                        filterList.forEach((cf) -> cf.setUminePlaceId(guid));
+                    }
+
+                }
+
+                // 核设施安技改
+                for (int j = 0; j < uminePlaceImproveList.size(); j++) {
+
+                    UminePlaceImprove item = uminePlaceImproveList.get(j);
+
+                    if (StrUtil.isNullOrEmpty(item.getUminePlaceId())) {
+                        msg += "第" + (j + 2) + "行核设施安技改-核设施名称为空，";
+                    }
+                    if (StrUtil.isNullOrEmpty(item.getImproveContent())) {
+                        msg += "第" + (j + 2) + "行核设施安技改-安技改内容为空，";
+                    }
+                    if (null == item.getImproveDate()) {
+                        msg += "第" + (j + 2) + "行核设施安技改-安技改时间为空，";
+                    }
+                }
+                if (!msg.isEmpty()) {
+                    return ResponseBo.error(msg);
+                } else {
+                    // 插入数据库
+                    SystemUser user = UserUtils.getCurrentUser(cacheManager);
+                    if (user == null) {
+                        user = new SystemUser();
+                    }
+
+                    for (UmineplaceExtend data : list) {
+
+                        data.setIsImport(1);
+                        data.setCreateDate(new Date());
+                        data.setModifyDate(new Date());
+                        data.setCreatorId(user.getId());
+                        data.setModifyId(user.getId());
+
+                        umineplaceMapper.insert(data);
+
+                    }
+
+                    for (UminePlaceImprove uminePlaceImprove : uminePlaceImproveList) {
+                        // UminePlaceImprove.setIsImport(1);
+                        uminePlaceImprove.setId(GuidHelper.getGuid());
+                        uminePlaceImproveMapper.insert(uminePlaceImprove);
+                    }
+                }
+
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseBo.error(msg);
+        }
+
+        return ResponseBo.ok();
     }
 }
