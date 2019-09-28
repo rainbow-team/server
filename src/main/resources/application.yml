@@ -75,6 +75,8 @@ rainbow:
   # 上传路径
   uploadFolder: C://Attachment/
 
+  openoffice : C:\\Program Files (x86)\\OpenOffice 4
+
   shiro:
     #shiro redis缓存时长,默认1800秒
     expireIn: 1800

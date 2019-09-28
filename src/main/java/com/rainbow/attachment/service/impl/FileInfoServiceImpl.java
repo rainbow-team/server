@@ -8,6 +8,7 @@ import com.rainbow.common.config.RainbowProperties;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
 import com.rainbow.common.util.StrUtil;
+import com.rainbow.common.util.office2PDF;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,7 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
         String storeFile = null;
         String fileName = null;
         String fileSavePath = "";
+        String storageFolder="";
 
         try {
             fileName = StrUtil.isNullOrEmpty(fileName) ? multifile.getOriginalFilename() : fileName;
@@ -64,7 +66,7 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
             storeFile = guid + "." + ext;
 
             // 保存文件
-            String storageFolder = GetFileStorageFolder(guid);
+            storageFolder = GetFileStorageFolder(guid);
             fileSavePath = storageFolder + storeFile;
             File file = new File(storageFolder);
 
@@ -91,8 +93,20 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
 
         fileInfoMapper.insert(fileInfo);
 
+        if(isDocFile(ext)){
+            //转化office pdf
+            office2PDF.office2PDF(fileSavePath,storageFolder+guid+".pdf",rainbowProperties.getOpenoffice());
+        }
 
         return ResponseBo.ok(guid);
+    }
+
+    private boolean isDocFile(String extName) {
+        boolean result = false;
+        String fileExt = ".doc;.txt;.docx;";
+        result = fileExt.contains(extName.toLowerCase());
+
+        return result;
     }
 
     @Override
@@ -116,12 +130,18 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
     }
 
     @Override
-    public void downloadAccessoryByid(String id, HttpServletResponse response) {
+    public void downloadAccessoryByid(String id, int type,HttpServletResponse response) {
 
         FileInfo fileInfo = fileInfoMapper.selectByPrimaryKey(id);
 
         if (fileInfo != null) {
             String path = fileInfo.getFileinfoServerPath();
+
+            //pdf
+            if(type==2){
+                path = path.substring(0,path.lastIndexOf("."))+".pdf";
+            }
+
             File file = new File(path);
 
             if (!file.exists()) {
@@ -139,6 +159,7 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
         }
 
     }
+
 
     @Override
     public void updateFileInfoByIds(List<FileInfo> list, String id) {

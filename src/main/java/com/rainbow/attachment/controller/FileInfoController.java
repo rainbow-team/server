@@ -44,7 +44,7 @@ public class FileInfoController {
 
     @GetMapping("/download")
     @SystemLog(description="下载附件")
-    public void downloadAccessoryByid(String id,HttpServletResponse response){
-        fileInfoService.downloadAccessoryByid(id,response);
+    public void downloadAccessoryByid(String id,int type,HttpServletResponse response){
+        fileInfoService.downloadAccessoryByid(id,type,response);
     }
 }

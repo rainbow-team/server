@@ -29,6 +29,8 @@ public class RainbowProperties {
 
     private String uploadFolder;
 
+    private String openoffice;
+
     public String getUploadFolder() {
         return uploadFolder;
     }
@@ -51,5 +53,13 @@ public class RainbowProperties {
 
     public void setOpenAOPLog(boolean openAOPLog) {
         this.openAOPLog = openAOPLog;
+    }
+
+    public String getOpenoffice() {
+        return openoffice;
+    }
+
+    public void setOpenoffice(String openoffice) {
+        this.openoffice = openoffice;
     }
 }
