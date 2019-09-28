@@ -2,6 +2,7 @@ package com.rainbow.monitor.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
@@ -74,11 +75,16 @@ public class WitnessMonitorServiceImpl extends BaseService<WitnessMonitor> imple
     @Autowired
     WitnessMonitorMapper witnessMonitorMapper;
 
+    @Autowired
+    FileInfoService fileInfoService;
+
     @Override
     public int addWitnessMonitor(WitnessMonitor witnessMonitor) {
         witnessMonitor.setId(GuidHelper.getGuid());
         witnessMonitor.setCreateDate(new Date());
         witnessMonitor.setModifyDate(new Date());
+
+        fileInfoService.updateFileInfoByIds(witnessMonitor.getAttachmentList(),witnessMonitor.getId());
         return witnessMonitorMapper.insert(witnessMonitor);
     }
 

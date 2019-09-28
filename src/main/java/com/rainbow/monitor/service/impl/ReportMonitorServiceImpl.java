@@ -2,6 +2,7 @@ package com.rainbow.monitor.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
@@ -57,11 +58,16 @@ public class ReportMonitorServiceImpl extends BaseService<ReportMonitor> impleme
     @Autowired
     private OrgMapper orgMapper;
 
+    @Autowired
+    FileInfoService fileInfoService;
+
     @Override
     public int addReportMonitor(ReportMonitor reportMonitor) {
         reportMonitor.setId(GuidHelper.getGuid());
         reportMonitor.setCreateDate(new Date());
         reportMonitor.setModifyDate(new Date());
+
+        fileInfoService.updateFileInfoByIds(reportMonitor.getAttachmentList(),reportMonitor.getId());
         return reportMonitorMapper.insert(reportMonitor);
     }
 

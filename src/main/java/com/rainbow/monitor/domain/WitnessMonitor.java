@@ -4,9 +4,10 @@ import java.util.Date;
 import javax.persistence.*;
 
 import com.rainbow.common.annotation.BeanFieldAnnotation;
+import com.rainbow.common.domain.BaseExtendEntity;
 
 @Table(name = "monitor_witness")
-public class WitnessMonitor {
+public class WitnessMonitor extends BaseExtendEntity {
     /**
      * 主键
      */

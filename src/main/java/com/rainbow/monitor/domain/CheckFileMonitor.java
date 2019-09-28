@@ -4,9 +4,10 @@ import java.util.Date;
 import javax.persistence.*;
 
 import com.rainbow.common.annotation.BeanFieldAnnotation;
+import com.rainbow.common.domain.BaseExtendEntity;
 
 @Table(name = "monitor_check_file")
-public class CheckFileMonitor {
+public class CheckFileMonitor extends BaseExtendEntity {
     /**
      * 主键，用来在file_info中查找具体文件
      */

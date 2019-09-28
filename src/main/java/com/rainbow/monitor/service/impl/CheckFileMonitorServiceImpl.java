@@ -2,6 +2,7 @@ package com.rainbow.monitor.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.check.dao.ActivityFileCheckMapper;
 import com.rainbow.check.domain.ActivityFileCheck;
 import com.rainbow.check.service.ActivityFileCheckService;
@@ -31,9 +32,14 @@ public class CheckFileMonitorServiceImpl extends BaseService<CheckFileMonitor> i
     @Autowired
     CheckFileMonitorMapper checkFileMonitorMapper;
 
+    @Autowired
+    FileInfoService fileInfoService;
+
     @Override
     public int addCheckFileMonitor(CheckFileMonitor checkFileMonitor) {
         checkFileMonitor.setId(GuidHelper.getGuid());
+
+        fileInfoService.updateFileInfoByIds(checkFileMonitor.getAttachmentList(),checkFileMonitor.getId());
         return checkFileMonitorMapper.insert(checkFileMonitor);
     }
 

@@ -4,9 +4,10 @@ import java.util.Date;
 import javax.persistence.*;
 
 import com.rainbow.common.annotation.BeanFieldAnnotation;
+import com.rainbow.common.domain.BaseExtendEntity;
 
 @Table(name = "permit_equip")
-public class EquipPermit {
+public class EquipPermit extends BaseExtendEntity {
     /**
      * 主键
      */

@@ -2,6 +2,7 @@ package com.rainbow.permit.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
@@ -68,11 +69,16 @@ public class EquipPermitServiceImpl extends BaseService<EquipPermit> implements 
     @Autowired
     SystemConfigMapper systemConfigMapper;
 
+    @Autowired
+    FileInfoService fileInfoService;
+
     @Override
     public int addEquipPermit(EquipPermit equipPermit) {
         equipPermit.setId(GuidHelper.getGuid());
         equipPermit.setCreateDate(new Date());
         equipPermit.setModifyDate(new Date());
+
+        fileInfoService.updateFileInfoByIds(equipPermit.getAttachmentList(),equipPermit.getId());
         return equipPermitMapper.insert(equipPermit);
     }
 

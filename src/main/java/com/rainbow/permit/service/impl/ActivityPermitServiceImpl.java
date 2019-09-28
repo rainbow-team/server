@@ -2,6 +2,7 @@ package com.rainbow.permit.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
@@ -66,11 +67,16 @@ public class ActivityPermitServiceImpl extends BaseService<ActivityPermit> imple
     @Autowired
     FacMapper facMapper;
 
+    @Autowired
+    FileInfoService fileInfoService;
+
     @Override
     public int addActivityPermit(ActivityPermit activityPermit) {
         activityPermit.setId(GuidHelper.getGuid());
         activityPermit.setCreateDate(new Date());
         activityPermit.setModifyDate(new Date());
+
+        fileInfoService.updateFileInfoByIds(activityPermit.getAttachmentList(),activityPermit.getId());
         return activityPermitMapper.insert(activityPermit);
     }
 
