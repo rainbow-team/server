@@ -35,6 +35,9 @@ public class UminePlaceImprove {
     @Column(name = "improve_content")
     public String improveContent;
 
+    @Transient
+    public String uminePlaceName;
+
     /**
      * 获取主键
      *
@@ -105,5 +108,13 @@ public class UminePlaceImprove {
      */
     public void setImproveContent(String improveContent) {
         this.improveContent = improveContent == null ? null : improveContent.trim();
+    }
+
+    public String getUminePlaceName() {
+        return uminePlaceName;
+    }
+
+    public void setUminePlaceName(String uminePlaceName) {
+        this.uminePlaceName = uminePlaceName;
     }
 }

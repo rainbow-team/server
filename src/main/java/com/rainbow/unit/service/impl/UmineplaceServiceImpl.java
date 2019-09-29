@@ -7,42 +7,35 @@ import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
-import com.rainbow.common.util.ExcelHelper;
-import com.rainbow.common.util.GuidHelper;
-import com.rainbow.common.util.Multipart;
-import com.rainbow.common.util.StrUtil;
-import com.rainbow.common.util.UserUtils;
+import com.rainbow.common.util.*;
 import com.rainbow.config.dao.SystemConfigMapper;
 import com.rainbow.system.domain.SystemUser;
 import com.rainbow.unit.dao.EquipDepartMapper;
 import com.rainbow.unit.dao.UmineMapper;
 import com.rainbow.unit.dao.UminePlaceImproveMapper;
 import com.rainbow.unit.dao.UmineplaceMapper;
-import com.rainbow.unit.domain.EquipDepart;
-import com.rainbow.unit.domain.Fac;
-import com.rainbow.unit.domain.ServiceDepart;
-import com.rainbow.unit.domain.UminePlaceImprove;
-import com.rainbow.unit.domain.Umineplace;
-import com.rainbow.unit.domain.UmineplaceExtend;
+import com.rainbow.unit.domain.*;
 import com.rainbow.unit.service.EquipDepartService;
 import com.rainbow.unit.service.UmineplaceService;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import net.sf.ehcache.CacheManager;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @Author:deepblue
@@ -93,11 +86,11 @@ public class UmineplaceServiceImpl extends BaseService<Umineplace> implements Um
     public ResponseBo getUmineplaceList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
-        List<Umineplace> list = umineplaceMapper.getUmineplaceList(map);
+        List<UmineplaceExtend> list = umineplaceMapper.getUmineplaceList(map);
 
-        PageInfo<Umineplace> pageInfo = new PageInfo<Umineplace>(list);
+        PageInfo<UmineplaceExtend> pageInfo = new PageInfo<UmineplaceExtend>(list);
 
-        PagingEntity<Umineplace> result = new PagingEntity<>(pageInfo);
+        PagingEntity<UmineplaceExtend> result = new PagingEntity<>(pageInfo);
 
         return ResponseBo.ok(result);
     }
@@ -126,6 +119,7 @@ public class UmineplaceServiceImpl extends BaseService<Umineplace> implements Um
         return ResponseBo.error("查询失败");
     }
 
+    @Override
     public ResponseBo importData(HttpServletRequest request) {
         Multipart part = new Multipart();
         // 获取前端传过来的file
@@ -318,5 +312,94 @@ public class UmineplaceServiceImpl extends BaseService<Umineplace> implements Um
         }
 
         return ResponseBo.ok();
+    }
+
+    @Override
+    public void exportUminePlace(Page page, HttpServletResponse response){
+
+        Map<String, Object> map = page.getQueryParameter();
+        List<UmineplaceExtend> list = umineplaceMapper.getUmineplaceList(map);
+
+        List<String[]> cloumnValues = new ArrayList<>();
+        List<UminePlaceImprove> UminePlaceImproveList = new ArrayList<>();
+
+        if (list != null && list.size() > 0) {
+
+            for (UmineplaceExtend umineplaceExtend : list) {
+
+                int buildYear = DateUtils.getDateYear(umineplaceExtend.getBuildYear());
+                String[] strs = new String[] {
+                        umineplaceExtend.getName(),
+                        umineplaceExtend.getUmineName(),
+                        Integer.toString(buildYear),
+                        umineplaceExtend.getLevelValue(),
+                        umineplaceExtend.getStatusValue(),
+                        umineplaceExtend.getReviewStatus(),
+                        umineplaceExtend.getPermitSituationValue(),
+                        umineplaceExtend.getSurvey(),
+                        umineplaceExtend.getFeature(),
+                        umineplaceExtend.getCapacity(),
+                        umineplaceExtend.getDesignFloodReproduce(),
+                        umineplaceExtend.getCheckFloodReproduce(),
+                        umineplaceExtend.getEarlyDamType(),
+                        umineplaceExtend.getEarlyDamHeight(),
+                        umineplaceExtend.getHaveMonitor()==0?"否":"是",
+                        umineplaceExtend.getNote()
+                        };
+                cloumnValues.add(strs);
+
+                // 安技改信息
+                Map<String, Object> map1 = new HashMap<>();
+                map1.put("uminePlaceId", umineplaceExtend.getId());
+                List<UminePlaceImprove> list1 = uminePlaceImproveMapper.getUminePlaceImproveList(map1);
+                if (list1 != null && list1.size() > 0) {
+                    UminePlaceImproveList.addAll(list1);
+                }
+            }
+
+            String[] cloumnNames = new String[] {
+                "铀尾矿(渣)库名称","营运单位","建造年代",
+                    "铀尾矿(渣)库等别","铀尾矿(库)设施状态",
+                    "审评状态","铀尾矿(渣)库许可情况","设施简介",
+                    "场址特征","设计有效库容","设计洪水重现期",
+                    "校核洪水重现期","初期坝型","初期坝高",
+                    "是否设置坝体监测设施","备注"
+            };
+
+            HSSFWorkbook wb = new HSSFWorkbook();
+            wb = ExportExcel.getHssfWorkBook(wb, "铀尾矿（渣）库信息", cloumnNames, cloumnValues);
+
+            // 安技改信息
+            String[] cloumnNames1 = new String[] {  "铀尾矿(渣)库名称", "安技改时间", "安技改内容" };
+
+            cloumnValues = new ArrayList<>();
+            if (UminePlaceImproveList.size() > 0) {
+                for (UminePlaceImprove uminePlaceImprove : UminePlaceImproveList) {
+
+                    String[] strs = new String[] {
+                            uminePlaceImprove.getUminePlaceName(),
+                            DateUtils.DateToString(uminePlaceImprove.getImproveDate()),
+                            uminePlaceImprove.getImproveContent()
+                    };
+                    cloumnValues.add(strs);
+                }
+            }
+
+            wb = ExportExcel.getHssfWorkBook(wb, "安技改信息", cloumnNames1, cloumnValues);
+
+            try {
+                response.setHeader("content-disposition",
+                        "attachment;filename=" + URLEncoder.encode("铀尾矿（渣）库信息", "utf-8") + ".xls");
+                OutputStream out = response.getOutputStream();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                wb.write(baos);
+                byte[] xlsBytes = baos.toByteArray();
+                out.write(xlsBytes);
+                out.close();
+            } catch (Exception e) {
+
+            }
+
+        }
     }
 }

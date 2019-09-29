@@ -6,6 +6,7 @@ import com.rainbow.common.service.IService;
 import com.rainbow.unit.domain.EquipDepart;
 import com.rainbow.unit.domain.UmineMountain;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -26,4 +27,6 @@ public interface UmineMountainService extends IService<UmineMountain> {
     ResponseBo getUmineMountainById(String id);
 
     ResponseBo getUminemountainListByUmineId(String umineId);
+
+    void exportUmineMountain(Page page, HttpServletResponse response);
 }

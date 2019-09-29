@@ -30,6 +30,8 @@ public class UmineMountainImprove {
     @Column(name = "improve_content")
     private String improveContent;
 
+    @Transient
+    private String umineMountainName;
     /**
      * 获取主键
      *
@@ -100,5 +102,13 @@ public class UmineMountainImprove {
      */
     public void setImproveContent(String improveContent) {
         this.improveContent = improveContent == null ? null : improveContent.trim();
+    }
+
+    public String getUmineMountainName() {
+        return umineMountainName;
+    }
+
+    public void setUmineMountainName(String umineMountainName) {
+        this.umineMountainName = umineMountainName;
     }
 }

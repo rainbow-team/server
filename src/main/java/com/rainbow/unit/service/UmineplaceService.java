@@ -9,6 +9,7 @@ import com.rainbow.unit.domain.Umineplace;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @Author:deepblue
@@ -30,4 +31,6 @@ public interface UmineplaceService extends IService<Umineplace> {
     ResponseBo getUmineplaceListByUmineId(String umineId);
 
     ResponseBo importData(HttpServletRequest request);
+
+    void exportUminePlace(Page page, HttpServletResponse response);
 }
