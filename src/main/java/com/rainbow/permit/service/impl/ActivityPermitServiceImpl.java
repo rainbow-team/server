@@ -8,12 +8,9 @@ import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
-import com.rainbow.common.util.ExcelHelper;
-import com.rainbow.common.util.GuidHelper;
-import com.rainbow.common.util.Multipart;
-import com.rainbow.common.util.StrUtil;
-import com.rainbow.common.util.UserUtils;
+import com.rainbow.common.util.*;
 import com.rainbow.config.dao.SystemConfigMapper;
+import com.rainbow.monitor.domain.extend.ReportMonitorExtend;
 import com.rainbow.permit.dao.ActivityPermitMapper;
 import com.rainbow.permit.dao.EquipPermitMapper;
 import com.rainbow.permit.domain.ActivityPermit;
@@ -27,20 +24,23 @@ import com.rainbow.unit.dao.FacMapper;
 import com.rainbow.unit.dao.ServiceDepartMapper;
 import com.rainbow.unit.service.EquipDepartService;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import net.sf.ehcache.CacheManager;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.util.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @Author:deepblue
@@ -90,11 +90,11 @@ public class ActivityPermitServiceImpl extends BaseService<ActivityPermit> imple
     public ResponseBo getActivityPermitList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
-        List<ActivityPermit> list = activityPermitMapper.getActivityPermitList(map);
+        List<ActivityPermitExtend> list = activityPermitMapper.getActivityPermitList(map);
 
-        PageInfo<ActivityPermit> pageInfo = new PageInfo<ActivityPermit>(list);
+        PageInfo<ActivityPermitExtend> pageInfo = new PageInfo<ActivityPermitExtend>(list);
 
-        PagingEntity<ActivityPermit> result = new PagingEntity<>(pageInfo);
+        PagingEntity<ActivityPermitExtend> result = new PagingEntity<>(pageInfo);
 
         return ResponseBo.ok(result);
     }
@@ -106,6 +106,55 @@ public class ActivityPermitServiceImpl extends BaseService<ActivityPermit> imple
             return ResponseBo.ok(result);
         }
         return ResponseBo.error("查询失败");
+    }
+
+    @Override
+    public void exportActivityPermit(Page page, HttpServletResponse response) {
+        Map<String, Object> map = page.getQueryParameter();
+        List<ActivityPermitExtend> list = activityPermitMapper.getActivityPermitList(map);
+
+        List<String[]> cloumnValues = new ArrayList<>();
+
+        if (list != null && list.size() > 0) {
+
+            for (ActivityPermitExtend activityPermitExtend : list) {
+                StringBuffer buf=new StringBuffer();
+                buf.append(activityPermitExtend.getServiceDepartName() == null ? "" : activityPermitExtend.getServiceDepartName())
+                        .append(activityPermitExtend.getEquipDepartName() == null ? "" : activityPermitExtend.getEquipDepartName());
+
+                String[] strs = new String[] {
+                        buf.toString(),
+                        activityPermitExtend.getFacName(),
+                        activityPermitExtend.getName(), activityPermitExtend.getContent(),
+                        activityPermitExtend.getTypeValue(),
+                        DateUtils.DateToString(activityPermitExtend.getPermitDate()),
+                        DateUtils.DateToString(activityPermitExtend.getValidateTime()),
+                        activityPermitExtend.getLicence(),
+                        activityPermitExtend.getpermitCondition(),
+                        activityPermitExtend.getPromise()
+                };
+                cloumnValues.add(strs);
+            }
+        }
+
+        String[] cloumnNames = new String[] { "单位名称", "设施名称", "许可名称", "许可内容",
+                "活动类型","许可时间", "有效期限", "许可文号", "许可条件", "审评承诺"};
+
+        HSSFWorkbook wb = new HSSFWorkbook();
+        wb = ExportExcel.getHssfWorkBook(wb, "核活动许可信息列表", cloumnNames, cloumnValues);
+
+        try {
+            response.setHeader("content-disposition",
+                    "attachment;filename=" + URLEncoder.encode("核活动许可信息列表", "utf-8") + ".xls");
+            OutputStream out = response.getOutputStream();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            wb.write(baos);
+            byte[] xlsBytes = baos.toByteArray();
+            out.write(xlsBytes);
+            out.close();
+        } catch (Exception e) {
+
+        }
     }
 
     @Override

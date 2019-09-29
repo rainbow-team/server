@@ -7,16 +7,26 @@ import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
+import com.rainbow.common.util.DateUtils;
+import com.rainbow.common.util.ExportExcel;
 import com.rainbow.common.util.GuidHelper;
 import com.rainbow.permit.dao.UmineMountainPermitMapper;
 import com.rainbow.permit.dao.UminePlacePermitMapper;
+import com.rainbow.permit.domain.EquipPermitExtend;
 import com.rainbow.permit.domain.UmineMountainPermit;
+import com.rainbow.permit.domain.UmineMountainPermitExtend;
 import com.rainbow.permit.domain.UminePlacePermit;
 import com.rainbow.permit.service.UmineMountainPermitService;
 import com.rainbow.permit.service.UminePlacePermitService;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -61,11 +71,11 @@ public class UmineMountainPermitServiceImpl extends BaseService<UmineMountainPer
     public ResponseBo getUmineMountainPermitList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
-        List<UmineMountainPermit> list = umineMountainPermitMapper.getUmineMountainPermitList(map);
+        List<UmineMountainPermitExtend> list = umineMountainPermitMapper.getUmineMountainPermitList(map);
 
-        PageInfo<UmineMountainPermit> pageInfo = new PageInfo<UmineMountainPermit>(list);
+        PageInfo<UmineMountainPermitExtend> pageInfo = new PageInfo<UmineMountainPermitExtend>(list);
 
-        PagingEntity<UmineMountainPermit> result = new PagingEntity<>(pageInfo);
+        PagingEntity<UmineMountainPermitExtend> result = new PagingEntity<>(pageInfo);
 
         return ResponseBo.ok(result);
     }
@@ -77,5 +87,50 @@ public class UmineMountainPermitServiceImpl extends BaseService<UmineMountainPer
             return ResponseBo.ok(result);
         }
         return ResponseBo.error("查询失败");
+    }
+
+    @Override
+    public void exportUminemountainPermit(Page page, HttpServletResponse response) {
+        Map<String, Object> map = page.getQueryParameter();
+        List<UmineMountainPermitExtend> list = umineMountainPermitMapper.getUmineMountainPermitList(map);
+
+        List<String[]> cloumnValues = new ArrayList<>();
+
+        if (list != null && list.size() > 0) {
+
+            for (UmineMountainPermitExtend umineMountainPermitExtend : list) {
+                String[] strs = new String[] {
+                        umineMountainPermitExtend.getUmineName(),
+                        umineMountainPermitExtend.getUmineMountainName(),
+                        DateUtils.DateToString(umineMountainPermitExtend.getRecordDate()),
+                        umineMountainPermitExtend.getRecordNumber(),
+                        umineMountainPermitExtend.getRecordCondition(),
+                        umineMountainPermitExtend.getReviewPromise(),
+                        DateUtils.DateToString(umineMountainPermitExtend.getAcceptDate()),
+                        umineMountainPermitExtend.getAcceptNumber(),
+                        umineMountainPermitExtend.getAcceptConclusion()};
+                cloumnValues.add(strs);
+            }
+        }
+
+        String[] cloumnNames = new String[] { "营运单位", "铀矿山名称","备案时间","备案文号",
+                "主要备案条件", "审评承诺", "验收时间", "验收文号","主要验收结论"};
+
+
+        HSSFWorkbook wb = new HSSFWorkbook();
+        wb = ExportExcel.getHssfWorkBook(wb, "铀矿山井下消防许可信息列表", cloumnNames, cloumnValues);
+
+        try {
+            response.setHeader("content-disposition",
+                    "attachment;filename=" + URLEncoder.encode("铀矿山井下消防许可信息列表", "utf-8") + ".xls");
+            OutputStream out = response.getOutputStream();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            wb.write(baos);
+            byte[] xlsBytes = baos.toByteArray();
+            out.write(xlsBytes);
+            out.close();
+        } catch (Exception e) {
+
+        }
     }
 }

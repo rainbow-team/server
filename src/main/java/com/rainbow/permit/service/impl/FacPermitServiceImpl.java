@@ -7,12 +7,9 @@ import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
-import com.rainbow.common.util.ExcelHelper;
-import com.rainbow.common.util.GuidHelper;
-import com.rainbow.common.util.Multipart;
-import com.rainbow.common.util.StrUtil;
-import com.rainbow.common.util.UserUtils;
+import com.rainbow.common.util.*;
 import com.rainbow.config.dao.SystemConfigMapper;
+import com.rainbow.monitor.domain.extend.ReportMonitorExtend;
 import com.rainbow.permit.dao.FacPermitMapper;
 import com.rainbow.permit.domain.FacPermit;
 import com.rainbow.permit.domain.FacPermitExtend;
@@ -25,22 +22,24 @@ import com.rainbow.unit.dao.FacReportMapper;
 import com.rainbow.unit.dao.ServiceDepartMapper;
 import com.rainbow.unit.domain.Fac;
 import com.rainbow.unit.service.FacService;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import net.sf.ehcache.CacheManager;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @Author:deepblue
@@ -92,11 +91,11 @@ public class FacPermitServiceImpl extends BaseService<FacPermit> implements FacP
     public ResponseBo getFacPermitList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
-        List<FacPermit> list = facPermitMapper.getFacPermitList(map);
+        List<FacPermitExtend> list = facPermitMapper.getFacPermitList(map);
 
-        PageInfo<FacPermit> pageInfo = new PageInfo<FacPermit>(list);
+        PageInfo<FacPermitExtend> pageInfo = new PageInfo<FacPermitExtend>(list);
 
-        PagingEntity<FacPermit> result = new PagingEntity<>(pageInfo);
+        PagingEntity<FacPermitExtend> result = new PagingEntity<>(pageInfo);
 
         return ResponseBo.ok(result);
     }
@@ -108,6 +107,46 @@ public class FacPermitServiceImpl extends BaseService<FacPermit> implements FacP
             return ResponseBo.ok(result);
         }
         return ResponseBo.error("查询失败");
+    }
+
+    @Override
+    public void exportFacPermit(Page page, HttpServletResponse response) {
+        Map<String, Object> map = page.getQueryParameter();
+        List<FacPermitExtend> list = facPermitMapper.getFacPermitList(map);
+
+        List<String[]> cloumnValues = new ArrayList<>();
+
+        if (list != null && list.size() > 0) {
+
+            for (FacPermitExtend facPermitExtend : list) {
+                String[] strs = new String[] {
+                        facPermitExtend.getServiceDepartName(),
+                        facPermitExtend.getFacName(), facPermitExtend.getPermitStageValue(),
+                        facPermitExtend.getScope(),
+                        DateUtils.DateToString(facPermitExtend.getPermitDate()),
+                        facPermitExtend.getLicence(), facPermitExtend.getCondition(),facPermitExtend.getPromise()};
+                cloumnValues.add(strs);
+            }
+        }
+
+        String[] cloumnNames = new String[] { "营运单位", "设施名称", "许可阶段", "许可范围",
+                  "许可时间", "许可文号", "许可条件", "审评承诺"};
+
+        HSSFWorkbook wb = new HSSFWorkbook();
+        wb = ExportExcel.getHssfWorkBook(wb, "核设施许可信息列表", cloumnNames, cloumnValues);
+
+        try {
+            response.setHeader("content-disposition",
+                    "attachment;filename=" + URLEncoder.encode("核设施许可信息列表", "utf-8") + ".xls");
+            OutputStream out = response.getOutputStream();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            wb.write(baos);
+            byte[] xlsBytes = baos.toByteArray();
+            out.write(xlsBytes);
+            out.close();
+        } catch (Exception e) {
+
+        }
     }
 
     @Override

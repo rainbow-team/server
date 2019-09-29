@@ -8,22 +8,20 @@ import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
-import com.rainbow.common.util.ExcelHelper;
-import com.rainbow.common.util.GuidHelper;
-import com.rainbow.common.util.Multipart;
-import com.rainbow.common.util.StrUtil;
-import com.rainbow.common.util.UserUtils;
+import com.rainbow.common.util.*;
 import com.rainbow.config.dao.SystemConfigMapper;
 import com.rainbow.permit.dao.EquipPermitMapper;
 import com.rainbow.permit.domain.EquipPermit;
 import com.rainbow.permit.domain.EquipPermitExtend;
 import com.rainbow.permit.domain.FacPermit;
+import com.rainbow.permit.domain.FacPermitExtend;
 import com.rainbow.permit.service.EquipPermitService;
 import com.rainbow.system.domain.SystemUser;
 import com.rainbow.unit.dao.EquipDepartMapper;
 import com.rainbow.unit.dao.FacMapper;
 import com.rainbow.unit.dao.ServiceDepartMapper;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,13 +31,14 @@ import net.sf.ehcache.CacheManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @Author:deepblue
@@ -92,11 +91,11 @@ public class EquipPermitServiceImpl extends BaseService<EquipPermit> implements 
     public ResponseBo getEquipPermitList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
-        List<EquipPermit> list = equipPermitMapper.getEquipPermitList(map);
+        List<EquipPermitExtend> list = equipPermitMapper.getEquipPermitList(map);
 
-        PageInfo<EquipPermit> pageInfo = new PageInfo<EquipPermit>(list);
+        PageInfo<EquipPermitExtend> pageInfo = new PageInfo<EquipPermitExtend>(list);
 
-        PagingEntity<EquipPermit> result = new PagingEntity<>(pageInfo);
+        PagingEntity<EquipPermitExtend> result = new PagingEntity<>(pageInfo);
 
         return ResponseBo.ok(result);
     }
@@ -108,6 +107,48 @@ public class EquipPermitServiceImpl extends BaseService<EquipPermit> implements 
             return ResponseBo.ok(result);
         }
         return ResponseBo.error("查询失败");
+    }
+
+    @Override
+    public void exportEquipPermit(Page page, HttpServletResponse response) {
+        Map<String, Object> map = page.getQueryParameter();
+        List<EquipPermitExtend> list = equipPermitMapper.getEquipPermitList(map);
+
+        List<String[]> cloumnValues = new ArrayList<>();
+
+        if (list != null && list.size() > 0) {
+
+            for (EquipPermitExtend equipPermitExtend : list) {
+                String[] strs = new String[] {
+                        equipPermitExtend.getName(),
+                        equipPermitExtend.getEquipDepartName(), equipPermitExtend.getServiceDepartName(),
+                        equipPermitExtend.getFacName(),equipPermitExtend.getTypeValue(),equipPermitExtend.getLevelValue(),
+                        equipPermitExtend.getStageValue(),
+                        DateUtils.DateToString(equipPermitExtend.getPermitDate()),
+                        DateUtils.DateToString(equipPermitExtend.getValidateTime()),
+                        equipPermitExtend.getLicence(), equipPermitExtend.getCondition(),equipPermitExtend.getPromise()};
+                cloumnValues.add(strs);
+            }
+        }
+
+        String[] cloumnNames = new String[] { "设备名称", "核设备单位", "核设施营运单位", "核设施名称",
+                "设备类别", "核安全级别", "许可阶段","许可时间", "有效期限", "许可文号", "许可条件", "审评承诺"};
+
+        HSSFWorkbook wb = new HSSFWorkbook();
+        wb = ExportExcel.getHssfWorkBook(wb, "核安全设备许可信息列表", cloumnNames, cloumnValues);
+
+        try {
+            response.setHeader("content-disposition",
+                    "attachment;filename=" + URLEncoder.encode("核安全设备许可信息列表", "utf-8") + ".xls");
+            OutputStream out = response.getOutputStream();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            wb.write(baos);
+            byte[] xlsBytes = baos.toByteArray();
+            out.write(xlsBytes);
+            out.close();
+        } catch (Exception e) {
+
+        }
     }
 
     @Override

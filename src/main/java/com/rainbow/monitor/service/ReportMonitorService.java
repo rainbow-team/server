@@ -1,6 +1,7 @@
 package com.rainbow.monitor.service;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
@@ -22,6 +23,8 @@ public interface ReportMonitorService extends IService<ReportMonitor> {
     ResponseBo getReportMonitorList(Page page);
 
     ResponseBo getReportMonitorById(String id);
+
+    void exportReportMonitor(Page page, HttpServletResponse response);
 
 	ResponseBo importData(HttpServletRequest request);
 }

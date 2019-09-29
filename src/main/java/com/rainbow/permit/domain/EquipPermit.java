@@ -77,7 +77,7 @@ public class EquipPermit extends BaseExtendEntity {
      */
     @Column(name = "validate_time")
     @BeanFieldAnnotation(order = 9)
-    public String validateTime;
+    public Date validateTime;
 
     /**
      * 许可文号
@@ -332,7 +332,7 @@ public class EquipPermit extends BaseExtendEntity {
      *
      * @return validate_time - 有效期限
      */
-    public String getValidateTime() {
+    public Date getValidateTime() {
         return validateTime;
     }
 
@@ -341,8 +341,8 @@ public class EquipPermit extends BaseExtendEntity {
      *
      * @param validateTime 有效期限
      */
-    public void setValidateTime(String validateTime) {
-        this.validateTime = validateTime == null ? null : validateTime.trim();
+    public void setValidateTime(Date validateTime) {
+        this.validateTime = validateTime;
     }
 
     /**

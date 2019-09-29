@@ -1,6 +1,7 @@
 package com.rainbow.permit.service;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
@@ -22,6 +23,8 @@ public interface EquipPermitService extends IService<EquipPermit> {
     ResponseBo getEquipPermitList(Page page);
 
     ResponseBo getEquipPermitById(String id);
+
+    void exportEquipPermit(Page page, HttpServletResponse response);
 
     ResponseBo importData(HttpServletRequest request);
 }

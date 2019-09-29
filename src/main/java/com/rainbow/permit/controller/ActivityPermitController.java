@@ -1,8 +1,10 @@
 package com.rainbow.permit.controller;
 
 import com.rainbow.common.annotation.SystemLog;
+import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
+import com.rainbow.common.util.DateUtils;
 import com.rainbow.permit.domain.ActivityPermit;
 import com.rainbow.permit.domain.EquipPermit;
 import com.rainbow.permit.service.ActivityPermitService;
@@ -12,9 +14,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by 13260 on 2019/5/11. 核活动许可信息管理
@@ -100,6 +107,51 @@ public class ActivityPermitController {
             activityPermitService.batchDelete(ids, "id", ActivityPermit.class);
         }
         return ResponseBo.ok();
+    }
+
+
+    /**
+     * 导出日常监督信息
+     */
+    @RequestMapping(value = "/exportActivityPermit", method = RequestMethod.GET)
+    @SystemLog(description = "导出核活动许可信息")
+    public void exportActivityPermit(
+            @RequestParam(value = "departName", required = false) String departName,
+            @RequestParam(value = "facName", required = false) String facName,
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "content", required = false) String content,
+            @RequestParam(value = "typeIds", required = false) String typeIds,
+            @RequestParam(value = "start_date", required = false) String start_date,
+            @RequestParam(value = "end_date", required = false) String end_date, HttpServletResponse response) {
+
+        List<Condition> list = new ArrayList<>();
+        if (!departName.isEmpty()) {
+            list.add(new Condition("departName", departName));
+        }
+        if (!facName.isEmpty()) {
+            list.add(new Condition("facName", facName));
+        }
+        if (!name.isEmpty()) {
+            list.add(new Condition("name", name));
+        }
+        if (!content.isEmpty()) {
+            list.add(new Condition("content", content));
+        }
+        if (!typeIds.isEmpty()) {
+            list.add(new Condition("typeIds", Stream.of(typeIds).collect(toList())));
+        }
+        if (!start_date.isEmpty()) {
+            list.add(new Condition("start_date", DateUtils.GmtStringToDate(start_date)));
+        }
+        if (!end_date.isEmpty()) {
+            list.add(new Condition("end_date", DateUtils.GmtStringToDate(end_date)));
+        }
+
+        Page page = new Page();
+        page.setConditions(list);
+
+        activityPermitService.exportActivityPermit(page, response);
+
     }
 
     /**

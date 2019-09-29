@@ -8,37 +8,37 @@ import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
-import com.rainbow.common.util.ExcelHelper;
-import com.rainbow.common.util.GuidHelper;
-import com.rainbow.common.util.Multipart;
-import com.rainbow.common.util.StrUtil;
-import com.rainbow.common.util.UserUtils;
+import com.rainbow.common.util.*;
 import com.rainbow.config.dao.SystemConfigMapper;
 import com.rainbow.monitor.dao.ReportMonitorMapper;
 import com.rainbow.monitor.dao.WitnessMonitorMapper;
 import com.rainbow.monitor.domain.ReportMonitor;
 import com.rainbow.monitor.domain.WitnessMonitor;
+import com.rainbow.monitor.domain.extend.DailyMonitorExtend;
 import com.rainbow.monitor.domain.extend.ReportMonitorExtend;
 import com.rainbow.monitor.service.ReportMonitorService;
 import com.rainbow.monitor.service.WitnessMonitorService;
 import com.rainbow.supervision.dao.OrgMapper;
 import com.rainbow.system.domain.SystemUser;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import net.sf.ehcache.CacheManager;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.util.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @Author:deepblue
@@ -81,11 +81,11 @@ public class ReportMonitorServiceImpl extends BaseService<ReportMonitor> impleme
     public ResponseBo getReportMonitorList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
-        List<ReportMonitor> list = reportMonitorMapper.getReportMonitorList(map);
+        List<ReportMonitorExtend> list = reportMonitorMapper.getReportMonitorList(map);
 
-        PageInfo<ReportMonitor> pageInfo = new PageInfo<ReportMonitor>(list);
+        PageInfo<ReportMonitorExtend> pageInfo = new PageInfo<ReportMonitorExtend>(list);
 
-        PagingEntity<ReportMonitor> result = new PagingEntity<>(pageInfo);
+        PagingEntity<ReportMonitorExtend> result = new PagingEntity<>(pageInfo);
 
         return ResponseBo.ok(result);
     }
@@ -97,6 +97,42 @@ public class ReportMonitorServiceImpl extends BaseService<ReportMonitor> impleme
             return ResponseBo.ok(result);
         }
         return ResponseBo.error("查询失败");
+    }
+
+    @Override
+    public void exportReportMonitor(Page page, HttpServletResponse response) {
+        Map<String, Object> map = page.getQueryParameter();
+        List<ReportMonitorExtend> list = reportMonitorMapper.getReportMonitorList(map);
+
+        List<String[]> cloumnValues = new ArrayList<>();
+
+        if (list != null && list.size() > 0) {
+
+            for (ReportMonitorExtend reportMonitorExtend : list) {
+                String[] strs = new String[] { reportMonitorExtend.getOrgName(),
+                        reportMonitorExtend.getName(), reportMonitorExtend.getReportTypeValue(),
+                        DateUtils.DateToString(reportMonitorExtend.getreportDate()) };
+                cloumnValues.add(strs);
+            }
+        }
+
+        String[] cloumnNames = new String[] { "监管机构", "报告名称", "报告类型", "报告时间"};
+
+        HSSFWorkbook wb = new HSSFWorkbook();
+        wb = ExportExcel.getHssfWorkBook(wb, "监督报告信息列表", cloumnNames, cloumnValues);
+
+        try {
+            response.setHeader("content-disposition",
+                    "attachment;filename=" + URLEncoder.encode("监督报告信息列表", "utf-8") + ".xls");
+            OutputStream out = response.getOutputStream();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            wb.write(baos);
+            byte[] xlsBytes = baos.toByteArray();
+            out.write(xlsBytes);
+            out.close();
+        } catch (Exception e) {
+
+        }
     }
 
     @Override

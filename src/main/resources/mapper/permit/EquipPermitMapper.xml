@@ -14,7 +14,7 @@
     <result column="level_id" jdbcType="VARCHAR" property="levelId" />
     <result column="stage_id" jdbcType="VARCHAR" property="stageId" />
     <result column="permit_date" jdbcType="DATE" property="permitDate" />
-    <result column="validate_time" jdbcType="VARCHAR" property="validateTime" />
+    <result column="validate_time" jdbcType="DATE" property="validateTime" />
     <result column="permit_number" jdbcType="VARCHAR" property="permitNumber" />
     <result column="is_import" jdbcType="INTEGER" property="isImport" />
     <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
