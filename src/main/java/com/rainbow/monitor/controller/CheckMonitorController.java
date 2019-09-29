@@ -1,18 +1,27 @@
 package com.rainbow.monitor.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.rainbow.check.domain.ActivityCheck;
 import com.rainbow.check.service.ActivityCheckService;
 import com.rainbow.common.annotation.SystemLog;
+import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
+import com.rainbow.common.util.DateUtils;
 import com.rainbow.monitor.domain.CheckMonitor;
 import com.rainbow.monitor.service.CheckMonitorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by 13260 on 2019/5/11. 监督检查信息管理
@@ -99,6 +108,42 @@ public class CheckMonitorController {
             return result == 0 ? ResponseBo.error("存在关联，不允许删除!") : ResponseBo.ok("删除成功");
         }
         return ResponseBo.ok();
+    }
+
+    /**
+     * 导出日常监督信息
+     */
+    @RequestMapping(value = "/exportCheckMonitor", method = RequestMethod.GET)
+    @SystemLog(description = "导出监督检查信息")
+    public void exportCheckMonitor(
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "content", required = false) String content,
+            @RequestParam(value = "typeIds", required = false) String typeIds,
+            @RequestParam(value = "start_date", required = false) String start_date,
+            @RequestParam(value = "end_date", required = false) String end_date, HttpServletResponse response) {
+
+        List<Condition> list = new ArrayList<>();
+        if (!name.isEmpty()) {
+            list.add(new Condition("name", name));
+        }
+        if (!content.isEmpty()) {
+            list.add(new Condition("facName", content));
+        }
+        if (!typeIds.isEmpty()) {
+            list.add(new Condition("typeIds", Stream.of(typeIds).collect(toList())));
+        }
+        if (!start_date.isEmpty()) {
+            list.add(new Condition("start_date", DateUtils.GmtStringToDate(start_date)));
+        }
+        if (!end_date.isEmpty()) {
+            list.add(new Condition("end_date", DateUtils.GmtStringToDate(end_date)));
+        }
+
+        Page page = new Page();
+        page.setConditions(list);
+
+        checkMonitorService.exportCheckMonitor(page, response);
+
     }
 
     /**

@@ -2,6 +2,7 @@ package com.rainbow.monitor.dao;
 
 import com.rainbow.common.config.MyMapper;
 import com.rainbow.monitor.domain.CheckMonitor;
+import com.rainbow.monitor.domain.extend.CheckMonitorExtend;
 
 import java.util.List;
 import java.util.Map;
@@ -10,7 +11,7 @@ public interface CheckMonitorMapper extends MyMapper<CheckMonitor> {
 
     CheckMonitor getCheckMonitorById(String id);
 
-    List<CheckMonitor> getCheckMonitorList(Map<String,Object> map);
+    List<CheckMonitorExtend> getCheckMonitorList(Map<String,Object> map);
 
     int deleteCheckMonitorById(String id);
 

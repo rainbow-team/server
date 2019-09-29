@@ -14,6 +14,7 @@ import com.rainbow.common.service.impl.BaseService;
 import com.rainbow.common.util.GuidHelper;
 import com.rainbow.monitor.dao.CheckFileMonitorMapper;
 import com.rainbow.monitor.domain.CheckFileMonitor;
+import com.rainbow.monitor.domain.extend.CheckFileMonitorExtend;
 import com.rainbow.monitor.service.CheckFileMonitorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,11 +48,11 @@ public class CheckFileMonitorServiceImpl extends BaseService<CheckFileMonitor> i
     public ResponseBo getCheckFileMonitorList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
-        List<CheckFileMonitor> list = checkFileMonitorMapper.getCheckFileMonitorList(map);
+        List<CheckFileMonitorExtend> list = checkFileMonitorMapper.getCheckFileMonitorList(map);
 
-        PageInfo<CheckFileMonitor> pageInfo = new PageInfo<CheckFileMonitor>(list);
+        PageInfo<CheckFileMonitorExtend> pageInfo = new PageInfo<CheckFileMonitorExtend>(list);
 
-        PagingEntity<CheckFileMonitor> result = new PagingEntity<>(pageInfo);
+        PagingEntity<CheckFileMonitorExtend> result = new PagingEntity<>(pageInfo);
 
         return ResponseBo.ok(result);
     }

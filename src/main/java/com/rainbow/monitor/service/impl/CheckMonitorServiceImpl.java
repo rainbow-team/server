@@ -10,11 +10,7 @@ import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
-import com.rainbow.common.util.ExcelHelper;
-import com.rainbow.common.util.GuidHelper;
-import com.rainbow.common.util.Multipart;
-import com.rainbow.common.util.StrUtil;
-import com.rainbow.common.util.UserUtils;
+import com.rainbow.common.util.*;
 import com.rainbow.config.dao.SystemConfigMapper;
 import com.rainbow.monitor.dao.CheckFileMonitorMapper;
 import com.rainbow.monitor.dao.CheckMonitorMapper;
@@ -23,28 +19,32 @@ import com.rainbow.monitor.domain.extend.CheckFileMonitorExtend;
 import com.rainbow.monitor.domain.extend.CheckMonitorExtend;
 import com.rainbow.monitor.service.CheckMonitorService;
 import com.rainbow.supervision.dao.OrgMapper;
+import com.rainbow.supervision.domain.SupervisionTrainRecordExtend;
+import com.rainbow.supervision.domain.extend.SupervisorExtend;
 import com.rainbow.system.domain.SystemUser;
 import com.rainbow.unit.dao.EquipDepartMapper;
 import com.rainbow.unit.dao.ServiceDepartMapper;
 import com.rainbow.unit.dao.UmineMapper;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import net.sf.ehcache.CacheManager;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @Author:deepblue
@@ -106,11 +106,11 @@ public class CheckMonitorServiceImpl extends BaseService<CheckMonitor> implement
     public ResponseBo getCheckMonitorList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
-        List<CheckMonitor> list = checkMonitorMapper.getCheckMonitorList(map);
+        List<CheckMonitorExtend> list = checkMonitorMapper.getCheckMonitorList(map);
 
-        PageInfo<CheckMonitor> pageInfo = new PageInfo<CheckMonitor>(list);
+        PageInfo<CheckMonitorExtend> pageInfo = new PageInfo<CheckMonitorExtend>(list);
 
-        PagingEntity<CheckMonitor> result = new PagingEntity<>(pageInfo);
+        PagingEntity<CheckMonitorExtend> result = new PagingEntity<>(pageInfo);
 
         return ResponseBo.ok(result);
     }
@@ -122,6 +122,94 @@ public class CheckMonitorServiceImpl extends BaseService<CheckMonitor> implement
             return ResponseBo.ok(result);
         }
         return ResponseBo.error("查询失败");
+    }
+
+    @Override
+    public void exportCheckMonitor(Page page, HttpServletResponse response) {
+
+        Map<String, Object> map = page.getQueryParameter();
+        List<CheckMonitorExtend> list = checkMonitorMapper.getCheckMonitorList(map);
+
+        List<String[]> cloumnValues = new ArrayList<>();
+        List<CheckFileMonitorExtend> checkFileMonitorExtendList = new ArrayList<>();
+
+        if (list != null && list.size() > 0) {
+
+            for (CheckMonitorExtend checkMonitorExtend : list) {
+
+                StringBuffer buf=new StringBuffer();
+                buf.append(checkMonitorExtend.getServiceDepartName() == null ? "" : checkMonitorExtend.getServiceDepartName())
+                        .append(checkMonitorExtend.getUmineName() == null ? "" : checkMonitorExtend.getUmineName())
+                        .append(checkMonitorExtend.getEquipDepartName() == null ? "" : checkMonitorExtend.getEquipDepartName());
+
+                String[] strs = new String[]{
+                        checkMonitorExtend.getId(),
+                        buf.toString(),
+                        checkMonitorExtend.getContent(),
+                        checkMonitorExtend.getTypeValue(),
+                        checkMonitorExtend.getOrgName(),
+                        DateUtils.DateToString(checkMonitorExtend.getStartDate()) + "至" + DateUtils.DateToString(checkMonitorExtend.getEndDate())
+                };
+                cloumnValues.add(strs);
+
+                //培训信息
+                Map<String,Object> map1  = new HashMap<>();
+                map1.put("departId",checkMonitorExtend.getId());
+                List<CheckFileMonitorExtend> list1 = checkFileMonitorMapper.getCheckFileMonitorList(map1);
+                if(list1!=null&&list1.size()>0){
+                    checkFileMonitorExtendList.addAll(list1);
+                }
+            }
+        }
+
+        String[] cloumnNames = new String[]{
+                "主编号",
+                "单位名称",
+                "检查内容",
+                "检查类型",
+                "监督检查机构",
+                "检查时间"
+        };
+
+        HSSFWorkbook wb = new HSSFWorkbook();
+        wb = ExportExcel.getHssfWorkBook(wb, "监督检查列表信息", cloumnNames, cloumnValues);
+
+
+        //培训信息
+        String[] cloumnNames1 = new String[]{
+                "主编号",
+                "文件类型",
+                "文件文号",
+                "文件时间"
+        };
+
+        cloumnValues = new ArrayList<>();
+        if(checkFileMonitorExtendList.size()>0){
+            for (CheckFileMonitorExtend checkFileMonitorExtend : checkFileMonitorExtendList) {
+                String[] strs = new String[]{
+                        checkFileMonitorExtend.getMonitorCheckId(),
+                        checkFileMonitorExtend.getTypeValue(),
+                        checkFileMonitorExtend.getFileNo(),
+                        DateUtils.DateToString(checkFileMonitorExtend.getFileDate())
+                };
+                cloumnValues.add(strs);
+            }
+        }
+
+        wb = ExportExcel.getHssfWorkBook(wb, "监督检查文件", cloumnNames1, cloumnValues);
+
+
+        try{
+            response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode("监督检查信息列表", "utf-8") + ".xls");
+            OutputStream out = response.getOutputStream();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            wb.write(baos);
+            byte[] xlsBytes = baos.toByteArray();
+            out.write(xlsBytes);
+            out.close();
+        }catch (Exception e){
+
+        }
     }
 
     @Override
