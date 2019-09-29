@@ -6,6 +6,7 @@ import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.check.dao.ActivityFileCheckMapper;
 import com.rainbow.check.dao.EquipFileCheckMapper;
 import com.rainbow.check.domain.ActivityFileCheck;
+import com.rainbow.check.domain.ActivityFileCheckExtend;
 import com.rainbow.check.domain.EquipFileCheck;
 import com.rainbow.check.service.ActivityFileCheckService;
 import com.rainbow.check.service.EquipFileCheckService;
@@ -46,11 +47,11 @@ public class ActivityFileCheckServiceImpl extends BaseService<ActivityFileCheck>
     public ResponseBo getActivityFileCheckList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
-        List<ActivityFileCheck> list = activityFileCheckMapper.getActivityFileCheckList(map);
+        List<ActivityFileCheckExtend> list = activityFileCheckMapper.getActivityFileCheckList(map);
 
-        PageInfo<ActivityFileCheck> pageInfo = new PageInfo<ActivityFileCheck>(list);
+        PageInfo<ActivityFileCheckExtend> pageInfo = new PageInfo<ActivityFileCheckExtend>(list);
 
-        PagingEntity<ActivityFileCheck> result = new PagingEntity<>(pageInfo);
+        PagingEntity<ActivityFileCheckExtend> result = new PagingEntity<>(pageInfo);
 
         return ResponseBo.ok(result);
     }

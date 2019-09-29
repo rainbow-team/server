@@ -6,6 +6,7 @@ import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.check.dao.EquipFileCheckMapper;
 import com.rainbow.check.dao.FacFileCheckMapper;
 import com.rainbow.check.domain.EquipFileCheck;
+import com.rainbow.check.domain.EquipFileCheckExtend;
 import com.rainbow.check.domain.FacFileCheck;
 import com.rainbow.check.service.EquipFileCheckService;
 import com.rainbow.check.service.FacFileCheckService;
@@ -46,11 +47,11 @@ public class EquipFileCheckServiceImpl extends BaseService<EquipFileCheck> imple
     public ResponseBo getEquipFileCheckList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
-        List<EquipFileCheck> list = equipFileCheckMapper.getEquipFileCheckList(map);
+        List<EquipFileCheckExtend> list = equipFileCheckMapper.getEquipFileCheckList(map);
 
-        PageInfo<EquipFileCheck> pageInfo = new PageInfo<EquipFileCheck>(list);
+        PageInfo<EquipFileCheckExtend> pageInfo = new PageInfo<EquipFileCheckExtend>(list);
 
-        PagingEntity<EquipFileCheck> result = new PagingEntity<>(pageInfo);
+        PagingEntity<EquipFileCheckExtend> result = new PagingEntity<>(pageInfo);
 
         return ResponseBo.ok(result);
     }

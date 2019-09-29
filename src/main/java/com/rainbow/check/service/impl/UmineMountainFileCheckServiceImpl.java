@@ -6,6 +6,7 @@ import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.check.dao.UmineMountainFileCheckMapper;
 import com.rainbow.check.dao.UminePlaceFileCheckMapper;
 import com.rainbow.check.domain.UmineMountainFileCheck;
+import com.rainbow.check.domain.UmineMountainFileCheckExtend;
 import com.rainbow.check.domain.UminePlaceFileCheck;
 import com.rainbow.check.service.UmineMountainFileCheckService;
 import com.rainbow.check.service.UminePlaceFileCheckService;
@@ -46,11 +47,11 @@ public class UmineMountainFileCheckServiceImpl extends BaseService<UmineMountain
     public ResponseBo getUmineMountainFileCheckList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
-        List<UmineMountainFileCheck> list = umineMountainFileCheckMapper.getUmineMountainFileCheckList(map);
+        List<UmineMountainFileCheckExtend> list = umineMountainFileCheckMapper.getUmineMountainFileCheckList(map);
 
-        PageInfo<UmineMountainFileCheck> pageInfo = new PageInfo<UmineMountainFileCheck>(list);
+        PageInfo<UmineMountainFileCheckExtend> pageInfo = new PageInfo<UmineMountainFileCheckExtend>(list);
 
-        PagingEntity<UmineMountainFileCheck> result = new PagingEntity<>(pageInfo);
+        PagingEntity<UmineMountainFileCheckExtend> result = new PagingEntity<>(pageInfo);
 
         return ResponseBo.ok(result);
     }

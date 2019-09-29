@@ -6,12 +6,20 @@ import com.rainbow.check.domain.UminePlaceCheck;
 import com.rainbow.check.service.ActivityCheckService;
 import com.rainbow.check.service.UminePlaceCheckService;
 import com.rainbow.common.annotation.SystemLog;
+import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by 13260 on 2019/5/11.
@@ -100,5 +108,38 @@ public class UminePlaceCheckController {
             return result == 0 ? ResponseBo.error("存在关联，不允许删除!") : ResponseBo.ok("删除成功");
         }
         return ResponseBo.ok();
+    }
+
+    /**
+     * 导出铀尾矿（渣）库审评信息
+     */
+    @RequestMapping(value = "/exportUmineplaceCheck", method = RequestMethod.GET)
+    @SystemLog(description = "导出铀尾矿（渣）库审评信息")
+    public void exportUmineplaceCheck(
+            @RequestParam(value = "umineName", required = false) String umineName,
+            @RequestParam(value = "uminePlaceName", required = false) String uminePlaceName,
+            @RequestParam(value = "typeIds", required = false) String typeIds,
+            @RequestParam(value = "stageIds", required = false) String stageIds,
+            HttpServletResponse response) {
+
+        List<Condition> list = new ArrayList<>();
+        if (!umineName.isEmpty()) {
+            list.add(new Condition("umineName", umineName));
+        }
+        if (!uminePlaceName.isEmpty()) {
+            list.add(new Condition("uminePlaceName", uminePlaceName));
+        }
+        if (!typeIds.isEmpty()) {
+            list.add(new Condition("typeIds", Stream.of(typeIds).collect(toList())));
+        }
+        if (!stageIds.isEmpty()) {
+            list.add(new Condition("stageIds", Stream.of(stageIds).collect(toList())));
+        }
+
+        Page page = new Page();
+        page.setConditions(list);
+
+        uminePlaceCheckService.exportUmineplaceCheck(page, response);
+
     }
 }

@@ -4,8 +4,10 @@ package com.rainbow.check.controller;
 import com.rainbow.check.domain.FacCheck;
 import com.rainbow.check.service.FacCheckService;
 import com.rainbow.common.annotation.SystemLog;
+import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
+import com.rainbow.common.util.DateUtils;
 import com.rainbow.permit.domain.ActivityPermit;
 import com.rainbow.permit.service.ActivityPermitService;
 import org.slf4j.Logger;
@@ -13,7 +15,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by 13260 on 2019/5/11.
@@ -102,5 +109,38 @@ public class FacCheckController {
             return result == 0 ? ResponseBo.error("存在关联，不允许删除!") : ResponseBo.ok("删除成功");
         }
         return ResponseBo.ok();
+    }
+
+    /**
+     * 导出核设施审评信息
+     */
+    @RequestMapping(value = "/exportFacCheck", method = RequestMethod.GET)
+    @SystemLog(description = "导出核设施审评信息")
+    public void exportFacCheck(
+            @RequestParam(value = "serviceDepartName", required = false) String serviceDepartName,
+            @RequestParam(value = "facName", required = false) String facName,
+            @RequestParam(value = "typeIds", required = false) String typeIds,
+            @RequestParam(value = "stageIds", required = false) String stageIds, HttpServletResponse response) {
+
+        List<Condition> list = new ArrayList<>();
+        if (!serviceDepartName.isEmpty()) {
+            list.add(new Condition("serviceDepartName", serviceDepartName));
+        }
+        if (!facName.isEmpty()) {
+            list.add(new Condition("facName", facName));
+        }
+        if (!typeIds.isEmpty()) {
+            list.add(new Condition("typeIds", Stream.of(typeIds).collect(toList())));
+        }
+        if (!stageIds.isEmpty()) {
+            list.add(new Condition("stageIds", Stream.of(stageIds).collect(toList())));
+        }
+
+
+        Page page = new Page();
+        page.setConditions(list);
+
+        facCheckService.exportFacCheck(page, response);
+
     }
 }

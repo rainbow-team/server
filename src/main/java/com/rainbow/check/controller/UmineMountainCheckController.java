@@ -6,12 +6,20 @@ import com.rainbow.check.domain.UminePlaceCheck;
 import com.rainbow.check.service.UmineMountainCheckService;
 import com.rainbow.check.service.UminePlaceCheckService;
 import com.rainbow.common.annotation.SystemLog;
+import com.rainbow.common.domain.Condition;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by 13260 on 2019/5/11.
@@ -100,5 +108,34 @@ public class UmineMountainCheckController {
             return result == 0 ? ResponseBo.error("存在关联，不允许删除!") : ResponseBo.ok("删除成功");
         }
         return ResponseBo.ok();
+    }
+
+    /**
+     * 导出铀矿山井下消防审查信息
+     */
+    @RequestMapping(value = "/exportUminemountainCheck", method = RequestMethod.GET)
+    @SystemLog(description = "导出铀矿山井下消防审查信息")
+    public void exportUminemountainCheck(
+            @RequestParam(value = "umineName", required = false) String umineName,
+            @RequestParam(value = "umineMountainName", required = false) String umineMountainName,
+            @RequestParam(value = "content", required = false) String content,
+            HttpServletResponse response) {
+
+        List<Condition> list = new ArrayList<>();
+        if (!umineName.isEmpty()) {
+            list.add(new Condition("umineName", umineName));
+        }
+        if (!umineMountainName.isEmpty()) {
+            list.add(new Condition("umineMountainName", umineMountainName));
+        }
+        if (!content.isEmpty()) {
+            list.add(new Condition("content", content));
+        }
+
+        Page page = new Page();
+        page.setConditions(list);
+
+        umineMountainCheckService.exportUminemountainCheck(page, response);
+
     }
 }

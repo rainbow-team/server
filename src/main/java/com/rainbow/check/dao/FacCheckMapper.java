@@ -1,6 +1,7 @@
 package com.rainbow.check.dao;
 
 import com.rainbow.check.domain.FacCheck;
+import com.rainbow.check.domain.FacCheckExtend;
 import com.rainbow.common.config.MyMapper;
 import com.rainbow.unit.domain.Fac;
 
@@ -11,7 +12,7 @@ public interface FacCheckMapper extends MyMapper<FacCheck> {
 
     FacCheck getFacCheckById(String id);
 
-    List<FacCheck> getFacCheckList(Map<String,Object> map);
+    List<FacCheckExtend> getFacCheckList(Map<String,Object> map);
 
     int deleteFacCheckById(String id);
 

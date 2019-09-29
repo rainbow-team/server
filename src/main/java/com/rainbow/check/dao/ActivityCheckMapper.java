@@ -1,6 +1,7 @@
 package com.rainbow.check.dao;
 
 import com.rainbow.check.domain.ActivityCheck;
+import com.rainbow.check.domain.ActivityCheckExtend;
 import com.rainbow.check.domain.EquipCheck;
 import com.rainbow.common.config.MyMapper;
 
@@ -11,7 +12,7 @@ public interface ActivityCheckMapper extends MyMapper<ActivityCheck> {
 
     ActivityCheck getActivityCheckById(String id);
 
-    List<ActivityCheck> getActivityCheckList(Map<String,Object> map);
+    List<ActivityCheckExtend> getActivityCheckList(Map<String,Object> map);
 
     int deleteActivityCheckById(String id);
 

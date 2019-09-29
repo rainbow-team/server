@@ -1,6 +1,7 @@
 package com.rainbow.check.dao;
 
 import com.rainbow.check.domain.UmineMountainCheck;
+import com.rainbow.check.domain.UmineMountainCheckExtend;
 import com.rainbow.check.domain.UminePlaceCheck;
 import com.rainbow.common.config.MyMapper;
 
@@ -11,7 +12,7 @@ public interface UmineMountainCheckMapper extends MyMapper<UmineMountainCheck> {
 
     UmineMountainCheck getUmineMountainCheckById(String id);
 
-    List<UmineMountainCheck> getUmineMountainCheckList(Map<String,Object> map);
+    List<UmineMountainCheckExtend> getUmineMountainCheckList(Map<String,Object> map);
 
     int deleteUmineMountainCheckById(String id);
 

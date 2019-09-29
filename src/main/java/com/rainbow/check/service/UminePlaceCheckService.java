@@ -6,6 +6,8 @@ import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.IService;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @Author:deepblue
  * @Date:2019/6/27 17:08
@@ -22,4 +24,6 @@ public interface UminePlaceCheckService extends IService<UminePlaceCheck> {
     ResponseBo getUminePlaceCheckList(Page page);
 
     ResponseBo getUminePlaceCheckById(String id);
+
+    void exportUmineplaceCheck(Page page, HttpServletResponse response);
 }

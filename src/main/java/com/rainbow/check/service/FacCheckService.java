@@ -6,6 +6,8 @@ import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.IService;
 import com.rainbow.permit.domain.ActivityPermit;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @Author:deepblue
  * @Date:2019/6/27 17:08
@@ -22,4 +24,6 @@ public interface FacCheckService extends IService<FacCheck> {
     ResponseBo getFacCheckList(Page page);
 
     ResponseBo getFacCheckById(String id);
+
+    void exportFacCheck(Page page, HttpServletResponse response);
 }

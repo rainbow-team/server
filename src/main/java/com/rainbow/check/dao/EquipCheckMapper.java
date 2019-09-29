@@ -1,6 +1,7 @@
 package com.rainbow.check.dao;
 
 import com.rainbow.check.domain.EquipCheck;
+import com.rainbow.check.domain.EquipCheckExtend;
 import com.rainbow.check.domain.FacCheck;
 import com.rainbow.common.config.MyMapper;
 
@@ -12,7 +13,7 @@ public interface EquipCheckMapper extends MyMapper<EquipCheck> {
 
     EquipCheck getEquipCheckById(String id);
 
-    List<EquipCheck> getEquipCheckList(Map<String,Object> map);
+    List<EquipCheckExtend> getEquipCheckList(Map<String,Object> map);
 
     int deleteEquipCheckById(String id);
 

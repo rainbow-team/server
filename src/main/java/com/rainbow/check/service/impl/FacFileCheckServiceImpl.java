@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.check.dao.FacFileCheckMapper;
 import com.rainbow.check.domain.FacFileCheck;
+import com.rainbow.check.domain.FacFileCheckExtend;
 import com.rainbow.check.service.FacFileCheckService;
 import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
@@ -47,11 +48,11 @@ public class FacFileCheckServiceImpl extends BaseService<FacFileCheck> implement
     public ResponseBo getFacFileCheckList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
-        List<FacFileCheck> list = facFileCheckMapper.getFacFileCheckList(map);
+        List<FacFileCheckExtend> list = facFileCheckMapper.getFacFileCheckList(map);
 
-        PageInfo<FacFileCheck> pageInfo = new PageInfo<FacFileCheck>(list);
+        PageInfo<FacFileCheckExtend> pageInfo = new PageInfo<FacFileCheckExtend>(list);
 
-        PagingEntity<FacFileCheck> result = new PagingEntity<>(pageInfo);
+        PagingEntity<FacFileCheckExtend> result = new PagingEntity<>(pageInfo);
 
         return ResponseBo.ok(result);
     }
