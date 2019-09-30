@@ -143,7 +143,7 @@ public class UminePlaceCheckServiceImpl extends BaseService<UminePlaceCheck> imp
         if(uminePlaceFileCheckExtendList.size()>0){
             for (UminePlaceFileCheckExtend uminePlaceFileCheckExtend : uminePlaceFileCheckExtendList) {
                 String[] strs = new String[]{
-                        uminePlaceFileCheckExtend.getId(),
+                        uminePlaceFileCheckExtend.getCheckUminePlaceId(),
                         uminePlaceFileCheckExtend.getUminePlaceCheckFileTypeValue(),
                         uminePlaceFileCheckExtend.getFileNo(),
                         DateUtils.DateToString(uminePlaceFileCheckExtend.getFileDate())

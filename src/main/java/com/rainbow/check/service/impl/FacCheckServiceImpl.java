@@ -145,7 +145,7 @@ public class FacCheckServiceImpl extends BaseService<FacCheck> implements FacChe
         if(facFileCheckExtendList.size()>0){
             for (FacFileCheckExtend facFileCheckExtend : facFileCheckExtendList) {
                 String[] strs = new String[]{
-                        facFileCheckExtend.getId(),
+                        facFileCheckExtend.getCheckFacId(),
                         facFileCheckExtend.getFileName(),
                         facFileCheckExtend.getFacCheckFileTypeValue(),
                         facFileCheckExtend.getFileNo(),
