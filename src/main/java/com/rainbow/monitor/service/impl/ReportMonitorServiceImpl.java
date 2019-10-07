@@ -169,11 +169,11 @@ public class ReportMonitorServiceImpl extends BaseService<ReportMonitor> impleme
                     item.setId(GuidHelper.getGuid());
 
                     if (StrUtil.isNullOrEmpty(item.getOrgName())) {
-                        msg += "第" + (i + 2) + "行核安全授权监管机构名称为空，";
+                        msg += "第" + (i + 2) + "行核安全监管机构名称为空，";
                     } else {
-                        String orgId = orgMapper.getOrgIdByName(item.getOrgName());
+                        String orgId = orgMapper.getOrgOrSastindIdByName(item.getOrgName());
                         if (StrUtil.isNullOrEmpty(orgId)) {
-                            msg += "第" + (i + 2) + "行核安全授权监管机构名称在数据库不存在，";
+                            msg += "第" + (i + 2) + "行核安全监管机构名称在数据库不存在，";
                         } else {
                             item.setOrgId(orgId);
                         }

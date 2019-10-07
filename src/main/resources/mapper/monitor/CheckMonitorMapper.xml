@@ -45,7 +45,10 @@
     left join unit_umine u on t.umine_id = u.id
     left join unit_equip_depart ed on t.equip_depart_id = ed.id
     left join config_monitor_check_type ty on t.type_id = ty.id
-    left join supervision_org f on t.org_id = f.id
+    left join (select t.id,t.`name` from supervision_org t
+    union all
+    select t1.id,t1.`name`
+    from supervision_sastind t1) f on t.org_id = f.id
     where 1=1
     <if test="name != null and name != ''">
       and instr(sd.name,#{name})>0 or instr(u.name,#{name})>0 or instr(ed.name,#{name})>0
@@ -104,7 +107,10 @@
     left join unit_umine u on t.umine_id = u.id
     left join unit_equip_depart ed on t.equip_depart_id = ed.id
     left join config_monitor_check_type ty on t.type_id = ty.id
-    left join supervision_org f on t.org_id = f.id
+    left join (select t.id,t.`name` from supervision_org t
+    union all
+    select t1.id,t1.`name`
+    from supervision_sastind t1) f on t.org_id = f.id
     where t.id = #{id}
 
   </select>

@@ -27,4 +27,6 @@ public interface OrgService extends IService<Org> {
     ResponseBo getOrgById(String id);
 
     void exportOrg(Page page,HttpServletResponse response);
+
+    ResponseBo getOrgAndSastindList();
 }

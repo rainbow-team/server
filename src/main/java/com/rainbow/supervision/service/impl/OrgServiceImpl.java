@@ -122,6 +122,14 @@ public class OrgServiceImpl extends BaseService<Org> implements OrgService {
     }
 
     @Override
+    public ResponseBo getOrgAndSastindList(){
+
+            List<Org> list = orgMapper.getOrgAndSastindList();
+
+            return ResponseBo.ok(list);
+    }
+
+    @Override
     public void exportOrg(Page page, HttpServletResponse response) {
         Map<String, Object> map = page.getQueryParameter();
         List<OrgExtend> list = orgMapper.getOrgList(map);

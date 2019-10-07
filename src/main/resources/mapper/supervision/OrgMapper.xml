@@ -77,4 +77,23 @@
     SELECT t.id from supervision_org t where t.`name`=#{name} limit 1;
   </select>
 
+
+  <select id="getOrgOrSastindIdByName" parameterType="String" resultType="String">
+    SELECT m.id from
+(
+select t.id,t.`name` from supervision_org t
+union all
+select t1.id,t1.`name`
+from supervision_sastind t1
+) m where m.`name` =#{name} limit 1
+  </select>
+
+
+  <select id="getOrgAndSastindList"  resultMap="OrgBaseResultMap">
+select t.id,t.`name` from supervision_org t
+union all
+select t1.id,t1.`name`
+from supervision_sastind t1
+  </select>
+
 </mapper>

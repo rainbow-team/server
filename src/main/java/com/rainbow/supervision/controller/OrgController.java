@@ -119,6 +119,11 @@ public class OrgController {
         return ResponseBo.ok(list);
     }
 
+    @PostMapping("/getOrgAndSastindList")
+    public ResponseBo getOrgAndSastindList(){
+
+       return orgService.getOrgAndSastindList();
+    }
 
     /**
      * 导出授权监管机构信息

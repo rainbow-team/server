@@ -15,4 +15,8 @@ public interface OrgMapper extends MyMapper<Org> {
     OrgExtend getOrgById(String id);
 
     String getOrgIdByName(String name);
+
+    String getOrgOrSastindIdByName(String name);
+
+    List<Org> getOrgAndSastindList();
 }
