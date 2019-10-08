@@ -168,7 +168,7 @@ public class FacSecurityServiceImpl extends BaseService<FacSecurity> implements 
 
                 // 将导入的excel转化为实体
                 List<FacSecurityExtend> list = ExcelHelper.convertToList(FacSecurityExtend.class, fileName, inputStream,
-                        2, 12, 0);
+                        1, 12, 0);
                 if (list.size() == 0) {
                     return ResponseBo.error("文件内容为空");
                 }

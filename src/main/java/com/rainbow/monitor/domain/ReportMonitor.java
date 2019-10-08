@@ -41,7 +41,8 @@ public class ReportMonitor extends BaseExtendEntity {
      * 报告时间
      */
     @Column(name = "report_date")
-    private Date reportDate;
+    @BeanFieldAnnotation(order = 4)
+    public Date reportDate;
 
     /**
      * 是否导入0 否 1 是

@@ -77,7 +77,7 @@ public class EquipPermitServiceImpl extends BaseService<EquipPermit> implements 
         equipPermit.setCreateDate(new Date());
         equipPermit.setModifyDate(new Date());
 
-        fileInfoService.updateFileInfoByIds(equipPermit.getAttachmentList(),equipPermit.getId());
+        fileInfoService.updateFileInfoByIds(equipPermit.getAttachmentList(), equipPermit.getId());
         return equipPermitMapper.insert(equipPermit);
     }
 
@@ -119,20 +119,18 @@ public class EquipPermitServiceImpl extends BaseService<EquipPermit> implements 
         if (list != null && list.size() > 0) {
 
             for (EquipPermitExtend equipPermitExtend : list) {
-                String[] strs = new String[] {
-                        equipPermitExtend.getName(),
-                        equipPermitExtend.getEquipDepartName(), equipPermitExtend.getServiceDepartName(),
-                        equipPermitExtend.getFacName(),equipPermitExtend.getTypeValue(),equipPermitExtend.getLevelValue(),
-                        equipPermitExtend.getStageValue(),
-                        DateUtils.DateToString(equipPermitExtend.getPermitDate()),
-                        DateUtils.DateToString(equipPermitExtend.getValidateTime()),
-                        equipPermitExtend.getLicence(), equipPermitExtend.getCondition(),equipPermitExtend.getPromise()};
+                String[] strs = new String[] { equipPermitExtend.getName(), equipPermitExtend.getEquipDepartName(),
+                        equipPermitExtend.getServiceDepartName(), equipPermitExtend.getFacName(),
+                        equipPermitExtend.getTypeValue(), equipPermitExtend.getLevelValue(),
+                        equipPermitExtend.getStageValue(), DateUtils.DateToString(equipPermitExtend.getPermitDate()),
+                        DateUtils.DateToString(equipPermitExtend.getValidateTime()), equipPermitExtend.getLicence(),
+                        equipPermitExtend.getCondition(), equipPermitExtend.getPromise() };
                 cloumnValues.add(strs);
             }
         }
 
-        String[] cloumnNames = new String[] { "设备名称", "核设备单位", "核设施营运单位", "核设施名称",
-                "设备类别", "核安全级别", "许可阶段","许可时间", "有效期限", "许可文号", "许可条件", "审评承诺"};
+        String[] cloumnNames = new String[] { "设备名称", "核设备单位", "核设施营运单位", "核设施名称", "设备类别", "核安全级别", "许可阶段", "许可时间",
+                "有效期限", "许可文号", "许可条件", "审评承诺" };
 
         HSSFWorkbook wb = new HSSFWorkbook();
         wb = ExportExcel.getHssfWorkBook(wb, "核安全设备许可信息列表", cloumnNames, cloumnValues);
@@ -168,7 +166,7 @@ public class EquipPermitServiceImpl extends BaseService<EquipPermit> implements 
                 // inputStream1 = (FileInputStream) file.getInputStream();
                 // ????excel?????
                 List<EquipPermitExtend> list = ExcelHelper.convertToList(EquipPermitExtend.class, fileName, inputStream,
-                        2, 12, 0);
+                        1, 12, 0);
 
                 if (list.size() == 0) {
                     return ResponseBo.error("文件内容为空");

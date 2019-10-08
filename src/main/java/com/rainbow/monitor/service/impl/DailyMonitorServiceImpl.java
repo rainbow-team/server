@@ -22,6 +22,7 @@ import com.rainbow.monitor.service.DailyMonitorService;
 import com.rainbow.security.domain.extend.EquipSecurityExtend;
 import com.rainbow.supervision.dao.OrgMapper;
 import com.rainbow.system.domain.SystemUser;
+import com.rainbow.unit.dao.FacMapper;
 import com.rainbow.unit.dao.ServiceDepartMapper;
 
 import org.slf4j.Logger;
@@ -68,6 +69,9 @@ public class DailyMonitorServiceImpl extends BaseService<DailyMonitor> implement
 
     @Autowired
     OrgMapper orgMapper;
+
+    @Autowired
+    private FacMapper facMapper;
 
     @Override
     public int addDailyMonitor(DailyMonitor activityCheck) {
@@ -159,7 +163,7 @@ public class DailyMonitorServiceImpl extends BaseService<DailyMonitor> implement
                 inputStream1 = (FileInputStream) file.getInputStream();
                 // 将导入的excel转化为实体
                 List<DailyMonitorExtend> list = ExcelHelper.convertToList(DailyMonitorExtend.class, fileName,
-                        inputStream, 2, 7, 0);
+                        inputStream, 1, 7, 0);
                 // List<SupervisionTrainRecordExtend> supervisionTrainRecordExtendList =
                 // ExcelHelper.convertToList(SupervisionTrainRecordExtend.class, fileName,
                 // inputStream1, 2, 6,1);
@@ -186,6 +190,28 @@ public class DailyMonitorServiceImpl extends BaseService<DailyMonitor> implement
                             item.setServiceId(serviceDepartId);
                         }
                     }
+
+                    if (!StrUtil.isNullOrEmpty(item.getFacName())) {
+                        String facId = facMapper.getFacIdByName(item.getFacName());
+                        if (StrUtil.isNullOrEmpty(facId)) {
+                            msg += "第" + (i + 2) + "行核设施信息在数据库中不存在,";
+                        } else {
+                            item.setFacId(facId);
+                        }
+                    }
+
+                    if (!StrUtil.isNullOrEmpty(item.getStatusValue())) {
+                        mapConfig.put("tablename", "config_fac_status");
+                        mapConfig.put("value", item.getStatusValue());
+                        String typeId = systemConfigMapper.getConfigIdByName(mapConfig);
+
+                        if (StrUtil.isNullOrEmpty(typeId)) {
+                            msg += "第" + (i + 2) + "行设施状态在数据库不存在，";
+                        } else {
+                            item.setStatusId(typeId);
+                        }
+                    }
+
                     if (StrUtil.isNullOrEmpty(item.getOrgName())) {
                         msg += "第" + (i + 2) + "行核安全授权监管机构名称为空，";
                     } else {

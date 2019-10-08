@@ -161,7 +161,7 @@
     select count(*) from unit_umine_place
   </select>
 
-  <select id="getUminePlaceIdByName" parameterType="String" resultType="int">
+  <select id="getUminePlaceIdByName" parameterType="String" resultType="java.lang.String">
     select id from unit_umine_place t WHERE t.`name`=#{name} limit 1;
   </select>
   <select id="verifyDuplication" resultType="int" parameterType="java.util.Map">

@@ -59,20 +59,21 @@ public class ServiceDepartServiceImpl extends BaseService<ServiceDepart> impleme
 
     @Autowired
     FileInfoService fileInfoService;
+
     @Override
     public int addServiceDepart(ServiceDepart serviceDepart) {
         serviceDepart.setId(GuidHelper.getGuid());
         serviceDepart.setCreateDate(new Date());
         serviceDepart.setModifyDate(new Date());
 
-        fileInfoService.updateFileInfoByIds(serviceDepart.getAttachmentList(),serviceDepart.getId());
+        fileInfoService.updateFileInfoByIds(serviceDepart.getAttachmentList(), serviceDepart.getId());
         return serviceDepartMapper.insert(serviceDepart);
     }
 
     @Override
     public int modifyServiceDepart(ServiceDepart serviceDepart) {
         serviceDepart.setModifyDate(new Date());
-        fileInfoService.updateFileInfoByIds(serviceDepart.getAttachmentList(),serviceDepart.getId());
+        fileInfoService.updateFileInfoByIds(serviceDepart.getAttachmentList(), serviceDepart.getId());
         return serviceDepartMapper.updateByPrimaryKey(serviceDepart);
     }
 
@@ -113,7 +114,7 @@ public class ServiceDepartServiceImpl extends BaseService<ServiceDepart> impleme
     }
 
     @Override
-    public void exportServiceDepart(Page page, HttpServletResponse response){
+    public void exportServiceDepart(Page page, HttpServletResponse response) {
 
         Map<String, Object> map = page.getQueryParameter();
         List<ServiceDepartExtend> list = serviceDepartMapper.getServiceDepartList(map);
@@ -124,126 +125,98 @@ public class ServiceDepartServiceImpl extends BaseService<ServiceDepart> impleme
         if (list != null && list.size() > 0) {
 
             for (ServiceDepartExtend serviceDepartExtend : list) {
-                String[] strs = new String[]{
-                        serviceDepartExtend.getName(),
-                        serviceDepartExtend.getGroupName(),
-                        serviceDepartExtend.getSurvey(),
-                        serviceDepartExtend.getFeature(),
-                        serviceDepartExtend.getCode(),
-                        serviceDepartExtend.getAddress(),
-                        serviceDepartExtend.getEmergencyTel(),
-                        serviceDepartExtend.getFax(),
-                        serviceDepartExtend.getOwner(),
-                        serviceDepartExtend.getLeader(),
-                        serviceDepartExtend.getLeaderTel(),
-                        serviceDepartExtend.getDepartLeader(),
-                        serviceDepartExtend.getDepartLeaderTel(),
-                        serviceDepartExtend.getNote()
-                };
+                String[] strs = new String[] { serviceDepartExtend.getName(), serviceDepartExtend.getGroupName(),
+                        serviceDepartExtend.getSurvey(), serviceDepartExtend.getFeature(),
+                        serviceDepartExtend.getCode(), serviceDepartExtend.getAddress(),
+                        serviceDepartExtend.getEmergencyTel(), serviceDepartExtend.getFax(),
+                        serviceDepartExtend.getOwner(), serviceDepartExtend.getLeader(),
+                        serviceDepartExtend.getLeaderTel(), serviceDepartExtend.getDepartLeader(),
+                        serviceDepartExtend.getDepartLeaderTel(), serviceDepartExtend.getNote() };
                 cloumnValues.add(strs);
 
-                //年度报告信息
-                Map<String,Object> map1  = new HashMap<>();
-                map1.put("serviceId",serviceDepartExtend.getId());
+                // 年度报告信息
+                Map<String, Object> map1 = new HashMap<>();
+                map1.put("serviceId", serviceDepartExtend.getId());
                 List<ServiceAnnualReport> list1 = serviceAnnualReportMapper.getServiceAnnualReportList(map1);
-                if(list1!=null&&list1.size()>0){
+                if (list1 != null && list1.size() > 0) {
                     serviceAnnualReportList.addAll(list1);
                 }
             }
         }
 
-        String[] cloumnNames = new String[]{
-                "单位名称",
-                "所属集团",
-                "基本概况",
-                "厂址特征",
-                "代号",
-                "地址",
-                "应急电话",
-                "传真",
-                "法人代表",
-                "主管安全领导",
-                "主管安全领导电话",
-                "安全部门领导",
-                "安全部门领导电话",
-                "备注"
-        };
+        String[] cloumnNames = new String[] { "单位名称", "所属集团", "基本概况", "厂址特征", "代号", "地址", "应急电话", "传真", "法人代表",
+                "主管安全领导", "主管安全领导电话", "安全部门领导", "安全部门领导电话", "备注" };
 
         HSSFWorkbook wb = new HSSFWorkbook();
         wb = ExportExcel.getHssfWorkBook(wb, "核设施营运单位信息", cloumnNames, cloumnValues);
 
-
-        //年度报告信息
-        String[] cloumnNames1 = new String[]{
-                "单位名称",
-                "报告年度"
-        };
+        // 年度报告信息
+        String[] cloumnNames1 = new String[] { "单位名称", "报告年度" };
 
         cloumnValues = new ArrayList<>();
-        if(serviceAnnualReportList.size()>0){
+        if (serviceAnnualReportList.size() > 0) {
             for (ServiceAnnualReport serviceAnnualReport : serviceAnnualReportList) {
 
                 int year = DateUtils.getDateYear(serviceAnnualReport.getReportYear());
-                String[] strs = new String[]{
-                        serviceAnnualReport.getServiceName(),
-                        Integer.toString(year)
-                };
+                String[] strs = new String[] { serviceAnnualReport.getServiceName(), Integer.toString(year) };
                 cloumnValues.add(strs);
             }
         }
 
         wb = ExportExcel.getHssfWorkBook(wb, "年度报告信息", cloumnNames1, cloumnValues);
 
-
-        try{
-            response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode("核设施营运单位信息", "utf-8") + ".xls");
+        try {
+            response.setHeader("content-disposition",
+                    "attachment;filename=" + URLEncoder.encode("核设施营运单位信息", "utf-8") + ".xls");
             OutputStream out = response.getOutputStream();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             wb.write(baos);
             byte[] xlsBytes = baos.toByteArray();
             out.write(xlsBytes);
             out.close();
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
 
     }
 
     @Override
-    public ResponseBo importServiceDepart(HttpServletRequest request){
+    public ResponseBo importServiceDepart(HttpServletRequest request) {
 
         Multipart part = new Multipart();
-        //获取前端传过来的file
+        // 获取前端传过来的file
         MultipartFile file = part.getUploadFile(request);
         FileInputStream inputStream = null;
         FileInputStream inputStream1 = null;
 
         String msg = "";
 
-        try{
+        try {
             if (file != null) {
-                //转化文件名，避免乱码
+                // 转化文件名，避免乱码
                 String fileName = new String(file.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8");
                 inputStream = (FileInputStream) file.getInputStream();
                 inputStream1 = (FileInputStream) file.getInputStream();
-                //将导入的excel转化为实体
-                List<ServiceDepartExtend> list = ExcelHelper.convertToList(ServiceDepartExtend.class, fileName, inputStream, 2, 14, 0);
-                List<ServiceAnnualReport> serviceAnnualReportList = ExcelHelper.convertToList(ServiceAnnualReport.class, fileName, inputStream1, 2, 2, 1);
+                // 将导入的excel转化为实体
+                List<ServiceDepartExtend> list = ExcelHelper.convertToList(ServiceDepartExtend.class, fileName,
+                        inputStream, 1, 14, 0);
+                List<ServiceAnnualReport> serviceAnnualReportList = ExcelHelper.convertToList(ServiceAnnualReport.class,
+                        fileName, inputStream1, 1, 2, 1);
 
                 if (list.size() == 0) {
                     return ResponseBo.error("文件内容为空");
                 }
 
-                Map<String,String> map = new HashMap<>();
-                //校验
-                for(int i=0;i<list.size();i++){
+                Map<String, String> map = new HashMap<>();
+                // 校验
+                for (int i = 0; i < list.size(); i++) {
 
                     ServiceDepartExtend serviceDepartExtend = list.get(i);
 
                     serviceDepartExtend.setId(GuidHelper.getGuid());
-                    if(StrUtil.isNullOrEmpty(serviceDepartExtend.getName())){
+                    if (StrUtil.isNullOrEmpty(serviceDepartExtend.getName())) {
                         msg += "第" + (i + 2) + "行单位名称为空，";
-                    }else{
+                    } else {
 
                         if (map.containsKey(serviceDepartExtend.getName())) {
                             msg += "第" + (i + 2) + "行单位名称重复，";
@@ -251,58 +224,56 @@ public class ServiceDepartServiceImpl extends BaseService<ServiceDepart> impleme
                             map.put(serviceDepartExtend.getName(), serviceDepartExtend.getId());
                         }
 
-                        //校验数据库是否重复
+                        // 校验数据库是否重复
                         int count = serviceDepartMapper.getServiceDepartByName(serviceDepartExtend.getName());
                         if (count > 0) {
                             msg += "第" + (i + 2) + "行单位名称在数据库已存在，";
                         }
                     }
 
-                    if(StrUtil.isNullOrEmpty(serviceDepartExtend.getGroupName())){
+                    if (StrUtil.isNullOrEmpty(serviceDepartExtend.getGroupName())) {
                         msg += "第" + (i + 2) + "行所属集团为空，";
-                    }else{
+                    } else {
 
-                       String groupId = groupMapper.getGroupIdByName(serviceDepartExtend.getGroupName());
+                        String groupId = groupMapper.getGroupIdByName(serviceDepartExtend.getGroupName());
 
-                       if(StrUtil.isNullOrEmpty(groupId)){
-                           msg += "第" + (i + 2) + "行所属集团在数据库中不存在，";
-                       }else{
-                           serviceDepartExtend.setGroupId(groupId);
-                       }
+                        if (StrUtil.isNullOrEmpty(groupId)) {
+                            msg += "第" + (i + 2) + "行所属集团在数据库中不存在，";
+                        } else {
+                            serviceDepartExtend.setGroupId(groupId);
+                        }
 
                     }
                 }
 
-
-                for (int j=0;j<serviceAnnualReportList.size();j++){
+                for (int j = 0; j < serviceAnnualReportList.size(); j++) {
 
                     ServiceAnnualReport serviceAnnualReport = serviceAnnualReportList.get(j);
                     serviceAnnualReport.setReportId(GuidHelper.getGuid());
 
-                    if(StrUtil.isNullOrEmpty(serviceAnnualReport.getServiceName())){
+                    if (StrUtil.isNullOrEmpty(serviceAnnualReport.getServiceName())) {
                         msg += "年度报告信息第" + (j + 2) + "行单位名称为空，";
-                    }else{
+                    } else {
                         String serviceId = map.get(serviceAnnualReport.getServiceName());
-                        if(StrUtil.isNullOrEmpty(serviceId)){
+                        if (StrUtil.isNullOrEmpty(serviceId)) {
                             msg += "年度报告信息第" + (j + 2) + "行单位名称在核设施营运单位信息中不存在，";
-                        }else{
+                        } else {
                             serviceAnnualReport.setServiceId(serviceId);
                         }
                     }
 
                 }
 
-
-                if(!msg.isEmpty()){
+                if (!msg.isEmpty()) {
                     return ResponseBo.error(msg);
-                }else {
-                    //插入数据库
+                } else {
+                    // 插入数据库
                     SystemUser user = UserUtils.getCurrentUser(cacheManager);
                     if (user == null) {
                         user = new SystemUser();
                     }
 
-                    for (ServiceDepartExtend serviceDepartExtend :list ){
+                    for (ServiceDepartExtend serviceDepartExtend : list) {
 
                         serviceDepartExtend.setIsImport(1);
                         serviceDepartExtend.setCreateDate(new Date());
@@ -313,14 +284,13 @@ public class ServiceDepartServiceImpl extends BaseService<ServiceDepart> impleme
                         serviceDepartMapper.insert(serviceDepartExtend);
                     }
 
-                    for (ServiceAnnualReport serviceAnnualReport :serviceAnnualReportList){
+                    for (ServiceAnnualReport serviceAnnualReport : serviceAnnualReportList) {
                         annualReportMapper.insert(serviceAnnualReport);
                     }
                 }
 
-
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             return ResponseBo.error(msg);
         }
 

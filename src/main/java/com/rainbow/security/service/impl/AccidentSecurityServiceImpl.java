@@ -192,7 +192,7 @@ public class AccidentSecurityServiceImpl extends BaseService<AccidentSecurity> i
 
                 // 将导入的excel转化为实体
                 List<AccidentSecurityExtend> list = ExcelHelper.convertToList(AccidentSecurityExtend.class, fileName,
-                        inputStream, 2, 15, 0);
+                        inputStream, 1, 15, 0);
                 if (list.size() == 0) {
                     return ResponseBo.error("文件内容为空");
                 }

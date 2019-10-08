@@ -76,7 +76,7 @@ public class ActivityPermitServiceImpl extends BaseService<ActivityPermit> imple
         activityPermit.setCreateDate(new Date());
         activityPermit.setModifyDate(new Date());
 
-        fileInfoService.updateFileInfoByIds(activityPermit.getAttachmentList(),activityPermit.getId());
+        fileInfoService.updateFileInfoByIds(activityPermit.getAttachmentList(), activityPermit.getId());
         return activityPermitMapper.insert(activityPermit);
     }
 
@@ -118,27 +118,25 @@ public class ActivityPermitServiceImpl extends BaseService<ActivityPermit> imple
         if (list != null && list.size() > 0) {
 
             for (ActivityPermitExtend activityPermitExtend : list) {
-                StringBuffer buf=new StringBuffer();
-                buf.append(activityPermitExtend.getServiceDepartName() == null ? "" : activityPermitExtend.getServiceDepartName())
-                        .append(activityPermitExtend.getEquipDepartName() == null ? "" : activityPermitExtend.getEquipDepartName());
+                StringBuffer buf = new StringBuffer();
+                buf.append(activityPermitExtend.getServiceDepartName() == null ? ""
+                        : activityPermitExtend.getServiceDepartName())
+                        .append(activityPermitExtend.getEquipDepartName() == null ? ""
+                                : activityPermitExtend.getEquipDepartName());
 
-                String[] strs = new String[] {
-                        buf.toString(),
-                        activityPermitExtend.getFacName(),
+                String[] strs = new String[] { buf.toString(), activityPermitExtend.getFacName(),
                         activityPermitExtend.getName(), activityPermitExtend.getContent(),
                         activityPermitExtend.getTypeValue(),
                         DateUtils.DateToString(activityPermitExtend.getPermitDate()),
                         DateUtils.DateToString(activityPermitExtend.getValidateTime()),
-                        activityPermitExtend.getLicence(),
-                        activityPermitExtend.getpermitCondition(),
-                        activityPermitExtend.getPromise()
-                };
+                        activityPermitExtend.getLicence(), activityPermitExtend.getpermitCondition(),
+                        activityPermitExtend.getPromise() };
                 cloumnValues.add(strs);
             }
         }
 
-        String[] cloumnNames = new String[] { "单位名称", "设施名称", "许可名称", "许可内容",
-                "活动类型","许可时间", "有效期限", "许可文号", "许可条件", "审评承诺"};
+        String[] cloumnNames = new String[] { "单位名称", "设施名称", "许可名称", "许可内容", "活动类型", "许可时间", "有效期限", "许可文号", "许可条件",
+                "审评承诺" };
 
         HSSFWorkbook wb = new HSSFWorkbook();
         wb = ExportExcel.getHssfWorkBook(wb, "核活动许可信息列表", cloumnNames, cloumnValues);
@@ -174,7 +172,7 @@ public class ActivityPermitServiceImpl extends BaseService<ActivityPermit> imple
                 // inputStream1 = (FileInputStream) file.getInputStream();
                 // ????excel?????
                 List<ActivityPermitExtend> list = ExcelHelper.convertToList(ActivityPermitExtend.class, fileName,
-                        inputStream, 2, 11, 0);
+                        inputStream, 1, 11, 0);
 
                 if (list.size() == 0) {
                     return ResponseBo.error("文件内容为空");

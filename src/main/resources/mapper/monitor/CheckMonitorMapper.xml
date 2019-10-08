@@ -130,7 +130,7 @@
 
   <select id="verifyDuplication" resultType="int" parameterType="java.util.Map">
     select count(1) from monitor_check t where  t.content=#{content} and t.type_id=#{typeId} 
-    and t.start_date={startDate} and t.end_date=#{endDate}
+    and t.start_date=#{startDate} and t.end_date=#{endDate}
     <if test="equipDepartId != null and equipDepartId != ''">
       and t.equip_depart_id = #{equipdepartId}
     </if>

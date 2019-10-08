@@ -137,9 +137,9 @@ public class UmineplaceServiceImpl extends BaseService<Umineplace> implements Um
 
                 // 将导入的excel转化为实体
                 List<UmineplaceExtend> list = ExcelHelper.convertToList(UmineplaceExtend.class, fileName, inputStream,
-                        2, 19, 0);
+                        1, 19, 0);
                 List<UminePlaceImprove> uminePlaceImproveList = ExcelHelper.convertToList(UminePlaceImprove.class,
-                        fileName, inputStream1, 2, 3, 1);
+                        fileName, inputStream1, 1, 3, 1);
 
                 if (list.size() == 0) {
                     return ResponseBo.error("文件内容为空");
@@ -315,7 +315,7 @@ public class UmineplaceServiceImpl extends BaseService<Umineplace> implements Um
     }
 
     @Override
-    public void exportUminePlace(Page page, HttpServletResponse response){
+    public void exportUminePlace(Page page, HttpServletResponse response) {
 
         Map<String, Object> map = page.getQueryParameter();
         List<UmineplaceExtend> list = umineplaceMapper.getUmineplaceList(map);
@@ -328,24 +328,14 @@ public class UmineplaceServiceImpl extends BaseService<Umineplace> implements Um
             for (UmineplaceExtend umineplaceExtend : list) {
 
                 int buildYear = DateUtils.getDateYear(umineplaceExtend.getBuildYear());
-                String[] strs = new String[] {
-                        umineplaceExtend.getName(),
-                        umineplaceExtend.getUmineName(),
-                        Integer.toString(buildYear),
-                        umineplaceExtend.getLevelValue(),
-                        umineplaceExtend.getStatusValue(),
-                        umineplaceExtend.getReviewStatus(),
-                        umineplaceExtend.getPermitSituationValue(),
-                        umineplaceExtend.getSurvey(),
-                        umineplaceExtend.getFeature(),
-                        umineplaceExtend.getCapacity(),
-                        umineplaceExtend.getDesignFloodReproduce(),
-                        umineplaceExtend.getCheckFloodReproduce(),
-                        umineplaceExtend.getEarlyDamType(),
-                        umineplaceExtend.getEarlyDamHeight(),
-                        umineplaceExtend.getHaveMonitor()==0?"否":"是",
-                        umineplaceExtend.getNote()
-                        };
+                String[] strs = new String[] { umineplaceExtend.getName(), umineplaceExtend.getUmineName(),
+                        Integer.toString(buildYear), umineplaceExtend.getLevelValue(),
+                        umineplaceExtend.getStatusValue(), umineplaceExtend.getReviewStatus(),
+                        umineplaceExtend.getPermitSituationValue(), umineplaceExtend.getSurvey(),
+                        umineplaceExtend.getFeature(), umineplaceExtend.getCapacity(),
+                        umineplaceExtend.getDesignFloodReproduce(), umineplaceExtend.getCheckFloodReproduce(),
+                        umineplaceExtend.getEarlyDamType(), umineplaceExtend.getEarlyDamHeight(),
+                        umineplaceExtend.getHaveMonitor() == 0 ? "否" : "是", umineplaceExtend.getNote() };
                 cloumnValues.add(strs);
 
                 // 安技改信息
@@ -357,30 +347,22 @@ public class UmineplaceServiceImpl extends BaseService<Umineplace> implements Um
                 }
             }
 
-            String[] cloumnNames = new String[] {
-                "铀尾矿(渣)库名称","营运单位","建造年代",
-                    "铀尾矿(渣)库等别","铀尾矿(库)设施状态",
-                    "审评状态","铀尾矿(渣)库许可情况","设施简介",
-                    "场址特征","设计有效库容","设计洪水重现期",
-                    "校核洪水重现期","初期坝型","初期坝高",
-                    "是否设置坝体监测设施","备注"
-            };
+            String[] cloumnNames = new String[] { "铀尾矿(渣)库名称", "营运单位", "建造年代", "铀尾矿(渣)库等别", "铀尾矿(库)设施状态", "审评状态",
+                    "铀尾矿(渣)库许可情况", "设施简介", "场址特征", "设计有效库容", "设计洪水重现期", "校核洪水重现期", "初期坝型", "初期坝高", "是否设置坝体监测设施", "备注" };
 
             HSSFWorkbook wb = new HSSFWorkbook();
             wb = ExportExcel.getHssfWorkBook(wb, "铀尾矿（渣）库信息", cloumnNames, cloumnValues);
 
             // 安技改信息
-            String[] cloumnNames1 = new String[] {  "铀尾矿(渣)库名称", "安技改时间", "安技改内容" };
+            String[] cloumnNames1 = new String[] { "铀尾矿(渣)库名称", "安技改时间", "安技改内容" };
 
             cloumnValues = new ArrayList<>();
             if (UminePlaceImproveList.size() > 0) {
                 for (UminePlaceImprove uminePlaceImprove : UminePlaceImproveList) {
 
-                    String[] strs = new String[] {
-                            uminePlaceImprove.getUminePlaceName(),
+                    String[] strs = new String[] { uminePlaceImprove.getUminePlaceName(),
                             DateUtils.DateToString(uminePlaceImprove.getImproveDate()),
-                            uminePlaceImprove.getImproveContent()
-                    };
+                            uminePlaceImprove.getImproveContent() };
                     cloumnValues.add(strs);
                 }
             }

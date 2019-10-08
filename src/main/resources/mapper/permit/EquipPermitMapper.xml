@@ -137,7 +137,7 @@
   </select>
 
   <select id="verifyDuplication" resultType="int" parameterType="java.util.Map">
-    select count(1) from permit_activity t WHERE t.name=#{name} and t.equip_depart_id=#{equipDepartId} and t.stage_id=#{stageId}
+    select count(1) from permit_equip t WHERE t.name=#{name} and t.equip_depart_id=#{equipDepartId} and t.stage_id=#{stageId}
      and t.permit_date=#{permitDate};
   </select>
 </mapper>

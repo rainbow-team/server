@@ -33,6 +33,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.slf4j.Logger;
@@ -119,18 +120,15 @@ public class FacPermitServiceImpl extends BaseService<FacPermit> implements FacP
         if (list != null && list.size() > 0) {
 
             for (FacPermitExtend facPermitExtend : list) {
-                String[] strs = new String[] {
-                        facPermitExtend.getServiceDepartName(),
-                        facPermitExtend.getFacName(), facPermitExtend.getPermitStageValue(),
-                        facPermitExtend.getScope(),
-                        DateUtils.DateToString(facPermitExtend.getPermitDate()),
-                        facPermitExtend.getLicence(), facPermitExtend.getCondition(),facPermitExtend.getPromise()};
+                String[] strs = new String[] { facPermitExtend.getServiceDepartName(), facPermitExtend.getFacName(),
+                        facPermitExtend.getPermitStageValue(), facPermitExtend.getScope(),
+                        DateUtils.DateToString(facPermitExtend.getPermitDate()), facPermitExtend.getLicence(),
+                        facPermitExtend.getCondition(), facPermitExtend.getPromise() };
                 cloumnValues.add(strs);
             }
         }
 
-        String[] cloumnNames = new String[] { "营运单位", "设施名称", "许可阶段", "许可范围",
-                  "许可时间", "许可文号", "许可条件", "审评承诺"};
+        String[] cloumnNames = new String[] { "营运单位", "设施名称", "许可阶段", "许可范围", "许可时间", "许可文号", "许可条件", "审评承诺" };
 
         HSSFWorkbook wb = new HSSFWorkbook();
         wb = ExportExcel.getHssfWorkBook(wb, "核设施许可信息列表", cloumnNames, cloumnValues);
@@ -165,7 +163,7 @@ public class FacPermitServiceImpl extends BaseService<FacPermit> implements FacP
                 inputStream = (FileInputStream) file.getInputStream();
                 // inputStream1 = (FileInputStream) file.getInputStream();
                 // ????excel?????
-                List<FacPermitExtend> list = ExcelHelper.convertToList(FacPermitExtend.class, fileName, inputStream, 2,
+                List<FacPermitExtend> list = ExcelHelper.convertToList(FacPermitExtend.class, fileName, inputStream, 1,
                         8, 0);
 
                 if (list.size() == 0) {
@@ -238,6 +236,9 @@ public class FacPermitServiceImpl extends BaseService<FacPermit> implements FacP
                     params.put("facId", item.getFacId());
                     params.put("stageId", item.getStageId());
                     params.put("permitDate", item.getPermitDate());
+
+                    // SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    // params.put("permitDate", sdf.format(item.getPermitDate()));
 
                     if (facPermitMapper.verifyDuplication(params) > 0) {
                         msg += "第" + (i + 2) + "行【单位名称】+【核设施名称】+【许可阶段】+【许可时间】在数据库中重复,";

@@ -84,7 +84,7 @@ public class WitnessMonitorServiceImpl extends BaseService<WitnessMonitor> imple
         witnessMonitor.setCreateDate(new Date());
         witnessMonitor.setModifyDate(new Date());
 
-        fileInfoService.updateFileInfoByIds(witnessMonitor.getAttachmentList(),witnessMonitor.getId());
+        fileInfoService.updateFileInfoByIds(witnessMonitor.getAttachmentList(), witnessMonitor.getId());
         return witnessMonitorMapper.insert(witnessMonitor);
     }
 
@@ -126,24 +126,28 @@ public class WitnessMonitorServiceImpl extends BaseService<WitnessMonitor> imple
         if (list != null && list.size() > 0) {
 
             for (WitnessMonitorExtend witnessMonitorExtend : list) {
-                StringBuffer buf=new StringBuffer();
-                buf.append(witnessMonitorExtend.getServiceDepartName() == null ? "" : witnessMonitorExtend.getServiceDepartName())
-                .append(witnessMonitorExtend.getUmineName() == null ? "" : witnessMonitorExtend.getUmineName())
-                        .append(witnessMonitorExtend.getEquipDepartName() == null ? "" : witnessMonitorExtend.getEquipDepartName());
-//                String name = witnessMonitorExtend.getServiceDepartName() == null ? "" : witnessMonitorExtend.getServiceDepartName()
-//                        + witnessMonitorExtend.getUmineName() == null ? "" : witnessMonitorExtend.getUmineName()
-//                        + witnessMonitorExtend.getEquipDepartName() == null ? "" : witnessMonitorExtend.getEquipDepartName();
-                String[] strs = new String[]{
-                        buf.toString(),
-                        witnessMonitorExtend.getWitnessObject(), witnessMonitorExtend.getWitnessItems(),
+                StringBuffer buf = new StringBuffer();
+                buf.append(witnessMonitorExtend.getServiceDepartName() == null ? ""
+                        : witnessMonitorExtend.getServiceDepartName())
+                        .append(witnessMonitorExtend.getUmineName() == null ? "" : witnessMonitorExtend.getUmineName())
+                        .append(witnessMonitorExtend.getEquipDepartName() == null ? ""
+                                : witnessMonitorExtend.getEquipDepartName());
+                // String name = witnessMonitorExtend.getServiceDepartName() == null ? "" :
+                // witnessMonitorExtend.getServiceDepartName()
+                // + witnessMonitorExtend.getUmineName() == null ? "" :
+                // witnessMonitorExtend.getUmineName()
+                // + witnessMonitorExtend.getEquipDepartName() == null ? "" :
+                // witnessMonitorExtend.getEquipDepartName();
+                String[] strs = new String[] { buf.toString(), witnessMonitorExtend.getWitnessObject(),
+                        witnessMonitorExtend.getWitnessItems(),
                         DateUtils.DateToString(witnessMonitorExtend.getWitnessDate()),
                         witnessMonitorExtend.getWitnessResult(), witnessMonitorExtend.getWitnessQuestion(),
-                        witnessMonitorExtend.getReform(), witnessMonitorExtend.getWitness()};
+                        witnessMonitorExtend.getReform(), witnessMonitorExtend.getWitness() };
                 cloumnValues.add(strs);
             }
         }
 
-        String[] cloumnNames = new String[] { "单位名称", "见证对象", "见证事项", "见证时间", "见证结论", "存在问题", "整改情况","见证人" };
+        String[] cloumnNames = new String[] { "单位名称", "见证对象", "见证事项", "见证时间", "见证结论", "存在问题", "整改情况", "见证人" };
 
         HSSFWorkbook wb = new HSSFWorkbook();
         wb = ExportExcel.getHssfWorkBook(wb, "日常监督信息列表", cloumnNames, cloumnValues);
@@ -180,7 +184,7 @@ public class WitnessMonitorServiceImpl extends BaseService<WitnessMonitor> imple
 
                 // 将导入的excel转化为实体
                 List<WitnessMonitorExtend> list = ExcelHelper.convertToList(WitnessMonitorExtend.class, fileName,
-                        inputStream, 2, 9, 0);
+                        inputStream, 1, 10, 0);
                 // List<CheckFileMonitorExtend> checkFileMonitorExtendList =
                 // ExcelHelper.convertToList(CheckFileMonitorExtend.class, fileName,
                 // inputStream1, 2, 4,1);

@@ -221,12 +221,15 @@ public class FacServiceImpl extends BaseService<Fac> implements FacService {
                 inputStream1 = (FileInputStream) file.getInputStream();
 
                 // 将导入的excel转化为实体
-                List<FacExtend> list = ExcelHelper.convertToList(FacExtend.class, fileName, inputStream, 2, 19, 0);
-                List<FacImprove> facImproveList = ExcelHelper.convertToList(FacImprove.class, fileName, inputStream1, 2,
+                List<FacExtend> list = ExcelHelper.convertToList(FacExtend.class, fileName, inputStream, 1, 19, 0);
+                List<FacImprove> facImproveList = ExcelHelper.convertToList(FacImprove.class, fileName, inputStream1, 1,
                         3, 1);
 
                 if (list.size() == 0) {
                     return ResponseBo.error("文件内容为空");
+                }
+                if (facImproveList.size() == 0) {
+                    return ResponseBo.error("核设施安技改内容为空");
                 }
 
                 Map<String, String> map = new HashMap<>();

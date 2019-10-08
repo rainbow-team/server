@@ -137,77 +137,59 @@ public class CheckMonitorServiceImpl extends BaseService<CheckMonitor> implement
 
             for (CheckMonitorExtend checkMonitorExtend : list) {
 
-                StringBuffer buf=new StringBuffer();
-                buf.append(checkMonitorExtend.getServiceDepartName() == null ? "" : checkMonitorExtend.getServiceDepartName())
+                StringBuffer buf = new StringBuffer();
+                buf.append(checkMonitorExtend.getServiceDepartName() == null ? ""
+                        : checkMonitorExtend.getServiceDepartName())
                         .append(checkMonitorExtend.getUmineName() == null ? "" : checkMonitorExtend.getUmineName())
-                        .append(checkMonitorExtend.getEquipDepartName() == null ? "" : checkMonitorExtend.getEquipDepartName());
+                        .append(checkMonitorExtend.getEquipDepartName() == null ? ""
+                                : checkMonitorExtend.getEquipDepartName());
 
-                String[] strs = new String[]{
-                        checkMonitorExtend.getId(),
-                        buf.toString(),
-                        checkMonitorExtend.getContent(),
-                        checkMonitorExtend.getTypeValue(),
-                        checkMonitorExtend.getOrgName(),
-                        DateUtils.DateToString(checkMonitorExtend.getStartDate()) + "至" + DateUtils.DateToString(checkMonitorExtend.getEndDate())
-                };
+                String[] strs = new String[] { checkMonitorExtend.getId(), buf.toString(),
+                        checkMonitorExtend.getContent(), checkMonitorExtend.getTypeValue(),
+                        checkMonitorExtend.getOrgName(), DateUtils.DateToString(checkMonitorExtend.getStartDate()) + "至"
+                                + DateUtils.DateToString(checkMonitorExtend.getEndDate()) };
                 cloumnValues.add(strs);
 
-                //培训信息
-                Map<String,Object> map1  = new HashMap<>();
-                map1.put("departId",checkMonitorExtend.getId());
+                // 培训信息
+                Map<String, Object> map1 = new HashMap<>();
+                map1.put("departId", checkMonitorExtend.getId());
                 List<CheckFileMonitorExtend> list1 = checkFileMonitorMapper.getCheckFileMonitorList(map1);
-                if(list1!=null&&list1.size()>0){
+                if (list1 != null && list1.size() > 0) {
                     checkFileMonitorExtendList.addAll(list1);
                 }
             }
         }
 
-        String[] cloumnNames = new String[]{
-                "主编号",
-                "单位名称",
-                "检查内容",
-                "检查类型",
-                "监督检查机构",
-                "检查时间"
-        };
+        String[] cloumnNames = new String[] { "主编号", "单位名称", "检查内容", "检查类型", "监督检查机构", "检查时间" };
 
         HSSFWorkbook wb = new HSSFWorkbook();
         wb = ExportExcel.getHssfWorkBook(wb, "监督检查列表信息", cloumnNames, cloumnValues);
 
-
-        //培训信息
-        String[] cloumnNames1 = new String[]{
-                "主编号",
-                "文件类型",
-                "文件文号",
-                "文件时间"
-        };
+        // 培训信息
+        String[] cloumnNames1 = new String[] { "主编号", "文件类型", "文件文号", "文件时间" };
 
         cloumnValues = new ArrayList<>();
-        if(checkFileMonitorExtendList.size()>0){
+        if (checkFileMonitorExtendList.size() > 0) {
             for (CheckFileMonitorExtend checkFileMonitorExtend : checkFileMonitorExtendList) {
-                String[] strs = new String[]{
-                        checkFileMonitorExtend.getMonitorCheckId(),
-                        checkFileMonitorExtend.getTypeValue(),
-                        checkFileMonitorExtend.getFileNo(),
-                        DateUtils.DateToString(checkFileMonitorExtend.getFileDate())
-                };
+                String[] strs = new String[] { checkFileMonitorExtend.getMonitorCheckId(),
+                        checkFileMonitorExtend.getTypeValue(), checkFileMonitorExtend.getFileNo(),
+                        DateUtils.DateToString(checkFileMonitorExtend.getFileDate()) };
                 cloumnValues.add(strs);
             }
         }
 
         wb = ExportExcel.getHssfWorkBook(wb, "监督检查文件", cloumnNames1, cloumnValues);
 
-
-        try{
-            response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode("监督检查信息列表", "utf-8") + ".xls");
+        try {
+            response.setHeader("content-disposition",
+                    "attachment;filename=" + URLEncoder.encode("监督检查信息列表", "utf-8") + ".xls");
             OutputStream out = response.getOutputStream();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             wb.write(baos);
             byte[] xlsBytes = baos.toByteArray();
             out.write(xlsBytes);
             out.close();
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
@@ -230,9 +212,9 @@ public class CheckMonitorServiceImpl extends BaseService<CheckMonitor> implement
 
                 // 将导入的excel转化为实体
                 List<CheckMonitorExtend> list = ExcelHelper.convertToList(CheckMonitorExtend.class, fileName,
-                        inputStream, 2, 9, 0);
+                        inputStream, 1, 9, 0);
                 List<CheckFileMonitorExtend> checkFileMonitorExtendList = ExcelHelper
-                        .convertToList(CheckFileMonitorExtend.class, fileName, inputStream1, 2, 4, 1);
+                        .convertToList(CheckFileMonitorExtend.class, fileName, inputStream1, 1, 4, 1);
 
                 if (list.size() == 0) {
                     return ResponseBo.error("文件内容为空");
@@ -273,6 +255,15 @@ public class CheckMonitorServiceImpl extends BaseService<CheckMonitor> implement
                             } else {
                                 item.setEquipDepartId(equipDepartId);
                             }
+                        }
+                    }
+
+                    if (!StrUtil.isNullOrEmpty(item.getOrgName())) {
+                        String orgId = orgMapper.getOrgIdByName(item.getOrgName());
+                        if (StrUtil.isNullOrEmpty(orgId)) {
+                            msg += "第" + (i + 2) + "行监督检查机构在数据库不存在，";
+                        } else {
+                            item.setOrgId(orgId);
                         }
                     }
 
@@ -343,18 +334,18 @@ public class CheckMonitorServiceImpl extends BaseService<CheckMonitor> implement
                     // checkFileMonitorExtend.setId(GuidHelper.getGuid());
 
                     if (checkFileMonitorExtend.getFileDate() == null) {
-                        msg += "监督检查文件信息第" + (j + 2) + "文件时间为空，";
+                        msg += "文件信息第" + (j + 2) + "行文件时间为空，";
                     }
 
                     if (StrUtil.isNullOrEmpty(checkFileMonitorExtend.getTypeValue())) {
-                        msg += "第" + (j + 2) + "行文件类型名称为空，";
+                        msg += "文件信息第" + (j + 2) + "行文件类型名称为空，";
                     } else {
                         mapConfig.put("tablename", "config_monitor_check_file_type");
                         mapConfig.put("value", checkFileMonitorExtend.getTypeValue());
                         String typeId = systemConfigMapper.getConfigIdByName(mapConfig);
 
                         if (StrUtil.isNullOrEmpty(typeId)) {
-                            msg += "第" + (j + 2) + "行文件类型名称在数据库不存在，";
+                            msg += "文件信息第" + (j + 2) + "行文件类型名称在数据库不存在，";
                         } else {
                             checkFileMonitorExtend.setMonitorCheckFileTypeId(typeId);
                         }

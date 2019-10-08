@@ -43,7 +43,7 @@ public class SastindController {
      * @return
      */
     @PostMapping("/addSastind")
-    @SystemLog(description="保存国防科工局信息")
+    @SystemLog(description = "保存国防科工局信息")
     public ResponseBo addSastind(@RequestBody SupervisionSastind sastind) {
         int result = sastindService.addSastind(sastind);
 
@@ -61,7 +61,7 @@ public class SastindController {
      * @return
      */
     @PostMapping("/modifySastind")
-    @SystemLog(description="修改国防科工局信息")
+    @SystemLog(description = "修改国防科工局信息")
     public ResponseBo modifySastind(@RequestBody SupervisionSastind sastind) {
         int result = sastindService.modifySastind(sastind);
         if (result == 1) {
@@ -78,7 +78,7 @@ public class SastindController {
      * @return
      */
     @PostMapping("/deleteSastindById")
-    @SystemLog(description="删除国防科工局信息")
+    @SystemLog(description = "删除国防科工局信息")
     public ResponseBo deleteSastind(@RequestBody String id) {
         int result = sastindService.deleteByKey(id);
         if (result == 1) {
@@ -89,82 +89,86 @@ public class SastindController {
     }
 
     @PostMapping("/getAllSastinds")
-    public List<SupervisionSastind> selectAllSastind(){
+    public List<SupervisionSastind> selectAllSastind() {
         return sastindService.selectAll();
     }
 
     @PostMapping("/getSastindList")
-    public ResponseBo getSastindList(@RequestBody Page page){
+    public ResponseBo getSastindList(@RequestBody Page page) {
         return sastindService.getSastindList(page);
     }
 
     @GetMapping("/getSastindById")
-    public ResponseBo getSastindById(String id){
+    public ResponseBo getSastindById(String id) {
         SupervisionSastind supervisionSastind = sastindService.selectByKey(id);
-        return  ResponseBo.ok(supervisionSastind);
+        return ResponseBo.ok(supervisionSastind);
     }
 
     @RequestMapping(value = "/exportSastind", method = RequestMethod.GET)
-    @SystemLog(description="导出国防科工局信息")
-    public void exportSastind(HttpServletResponse response){
+    @SystemLog(description = "导出国防科工局信息")
+    public void exportSastind(HttpServletResponse response) {
 
         List<Condition> list = new ArrayList<>();
 
-        //if (name != null&&!name.equals("")) {
-        //    list.add(new Condition("name", name));
-        //}
+        // if (name != null&&!name.equals("")) {
+        // list.add(new Condition("name", name));
+        // }
 
         Page page = new Page();
         page.setConditions(list);
 
-        sastindService.exportSastind(page,response);
-        //page.setPageSize(Integer.MAX_VALUE);
-        //page.setPageNo(1);
+        sastindService.exportSastind(page, response);
+        // page.setPageSize(Integer.MAX_VALUE);
+        // page.setPageNo(1);
 
-        //List<String[]> cloumnValues = new ArrayList<>();
-        //PagingEntity<SupervisionSastind> listdata = ( PagingEntity<SupervisionSastind>)sastindService.getSastindList(page).get("msg");
+        // List<String[]> cloumnValues = new ArrayList<>();
+        // PagingEntity<SupervisionSastind> listdata = (
+        // PagingEntity<SupervisionSastind>)sastindService.getSastindList(page).get("msg");
         //
-        //List<SupervisionSastind> data = listdata.getCurrentList();
-        //if(data!=null&&data.size()>0){
+        // List<SupervisionSastind> data = listdata.getCurrentList();
+        // if(data!=null&&data.size()>0){
         //
-        //    for (SupervisionSastind supervisionSastind:data) {
-        //        String[] strs = new String[]{supervisionSastind.getName(),supervisionSastind.getLeader(),
-        //                supervisionSastind.getSecurityLeader(),supervisionSastind.getPermitLeader(),supervisionSastind.getPermitLeader()};
-        //        cloumnValues.add(strs);
-        //    }
-        //}
+        // for (SupervisionSastind supervisionSastind:data) {
+        // String[] strs = new
+        // String[]{supervisionSastind.getName(),supervisionSastind.getLeader(),
+        // supervisionSastind.getSecurityLeader(),supervisionSastind.getPermitLeader(),supervisionSastind.getPermitLeader()};
+        // cloumnValues.add(strs);
+        // }
+        // }
         //
         //
-        //String[] cloumnNames=new String[]{"司局名称","司领导","分管核安全司领导","核安全许可处室领导","核安全监督处室领导"};
+        // String[] cloumnNames=new
+        // String[]{"司局名称","司领导","分管核安全司领导","核安全许可处室领导","核安全监督处室领导"};
         //
-        //ExportExcel.exportExcelCommon(response,"国防科工局基本信息",cloumnNames,cloumnValues);
+        // ExportExcel.exportExcelCommon(response,"国防科工局基本信息",cloumnNames,cloumnValues);
     }
 
     @RequestMapping(value = "/import", method = RequestMethod.POST)
     @ResponseBody
-    @SystemLog(description="导入国防科工局信息")
+    @SystemLog(description = "导入国防科工局信息")
     public ResponseBo importSastind(HttpServletRequest request) {
 
         Multipart part = new Multipart();
-        //获取前端传过来的file
+        // 获取前端传过来的file
         MultipartFile file = part.getUploadFile(request);
         FileInputStream inputStream = null;
 
         ResponseBo result = new ResponseBo();
         try {
             if (file != null) {
-                //转化文件名，避免乱码
+                // 转化文件名，避免乱码
                 String fileName = new String(file.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8");
                 inputStream = (FileInputStream) file.getInputStream();
-                //将导入的excel转化为实体
-                List<SupervisionSastind> list = ExcelHelper.convertToList(SupervisionSastind.class, fileName, inputStream, 2, 12,0);
+                // 将导入的excel转化为实体
+                List<SupervisionSastind> list = ExcelHelper.convertToList(SupervisionSastind.class, fileName,
+                        inputStream, 1, 12, 0);
 
-                if(list.size()==0){
+                if (list.size() == 0) {
 
                     return ResponseBo.error("文件内容为空");
                 }
-                //插入法规
-                result= sastindService.importSastind(list);
+                // 插入法规
+                result = sastindService.importSastind(list);
                 inputStream.close();
             }
         } catch (Exception e) {

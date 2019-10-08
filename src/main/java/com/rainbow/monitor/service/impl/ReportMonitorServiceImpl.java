@@ -67,7 +67,7 @@ public class ReportMonitorServiceImpl extends BaseService<ReportMonitor> impleme
         reportMonitor.setCreateDate(new Date());
         reportMonitor.setModifyDate(new Date());
 
-        fileInfoService.updateFileInfoByIds(reportMonitor.getAttachmentList(),reportMonitor.getId());
+        fileInfoService.updateFileInfoByIds(reportMonitor.getAttachmentList(), reportMonitor.getId());
         return reportMonitorMapper.insert(reportMonitor);
     }
 
@@ -109,14 +109,14 @@ public class ReportMonitorServiceImpl extends BaseService<ReportMonitor> impleme
         if (list != null && list.size() > 0) {
 
             for (ReportMonitorExtend reportMonitorExtend : list) {
-                String[] strs = new String[] { reportMonitorExtend.getOrgName(),
-                        reportMonitorExtend.getName(), reportMonitorExtend.getReportTypeValue(),
+                String[] strs = new String[] { reportMonitorExtend.getOrgName(), reportMonitorExtend.getName(),
+                        reportMonitorExtend.getReportTypeValue(),
                         DateUtils.DateToString(reportMonitorExtend.getreportDate()) };
                 cloumnValues.add(strs);
             }
         }
 
-        String[] cloumnNames = new String[] { "监管机构", "报告名称", "报告类型", "报告时间"};
+        String[] cloumnNames = new String[] { "监管机构", "报告名称", "报告类型", "报告时间" };
 
         HSSFWorkbook wb = new HSSFWorkbook();
         wb = ExportExcel.getHssfWorkBook(wb, "监督报告信息列表", cloumnNames, cloumnValues);
@@ -152,7 +152,7 @@ public class ReportMonitorServiceImpl extends BaseService<ReportMonitor> impleme
                 inputStream1 = (FileInputStream) file.getInputStream();
                 // 将导入的excel转化为实体
                 List<ReportMonitorExtend> list = ExcelHelper.convertToList(ReportMonitorExtend.class, fileName,
-                        inputStream, 2, 10, 0);
+                        inputStream, 1, 4, 0);
                 // List<SupervisionTrainRecordExtend> supervisionTrainRecordExtendList =
                 // ExcelHelper.convertToList(SupervisionTrainRecordExtend.class, fileName,
                 // inputStream1, 2, 6,1);

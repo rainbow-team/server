@@ -176,7 +176,7 @@ public class UminePlaceSecurityServiceImpl extends BaseService<UminePlaceSecurit
 
                 // 将导入的excel转化为实体
                 List<UminePlaceSecurityExtend> list = ExcelHelper.convertToList(UminePlaceSecurityExtend.class,
-                        fileName, inputStream, 2, 12, 0);
+                        fileName, inputStream, 1, 12, 0);
                 if (list.size() == 0) {
                     return ResponseBo.error("文件内容为空");
                 }

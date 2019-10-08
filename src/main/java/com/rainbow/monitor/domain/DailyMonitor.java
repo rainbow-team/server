@@ -48,21 +48,21 @@ public class DailyMonitor {
      * 日常监督文件类型，外键参考表：config_monitor_daily_file_type
      */
     @Column(name = "file_type_id")
-    @BeanFieldAnnotation(order = 6)
-    public String fileTypeId;
+    private String fileTypeId;
 
     /**
      * 文件名称
      */
     @Column(name = "file_name")
-    @BeanFieldAnnotation(order = 7)
+    @BeanFieldAnnotation(order = 6)
     public String fileName;
 
     /**
      * 文件时间
      */
     @Column(name = "file_date")
-    private Date fileDate;
+    @BeanFieldAnnotation(order = 7)
+    public Date fileDate;
 
     /**
      * 备注
