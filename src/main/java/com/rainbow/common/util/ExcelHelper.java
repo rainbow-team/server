@@ -163,11 +163,17 @@ public class ExcelHelper {
                         break;
                     //数值
                     case Cell.CELL_TYPE_NUMERIC:
-                        if (DateUtil.isCellDateFormatted(cell)) {
+                        if (DateUtil.isCellDateFormatted(cell)||cell.getCellStyle().getDataFormat()==31) {
                             Date theDate = cell.getDateCellValue();
                             SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+                            Calendar   calendar   =   new   GregorianCalendar();
+                            calendar.setTime(theDate);
+                            calendar.add(Calendar.DATE,1);
+                            theDate=calendar.getTime();
+                            
                             value = dff.format(theDate);
-                        } else {
+                        }else{
                             //为数值赋值，避免大数据变成科学表达式
                             DecimalFormat df = new DecimalFormat("0");
                             value = df.format(cell.getNumericCellValue());
