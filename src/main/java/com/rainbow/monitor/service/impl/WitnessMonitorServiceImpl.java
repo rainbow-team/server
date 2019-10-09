@@ -150,11 +150,11 @@ public class WitnessMonitorServiceImpl extends BaseService<WitnessMonitor> imple
         String[] cloumnNames = new String[] { "单位名称", "见证对象", "见证事项", "见证时间", "见证结论", "存在问题", "整改情况", "见证人" };
 
         HSSFWorkbook wb = new HSSFWorkbook();
-        wb = ExportExcel.getHssfWorkBook(wb, "日常监督信息列表", cloumnNames, cloumnValues);
+        wb = ExportExcel.getHssfWorkBook(wb, "监督见证信息列表", cloumnNames, cloumnValues);
 
         try {
             response.setHeader("content-disposition",
-                    "attachment;filename=" + URLEncoder.encode("日常监督信息列表", "utf-8") + ".xls");
+                    "attachment;filename=" + URLEncoder.encode("监督见证信息列表", "utf-8") + ".xls");
             OutputStream out = response.getOutputStream();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             wb.write(baos);
