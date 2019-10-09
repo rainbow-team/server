@@ -178,7 +178,7 @@ public class FacSecurityServiceImpl extends BaseService<FacSecurity> implements 
                 // 校验
                 for (int i = 0; i < list.size(); i++) {
                     FacSecurityExtend item = list.get(i);
-
+                    item.setId(GuidHelper.getGuid());
                     if (StrUtil.isNullOrEmpty(item.getServiceDepartName())) {
                         msg += "第" + (i + 2) + "行核设施营运单位和铀矿冶单位为空,";
                     } else {

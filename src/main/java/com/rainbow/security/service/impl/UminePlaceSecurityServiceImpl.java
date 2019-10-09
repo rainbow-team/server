@@ -186,7 +186,7 @@ public class UminePlaceSecurityServiceImpl extends BaseService<UminePlaceSecurit
                 // 校验
                 for (int i = 0; i < list.size(); i++) {
                     UminePlaceSecurityExtend item = list.get(i);
-
+                    item.setId(GuidHelper.getGuid());
                     if (StrUtil.isNullOrEmpty(item.getUmineName())) {
                         msg += "第" + (i + 2) + "行铀矿冶单位为空,";
                     } else {
@@ -201,7 +201,7 @@ public class UminePlaceSecurityServiceImpl extends BaseService<UminePlaceSecurit
                     if (!StrUtil.isNullOrEmpty(item.getUminePlaceName())) {
                         String uminePlaceId = umineplaceMapper.getUminePlaceIdByName(item.getUminePlaceName());
                         if (StrUtil.isNullOrEmpty(uminePlaceId)) {
-                            msg += "第" + (i + 2) + "行铀尾矿(渣)库的信息在数据库不存在，";
+                            msg += "第" + (i + 2) + "行铀尾矿(渣)库在数据库不存在，";
                         } else {
                             item.setUminePlaceId(uminePlaceId);
                         }

@@ -33,8 +33,10 @@ import com.rainbow.security.domain.AccidentSecurity;
 import com.rainbow.security.domain.extend.AccidentSecurityExtend;
 import com.rainbow.security.service.AccidentSecurityService;
 import com.rainbow.system.domain.SystemUser;
+import com.rainbow.unit.dao.FacMapper;
 import com.rainbow.unit.dao.ServiceDepartMapper;
 import com.rainbow.unit.dao.UmineMapper;
+import com.rainbow.unit.dao.UmineplaceMapper;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.slf4j.Logger;
@@ -62,6 +64,12 @@ public class AccidentSecurityServiceImpl extends BaseService<AccidentSecurity> i
 
     @Autowired
     SystemConfigMapper systemConfigMapper;
+
+    @Autowired
+    FacMapper facMapper;
+
+    @Autowired
+    UmineplaceMapper umineplaceMapper;
 
     @Autowired
     FileInfoService fileInfoService;
@@ -202,7 +210,7 @@ public class AccidentSecurityServiceImpl extends BaseService<AccidentSecurity> i
                 // 校验
                 for (int i = 0; i < list.size(); i++) {
                     AccidentSecurityExtend item = list.get(i);
-
+                    item.setId(GuidHelper.getGuid());
                     if (StrUtil.isNullOrEmpty(item.getServiceDepartName())
                             && StrUtil.isNullOrEmpty(item.getUmineName())) {
                         msg += "第" + (i + 2) + "行核设施营运单位和铀矿冶单位为空,";
@@ -226,9 +234,25 @@ public class AccidentSecurityServiceImpl extends BaseService<AccidentSecurity> i
                         }
                     }
 
-                    if (StrUtil.isNullOrEmpty(item.getFacStatusValue())) {
-                        msg += "第" + (i + 2) + "行设施状态为空，";
-                    } else {
+                    if (!StrUtil.isNullOrEmpty(item.getFacName())) {
+                        String facId = facMapper.getFacIdByName(item.getFacName());
+                        if (StrUtil.isNullOrEmpty(facId)) {
+                            msg += "第" + (i + 2) + "行核设施信息在数据库不存在，";
+                        } else {
+                            item.setFacId(facId);
+                        }
+                    }
+
+                    if (!StrUtil.isNullOrEmpty(item.getUminePlaceName())) {
+                        String uminePlaceId = umineplaceMapper.getUminePlaceIdByName(item.getUminePlaceName());
+                        if (StrUtil.isNullOrEmpty(uminePlaceId)) {
+                            msg += "第" + (i + 2) + "行铀尾矿(渣)库在数据库不存在，";
+                        } else {
+                            item.setUminePlaceId(uminePlaceId);
+                        }
+                    }
+
+                    if (!StrUtil.isNullOrEmpty(item.getFacStatusValue())) {
                         mapConfig.put("tablename", "config_fac_status");
                         mapConfig.put("value", item.getFacStatusValue());
                         String typeId = systemConfigMapper.getConfigIdByName(mapConfig);
@@ -240,9 +264,7 @@ public class AccidentSecurityServiceImpl extends BaseService<AccidentSecurity> i
                         }
                     }
 
-                    if (StrUtil.isNullOrEmpty(item.getUminePlaceStatusValue())) {
-                        msg += "第" + (i + 2) + "行铀尾矿(渣)库状态为空，";
-                    } else {
+                    if (!StrUtil.isNullOrEmpty(item.getUminePlaceStatusValue())) {
                         mapConfig.put("tablename", "config_umine_place_status");
                         mapConfig.put("value", item.getUminePlaceStatusValue());
                         String typeId = systemConfigMapper.getConfigIdByName(mapConfig);
@@ -264,6 +286,34 @@ public class AccidentSecurityServiceImpl extends BaseService<AccidentSecurity> i
 
                     if (StrUtil.isNullOrEmpty(item.getProcess())) {
                         msg += "第" + (i + 2) + "行事件过程为空,";
+                    }
+
+                    if (StrUtil.isNullOrEmpty(item.getTypeValue())) {
+                        msg += "第" + (i + 2) + "行事故事件类别为空，";
+                    } else {
+                        mapConfig.put("tablename", "config_accident_type");
+                        mapConfig.put("value", item.getTypeValue());
+                        String typeId = systemConfigMapper.getConfigIdByName(mapConfig);
+
+                        if (StrUtil.isNullOrEmpty(typeId)) {
+                            msg += "第" + (i + 2) + "行事故事件类别在数据库不存在，";
+                        } else {
+                            item.setTypeId(typeId);
+                        }
+                    }
+
+                    if (StrUtil.isNullOrEmpty(item.getNatureValue())) {
+                        msg += "第" + (i + 2) + "行事故事件性质为空，";
+                    } else {
+                        mapConfig.put("tablename", "config_accident_nature");
+                        mapConfig.put("value", item.getNatureValue());
+                        String typeId = systemConfigMapper.getConfigIdByName(mapConfig);
+
+                        if (StrUtil.isNullOrEmpty(typeId)) {
+                            msg += "第" + (i + 2) + "行事故事件性质在数据库不存在，";
+                        } else {
+                            item.setNatureId(typeId);
+                        }
                     }
 
                     // Excel数据重复判断
