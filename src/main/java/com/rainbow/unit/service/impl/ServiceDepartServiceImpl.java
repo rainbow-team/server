@@ -31,6 +31,9 @@ import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @Author:deepblue
  * @Date:2019/5/5 13:11
@@ -38,6 +41,8 @@ import java.util.*;
  **/
 @Service("servicedepartservice")
 public class ServiceDepartServiceImpl extends BaseService<ServiceDepart> implements ServiceDepartService {
+
+    private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     ServiceDepartMapper serviceDepartMapper;
@@ -291,7 +296,8 @@ public class ServiceDepartServiceImpl extends BaseService<ServiceDepart> impleme
 
             }
         } catch (Exception e) {
-            return ResponseBo.error(msg);
+            log.error(e.getMessage());
+            return ResponseBo.error("数据导入失败!\r\t" + msg);
         }
 
         return ResponseBo.ok();

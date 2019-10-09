@@ -323,13 +323,6 @@ public class FacServiceImpl extends BaseService<Fac> implements FacService {
                         }
                     }
 
-                    // if (StrUtil.isNullOrEmpty(item.getIsEarthquake())) {
-                    // msg += "第" + (i + 2) + "行文件类型名称为空，";
-                    // }
-                    // if (StrUtil.isNullOrEmpty(item.getIsFlood())) {
-                    // msg += "第" + (i + 2) + "行文件类型名称为空，";
-                    // }
-
                     // Excel数据重复判断
                     if (map.containsKey(item.getServiceId() + item.getName())) {
                         msg += "第" + (i + 2) + "行【单位名称】+【核设施名称】数据重复，";
@@ -343,16 +336,14 @@ public class FacServiceImpl extends BaseService<Fac> implements FacService {
                     params.put("name", item.getName());
 
                     if (facMapper.verifyDuplication(params) > 0) {
-                        msg += "第" + (i + 2) + "【单位名称】+【核设施名称】与数据库中的数据存在重复，";
+                        msg += "第" + (i + 2) + "行【单位名称】+【核设施名称】与数据库中的数据存在重复，";
                     }
 
-                    // 获取关联的文件列表
+                    // 获取关联的文件列表并设置ID
                     List<FacImprove> filterList = facImproveList.stream().filter(a -> a.getFacId().equals(item.getId()))
                             .collect(Collectors.toList());
 
-                    if (filterList.size() == 0) {
-                        msg += "第" + (i + 2) + "核设施安技改ID列存在未关联数据情况，";
-                    } else {
+                    if (filterList.size() > 0) {
                         String guid = GuidHelper.getGuid();
                         item.setId(guid);
                         filterList.forEach((cf) -> cf.setFacId(guid));
@@ -365,14 +356,22 @@ public class FacServiceImpl extends BaseService<Fac> implements FacService {
 
                     FacImprove item = facImproveList.get(j);
 
-                    if (StrUtil.isNullOrEmpty(item.getFacName())) {
-                        msg += "第" + (j + 2) + "行核设施安技改-核设施名称为空，";
+                    if (StrUtil.isNullOrEmpty(item.getFacId())) {
+                        msg += "第" + (j + 2) + "行核设施安技改-核设施ID为空，";
                     }
                     if (StrUtil.isNullOrEmpty(item.getImproveContent())) {
                         msg += "第" + (j + 2) + "行核设施安技改-安技改内容为空，";
                     }
                     if (null == item.getImproveDate()) {
                         msg += "第" + (j + 2) + "行核设施安技改-安技改时间为空，";
+                    }
+
+                    // 判断安技改是否有对应的核设施，存在未关联情况则提示
+                    List<FacExtend> filterList = list.stream().filter(a -> a.getId().equals(item.getFacId()))
+                            .collect(Collectors.toList());
+
+                    if (filterList.size() == 0) {
+                        msg += "第" + (j + 2) + "行核设施安技改信息没有对应的核设施，";
                     }
                 }
                 if (!msg.isEmpty()) {
@@ -406,7 +405,7 @@ public class FacServiceImpl extends BaseService<Fac> implements FacService {
             }
         } catch (Exception e) {
             log.error(e.getMessage());
-            return ResponseBo.error(msg);
+            return ResponseBo.error("数据导入失败!\r\t" + msg);
         }
 
         return ResponseBo.ok();

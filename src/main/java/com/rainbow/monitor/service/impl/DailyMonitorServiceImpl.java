@@ -289,7 +289,7 @@ public class DailyMonitorServiceImpl extends BaseService<DailyMonitor> implement
             }
         } catch (Exception e) {
             log.error(e.getMessage());
-            return ResponseBo.error(msg);
+            return ResponseBo.error("数据导入失败!\r\t" + msg);
         }
 
         return ResponseBo.ok();

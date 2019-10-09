@@ -145,7 +145,8 @@ public class Umineplace extends BaseExtendEntity {
     /**
      * 备注
      */
-    private String note;
+    @BeanFieldAnnotation(order = 17)
+    public String note;
 
     /**
      * 获取主键

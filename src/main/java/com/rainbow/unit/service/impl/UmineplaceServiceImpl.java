@@ -137,7 +137,7 @@ public class UmineplaceServiceImpl extends BaseService<Umineplace> implements Um
 
                 // 将导入的excel转化为实体
                 List<UmineplaceExtend> list = ExcelHelper.convertToList(UmineplaceExtend.class, fileName, inputStream,
-                        1, 19, 0);
+                        1, 17, 0);
                 List<UminePlaceImprove> uminePlaceImproveList = ExcelHelper.convertToList(UminePlaceImprove.class,
                         fileName, inputStream1, 1, 3, 1);
 
@@ -225,13 +225,6 @@ public class UmineplaceServiceImpl extends BaseService<Umineplace> implements Um
                         }
                     }
 
-                    // if (StrUtil.isNullOrEmpty(item.getIsEarthquake())) {
-                    // msg += "第" + (i + 2) + "行文件类型名称为空，";
-                    // }
-                    // if (StrUtil.isNullOrEmpty(item.getIsFlood())) {
-                    // msg += "第" + (i + 2) + "行文件类型名称为空，";
-                    // }
-
                     // Excel数据重复判断
                     if (map.containsKey(item.getUmineId() + item.getName())) {
                         msg += "第" + (i + 2) + "行【单位名称】+【铀尾矿（渣）库名称】数据重复，";
@@ -248,13 +241,11 @@ public class UmineplaceServiceImpl extends BaseService<Umineplace> implements Um
                         msg += "第" + (i + 2) + "【单位名称】+【铀尾矿（渣）库名称】与数据库中的数据存在重复，";
                     }
 
-                    // 获取关联的文件列表
+                    // // 获取关联的文件列表并设置ID
                     List<UminePlaceImprove> filterList = uminePlaceImproveList.stream()
                             .filter(a -> a.getUminePlaceId().equals(item.getId())).collect(Collectors.toList());
 
-                    if (filterList.size() == 0) {
-                        msg += "第" + (i + 2) + "核设施安技改ID列存在未关联数据情况，";
-                    } else {
+                    if (filterList.size() > 0) {
                         String guid = GuidHelper.getGuid();
                         item.setId(guid);
                         filterList.forEach((cf) -> cf.setUminePlaceId(guid));
@@ -275,6 +266,14 @@ public class UmineplaceServiceImpl extends BaseService<Umineplace> implements Um
                     }
                     if (null == item.getImproveDate()) {
                         msg += "第" + (j + 2) + "行核设施安技改-安技改时间为空，";
+                    }
+
+                    // 判断安技改是否有对应的铀尾矿渣库，存在未关联情况则提示
+                    List<UmineplaceExtend> filterList = list.stream()
+                            .filter(a -> a.getId().equals(item.getUminePlaceId())).collect(Collectors.toList());
+
+                    if (filterList.size() == 0) {
+                        msg += "第" + (j + 2) + "核安技改信息没有对应的铀尾矿（渣）库，";
                     }
                 }
                 if (!msg.isEmpty()) {
@@ -308,7 +307,7 @@ public class UmineplaceServiceImpl extends BaseService<Umineplace> implements Um
             }
         } catch (Exception e) {
             log.error(e.getMessage());
-            return ResponseBo.error(msg);
+            return ResponseBo.error("数据导入失败!\r\t" + msg);
         }
 
         return ResponseBo.ok();
