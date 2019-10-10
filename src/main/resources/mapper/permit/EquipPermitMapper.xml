@@ -133,7 +133,7 @@
   </select>
 
   <select id="getEquipNum" resultType="java.lang.Integer">
-    select count(*) from permit_equip t where t.stage_id='a8952e71-a1e4-11e9-988b-507b9dae29a9'
+    select count(*) from permit_equip t where t.stage_id='d6cc7979-ea76-11e9-b30f-00163e08b1e1'
   </select>
 
   <select id="verifyDuplication" resultType="int" parameterType="java.util.Map">
