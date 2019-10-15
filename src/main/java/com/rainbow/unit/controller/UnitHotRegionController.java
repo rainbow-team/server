@@ -29,7 +29,7 @@ public class UnitHotRegionController {
     UnitHotRegionService service;
 
     @PostMapping("/addUnitHotRegion")
-    @SystemLog(description="新增热区")
+    @SystemLog(description = "新增热区")
     public ResponseBo add(@RequestBody UnitHotRegion region) {
         int result = service.addUnitHotRegion(region);
 
@@ -41,7 +41,7 @@ public class UnitHotRegionController {
     }
 
     @PostMapping("/modifyUnitHotRegion")
-    @SystemLog(description="编辑热区")
+    @SystemLog(description = "编辑热区")
     public ResponseBo modify(@RequestBody UnitHotRegion region) {
 
         int result = service.modifyUnitHotRegion(region);
@@ -53,7 +53,7 @@ public class UnitHotRegionController {
     }
 
     @PostMapping("/deleteUnitHotRegionById")
-    @SystemLog(description="删除热区")
+    @SystemLog(description = "删除热区")
     public ResponseBo deleteUnitHotRegionByIds(@RequestBody String id) {
         if (id != null) {
             int result = service.deleteUnitHotRegionById(id);
@@ -82,9 +82,9 @@ public class UnitHotRegionController {
         }
     }
 
-    @PostMapping("/getUnitHotRegionListByUnitId")
-    public ResponseBo getUnitHotRegionListByUnitId(@RequestBody String unitId) {
-        List<UnitHotRegion> result = service.getUnitHotRegionListByUnitId(unitId);
+    @PostMapping("/getUnitHotRegionListByAddressId")
+    public ResponseBo getUnitHotRegionListByAddressId(@RequestBody String addressId) {
+        List<UnitHotRegion> result = service.getUnitHotRegionListByAddressId(addressId);
         if (result != null) {
             return ResponseBo.ok(result);
         }

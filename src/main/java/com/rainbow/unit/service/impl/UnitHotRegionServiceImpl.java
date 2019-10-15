@@ -57,8 +57,8 @@ public class UnitHotRegionServiceImpl extends BaseService<UnitHotRegion> impleme
     }
 
     @Override
-    public List<UnitHotRegion> getUnitHotRegionListByUnitId(String unitId) {
-        return mapper.getUnitHotRegionListByUnitId(unitId);
+    public List<UnitHotRegion> getUnitHotRegionListByAddressId(String addressId) {
+        return mapper.getUnitHotRegionListByAddressId(addressId);
     }
 
     @Override

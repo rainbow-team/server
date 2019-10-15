@@ -22,7 +22,7 @@ public interface UnitHotRegionService extends IService<UnitHotRegion> {
 
     int insertRegionsBatch(List<UnitHotRegion> regions);
 
-    List<UnitHotRegion> getUnitHotRegionListByUnitId(String unitId);
+    List<UnitHotRegion> getUnitHotRegionListByAddressId(String addressId);
 
     ResponseBo getUnitHotRegionList(Page page);
 

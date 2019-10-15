@@ -12,8 +12,8 @@
         <result column="pic_id" jdbcType="VARCHAR" property="picId" />
     </resultMap>
 
-    <select id="getUnitHotRegionListByUnitId" resultMap="UnitHotRegionMap" parameterType="java.lang.String">
-        select * from unit_hot_region where 1=1 and unit_id=#{unitId}
+    <select id="getUnitHotRegionListByAddressId" resultMap="UnitHotRegionMap" parameterType="java.lang.String">
+        select * from unit_hot_region where 1=1 and address_id=#{addressId}
     </select>
 
     <select id="getUnitHotRegionList" parameterType="map" resultMap="UnitHotRegionMap">
