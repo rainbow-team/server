@@ -10,7 +10,7 @@ public class FacCheck {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    public String id;
 
     /**
      * 核设施营运单位，外键
@@ -18,7 +18,7 @@ public class FacCheck {
 参考表:unit_service
      */
     @Column(name = "service_id")
-    private String serviceId;
+    public String serviceId;
 
     /**
      * 核设施名称,外键
@@ -26,7 +26,7 @@ public class FacCheck {
 
      */
     @Column(name = "fac_id")
-    private String facId;
+    public String facId;
 
     /**
      * 核设施审评类型，外键
@@ -34,54 +34,54 @@ public class FacCheck {
 参考表：config_fac_check_type
      */
     @Column(name = "type_id")
-    private String typeId;
+    public String typeId;
 
     /**
      * 审评阶段的外键id，
 参考表:config_fac_check_stage
      */
     @Column(name = "stage_id")
-    private String stageId;
+    public String stageId;
 
     /**
      * 审评时间
      */
     @Column(name = "check_date")
-    private Date checkDate;
+    public Date checkDate;
 
     /**
      * 备注
      */
-    private String note;
+    public String note;
     /**
      * 是否导入0 否 1 是
      */
     @Column(name = "is_import")
-    private Integer isImport;
+    public Integer isImport;
 
     /**
      * 创建人ID
      */
     @Column(name = "creator_id")
-    private String creatorId;
+    public String creatorId;
 
     /**
      * 创建时间
      */
     @Column(name = "create_date")
-    private Date createDate;
+    public Date createDate;
 
     /**
      * 修改人ID
      */
     @Column(name = "modify_id")
-    private String modifyId;
+    public String modifyId;
 
     /**
      * 修改时间
      */
     @Column(name = "modify_date")
-    private Date modifyDate;
+    public Date modifyDate;
 
     /**
      * 获取主键

@@ -10,61 +10,61 @@ public class FileInfo {
      */
     @Id
     @Column(name = "fileinfo_id")
-    private String fileinfoId;
+    public String fileinfoId;
 
     /**
      * 引用此附件的ID
      */
     @Column(name = "fileinfo_ref_id")
-    private String fileinfoRefId;
+    public String fileinfoRefId;
 
     /**
      * 文件类型
      */
     @Column(name = "fileinfo_file_type")
-    private String fileinfoFileType;
+    public String fileinfoFileType;
 
     /**
      * 上传到服务器后的文件名
      */
     @Column(name = "fileinfo_server_file_name")
-    private String fileinfoServerFileName;
+    public String fileinfoServerFileName;
 
     /**
      * 上传前用户本地的文件名
      */
     @Column(name = "fileinfo_client_file_name")
-    private String fileinfoClientFileName;
+    public String fileinfoClientFileName;
 
     /**
      * 服务器上面的文件路径
      */
     @Column(name = "fileinfo_server_path")
-    private String fileinfoServerPath;
+    public String fileinfoServerPath;
 
     /**
      * 上传人id
      */
     @Column(name = "fileinfo_upload_user_id")
-    private String fileinfoUploadUserId;
+    public String fileinfoUploadUserId;
 
     /**
      * 上传时间
      */
     @Column(name = "fileinfo_upload_date")
-    private Date fileinfoUploadDate;
+    public Date fileinfoUploadDate;
 
     /**
      * 内容
      */
     @Column(name = "fileinfo_content")
-    private String fileinfoContent;
+    public String fileinfoContent;
 
     /**
      * 是否导入0 否 1 是
      */
     @Column(name = "is_import")
-    private Integer isImport;
+    public Integer isImport;
     /**
      * 获取主键ID
      *

@@ -21,7 +21,7 @@ public class CheckMonitor {
      * 参考表：unit_service
      */
     @Column(name = "service_id")
-    private String serviceId;
+    public String serviceId;
 
     /**
      * 铀矿冶单位信息,外键
@@ -29,7 +29,7 @@ public class CheckMonitor {
      * 参考表：unit_umine
      */
     @Column(name = "umine_id")
-    private String umineId;
+    public String umineId;
 
     /**
      * 核安全设备单位，外键
@@ -37,7 +37,7 @@ public class CheckMonitor {
      * 参考表：unit_equip_depart
      */
     @Column(name = "equip_depart_id")
-    private String equipDepartId;
+    public String equipDepartId;
 
     /**
      * 检查内容
@@ -50,13 +50,13 @@ public class CheckMonitor {
      * 参考表：config_monitor_check_type
      */
     @Column(name = "type_id")
-    private String typeId;
+    public String typeId;
 
     /**
      * 检查监督机构外键，参考表supervison_org
      */
     @Column(name = "org_id")
-    private String orgId;
+    public String orgId;
 
     /**
      * 检查时间
@@ -75,35 +75,35 @@ public class CheckMonitor {
     /**
      * 备注
      */
-    private String note;
+    public String note;
     /**
      * 是否导入0 否 1 是
      */
     @Column(name = "is_import")
-    private Integer isImport;
+    public Integer isImport;
 
     /**
      * 创建人ID
      */
     @Column(name = "creator_id")
-    private String creatorId;
+    public String creatorId;
 
     /**
      * 创建时间
      */
     @Column(name = "create_date")
-    private Date createDate;
+    public Date createDate;
 
     /**
      * 修改人ID
      */
-    private String modify;
+    public String modify;
 
     /**
      * 修改时间
      */
     @Column(name = "modify_date")
-    private Date modifyDate;
+    public Date modifyDate;
 
     /**
      * 获取主键

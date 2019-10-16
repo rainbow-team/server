@@ -36,7 +36,29 @@ public class ExcelHelper {
             if (arrays != null) {
                 for (int i = 0; i < arrays.length; i++) {
                     //给类对象赋值
-                    T cal = getCurrentList(t, arrays[i]);
+                    T cal = getCurrentList(t, arrays[i],true);
+                    listResult.add(cal);
+                }
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return listResult;
+    }
+
+    public static <T> List<T> convertToList(Class<T> t, String fileName, FileInputStream stream, int rowsnum,
+                                            int colnum,int sheet,boolean isOrder) {
+        List<T> listResult = new ArrayList<T>();
+        try {
+            //通过行列起始读取excel流
+            String[][] arrays = readExcel(fileName, stream, rowsnum, colnum, sheet);
+
+            if (arrays != null) {
+                for (int i = 0; i < arrays.length; i++) {
+                    //给类对象赋值
+                    T cal = getCurrentList(t, arrays[i],isOrder);
                     listResult.add(cal);
                 }
             }
@@ -206,7 +228,7 @@ public class ExcelHelper {
      * @param args
      * @return
      */
-    private static <T> T getCurrentList(Class<T> t, String[] args) {
+    private static <T> T getCurrentList(Class<T> t, String[] args,boolean isOrder) {
         T bean = null;
         Field field = null;
 
@@ -214,7 +236,13 @@ public class ExcelHelper {
             bean = t.newInstance();
             Field[] fields = t.getFields();
 
-            List<Field> fl=getOrderedField(fields);
+            List<Field> fl=new ArrayList<>();
+
+            if(isOrder){
+                fl = getOrderedField(fields);
+            }else{
+                fl = Arrays.asList(fields);
+            }
 
             for (int i = 0; i < fl.size(); i++) {
                 // 根据变量名获得变量对象
@@ -227,18 +255,23 @@ public class ExcelHelper {
                         field.set(bean, args[i]);
                     }else if (field.getType()==Date.class){
 
-                        SimpleDateFormat formatter = null;
-                        if(!args[i].isEmpty()&&args[i].indexOf(":")>-1){
-                             formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        }else{
-                             formatter = new SimpleDateFormat("yyyy-MM-dd");
+                        if(args[i].isEmpty()){
+                            field.set(bean, null);
+                        }else {
+                            SimpleDateFormat formatter = null;
+                            if (!args[i].isEmpty() && args[i].indexOf(":") > -1) {
+                                formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            } else {
+                                formatter = new SimpleDateFormat("yyyy-MM-dd");
+                            }
+
+                            if (args[i].length() == 4) {
+                                args[i] = args[i] + "-01-01";
+                            }
+                            Date date = formatter.parse(args[i]);
+                            field.set(bean, date);
                         }
 
-                        if(args[i].length()==4){
-                            args[i]=args[i]+"-01-01";
-                        }
-                        Date date= formatter.parse(args[i]);
-                        field.set(bean, date);
 
                     }else if(field.getType()==Integer.class){
                         field.set(bean, Integer.parseInt(args[i]));

@@ -623,7 +623,7 @@ public class DataMigrationServiceImpl implements DataMigrationService {
                             deleteHistory("check_fac_file");
                             FileInputStream inputStream = new FileInputStream(f);
 
-                            List<FacCheck> list = ExcelHelper.convertToList(FacCheck.class, fileNameNow, inputStream, 2, 12,0);
+                            List<FacCheck> list = ExcelHelper.convertToList(FacCheck.class, fileNameNow, inputStream, 2, 12,0,false);
                             if(list!=null&&list.size()>0){
                                 for (FacCheck facCheck:list) {
                                     facCheckMapper.insert(facCheck);
@@ -632,7 +632,7 @@ public class DataMigrationServiceImpl implements DataMigrationService {
 
                             FileInputStream inputStream1 = new FileInputStream(f);
 
-                            List<FacFileCheck> facFileCheckList = ExcelHelper.convertToList(FacFileCheck.class, fileNameNow, inputStream1, 2, 7,1);
+                            List<FacFileCheck> facFileCheckList = ExcelHelper.convertToList(FacFileCheck.class, fileNameNow, inputStream1, 2, 7,1,false);
                             if(facFileCheckList!=null&&facFileCheckList.size()>0){
 
                                 for (FacFileCheck facFileCheck:facFileCheckList) {
@@ -646,7 +646,7 @@ public class DataMigrationServiceImpl implements DataMigrationService {
                             deleteHistory("monitor_daily");
 
                             FileInputStream inputStream2 = new FileInputStream(f);
-                            List<DailyMonitor> dailyMonitorList = ExcelHelper.convertToList(DailyMonitor.class, fileNameNow, inputStream2, 2, 14,0);
+                            List<DailyMonitor> dailyMonitorList = ExcelHelper.convertToList(DailyMonitor.class, fileNameNow, inputStream2, 2, 14,0,false);
                             if(dailyMonitorList!=null&&dailyMonitorList.size()>0){
 
                                 for (DailyMonitor dailyMonitor:dailyMonitorList) {
@@ -662,7 +662,7 @@ public class DataMigrationServiceImpl implements DataMigrationService {
                             deleteHistory("monitor_check");
                             deleteHistory("monitor_check_file");
 
-                            List<CheckMonitor>  checkMonitorList =ExcelHelper.convertToList(CheckMonitor.class,fileNameNow, inputStream3, 2, 15,0);
+                            List<CheckMonitor>  checkMonitorList =ExcelHelper.convertToList(CheckMonitor.class,fileNameNow, inputStream3, 2, 15,0,false);
                             if(checkMonitorList!=null&&checkMonitorList.size()>0){
 
                                 for (CheckMonitor checkMonitor:checkMonitorList  ) {
@@ -673,7 +673,7 @@ public class DataMigrationServiceImpl implements DataMigrationService {
 
                             FileInputStream inputStream31 = new FileInputStream(f);
 
-                            List<CheckFileMonitor> checkFileMonitorList = ExcelHelper.convertToList(CheckFileMonitor.class, fileNameNow, inputStream31, 2, 6,1);
+                            List<CheckFileMonitor> checkFileMonitorList = ExcelHelper.convertToList(CheckFileMonitor.class, fileNameNow, inputStream31, 2, 6,1,false);
                             if(checkFileMonitorList!=null&&checkFileMonitorList.size()>0){
 
                                 for (CheckFileMonitor checkFileMonitor:checkFileMonitorList) {
@@ -688,7 +688,7 @@ public class DataMigrationServiceImpl implements DataMigrationService {
 
                             deleteHistory("monitor_witness");
 
-                            List<WitnessMonitor> witnessMonitorList =ExcelHelper.convertToList(WitnessMonitor.class, fileNameNow, inputStream4, 2, 18,1);
+                            List<WitnessMonitor> witnessMonitorList =ExcelHelper.convertToList(WitnessMonitor.class, fileNameNow, inputStream4, 2, 18,0,false);
                             if(witnessMonitorList!=null&&witnessMonitorList.size()>0){
 
                                 for (WitnessMonitor witnessMonitor:witnessMonitorList ) {
@@ -701,7 +701,7 @@ public class DataMigrationServiceImpl implements DataMigrationService {
                             FileInputStream inputStream5 = new FileInputStream(f);
 
                             deleteHistory("security_fac");
-                            List<FacSecurity> facSecurityList = ExcelHelper.convertToList(FacSecurity.class, fileNameNow, inputStream5, 2, 19,0);
+                            List<FacSecurity> facSecurityList = ExcelHelper.convertToList(FacSecurity.class, fileNameNow, inputStream5, 2, 19,0,false);
                             if(facSecurityList!=null&&facSecurityList.size()>0){
 
                                 for (FacSecurity facSecurity:facSecurityList ) {
@@ -714,7 +714,7 @@ public class DataMigrationServiceImpl implements DataMigrationService {
                         case "fileinfo.xls":
 
                            FileInputStream inputStream6 = new FileInputStream(f);
-                         fileInfoList = ExcelHelper.convertToList(FileInfo.class, fileNameNow, inputStream6, 2, 10,0);
+                         fileInfoList = ExcelHelper.convertToList(FileInfo.class, fileNameNow, inputStream6, 2, 10,0,false);
                             break;
                         default:
 

@@ -13,7 +13,7 @@ public class CheckFileMonitor extends BaseExtendEntity {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    public String id;
 
     /**
      * 监督检查信息 外键id
@@ -30,7 +30,7 @@ public class CheckFileMonitor extends BaseExtendEntity {
      * 参考表:config_monitor_check_file_type
      */
     @Column(name = "monitor_check_file_type_id")
-    private String monitorCheckFileTypeId;
+    public String monitorCheckFileTypeId;
 
     /**
      * 文件文号
@@ -50,7 +50,7 @@ public class CheckFileMonitor extends BaseExtendEntity {
      * 是否导入0 否 1 是
      */
     @Column(name = "is_import")
-    private Integer isImport;
+    public Integer isImport;
 
     public Integer getIsImport() {
         return isImport;

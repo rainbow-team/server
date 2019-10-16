@@ -12,7 +12,7 @@ public class DailyMonitor {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    public String id;
 
     /**
      * 核设施营运单位，外键
@@ -20,7 +20,7 @@ public class DailyMonitor {
      * 参考表:unit_service
      */
     @Column(name = "service_id")
-    private String serviceId;
+    public String serviceId;
 
     /**
      * 军工核设施名称,外键
@@ -28,7 +28,7 @@ public class DailyMonitor {
      * 参考表:unit_fac
      */
     @Column(name = "fac_id")
-    private String facId;
+    public String facId;
 
     /**
      * 核设施状态，外键
@@ -36,19 +36,19 @@ public class DailyMonitor {
      * 参考表：config_fac_status
      */
     @Column(name = "status_id")
-    private String statusId;
+    public String statusId;
 
     /**
      * 授权监管机构外键，参考表：supervision_org
      */
     @Column(name = "org_id")
-    private String orgId;
+    public String orgId;
 
     /**
      * 日常监督文件类型，外键参考表：config_monitor_daily_file_type
      */
     @Column(name = "file_type_id")
-    private String fileTypeId;
+    public String fileTypeId;
 
     /**
      * 文件名称
@@ -67,37 +67,37 @@ public class DailyMonitor {
     /**
      * 备注
      */
-    private String note;
+    public String note;
 
     /**
      * 是否导入0 否 1 是
      */
     @Column(name = "is_import")
-    private Integer isImport;
+    public Integer isImport;
 
     /**
      * 创建人ID
      */
     @Column(name = "creator_id")
-    private String creatorId;
+    public String creatorId;
 
     /**
      * 创建时间
      */
     @Column(name = "create_date")
-    private Date createDate;
+    public Date createDate;
 
     /**
      * 修改人ID
      */
     @Column(name = "modify_id")
-    private String modifyId;
+    public String modifyId;
 
     /**
      * 修改时间
      */
     @Column(name = "modify_date")
-    private Date modifyDate;
+    public Date modifyDate;
 
     /**
      * 获取主键

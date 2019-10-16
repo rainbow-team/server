@@ -13,7 +13,7 @@ public class WitnessMonitor extends BaseExtendEntity {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    public String id;
 
     /**
      * 核设施营运单位，外键
@@ -21,7 +21,7 @@ public class WitnessMonitor extends BaseExtendEntity {
      * 参考表:unit_service
      */
     @Column(name = "service_id")
-    private String serviceId;
+    public String serviceId;
 
     /**
      * 铀矿冶单位信息,外键
@@ -29,7 +29,7 @@ public class WitnessMonitor extends BaseExtendEntity {
      * 参考表:unit_umine
      */
     @Column(name = "umine_id")
-    private String umineId;
+    public String umineId;
 
     /**
      * 核安全设备单位，外键
@@ -37,7 +37,7 @@ public class WitnessMonitor extends BaseExtendEntity {
      * 参考表：unit_equip_depart
      */
     @Column(name = "equip_depart_id")
-    private String equipDepartId;
+    public String equipDepartId;
 
     public String getDepartTypeId() {
         return departTypeId;
@@ -53,7 +53,7 @@ public class WitnessMonitor extends BaseExtendEntity {
      * 参考表：config_dapart_id
      */
     @Column(name = "depart_type_id")
-    private String departTypeId;
+    public String departTypeId;
 
     /**
      * 见证对象
@@ -105,37 +105,37 @@ public class WitnessMonitor extends BaseExtendEntity {
     /**
      * 备注
      */
-    private String note;
+    public String note;
 
     /**
      * 是否导入0 否 1 是
      */
     @Column(name = "is_import")
-    private Integer isImport;
+    public Integer isImport;
 
     /**
      * 创建人ID
      */
     @Column(name = "creator_id")
-    private String creatorId;
+    public String creatorId;
 
     /**
      * 创建时间
      */
     @Column(name = "create_date")
-    private Date createDate;
+    public Date createDate;
 
     /**
      * 修改人ID
      */
     @Column(name = "modify_id")
-    private String modifyId;
+    public String modifyId;
 
     /**
      * 修改时间
      */
     @Column(name = "modify_date")
-    private Date modifyDate;
+    public Date modifyDate;
 
     /**
      * 获取主键

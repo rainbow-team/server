@@ -12,44 +12,44 @@ public class FacFileCheck extends BaseExtendEntity {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    public String id;
 
     /**
      * 核设施审评信息外键id，参考表:check_fac
      */
     @Column(name = "check_fac_id")
-    private String checkFacId;
+    public String checkFacId;
 
     /**
      * 文件名称
      */
     @Column(name = "file_name")
-    private String fileName;
+    public String fileName;
 
     /**
      * 核设施审评文件类型，
 参考表:config_fac_check_file_type
      */
     @Column(name = "fac_check_file_type_id")
-    private String facCheckFileTypeId;
+    public String facCheckFileTypeId;
 
     /**
      * 文件时间
      */
     @Column(name = "file_date")
-    private Date fileDate;
+    public Date fileDate;
 
     /**
      * 文件文号
      */
     @Column(name = "file_no")
-    private String fileNo;
+    public String fileNo;
 
     /**
      * 是否导入0 否 1 是
      */
     @Column(name = "is_import")
-    private Integer isImport;
+    public Integer isImport;
 
     public Integer getIsImport() {
         return isImport;

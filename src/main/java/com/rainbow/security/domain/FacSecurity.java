@@ -13,7 +13,7 @@ public class FacSecurity extends BaseExtendEntity {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    public String id;
 
     /**
      * 核设施营运单位，外键
@@ -21,7 +21,7 @@ public class FacSecurity extends BaseExtendEntity {
      * 参考表：unit_service
      */
     @Column(name = "service_id")
-    private String serviceId;
+    public String serviceId;
 
     /**
      * 军工核设施名称,外键
@@ -29,7 +29,7 @@ public class FacSecurity extends BaseExtendEntity {
      * 参考表:unit_fac，如果是空则为综合性安全问题
      */
     @Column(name = "fac_id")
-    private String facId;
+    public String facId;
 
     /**
      * 核设施状态，外键
@@ -37,7 +37,7 @@ public class FacSecurity extends BaseExtendEntity {
      * config_fac_status
      */
     @Column(name = "fac_status_id")
-    private String facStatusId;
+    public String facStatusId;
 
     /**
      * 安全问题检查类型，外键
@@ -45,7 +45,7 @@ public class FacSecurity extends BaseExtendEntity {
      * 参考表：config_security_check_type
      */
     @Column(name = "check_type_id")
-    private String checkTypeId;
+    public String checkTypeId;
 
     /**
      * 问题内容
@@ -64,19 +64,19 @@ public class FacSecurity extends BaseExtendEntity {
      * 核设施安全问题类别，外键。 参考表：config_fac_security_question_type
      */
     @Column(name = "question_type_id")
-    private String questionTypeId;
+    public String questionTypeId;
 
     /**
      * 核设施安全问题性质外键， 参考表：config_fac_security_question_nature
      */
     @Column(name = "question_nature_id")
-    private String questionNatureId;
+    public String questionNatureId;
 
     /**
      * 安全问题整改状态外键，参考表：config_security_reform_status
      */
     @Column(name = "reform_status_id")
-    private String reformStatusId;
+    public String reformStatusId;
 
     /**
      * 监督要求
@@ -102,37 +102,37 @@ public class FacSecurity extends BaseExtendEntity {
     /**
      * 备注
      */
-    private String note;
+    public String note;
 
     /**
      * 是否导入0 否 1 是
      */
     @Column(name = "is_import")
-    private Integer isImport;
+    public Integer isImport;
 
     /**
      * 创建人ID
      */
     @Column(name = "creator_id")
-    private String creatorId;
+    public String creatorId;
 
     /**
      * 创建时间
      */
     @Column(name = "create_date")
-    private Date createDate;
+    public Date createDate;
 
     /**
      * 修改人ID
      */
     @Column(name = "modify_id")
-    private String modifyId;
+    public String modifyId;
 
     /**
      * 修改时间
      */
     @Column(name = "modify_date")
-    private Date modifyDate;
+    public Date modifyDate;
 
     /**
      * 获取主键
