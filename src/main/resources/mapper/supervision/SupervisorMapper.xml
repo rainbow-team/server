@@ -87,7 +87,16 @@
           </foreach>
       )
     </if>
-    order by t.modify_date desc
+
+    <choose>
+      <when test="checked != null and checked != ''">
+        order by t.modify_date desc
+      </when>
+      <otherwise>
+        order by CONVERT(o.`name` using gbk) ,CONVERT(t.`name` using gbk),t.birthday
+      </otherwise>
+    </choose>
+
   </select>
 
   <select id="getSupervisorById" parameterType="java.lang.String" resultMap="SupervisorExtendResultMap">
