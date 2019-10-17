@@ -25,4 +25,10 @@ public class SystemLogController extends BaseController {
         return systemLogService.getSystemLogList(page);
     }
 
+    @PostMapping("/deleteSystemLog")
+    public ResponseBo deleteSystemLog(){
+
+        return systemLogService.deleteSystemLog();
+    }
+
 }

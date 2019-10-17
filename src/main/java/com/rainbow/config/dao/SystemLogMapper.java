@@ -9,4 +9,6 @@ import java.util.Map;
 public interface SystemLogMapper extends MyMapper<SystemLog> {
 
     List<SystemLog> getSystemLogList(Map<String, Object> map);
+
+    int deleteSystemLog();
 }

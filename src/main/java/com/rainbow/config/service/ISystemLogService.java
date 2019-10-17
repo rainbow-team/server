@@ -12,4 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface ISystemLogService extends IService<SystemLog> {
 
     ResponseBo getSystemLogList( Page page);
+
+    ResponseBo deleteSystemLog();
 }

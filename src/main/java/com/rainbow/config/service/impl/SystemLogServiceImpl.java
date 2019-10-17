@@ -38,4 +38,12 @@ public class SystemLogServiceImpl extends BaseService<SystemLog> implements ISys
         return ResponseBo.ok(result);
 
     }
+
+    @Override
+    public ResponseBo deleteSystemLog(){
+
+        systemLogMapper.deleteSystemLog();
+
+        return ResponseBo.ok();
+    }
 }

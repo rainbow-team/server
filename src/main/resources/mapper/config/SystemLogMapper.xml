@@ -36,4 +36,8 @@
     order by t.oper_time desc
   </select>
 
+  <delete id="deleteSystemLog">
+    delete from system_log
+  </delete>
+
 </mapper>
