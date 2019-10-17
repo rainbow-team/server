@@ -17,8 +17,10 @@
 
   <select id="getUmineMountainImproveList" parameterType="map" resultMap="BaseResultMapExtend">
 
-    select  t.*,uum.name as umineMountainName from unit_umine_mountain_improve t
+    select  t.*,uum.name as umineMountainName
+    from unit_umine_mountain_improve t
     left join unit_umine_mountain uum on t.umine_mountain_id = uum.id
-    where t.umine_mountain_id = #{umineMountainId} order by t.improve_date desc
+    where t.umine_mountain_id = #{umineMountainId}
+    order by t.improve_date desc
   </select>
 </mapper>

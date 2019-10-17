@@ -36,7 +36,16 @@
     <if test="product != null and product != ''">
       and instr(t.product,#{product})>0
     </if>
-    order by t.modify_date desc
+
+    <choose>
+      <when test="checked != null and checked != ''">
+        order by t.modify_date desc
+      </when>
+      <otherwise>
+        order by CONVERT(t.name using gbk)
+      </otherwise>
+    </choose>
+
   </select>
 
   <select id="getEquipDepartById" parameterType="java.lang.String" resultMap="BaseResultMap">

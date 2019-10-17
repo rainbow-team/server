@@ -95,7 +95,16 @@
       </foreach>
       )
     </if>
-    order by t.modify_date desc
+
+    <choose>
+      <when test="checked != null and checked != ''">
+        order by t.modify_date desc
+      </when>
+      <otherwise>
+        order by CONVERT(u.name using gbk),t.build_year desc,CONVERT(t.name using gbk)
+      </otherwise>
+    </choose>
+
   </select>
 
   <select id="getUmineMountainById" parameterType="java.lang.String" resultMap="MountainExtendMap">

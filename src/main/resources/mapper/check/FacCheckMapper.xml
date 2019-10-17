@@ -69,8 +69,15 @@
       and t.fac_id = #{facId}
     </if>
 
+    <choose>
+      <when test="checked != null and checked != ''">
+        order by t.modify_date desc
+      </when>
+      <otherwise>
+        order by CONVERT(us.name using gbk) ,CONVERT(f.name using gbk),CONVERT(ft.value using gbk),CONVERT(fs.value using gbk)
+      </otherwise>
+    </choose>
 
-    order by t.check_date desc
 
   </select>
 

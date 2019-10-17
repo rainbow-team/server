@@ -41,7 +41,16 @@
     <if test="name != null and name != ''">
       and instr(t.name,#{name})>0
     </if>
-    order by t.modify_date desc
+
+    <choose>
+      <when test="checked != null and checked != ''">
+        order by t.modify_date desc
+      </when>
+      <otherwise>
+        order by CONVERT(t.name using gbk)
+      </otherwise>
+    </choose>
+
   </select>
 
   <select id="getUmineById" parameterType="java.lang.String" resultMap="UmineExtendMap">

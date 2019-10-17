@@ -50,6 +50,15 @@
       <![CDATA[  <=  ]]>
       DATE(#{end_date})
     </if>
-    order by t.modify_date desc
+
+    <choose>
+      <when test="checked != null and checked != ''">
+        order by t.modify_date desc
+      </when>
+      <otherwise>
+        order by CONVERT(t.exam_project using gbk),t.expire_date desc,CONVERT(t.name using gbk)
+      </otherwise>
+    </choose>
+
   </select>
 </mapper>

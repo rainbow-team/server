@@ -18,9 +18,11 @@
 
   <select id="getUminePlaceImproveList" parameterType="map" resultMap="BaseResultMapExtend">
 
-    select  t.*,uup.name as uminePlaceName  from unit_umine_place_improve t
+    select  t.*,uup.name as uminePlaceName
+    from unit_umine_place_improve t
     left join unit_umine_place uup on t.umine_place_id = uup.id
-    where t.umine_place_id = #{uminePlaceId} order by t.improve_date desc
+    where t.umine_place_id = #{uminePlaceId}
+    order by t.improve_date desc
   </select>
 
 </mapper>

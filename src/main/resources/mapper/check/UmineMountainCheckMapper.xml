@@ -51,8 +51,15 @@
       and t.umine_mountain_id = #{uminemountainId}
     </if>
 
+    <choose>
+      <when test="checked != null and checked != ''">
+        order by t.modify_date desc
+      </when>
+      <otherwise>
+        order by CONVERT(u.name using gbk) ,CONVERT(um.name using gbk),CONVERT(t.content using gbk)
+      </otherwise>
+    </choose>
 
-    order by t.check_date desc
   </select>
 
 

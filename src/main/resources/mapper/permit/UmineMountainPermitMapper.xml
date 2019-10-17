@@ -74,7 +74,16 @@
     <if test="uminemountainId != null and uminemountainId != ''">
       and t.umine_mountain_id = #{uminemountainId}
     </if>
-    order by t.modify_date desc
+
+    <choose>
+      <when test="checked != null and checked != ''">
+        order by t.modify_date desc
+      </when>
+      <otherwise>
+        order by CONVERT(u.name using gbk) ,CONVERT(um.name using gbk),t.record_date desc
+      </otherwise>
+    </choose>
+
   </select>
 
   <select id="getUmineMountainPermitById" parameterType="map" resultMap="UmineMountainPermitExtendMap">

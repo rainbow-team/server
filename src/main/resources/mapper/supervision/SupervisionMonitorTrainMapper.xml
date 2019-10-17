@@ -43,17 +43,27 @@
           and instr(t.place,#{place})>0
       </if>
 
+<!--    <choose>-->
+<!--      <when test="sortValue != null and sortValue != ''">-->
+<!--        order by ${sortName}-->
+<!--        <if test="sortValue=='descend'.toString()">-->
+<!--                  desc-->
+<!--              </if>-->
+<!--      </when>-->
+<!--      <otherwise>-->
+<!--              order by t.begin_date,t.batch-->
+<!--          </otherwise>-->
+<!--    </choose>-->
+
     <choose>
-      <when test="sortValue != null and sortValue != ''">
-        order by ${sortName}
-        <if test="sortValue=='descend'.toString()">
-                  desc
-              </if>
+      <when test="checked != null and checked != ''">
+        order by t.modify_date desc
       </when>
       <otherwise>
-              order by t.begin_date,t.batch
-          </otherwise>
+        order by t.begin_date desc,CONVERT(t.batch using gbk)
+      </otherwise>
     </choose>
+
   </select>
 
   <select id="getClassIdByName" parameterType="String" resultType="String">

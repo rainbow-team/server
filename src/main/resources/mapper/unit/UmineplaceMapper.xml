@@ -114,7 +114,16 @@
     <if test="have_monitor != null and have_monitor != ''">
       and t.have_monitor = #{have_monitor}
     </if>
-    order by t.modify_date desc
+
+    <choose>
+      <when test="checked != null and checked != ''">
+        order by t.modify_date desc
+      </when>
+      <otherwise>
+        order by CONVERT(u.name using gbk),CONVERT(ul.value using gbk),CONVERT(t.name using gbk)
+      </otherwise>
+    </choose>
+
   </select>
 
   <select id="getUmineplaceById" parameterType="java.lang.String" resultMap="UmineplaceExtendMap">

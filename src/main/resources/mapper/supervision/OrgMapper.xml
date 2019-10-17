@@ -52,6 +52,16 @@
       </foreach>
       )
     </if>
+
+    <choose>
+      <when test="checked != null and checked != ''">
+        order by org.modify_date desc
+      </when>
+      <otherwise>
+        order by CONVERT(org.`name` using gbk)
+      </otherwise>
+    </choose>
+
   </select>
 
   <select id="getOrgById" resultMap="OrgRelationMap">

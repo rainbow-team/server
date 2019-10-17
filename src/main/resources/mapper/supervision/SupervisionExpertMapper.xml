@@ -52,7 +52,16 @@
       <![CDATA[  <  ]]>
       #{end_date}
     </if>
-    order by t.modify_date desc
+
+    <choose>
+      <when test="checked != null and checked != ''">
+        order by t.modify_date desc
+      </when>
+      <otherwise>
+        order by CONVERT(t.major using gbk),t.birthday asc,CONVERT(t.name using gbk)
+      </otherwise>
+    </choose>
+
   </select>
 
 

@@ -71,7 +71,16 @@
     <if test="facId != null and facId != ''">
       and t.fac_id = #{facId}
     </if>
-    order by t.modify_date desc
+
+    <choose>
+      <when test="checked != null and checked != ''">
+        order by t.modify_date desc
+      </when>
+      <otherwise>
+        order by t.permit_date desc,CONVERT(sd.name using gbk) ,CONVERT(f.name using gbk)
+      </otherwise>
+    </choose>
+
   </select>
 
   <select id="getFacPermitById" parameterType="java.lang.String" resultMap="FacPermitExtendMap">

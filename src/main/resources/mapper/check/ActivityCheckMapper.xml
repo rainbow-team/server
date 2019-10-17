@@ -80,7 +80,16 @@
     <if test="facId != null and facId != ''">
       and t.fac_id = #{facId}
     </if>
-    order by t.check_date desc
+
+    <choose>
+      <when test="checked != null and checked != ''">
+        order by t.modify_date desc
+      </when>
+      <otherwise>
+        order by CONVERT(sd.name using gbk) ,CONVERT(ud.name using gbk),CONVERT(f.name using gbk),CONVERT(ty.value using gbk)
+      </otherwise>
+    </choose>
+
   </select>
 
 

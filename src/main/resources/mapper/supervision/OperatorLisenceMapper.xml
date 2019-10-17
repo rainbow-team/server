@@ -65,7 +65,16 @@
       <![CDATA[  =>  ]]>
       #{end_date}
     </if>
-    order by t.modify_date desc
+
+    <choose>
+      <when test="checked != null and checked != ''">
+        order by t.modify_date desc
+      </when>
+      <otherwise>
+        order by CONVERT(t.heap_name using gbk),CONVERT(lt.value using gbk),t.expire_date asc
+      </otherwise>
+    </choose>
+
   </select>
 
   <select id="getOperatorLisenceById" parameterType="map" resultMap="OperatorLisenceExtendMap">

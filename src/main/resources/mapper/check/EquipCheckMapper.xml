@@ -95,7 +95,15 @@
       and t.equip_depart_id = #{equipdepartId}
     </if>
 
-    order by t.check_date desc
+    <choose>
+      <when test="checked != null and checked != ''">
+        order by t.modify_date desc
+      </when>
+      <otherwise>
+        order by CONVERT(ed.name using gbk) ,CONVERT(sd.name using gbk),CONVERT(f.name using gbk),CONVERT(t.name using gbk),CONVERT(st.value using gbk)
+      </otherwise>
+    </choose>
+
   </select>
 
 

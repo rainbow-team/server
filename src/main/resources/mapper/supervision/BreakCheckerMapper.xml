@@ -78,7 +78,16 @@
     <if test="cert_number != null and cert_number != ''">
       and instr(t.cert_number,#{cert_number})>0
     </if>
-    order by t.modify_date desc
+
+    <choose>
+      <when test="checked != null and checked != ''">
+        order by t.modify_date desc
+      </when>
+      <otherwise>
+        order by CONVERT(cm.value using gbk),CONVERT(cl.value using gbk),t.cert_date desc
+      </otherwise>
+    </choose>
+
   </select>
 
 

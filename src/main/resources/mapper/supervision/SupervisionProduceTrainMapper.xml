@@ -42,6 +42,15 @@
     <if test="place != null and place != ''">
       and instr(t.place,#{place})>0
     </if>
-    order by t.modify_date desc
+
+    <choose>
+      <when test="checked != null and checked != ''">
+        order by t.modify_date desc
+      </when>
+      <otherwise>
+        order by t.begin_date desc,CONVERT(t.batch using gbk)
+      </otherwise>
+    </choose>
+
   </select>
 </mapper>

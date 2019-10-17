@@ -72,7 +72,16 @@
     <if test="umineplaceId != null and umineplaceId != ''">
       and t.umine_place_id = #{umineplaceId}
     </if>
-    order by t.modify_date desc
+
+    <choose>
+      <when test="checked != null and checked != ''">
+        order by t.modify_date desc
+      </when>
+      <otherwise>
+        order by CONVERT(u.name using gbk) ,CONVERT(up.name using gbk),t.permit_date desc
+      </otherwise>
+    </choose>
+
   </select>
 
   <select id="getUminePlacePermitById" parameterType="map" resultMap="UminePlacePermitExtendMap">

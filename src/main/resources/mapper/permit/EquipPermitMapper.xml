@@ -108,7 +108,16 @@
     <if test="equipdepartId != null and equipdepartId != ''">
       and t.equip_depart_id = #{equipdepartId}
     </if>
-    order by t.modify_date desc
+
+    <choose>
+      <when test="checked != null and checked != ''">
+        order by t.modify_date desc
+      </when>
+      <otherwise>
+        order by CONVERT(ea.name using gbk) ,CONVERT(sd.name using gbk),CONVERT(f.name using gbk),CONVERT(et.value using gbk),CONVERT(t.name using gbk)
+      </otherwise>
+    </choose>
+
   </select>
 
   <select id="getEquipPermitById" parameterType="java.lang.String" resultMap="EquipPermitExtendMap">

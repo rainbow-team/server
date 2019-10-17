@@ -63,7 +63,15 @@
       <![CDATA[  <=  ]]>
       DATE(#{end_date})
     </if>
-    order by t.modify_date desc
+
+    <choose>
+      <when test="checked != null and checked != ''">
+        order by t.modify_date desc
+      </when>
+      <otherwise>
+        order by t.report_date desc, CONVERT(o.name using gbk) ,CONVERT(rt.value using gbk)
+      </otherwise>
+    </choose>
   </select>
 
 

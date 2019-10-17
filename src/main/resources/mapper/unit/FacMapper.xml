@@ -136,7 +136,16 @@
     <if test="is_flood != null and is_flood != ''">
       and t.is_flood = #{is_flood}
     </if>
-    order by t.modify_date desc
+
+    <choose>
+      <when test="checked != null and checked != ''">
+        order by t.modify_date desc
+      </when>
+      <otherwise>
+        order by CONVERT(us.name using gbk),t.build_year desc,CONVERT(t.name using gbk)
+      </otherwise>
+    </choose>
+
   </select>
 
 

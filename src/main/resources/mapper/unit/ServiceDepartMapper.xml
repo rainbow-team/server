@@ -52,7 +52,15 @@
     <!--<if test="gname != null and gname != ''">-->
     <!--and instr(g.name,#{gname})>0-->
     <!--</if>-->
-    order by t.modify_date desc
+    <choose>
+      <when test="checked != null and checked != ''">
+        order by t.modify_date desc
+      </when>
+      <otherwise>
+        order by CONVERT(g.name using gbk),CONVERT(t.name using gbk)
+      </otherwise>
+    </choose>
+
   </select>
 
 

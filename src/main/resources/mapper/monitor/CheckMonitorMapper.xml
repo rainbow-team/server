@@ -89,7 +89,16 @@
     <if test="umineId != null and umineId != ''">
       and t.umine_id = #{umineId}
     </if>
-    order by t.modify_date desc
+
+    <choose>
+      <when test="checked != null and checked != ''">
+        order by t.modify_date desc
+      </when>
+      <otherwise>
+        order by CONVERT(sd.name using gbk) ,CONVERT(u.name using gbk),CONVERT(ed.name using gbk),CONVERT(ty.value using gbk),t.start_date desc
+      </otherwise>
+    </choose>
+
   </select>
 
 
