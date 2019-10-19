@@ -69,15 +69,15 @@
     </if>
 
     <if test="start_date != null and start_date != ''">
-      and DATE(t.witness_date)
+      and DATE_FORMAT(t.witness_date,'%Y-%m')
       <![CDATA[  >=  ]]>
-      DATE(#{start_date})
+      DATE_FORMAT(#{start_date},'%Y-%m')
     </if>
 
     <if test="end_date != null and end_date != ''">
-      and DATE(t.witness_date)
+      and DATE_FORMAT(t.witness_date,'%Y-%m')
       <![CDATA[  <=  ]]>
-      DATE(#{end_date})
+      DATE_FORMAT(#{end_date},'%Y-%m')
     </if>
 
     <if test="servicedepartId != null and servicedepartId != ''">

@@ -31,11 +31,11 @@
     <!--</if>-->
 
     <if test="start_date != null and start_date != ''">
-      and DATE(t.file_date) <![CDATA[  >=  ]]> DATE(#{start_date})
+      and DATE_FORMAT(t.file_date,'%Y-%m') <![CDATA[  >=  ]]> DATE_FORMAT(#{start_date},'%Y-%m')
     </if>
 
     <if test="end_date != null and end_date != ''">
-      and DATE(t.file_date) <![CDATA[  <=  ]]> DATE(#{end_date})
+      and DATE_FORMAT(t.file_date,'%Y-%m') <![CDATA[  <=  ]]> DATE_FORMAT(#{end_date},'%Y-%m')
     </if>
 
     <if test="typeIds != null">
