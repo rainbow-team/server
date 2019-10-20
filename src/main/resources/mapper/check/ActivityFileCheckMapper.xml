@@ -39,7 +39,7 @@
     </if>
 
     <if test="typeIds != null">
-      and t.check_file_type_id in (
+      and t.activity_check_file_type_id in (
       <foreach item="item" index="index" collection="typeIds" separator=",">
         #{item}
       </foreach>
