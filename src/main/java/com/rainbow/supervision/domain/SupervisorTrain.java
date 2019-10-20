@@ -1,7 +1,6 @@
 package com.rainbow.supervision.domain;
 
 import com.rainbow.attachment.domain.FileInfo;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 
 import java.util.Date;
 import java.util.List;
