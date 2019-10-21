@@ -112,29 +112,29 @@ public class RainbowApplicationTests {
 
 
 
-	@Test
-	public void testOrg() {
-		Page page = new Page();
-		page.pageNo = 1;
-		page.pageSize = 10;
-
-		List<Condition> conditions = new ArrayList<Condition>();
-		List<String> values = new ArrayList<String>();
-		values.add("1");
-		Condition condition1 = new Condition();
-		condition1.setKey("natureIds");
-		condition1.setValue(values);
-
-	/*	Condition condition2=new Condition();
-		condition2.setKey("name");
-		condition2.setValue("李");
-		conditions.add(condition2);*/
-    /*
-
-	conditions.add(condition1);
-		page.conditions=conditions;
-    */
-
-		userService.getAllPermissionByUserId("1");
-	}
+//	@Test
+//	public void testOrg() {
+//		Page page = new Page();
+//		page.pageNo = 1;
+//		page.pageSize = 10;
+//
+//		List<Condition> conditions = new ArrayList<Condition>();
+//		List<String> values = new ArrayList<String>();
+//		values.add("1");
+//		Condition condition1 = new Condition();
+//		condition1.setKey("natureIds");
+//		condition1.setValue(values);
+//
+//	/*	Condition condition2=new Condition();
+//		condition2.setKey("name");
+//		condition2.setValue("李");
+//		conditions.add(condition2);*/
+//    /*
+//
+//	conditions.add(condition1);
+//		page.conditions=conditions;
+//    */
+//
+//		userService.getAllPermissionByUserId("1");
+//	}
 }
