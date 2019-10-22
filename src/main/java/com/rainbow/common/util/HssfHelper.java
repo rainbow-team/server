@@ -53,6 +53,7 @@ public class HssfHelper {
                 style.setBorderRight((short)1);
                 style.setBorderTop((short)1);
                 style.setBorderBottom((short)1);
+                style.setWrapText(true);
         }
 
         return style;

@@ -69,4 +69,24 @@ public class office2PDF {
 
         return 1;
     }
+
+    public static void startCommand(String openofficePath){
+
+        try{
+            String command = openofficePath
+                    + "program\\soffice -headless -accept=\"socket,host=127.0.0.1,port=8100;urp;\" -nofirststartwizard";
+            Process pro = Runtime.getRuntime().exec(command);
+            // connect to an OpenOffice.org instance running on port 8100
+            OpenOfficeConnection connection = new SocketOpenOfficeConnection(
+                    "127.0.0.1", 8100);
+            connection.connect();
+
+            connection.disconnect();
+        } catch (ConnectException e) {
+
+        } catch (IOException e) {
+
+        }
+
+    }
 }
