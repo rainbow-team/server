@@ -79,9 +79,13 @@ public class office2PDF {
             // connect to an OpenOffice.org instance running on port 8100
             OpenOfficeConnection connection = new SocketOpenOfficeConnection(
                     "127.0.0.1", 8100);
-            connection.connect();
 
-            connection.disconnect();
+            if(connection!=null){
+                connection.connect();
+
+                connection.disconnect();
+            }
+
         } catch (ConnectException e) {
 
         } catch (IOException e) {
