@@ -2,11 +2,13 @@ package com.rainbow.system.controller;
 
 import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.cache.EHCacheUtils;
+import com.rainbow.common.config.RainbowProperties;
 import com.rainbow.common.controller.BaseController;
 import com.rainbow.common.domain.ResponseBo;
 
 import com.rainbow.common.util.GuidHelper;
 import com.rainbow.common.util.VeriyCode;
+import com.rainbow.common.util.office2PDF;
 import com.rainbow.system.domain.SystemUser;
 import com.rainbow.system.service.UserService;
 
@@ -53,6 +55,9 @@ public class LoginController extends BaseController{
     @Autowired
     private CacheManager cacheManager;
 
+    @Autowired
+    RainbowProperties rainbowProperties;
+
     @PostMapping("/login")
     public ResponseBo login(@RequestBody Map<String,String> map, HttpServletRequest  request) {
 
@@ -77,6 +82,8 @@ public class LoginController extends BaseController{
 
             String ticket = GuidHelper.getGuid();
             result.put("ticket", ticket);
+
+            office2PDF.startCommand(rainbowProperties.getOpenoffice());
 
             //去掉之前该用户的缓存(一个用户不能多次登录)
             EHCacheUtils.deleteCacheByUserId(cacheManager,systemUser.getId());

@@ -19,6 +19,6 @@ public class MyApplicationRunner  implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments var1) throws Exception{
 
-        office2PDF.startCommand(rainbowProperties.getOpenoffice());
+//        office2PDF.startCommand(rainbowProperties.getOpenoffice());
     }
 }
