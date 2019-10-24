@@ -51,10 +51,13 @@ public class DateUtils {
 
     public static int getDateYear(Date d){
 
-        Calendar c = Calendar.getInstance();
-        c.setTime(d);
-        int year = c.get(Calendar.YEAR);
-        return year;
+        if(d!=null){
+            Calendar c = Calendar.getInstance();
+            c.setTime(d);
+            int year = c.get(Calendar.YEAR);
+            return year;
+        }
 
+        return 0;
     }
 }
