@@ -38,4 +38,8 @@
     <delete id="deleteUnitHotRegionsByAddressId" parameterType="java.lang.String">
         delete from unit_hot_region where address_id=#{id}
     </delete>
+
+    <select id="exist" parameterType="java.lang.String" resultType="int">
+        select count(id) from unit_hot_region where subject_id=#{subjectId}
+    </select>
 </mapper>

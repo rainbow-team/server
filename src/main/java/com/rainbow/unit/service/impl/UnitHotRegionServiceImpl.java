@@ -84,4 +84,10 @@ public class UnitHotRegionServiceImpl extends BaseService<UnitHotRegion> impleme
 
         return mapper.deleteUnitHotRegionsByAddressId(id);
     }
+
+    @Override
+    public int exist(String subjectId) {
+        // TODO Auto-generated method stub
+        return mapper.exist(subjectId);
+    }
 }

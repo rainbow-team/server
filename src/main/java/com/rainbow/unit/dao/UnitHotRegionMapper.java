@@ -22,4 +22,6 @@ public interface UnitHotRegionMapper extends MyMapper<UnitHotRegion> {
     List<UnitHotRegion> getUnitHotRegionListByAddressId(String addressId);
 
     int deleteUnitHotRegionsByAddressId(String id);
+
+    int exist(String subjectId);
 }

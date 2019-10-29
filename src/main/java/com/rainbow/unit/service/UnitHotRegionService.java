@@ -29,4 +29,6 @@ public interface UnitHotRegionService extends IService<UnitHotRegion> {
     UnitHotRegion getUnitHotRegionById(String id);
 
     int deleteUnitHotRegionsByAddressId(String id);
+
+    int exist(String subjectId);
 }

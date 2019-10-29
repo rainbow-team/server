@@ -104,4 +104,16 @@ public class UnitHotRegionController {
     public ResponseBo getUnitHotRegionList(@RequestBody Page page) {
         return service.getUnitHotRegionList(page);
     }
+
+    @PostMapping("/isUnitHotRegionExist")
+    @SystemLog(description = "判断核设施/铀尾矿渣库是否已经存在")
+    public ResponseBo exist(@RequestBody String subjectId) {
+        int result = service.exist(subjectId);
+
+        if (result == 0) {
+            return ResponseBo.ok("核设施/铀尾矿渣库在数据库中不存在，可以添加");
+        } else {
+            return ResponseBo.error("核设施/铀尾矿渣库已经存在，不能添加");
+        }
+    }
 }

@@ -18,6 +18,6 @@
     </select>
 
     <select id="getChinaMapData" resultType="java.util.Map">
-        select  ua.province as `name`, count(uhr.id) as `value` from unit_address ua left join unit_hot_region uhr on ua.id=uhr.address_id GROUP BY ua.province
+        select  ua.province as `name`, count(distinct uhr.subject_id) as `value` from unit_address ua left join unit_hot_region uhr on ua.id=uhr.address_id GROUP BY ua.province
     </select>
 </mapper>
