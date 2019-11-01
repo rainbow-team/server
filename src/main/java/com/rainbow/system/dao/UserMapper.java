@@ -2,6 +2,7 @@ package com.rainbow.system.dao;
 
 import com.rainbow.common.config.MyMapper;
 import com.rainbow.system.domain.SystemUser;
+import com.rainbow.system.domain.extend.SystemUserExtend;
 import com.rainbow.system.domain.extend.UserWithRole;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public interface UserMapper extends MyMapper<SystemUser> {
 
     SystemUser findUserByUsername(String username);
 
-    List<SystemUser> getUserList(Map<String, Object> map);
+    List<SystemUserExtend> getUserList(Map<String, Object> map);
 
     int changePassword(SystemUser user);
 }

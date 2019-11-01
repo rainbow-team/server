@@ -1,24 +1,24 @@
 package com.rainbow.system.controller;
 
+import java.util.List;
+
 import com.rainbow.common.annotation.SystemLog;
-import com.rainbow.common.domain.Page;
-import com.rainbow.common.annotation.Log;
 import com.rainbow.common.controller.BaseController;
+import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
-import com.rainbow.supervision.domain.Org;
-import com.rainbow.system.domain.SystemMenu;
 import com.rainbow.system.domain.SystemUser;
 import com.rainbow.system.domain.extend.UserWithRole;
 import com.rainbow.system.service.UserService;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @Author:deepblue
@@ -47,7 +47,7 @@ public class UserController extends BaseController {
     // @Log("新增用户")
     // @RequiresPermissions("user:add")
     @PostMapping("/addUser")
-    @SystemLog(description="新增用户")
+    @SystemLog(description = "新增用户")
     public ResponseBo addUser(@RequestBody UserWithRole user) {
 
         int result = this.userService.addUser(user);
@@ -65,7 +65,7 @@ public class UserController extends BaseController {
      * @return
      */
     @PostMapping("/modifyUser")
-    @SystemLog(description="修改用户信息")
+    @SystemLog(description = "修改用户信息")
     public ResponseBo modify(@RequestBody UserWithRole user) {
         int result = userService.modifyUser(user);
         if (result == 1) {
@@ -80,7 +80,7 @@ public class UserController extends BaseController {
     // @Log("删除用户")
 
     @PostMapping("/deleteUsersByIds")
-    @SystemLog(description="删除用户")
+    @SystemLog(description = "删除用户")
     public ResponseBo deleteUsers(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
             for (String id : ids) {
@@ -180,7 +180,7 @@ public class UserController extends BaseController {
     }
 
     @PostMapping("/getAllUser")
-    public ResponseBo getAllUser(){
+    public ResponseBo getAllUser() {
         return ResponseBo.ok(userService.selectAll());
     }
 }

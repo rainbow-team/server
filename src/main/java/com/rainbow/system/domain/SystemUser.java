@@ -56,6 +56,30 @@ public class SystemUser {
     private String lastLoginIp;
 
     /**
+     * 创建人ID
+     */
+    @Column(name = "creator_id")
+    private String creatorId;
+
+    /**
+     * 创建时间
+     */
+    @Column(name = "create_date")
+    private Date createDate;
+
+    /**
+     * 修改人ID
+     */
+    @Column(name = "modify_id")
+    private String modifyId;
+
+    /**
+     * 修改时间
+     */
+    @Column(name = "modify_date")
+    private Date modifyDate;
+
+    /**
      * 获取主键id
      *
      * @return id - 主键id
@@ -72,7 +96,6 @@ public class SystemUser {
     public void setId(String id) {
         this.id = id == null ? null : id.trim();
     }
-
 
     public String getUsername() {
         return username;
@@ -206,5 +229,37 @@ public class SystemUser {
      */
     public void setLastLoginIp(String lastLoginIp) {
         this.lastLoginIp = lastLoginIp == null ? null : lastLoginIp.trim();
+    }
+
+    public String getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(String creatorId) {
+        this.creatorId = creatorId;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getModifyId() {
+        return modifyId;
+    }
+
+    public void setModifyId(String modifyId) {
+        this.modifyId = modifyId;
+    }
+
+    public Date getModifyDate() {
+        return modifyDate;
+    }
+
+    public void setModifyDate(Date modifyDate) {
+        this.modifyDate = modifyDate;
     }
 }

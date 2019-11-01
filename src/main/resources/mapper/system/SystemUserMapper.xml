@@ -14,6 +14,10 @@
     <result column="org_id" jdbcType="VARCHAR" property="orgId" />
     <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
     <result column="last_login_ip" jdbcType="VARCHAR" property="lastLoginIp" />
+    <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
   </resultMap>
 
   <resultMap id="UserWithRoleMap" extends="SystemUserResultMap" type="com.rainbow.system.domain.extend.UserWithRole">
@@ -24,6 +28,10 @@
     </collection>
   </resultMap>
 
+  <resultMap id="SystemUserExtendMap" extends="SystemUserResultMap" type="com.rainbow.system.domain.extend.SystemUserExtend">
+    <result column="department" jdbcType="VARCHAR" property="department" />
+  </resultMap>
+
   <select id="login" parameterType="map" resultMap="SystemUserResultMap">
     select * from system_user t where t.username = #{username} and  t.password=#{password}
   </select>
@@ -32,17 +40,18 @@
     select * from system_user t where t.username = #{username}
   </select>
 
-  <select id="getUserList" parameterType="map" resultMap="SystemUserResultMap">
-    select * from system_user t where 1=1
+  <select id="getUserList" parameterType="map" resultMap="SystemUserExtendMap">
+    select t.*,o.name as department from system_user t left join system_organization o on t.org_id=o.id where 1=1
     <if test="username != null and username != ''">
       and instr(t.username,#{username})>0
     </if>
     <if test="realname != null and realname != ''">
       and instr(t.realname,#{realname})>0
     </if>
-    <if test="mobile != null and mobile != ''">
-      and instr(t.mobile,#{mobile})>0
+    <if test="department != null and department != ''">
+      and org_id in (select id from  system_organization so where instr(so.name,#{department})>0)
     </if>
+    order by modify_date desc
   </select>
 
   <select id="getUserDetailByUserId" resultMap="UserWithRoleMap">

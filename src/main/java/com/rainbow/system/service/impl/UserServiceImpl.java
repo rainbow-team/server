@@ -1,29 +1,29 @@
 package com.rainbow.system.service.impl;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.rainbow.common.util.GuidHelper;
-import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
-import com.rainbow.common.util.MD5Utils;
+import com.rainbow.common.util.GuidHelper;
 import com.rainbow.system.dao.UserMapper;
-import com.rainbow.system.dao.UserRoleMapper;
 import com.rainbow.system.domain.SystemUser;
+import com.rainbow.system.domain.extend.SystemUserExtend;
 import com.rainbow.system.domain.extend.UserWithRole;
 import com.rainbow.system.service.UserRoleService;
 import com.rainbow.system.service.UserService;
-import org.apache.shiro.SecurityUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import tk.mybatis.mapper.entity.Example;
-import java.util.*;
 
 /**
  * @Author:liuhao
@@ -45,6 +45,8 @@ public class UserServiceImpl extends BaseService<SystemUser> implements UserServ
     @Override
     public int addUser(UserWithRole user) {
         user.setId(GuidHelper.getGuid());
+        user.setCreateDate(new Date());
+        user.setModifyDate(new Date());
         try {
             userMapper.insert(user);
             userRoleService.insertUserRoleByRole(user);
@@ -57,6 +59,7 @@ public class UserServiceImpl extends BaseService<SystemUser> implements UserServ
     @Override
     public int modifyUser(UserWithRole userWithRole) {
         try {
+            userWithRole.setModifyDate(new Date());
             userMapper.updateByPrimaryKey(userWithRole);
             userRoleService.deleteUserRoleByUserId(userWithRole.getId());
             userRoleService.insertUserRoleByRole(userWithRole);
@@ -92,11 +95,11 @@ public class UserServiceImpl extends BaseService<SystemUser> implements UserServ
     public ResponseBo getUserList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
-        List<SystemUser> list = userMapper.getUserList(map);
+        List<SystemUserExtend> list = userMapper.getUserList(map);
 
-        PageInfo<SystemUser> pageInfo = new PageInfo<SystemUser>(list);
+        PageInfo<SystemUserExtend> pageInfo = new PageInfo<SystemUserExtend>(list);
 
-        PagingEntity<SystemUser> result = new PagingEntity<>(pageInfo);
+        PagingEntity<SystemUserExtend> result = new PagingEntity<>(pageInfo);
 
         return ResponseBo.ok(result);
     }
