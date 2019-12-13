@@ -138,8 +138,8 @@ public class UminePlaceSecurityServiceImpl extends BaseService<UminePlaceSecurit
             }
         }
 
-        String[] cloumnNames = new String[] { "营运单位", "设施名称", "设施状态", "检查类型", "问题内容", "发现时间", "问题类别", "问题性质", "整改状态",
-                "监督要求", "整改方案", "整改完成时间", };
+        String[] cloumnNames = new String[] { "营运单位", "设施名称", "设施状态", "发现方式", "问题内容", "发现时间", "问题类别", "问题性质", "整改状态",
+                "监管要求", "整改方案", "整改完成时间", };
 
         HSSFWorkbook wb = new HSSFWorkbook();
         wb = ExportExcel.getHssfWorkBook(wb, "铀尾矿(渣)库安全问题", cloumnNames, cloumnValues);

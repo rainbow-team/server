@@ -139,11 +139,11 @@ public class ExpertServiceImpl extends BaseService<Expert> implements ExpertServ
         };
 
         HSSFWorkbook wb = new HSSFWorkbook();
-        wb = ExportExcel.getHssfWorkBook(wb, "核安全监督专家", cloumnNames, cloumnValues);
+        wb = ExportExcel.getHssfWorkBook(wb, "核安全专家", cloumnNames, cloumnValues);
 
 
         try{
-            response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode("核安全监督专家", "utf-8") + ".xls");
+            response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode("核安全专家", "utf-8") + ".xls");
             OutputStream out = response.getOutputStream();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             wb.write(baos);

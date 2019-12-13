@@ -54,9 +54,9 @@ public class SystemConfigServiceImpl extends BaseService<SystemConfig> implement
 
         insertMap.put("id", GuidHelper.getGuid());
 
-        int order = systemConfigMapper.getOrderByTableName(insertMap.get("tableName"));
+        //int order = systemConfigMapper.getOrderByTableName(insertMap.get("tableName"));
 
-        insertMap.put("order", String.valueOf(order + 1));
+        //insertMap.put("order", String.valueOf(order + 1));
 
         return systemConfigMapper.saveConfigByTableNameAndValues(insertMap);
     }

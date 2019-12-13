@@ -15,6 +15,9 @@ public class BreakCheckerExtend extends BreakChecker {
     //无损检验级别
     private String checkLevelValue;
 
+    //无损检验人員考試地點
+    private String examPlaceValue;
+
     public String getCheckMethodValue() {
         return checkMethodValue;
     }
@@ -29,5 +32,13 @@ public class BreakCheckerExtend extends BreakChecker {
 
     public void setCheckLevelValue(String checkLevelValue) {
         this.checkLevelValue = checkLevelValue;
+    }
+
+    public String getExamPlaceValue() {
+        return examPlaceValue;
+    }
+
+    public void setExamPlaceValue(String examPlaceValue) {
+        this.examPlaceValue = examPlaceValue;
     }
 }

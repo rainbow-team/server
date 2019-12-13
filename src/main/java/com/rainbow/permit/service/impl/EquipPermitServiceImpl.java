@@ -129,7 +129,7 @@ public class EquipPermitServiceImpl extends BaseService<EquipPermit> implements 
             }
         }
 
-        String[] cloumnNames = new String[] { "设备名称", "核设备单位", "核设施营运单位", "核设施名称", "设备类别", "核安全级别", "许可阶段", "许可时间",
+        String[] cloumnNames = new String[] { "设备名称", "核设备单位", "核设施营运单位", "核设施名称", "设备类别", "核安全级别", "许可类型", "许可时间",
                 "有效期限", "许可文号", "许可条件", "审评承诺" };
 
         HSSFWorkbook wb = new HSSFWorkbook();
@@ -245,14 +245,14 @@ public class EquipPermitServiceImpl extends BaseService<EquipPermit> implements 
                     }
 
                     if (StrUtil.isNullOrEmpty(item.getStageValue())) {
-                        msg += "第" + (i + 2) + "行许可阶段为空,";
+                        msg += "第" + (i + 2) + "行许可类型为空,";
                     } else {
                         mapConfig.put("tablename", "config_equip_permit_stage");
                         mapConfig.put("value", item.getStageValue());
                         String typeId = systemConfigMapper.getConfigIdByName(mapConfig);
 
                         if (StrUtil.isNullOrEmpty(typeId)) {
-                            msg += "第" + (i + 2) + "行许可阶段在数据库中不存在,";
+                            msg += "第" + (i + 2) + "行许可类型在数据库中不存在,";
                         } else {
                             item.setStageId(typeId);
                         }
@@ -273,7 +273,7 @@ public class EquipPermitServiceImpl extends BaseService<EquipPermit> implements 
                     // Excel??????
                     if (map.containsKey(
                             item.getName() + item.getEquipDepartId() + item.getStageId() + item.getPermitDate())) {
-                        msg += "?" + (i + 2) + "行【设备名称】+【核设备单位】+【许可阶段】+【许可时间】数据重复";
+                        msg += "?" + (i + 2) + "行【设备名称】+【核设备单位】+【许可类型】+【许可时间】数据重复";
                     } else {
                         map.put(item.getName() + item.getEquipDepartId() + item.getStageId() + item.getPermitDate(),
                                 item.toString());
@@ -287,7 +287,7 @@ public class EquipPermitServiceImpl extends BaseService<EquipPermit> implements 
                     params.put("permitDate", item.getPermitDate());
 
                     if (equipPermitMapper.verifyDuplication(params) > 0) {
-                        msg += "?" + (i + 2) + "行【设备名称】+【核设备单位】+【许可阶段】+【许可时间】在数据库中重复";
+                        msg += "?" + (i + 2) + "行【设备名称】+【核设备单位】+【许可类型】+【许可时间】在数据库中重复";
                         ;
                     }
 

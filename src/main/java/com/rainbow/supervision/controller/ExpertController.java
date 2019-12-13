@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * Created by 13260 on 2019/5/11.
- * 核安全监督专家管理
+ * 核安全专家管理
  */
 @RestController
 @RequestMapping("supervisionexpert")
@@ -31,13 +31,13 @@ public class ExpertController {
     ExpertService supervisionExportService;
 
     /**
-     * 添加核安全监督专家信息
+     * 添加核安全专家信息
      *
      * @param
      * @return
      */
     @PostMapping("/addExpert")
-    @SystemLog(description="添加核安全监督专家信息")
+    @SystemLog(description="添加核安全专家信息")
     public ResponseBo add(@RequestBody Expert supervisionExpert) {
         int result = supervisionExportService.addExpert(supervisionExpert);
 
@@ -49,13 +49,13 @@ public class ExpertController {
     }
 
     /**
-     * 修改核安全监督专家信息
+     * 修改核安全专家信息
      *
      * @param
      * @return
      */
     @PostMapping("/modifyExpert")
-    @SystemLog(description="修改核安全监督专家信息")
+    @SystemLog(description="修改核安全专家信息")
     public ResponseBo modify(@RequestBody Expert supervisionExpert) {
 
         int result = supervisionExportService.modifyExpert(supervisionExpert);
@@ -68,19 +68,19 @@ public class ExpertController {
 
 
     /**
-     * 获取核安全监督专家列表
+     * 获取核安全专家列表
      * @param page
      * @return
      */
     @PostMapping("/getExpertList")
-    @SystemLog(description="获取核安全监督专家列表")
+    @SystemLog(description="获取核安全专家列表")
     public ResponseBo getExpertList(@RequestBody Page page){
 
         return supervisionExportService.getExpertList(page);
     }
 
     /**
-     * 获取核安全监督专家详情
+     * 获取核安全专家详情
      * @param id
      * @return
      */

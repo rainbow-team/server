@@ -128,7 +128,7 @@ public class EquipCheckServiceImpl extends BaseService<EquipCheck> implements Eq
                 "核设施名称",
                 "设备类别",
                 "核安全级别",
-                "审评阶段",
+                "审评类型",
                 "审评时间"
         };
 

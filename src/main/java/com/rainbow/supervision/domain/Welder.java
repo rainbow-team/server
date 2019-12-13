@@ -48,7 +48,7 @@ public class Welder extends BaseExtendEntity {
     private String certNumber;
 
     /**
-     * 钢印号
+     * 焊工编号
      */
     @Column(name = "steel_number")
     private String steelNumber;
@@ -227,18 +227,18 @@ public class Welder extends BaseExtendEntity {
     }
 
     /**
-     * 获取钢印号
+     * 获取焊工编号
      *
-     * @return steel_number - 钢印号
+     * @return steel_number - 焊工编号
      */
     public String getSteelNumber() {
         return steelNumber;
     }
 
     /**
-     * 设置钢印号
+     * 设置焊工编号
      *
-     * @param steelNumber 钢印号
+     * @param steelNumber 焊工编号
      */
     public void setSteelNumber(String steelNumber) {
         this.steelNumber = steelNumber == null ? null : steelNumber.trim();

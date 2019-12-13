@@ -103,7 +103,7 @@ public class WelderServiceImpl extends BaseService<Welder> implements WelderServ
                 "聘用单位",
                 "发证单位",
                 "证书编号",
-                "钢印号",
+                "焊工编号",
                 "考试合格项目代号",
                 "有效期限",
                 "备注"

@@ -154,7 +154,7 @@ public class FacServiceImpl extends BaseService<Fac> implements FacService {
                         facExtend.getBuilder(), Integer.toString(buildYear), facExtend.getSupervisionCategoryValue(),
                         facExtend.getTypeValue(), facExtend.getStatusValue(), facExtend.getReviewStatusValue(),
                         facExtend.getPermitSituationValue(), facExtend.getSurvey(), facExtend.getFeature(),
-                        facExtend.getIsEarthquake() == 0 ? "不满足" : "满足", facExtend.getIsFlood() == 0 ? "不满足" : "满足",
+                        facExtend.getIsEarthquake() == 0 ? "否" : "是", facExtend.getIsFlood() == 0 ? "否" : "是",
                         facExtend.getTechDes(), facExtend.getDesignStandardAccident(), facExtend.getMeasure(),
                         facExtend.getNote() };
                 cloumnValues.add(strs);

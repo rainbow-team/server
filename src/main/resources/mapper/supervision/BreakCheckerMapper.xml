@@ -16,6 +16,8 @@
     <result column="cert_number" jdbcType="VARCHAR" property="certNumber" />
     <result column="cert_depart" jdbcType="VARCHAR" property="certDepart" />
     <result column="cert_date" jdbcType="DATE" property="certDate" />
+    <result column="exam_score" jdbcType="VARCHAR" property="examScore" />
+    <result column="exam_place_id" jdbcType="VARCHAR" property="examPlaceId" />
     <result column="is_import" jdbcType="INTEGER" property="isImport" />
     <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
@@ -27,6 +29,7 @@
   <resultMap id="BreakCheckerExtendMap" extends="BreakCheckerBaseResultMap" type="com.rainbow.supervision.domain.extend.BreakCheckerExtend">
     <result column="checkMethodValue" jdbcType="VARCHAR" property="checkMethodValue" />
     <result column="checkLevelValue" jdbcType="VARCHAR" property="checkLevelValue" />
+    <result column="examPlaceValue" jdbcType="VARCHAR" property="examPlaceValue" />
   </resultMap>
 
 
@@ -34,10 +37,12 @@
     select
       t.*,
       cm.value checkMethodValue,
-      cl.value checkLevelValue
+      cl.value checkLevelValue,
+      ep.value examPlaceValue
     from supervision_break_checker t
     left join config_check_method cm on t.check_method_id = cm.id
     left join config_check_level cl on t.check_level_id = cl.id
+    left join config_exam_place ep on t.exam_place_id = ep.id
     where 1=1
     <if test="name != null and name != ''">
       and instr(t.name,#{name})>0
@@ -79,6 +84,14 @@
       and instr(t.cert_number,#{cert_number})>0
     </if>
 
+    <if test="examPlaceIds != null">
+      and t.exam_place_id in (
+      <foreach item="item" index="index" collection="examPlaceIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
     <choose>
       <when test="checked != null and checked != ''">
         order by t.modify_date desc
@@ -96,10 +109,12 @@
     select
     t.*,
     cm.value checkMethodValue,
-    cl.value checkLevelValue
+    cl.value checkLevelValue,
+    ep.value examPlaceValue
     from supervision_break_checker t
     left join config_check_method cm on t.check_method_id = cm.id
     left join config_check_level cl on t.check_level_id = cl.id
+    left join config_exam_place ep on t.exam_place_id = ep.id
     where t.id = #{id}
 
   </select>

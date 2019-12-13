@@ -73,6 +73,18 @@ public class BreakChecker extends BaseExtendEntity {
     private Date certDate;
 
     /**
+     *无损检验人员考试成绩
+     */
+    @Column(name = "exam_score")
+    private String examScore;
+
+    /**
+     * 无损检验人员考试地点外键，参考表：config_exam_place
+     */
+    @Column(name = "exam_place_id")
+    private String examPlaceId;
+
+    /**
      * 是否导入0 否 1 是
      */
     @Column(name = "is_import")
@@ -307,6 +319,42 @@ public class BreakChecker extends BaseExtendEntity {
      */
     public void setCertDate(Date certDate) {
         this.certDate = certDate;
+    }
+
+    /**
+     * 获取考试成绩
+     *
+     * @return exam_score - 考试成绩
+     */
+    public String getExamScore() {
+        return examScore;
+    }
+
+    /**
+     * 设置考试成绩
+     *
+     * @param examScore 考试成绩
+     */
+    public void setExamScore(String examScore) {
+        this.examScore = examScore;
+    }
+
+    /**
+     * 获取无损检验人员考试地点外键，参考表：config_exam_place
+     *
+     * @return exam_place_id - 无损检验人员考试地点外键，参考表：config_exam_place
+     */
+    public String getExamPlaceId() {
+        return examPlaceId;
+    }
+
+    /**
+     * 设置无损检验人员考试地点外键，参考表：config_exam_place
+     *
+     * @param examPlaceId 无损检验人员考试地点外键，参考表：config_exam_place
+     */
+    public void setExamPlaceId(String examPlaceId) {
+        this.examPlaceId = examPlaceId;
     }
 
     /**
