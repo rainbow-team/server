@@ -42,7 +42,7 @@
     from supervision_break_checker t
     left join config_check_method cm on t.check_method_id = cm.id
     left join config_check_level cl on t.check_level_id = cl.id
-    left join config_exam_place ep on t.exam_place_id = ep.id
+    left join config_break_checker_exam_place ep on t.exam_place_id = ep.id
     where 1=1
     <if test="name != null and name != ''">
       and instr(t.name,#{name})>0
@@ -114,7 +114,7 @@
     from supervision_break_checker t
     left join config_check_method cm on t.check_method_id = cm.id
     left join config_check_level cl on t.check_level_id = cl.id
-    left join config_exam_place ep on t.exam_place_id = ep.id
+    left join config_break_checker_exam_place ep on t.exam_place_id = ep.id
     where t.id = #{id}
 
   </select>

@@ -104,6 +104,8 @@ public class BreakCheckServiceImpl extends BaseService<BreakChecker> implements 
                         breakCheckerExtend.getCertNumber(),
                         breakCheckerExtend.getCertDepart(),
                         DateUtils.DateToString(breakCheckerExtend.getCertDate()),
+                        breakCheckerExtend.getExamScore(),
+                        breakCheckerExtend.getExamPlaceValue(),
                         breakCheckerExtend.getNote()
                 };
                 cloumnValues.add(strs);
@@ -121,6 +123,8 @@ public class BreakCheckServiceImpl extends BaseService<BreakChecker> implements 
                 "证书编号",
                 "发证单位",
                 "发证日期",
+                "考试成绩",
+                "考试地点",
                 "备注"
         };
 

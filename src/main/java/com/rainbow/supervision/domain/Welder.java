@@ -54,6 +54,18 @@ public class Welder extends BaseExtendEntity {
     private String steelNumber;
 
     /**
+     *焊接人员考试成绩
+     */
+    @Column(name = "exam_score")
+    private String examScore;
+
+    /**
+     * 焊接人员考试地点外键，参考表：rainbow.config_welder_exam_place
+     */
+    @Column(name = "exam_place_id")
+    private String examPlaceId;
+
+    /**
      * 有效期限
      */
     @Column(name = "expire_date")
@@ -242,6 +254,42 @@ public class Welder extends BaseExtendEntity {
      */
     public void setSteelNumber(String steelNumber) {
         this.steelNumber = steelNumber == null ? null : steelNumber.trim();
+    }
+
+    /**
+     * 获取考试成绩
+     *
+     * @return exam_score - 考试成绩
+     */
+    public String getExamScore() {
+        return examScore;
+    }
+
+    /**
+     * 设置考试成绩
+     *
+     * @param examScore 考试成绩
+     */
+    public void setExamScore(String examScore) {
+        this.examScore = examScore;
+    }
+
+    /**
+     * 获取焊接人员考试地点外键，参考表：rainbow.config_welder_exam_place
+     *
+     * @return exam_place_id - 焊接人员考试地点外键，参考表：rainbow.config_welder_exam_place
+     */
+    public String getExamPlaceId() {
+        return examPlaceId;
+    }
+
+    /**
+     * 焊接人员考试地点外键，参考表：config_welder_exam_place
+     *
+     * @param examPlaceId 焊接人员考试地点外键，参考表：config_welder_exam_place
+     */
+    public void setExamPlaceId(String examPlaceId) {
+        this.examPlaceId = examPlaceId;
     }
 
     /**

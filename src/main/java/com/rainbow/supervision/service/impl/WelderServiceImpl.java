@@ -11,8 +11,10 @@ import com.rainbow.common.util.DateUtils;
 import com.rainbow.common.util.ExportExcel;
 import com.rainbow.common.util.GuidHelper;
 import com.rainbow.supervision.dao.WelderMapper;
+import com.rainbow.supervision.domain.BreakChecker;
 import com.rainbow.supervision.domain.SupervisionProduceTrain;
 import com.rainbow.supervision.domain.Welder;
+import com.rainbow.supervision.domain.extend.WelderExtend;
 import com.rainbow.supervision.service.WelderService;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,36 +63,48 @@ public class WelderServiceImpl extends BaseService<Welder> implements WelderServ
     public ResponseBo getWelderList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
-        List<Welder> list = welderMapper.getWelderList(map);
+        List<WelderExtend> list = welderMapper.getWelderList(map);
 
-        PageInfo<Welder> pageInfo = new PageInfo<Welder>(list);
+        PageInfo<WelderExtend> pageInfo = new PageInfo<WelderExtend>(list);
 
-        PagingEntity<Welder> result = new PagingEntity<>(pageInfo);
+        PagingEntity<WelderExtend> result = new PagingEntity<>(pageInfo);
 
         return ResponseBo.ok(result);
     }
 
     @Override
+    public ResponseBo getWelderById(String id) {
+        WelderExtend result = welderMapper.getWelderById(id);
+
+        if (result != null) {
+            return ResponseBo.ok(result);
+        }
+        return ResponseBo.error("获取失败，请重试");
+    }
+
+    @Override
     public void exportWelderTrain(Page page, HttpServletResponse response) {
         Map<String, Object> map = page.getQueryParameter();
-        List<Welder> list = welderMapper.getWelderList(map);
+        List<WelderExtend> list = welderMapper.getWelderList(map);
 
         List<String[]> cloumnValues = new ArrayList<>();
 
         if (list != null && list.size() > 0) {
 
-            for (Welder welder : list) {
+            for (WelderExtend welderExtend : list) {
                 String[] strs = new String[]{
-                        welder.getName(),
-                        welder.getIdentity(),
-                        welder.getSex()==0?"男":"女",
-                        welder.getEmployDepart(),
-                        welder.getCertDepart(),
-                        welder.getCertNumber(),
-                        welder.getSteelNumber(),
-                        welder.getExamProject(),
-                        DateUtils.DateToString(welder.getExpireDate()),
-                        welder.getNote()
+                        welderExtend.getName(),
+                        welderExtend.getIdentity(),
+                        welderExtend.getSex()==0?"男":"女",
+                        welderExtend.getEmployDepart(),
+                        welderExtend.getCertDepart(),
+                        welderExtend.getCertNumber(),
+                        welderExtend.getSteelNumber(),
+                        welderExtend.getExamProject(),
+                        DateUtils.DateToString(welderExtend.getExpireDate()),
+                        welderExtend.getExamScore(),
+                        welderExtend.getExamPlaceValue(),
+                        welderExtend.getNote()
                 };
                 cloumnValues.add(strs);
             }
@@ -106,6 +120,8 @@ public class WelderServiceImpl extends BaseService<Welder> implements WelderServ
                 "焊工编号",
                 "考试合格项目代号",
                 "有效期限",
+                "考试成绩",
+                "考试地点",
                 "备注"
         };
 

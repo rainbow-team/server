@@ -15,11 +15,11 @@
   </select>
 
   <select id="getSystemConfigByTableName" resultType="SystemConfig" statementType="STATEMENT">
-    select * from ${_parameter}
+    select * from ${_parameter} order by `order`
   </select>
 
   <select id="getSystemConfigByTableNameAndID" resultType="SystemConfig" statementType="STATEMENT">
-    select * from ${_parameter}
+    select * from ${_parameter} order by `order`
   </select>
 
   <insert id="saveConfigByTableNameAndValues" parameterType="java.util.Map">

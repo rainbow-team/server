@@ -79,7 +79,7 @@ public class BreakChecker extends BaseExtendEntity {
     private String examScore;
 
     /**
-     * 无损检验人员考试地点外键，参考表：config_exam_place
+     * 无损检验人员考试地点外键，参考表：config_break_checker_exam_place
      */
     @Column(name = "exam_place_id")
     private String examPlaceId;
@@ -340,18 +340,18 @@ public class BreakChecker extends BaseExtendEntity {
     }
 
     /**
-     * 获取无损检验人员考试地点外键，参考表：config_exam_place
+     * 获取无损检验人员考试地点外键，参考表：config_break_checker_exam_place
      *
-     * @return exam_place_id - 无损检验人员考试地点外键，参考表：config_exam_place
+     * @return exam_place_id - 无损检验人员考试地点外键，参考表：config_break_checker_exam_place
      */
     public String getExamPlaceId() {
         return examPlaceId;
     }
 
     /**
-     * 设置无损检验人员考试地点外键，参考表：config_exam_place
+     * 设置无损检验人员考试地点外键，参考表：config_break_checker_exam_place
      *
-     * @param examPlaceId 无损检验人员考试地点外键，参考表：config_exam_place
+     * @param examPlaceId 无损检验人员考试地点外键，参考表：config_break_checker_exam_place
      */
     public void setExamPlaceId(String examPlaceId) {
         this.examPlaceId = examPlaceId;

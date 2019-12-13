@@ -7,6 +7,7 @@ import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.util.DateUtils;
 import com.rainbow.supervision.domain.Welder;
+import com.rainbow.supervision.domain.extend.WelderExtend;
 import com.rainbow.supervision.service.WelderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +39,7 @@ public class WelderController {
      */
     @PostMapping("/addWelder")
     @SystemLog(description="添加焊接人员资质信息")
-    public ResponseBo add(@RequestBody Welder supervisionWelder) {
+    public ResponseBo add(@RequestBody WelderExtend supervisionWelder) {
         int result = supervisionWelderService.addWelder(supervisionWelder);
 
         if (result == 1) {
@@ -56,7 +57,7 @@ public class WelderController {
      */
     @PostMapping("/modifyWelder")
     @SystemLog(description="修改焊接人员资质信息")
-    public ResponseBo modify(@RequestBody Welder supervisionWelder) {
+    public ResponseBo modify(@RequestBody WelderExtend supervisionWelder) {
 
         int result = supervisionWelderService.modifyWelder(supervisionWelder);
 
@@ -86,8 +87,7 @@ public class WelderController {
      */
     @GetMapping("/getWelderById")
     public ResponseBo getWelderById(String id) {
-        Welder welder = supervisionWelderService.selectByKey(id);
-        return ResponseBo.ok(welder);
+        return supervisionWelderService.getWelderById(id);
     }
 
     /**

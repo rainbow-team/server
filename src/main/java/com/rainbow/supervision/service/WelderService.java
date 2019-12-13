@@ -4,6 +4,7 @@ import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.IService;
 import com.rainbow.supervision.domain.Welder;
+import com.rainbow.supervision.domain.extend.WelderExtend;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,6 +20,8 @@ public interface WelderService extends IService<Welder> {
     int modifyWelder(Welder welder);
 
     ResponseBo getWelderList(Page page);
+
+    ResponseBo getWelderById(String id);
 
     void exportWelderTrain(Page page,HttpServletResponse response);
 

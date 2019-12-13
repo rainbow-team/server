@@ -14,6 +14,8 @@
     <result column="cert_number" jdbcType="VARCHAR" property="certNumber" />
     <result column="steel_number" jdbcType="VARCHAR" property="steelNumber" />
     <result column="expire_date" jdbcType="DATE" property="expireDate" />
+    <result column="exam_score" jdbcType="VARCHAR" property="examScore" />
+    <result column="exam_place_id" jdbcType="VARCHAR" property="examPlaceId" />
     <result column="is_import" jdbcType="INTEGER" property="isImport" />
     <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
@@ -23,8 +25,16 @@
     <result column="note" jdbcType="LONGVARCHAR" property="note" />
   </resultMap>
 
-  <select id="getWelderList" parameterType="map" resultMap="WelderBaseResultMap">
-    select  * from supervision_welder t
+  <resultMap id="WelderExtendMap" extends="WelderBaseResultMap" type="com.rainbow.supervision.domain.extend.WelderExtend">
+    <result column="examPlaceValue" jdbcType="VARCHAR" property="examPlaceValue" />
+  </resultMap>
+
+  <select id="getWelderList" parameterType="map" resultMap="WelderExtendMap">
+    select
+      t.*,
+      ep.value examPlaceValue
+    from supervision_welder t
+    left join config_welder_exam_place ep on t.exam_place_id = ep.id
     where 1=1
     <if test="name != null and name != ''">
       and instr(t.name,#{name})>0
@@ -38,7 +48,6 @@
       and instr(t.exam_project,#{exam_project})>0
     </if>
 
-
     <if test="start_date != null and start_date != ''">
       and DATE(t.expire_date)
       <![CDATA[  >=  ]]>
@@ -51,6 +60,14 @@
       DATE(#{end_date})
     </if>
 
+    <if test="examPlaceIds != null">
+      and t.exam_place_id in (
+      <foreach item="item" index="index" collection="examPlaceIds" separator=",">
+        #{item}
+      </foreach>
+      )
+    </if>
+
     <choose>
       <when test="checked != null and checked != ''">
         order by t.modify_date desc
@@ -61,4 +78,17 @@
     </choose>
 
   </select>
+
+
+  <select id="getWelderById" parameterType="map" resultMap="WelderExtendMap">
+
+    select
+      t.*,
+      ep.value examPlaceValue
+    from supervision_welder t
+    left join config_welder_exam_place ep on t.exam_place_id = ep.id
+    where t.id = #{id}
+
+  </select>
+
 </mapper>
