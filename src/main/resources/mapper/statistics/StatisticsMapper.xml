@@ -70,11 +70,11 @@
 
         left join (select year(t.${dateProperty}) reportYear, t.${propertyName}, count(t.id) sumNum from  ${tableName} t
         <if test="ids != null ">
-           where t.${idsProperty} = #{ids} and year(t.find_date) between year(#{startDate}) and year(#{endDate})
+           where t.${idsProperty} = #{ids} and year(t.${dateProperty}) between year(#{startDate}) and year(#{endDate})
         </if>
 
         <if test="ids == null">
-            where year(t.find_date) between year(#{startDate}) and year(#{endDate})
+            where year(t.${dateProperty}) between year(#{startDate}) and year(#{endDate})
         </if>
 
         <if test="isService !=null and isService == 'true'">
@@ -99,11 +99,11 @@
         left join
         (select t.${propertyName} as rid ,count(id) as value  from ${tableName} t
         <if test="ids != null">
-           where t.${idsProperty} = #{ids} and year(t.find_date) between year(#{startDate}) and year(#{endDate})
+           where t.${idsProperty} = #{ids} and year(t.${dateProperty}) between year(#{startDate}) and year(#{endDate})
         </if>
 
         <if test="ids == null">
-            where year(t.find_date) between year(#{startDate}) and year(#{endDate})
+            where year(t.${dateProperty}) between year(#{startDate}) and year(#{endDate})
         </if>
 
         <if test="isService !=null and isService == 'true'">
