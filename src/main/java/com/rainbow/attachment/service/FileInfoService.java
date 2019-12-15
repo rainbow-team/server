@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 13260 on 2019/5/16.
@@ -23,4 +24,7 @@ public interface FileInfoService extends IService<FileInfo> {
     void updateFileInfoByIds(List<FileInfo> list,String id);
 
     String GetFileStorageFolder(String id);
+
+    void saveFileLog(Map<String,String> map);
+
 }

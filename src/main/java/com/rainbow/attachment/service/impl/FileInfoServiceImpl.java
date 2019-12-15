@@ -3,12 +3,19 @@ package com.rainbow.attachment.service.impl;
 import com.rainbow.attachment.dao.FileInfoMapper;
 import com.rainbow.attachment.domain.FileInfo;
 import com.rainbow.attachment.service.FileInfoService;
-import com.rainbow.common.annotation.SystemLog;
+import com.rainbow.common.cache.EHCacheUtils;
 import com.rainbow.common.config.RainbowProperties;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.service.impl.BaseService;
+import com.rainbow.common.util.GuidHelper;
 import com.rainbow.common.util.StrUtil;
+import com.rainbow.common.util.UserUtils;
 import com.rainbow.common.util.office2PDF;
+import com.rainbow.config.dao.SystemLogMapper;
+import com.rainbow.config.domain.SystemLog;
+import com.rainbow.system.domain.SysLog;
+import com.rainbow.system.domain.SystemUser;
+import net.sf.ehcache.CacheManager;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +30,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 
 /**
@@ -41,12 +45,19 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
     @Autowired
     private RainbowProperties rainbowProperties;
 
+    @Autowired
+    CacheManager cacheManager;
+
+    @Autowired
+    SystemLogMapper systemLogMapper;
+
     @Override
     public ResponseBo upload(MultipartFile multifile, HttpServletRequest request) {
 
         String guid = UUID.randomUUID().toString();
 
         String fromID = request.getParameter("refid");
+        String moduleName =  request.getParameter("moduleName");
 
 //        Multipart part = new Multipart();
 //        MultipartFile multifile = part.getUploadFile(request);
@@ -92,6 +103,12 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
         fileInfo.setFileinfoServerPath(fileSavePath);
 
         fileInfoMapper.insert(fileInfo);
+
+        Map<String,String> map = new HashMap<>();
+        map.put("id",guid);
+        map.put("type","上传");
+        map.put("moduleName",moduleName);
+        saveFileLog(map);
 
         if(isDocFile(ext)){
             //转化office pdf
@@ -169,5 +186,27 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
             map.put("fileIds", list);
             fileInfoMapper.updateFileInfoByIds(map);
         }
+    }
+
+    @Override
+    public void saveFileLog(Map<String,String> map){
+        String id = map.get("id");
+        String moduleName = map.get("moduleName");
+        String type = map.get("type");
+
+        FileInfo fileInfo = fileInfoMapper.selectByPrimaryKey(id);
+
+        SystemUser user = UserUtils.getCurrentUser(cacheManager);
+
+        //日志对象
+        SystemLog log = new SystemLog();
+        log.setId(GuidHelper.getGuid());
+        log.setOperContent(type+"-"+moduleName+"-附件:"+fileInfo.getFileinfoClientFileName());
+        log.setUserId(user.getId());
+        log.setUserName(user.getUsername());
+        log.setOperTime(new Date());
+
+        systemLogMapper.insert(log);
+
     }
 }

@@ -13,6 +13,7 @@ import tk.mybatis.mapper.entity.Example;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 13260 on 2019/5/16.
@@ -25,15 +26,14 @@ public class FileInfoController {
     private FileInfoService fileInfoService;
 
     @PostMapping(value = "/upload")
-    @SystemLog(description="上传附件")
     public ResponseBo upload(@RequestParam("file") MultipartFile file,HttpServletRequest request){
         return fileInfoService.upload(file,request);
     }
 
     @GetMapping("/delete")
-    @SystemLog(description="删除附件")
     public ResponseBo deleteFileById(String id){
         int num= fileInfoService.deleteByKey(id);
+
         return ResponseBo.ok();
     }
 
@@ -43,8 +43,12 @@ public class FileInfoController {
     }
 
     @GetMapping("/download")
-    @SystemLog(description="下载附件")
     public void downloadAccessoryByid(String id,int type,HttpServletResponse response){
         fileInfoService.downloadAccessoryByid(id,type,response);
+    }
+
+    @PostMapping(value = "/saveFileLog")
+    public void saveFileLog(@RequestBody  Map<String,String> map){
+        fileInfoService.saveFileLog(map);
     }
 }
