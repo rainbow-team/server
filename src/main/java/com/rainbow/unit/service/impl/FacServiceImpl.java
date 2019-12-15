@@ -205,6 +205,7 @@ public class FacServiceImpl extends BaseService<Fac> implements FacService {
         }
     }
 
+    @Override
     public ResponseBo importData(HttpServletRequest request) {
         Multipart part = new Multipart();
         // 获取前端传过来的file
@@ -386,10 +387,13 @@ public class FacServiceImpl extends BaseService<Fac> implements FacService {
                     for (FacExtend data : list) {
 
                         data.setIsImport(1);
+
                         data.setCreateDate(new Date());
                         data.setModifyDate(new Date());
                         data.setCreatorId(user.getId());
                         data.setModifyId(user.getId());
+                        data.setIsEarthquake("是".equalsIgnoreCase(data.getIsEarthquakeString())?1:0);
+                        data.setIsFlood("是".equalsIgnoreCase(data.getIsFloodString())?1:0);
 
                         facMapper.insert(data);
 

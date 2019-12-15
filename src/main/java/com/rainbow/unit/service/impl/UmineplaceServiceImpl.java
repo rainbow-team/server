@@ -150,7 +150,6 @@ public class UmineplaceServiceImpl extends BaseService<Umineplace> implements Um
                 // 校验
                 for (int i = 0; i < list.size(); i++) {
                     UmineplaceExtend item = list.get(i);
-
                     if (StrUtil.isNullOrEmpty(item.getUmineName())) {
                         msg += "第" + (i + 2) + "行营运单位为空,";
                     } else {
@@ -292,6 +291,7 @@ public class UmineplaceServiceImpl extends BaseService<Umineplace> implements Um
                         data.setModifyDate(new Date());
                         data.setCreatorId(user.getId());
                         data.setModifyId(user.getId());
+                        data.setHaveMonitor("是".equalsIgnoreCase(data.getHaveMonitorString())?1:0);
 
                         umineplaceMapper.insert(data);
 

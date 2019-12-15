@@ -29,6 +29,9 @@ public class UmineplaceExtend extends Umineplace {
     @BeanFieldAnnotation(order = 8)
     public String permitSituationValue;
 
+    @BeanFieldAnnotation(order = 16)
+    public String haveMonitorString;
+
     public String getUmineName() {
         return umineName;
     }
@@ -67,5 +70,13 @@ public class UmineplaceExtend extends Umineplace {
 
     public void setPermitSituationValue(String permitSituationValue) {
         this.permitSituationValue = permitSituationValue;
+    }
+
+    public String getHaveMonitorString() {
+        return haveMonitorString;
+    }
+
+    public void setHaveMonitorString(String haveMonitorString) {
+        this.haveMonitorString = haveMonitorString;
     }
 }

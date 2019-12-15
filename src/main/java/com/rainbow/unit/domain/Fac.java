@@ -88,14 +88,14 @@ public class Fac extends BaseExtendEntity {
     /**
      * 是否满足抗震设防登记 0 不满足，1满足
      */
-    @BeanFieldAnnotation(order = 14)
+
     @Column(name = "is_earthquake")
     public Integer isEarthquake;
 
     /**
      * 是否满足防洪要求0不满足，1满足
      */
-    @BeanFieldAnnotation(order = 15)
+
     @Column(name = "is_flood")
     public Integer isFlood;
 
@@ -139,7 +139,7 @@ public class Fac extends BaseExtendEntity {
      * 场址特征
      */
     @BeanFieldAnnotation(order = 13)
-    private String feature;
+    public String feature;
 
     /**
      * 工艺描述

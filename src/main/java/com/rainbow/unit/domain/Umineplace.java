@@ -26,7 +26,7 @@ public class Umineplace extends BaseExtendEntity {
      * 营运单位,来源于【铀尾矿单位信息】,关联表：unit_service
      */
     @Column(name = "umine_id")
-    private String umineId;
+    public String umineId;
 
     /**
      * 建造年代
@@ -39,30 +39,30 @@ public class Umineplace extends BaseExtendEntity {
      * 铀尾矿(渣)库等别，参考表：config_umine_place_level
      */
     @Column(name = "level_id")
-    private String levelId;
+    public String levelId;
 
     /**
      * 铀尾矿(库)设施状态的外键， 参考表：config_umine_place_status
      */
     @Column(name = "status_id")
-    private String statusId;
+    public String statusId;
 
     /**
      * 审评状态，参考表：config_review_status
      */
     @Column(name = "review_status_id")
-    private String reviewStatusId;
+    public String reviewStatusId;
 
     /**
      * 铀尾矿(渣)库许可情况的值， 参考表:config_umine_place_permit_situation
      */
     @Column(name = "permit_situation_id")
-    private String permitSituationId;
+    public String permitSituationId;
 
     /**
      * 是否设置坝体监测设施
      */
-    @BeanFieldAnnotation(order = 16)
+
     @Column(name = "have_monitor")
     public Integer haveMonitor;
 
@@ -70,31 +70,31 @@ public class Umineplace extends BaseExtendEntity {
      * 是否导入0 否 1 是
      */
     @Column(name = "is_import")
-    private Integer isImport;
+    public Integer isImport;
 
     /**
      * 创建人ID
      */
     @Column(name = "creator_id")
-    private String creatorId;
+    public String creatorId;
 
     /**
      * 创建时间
      */
     @Column(name = "create_date")
-    private Date createDate;
+    public Date createDate;
 
     /**
      * 修改人ID
      */
     @Column(name = "modify_id")
-    private String modifyId;
+    public String modifyId;
 
     /**
      * 修改时间
      */
     @Column(name = "modify_date")
-    private Date modifyDate;
+    public Date modifyDate;
 
     /**
      * 设施简介

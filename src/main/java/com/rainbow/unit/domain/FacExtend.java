@@ -32,6 +32,12 @@ public class FacExtend extends Fac {
     @BeanFieldAnnotation(order = 11)
     public String permitSituationValue;
 
+    @BeanFieldAnnotation(order = 14)
+    public String isEarthquakeString;
+
+    @BeanFieldAnnotation(order = 15)
+    public String isFloodString;
+
     public String getServiceDepart() {
         return serviceDepart;
     }
@@ -78,5 +84,21 @@ public class FacExtend extends Fac {
 
     public void setPermitSituationValue(String permitSituationValue) {
         this.permitSituationValue = permitSituationValue;
+    }
+
+    public String getIsEarthquakeString() {
+        return isEarthquakeString;
+    }
+
+    public void setIsEarthquakeString(String isEarthquakeString) {
+        this.isEarthquakeString = isEarthquakeString;
+    }
+
+    public String getIsFloodString() {
+        return isFloodString;
+    }
+
+    public void setIsFloodString(String isFloodString) {
+        this.isFloodString = isFloodString;
     }
 }
