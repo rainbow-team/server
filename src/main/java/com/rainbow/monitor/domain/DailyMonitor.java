@@ -4,9 +4,10 @@ import java.util.Date;
 import javax.persistence.*;
 
 import com.rainbow.common.annotation.BeanFieldAnnotation;
+import com.rainbow.common.domain.BaseExtendEntity;
 
 @Table(name = "monitor_daily")
-public class DailyMonitor {
+public class DailyMonitor extends BaseExtendEntity {
     /**
      * 主键
      */
@@ -16,7 +17,7 @@ public class DailyMonitor {
 
     /**
      * 核设施营运单位，外键
-     * 
+     * <p>
      * 参考表:unit_service
      */
     @Column(name = "service_id")
@@ -24,7 +25,7 @@ public class DailyMonitor {
 
     /**
      * 军工核设施名称,外键
-     * 
+     * <p>
      * 参考表:unit_fac
      */
     @Column(name = "fac_id")
@@ -32,7 +33,7 @@ public class DailyMonitor {
 
     /**
      * 核设施状态，外键
-     * 
+     * <p>
      * 参考表：config_fac_status
      */
     @Column(name = "status_id")
@@ -119,12 +120,12 @@ public class DailyMonitor {
 
     /**
      * 获取核设施营运单位，外键
-     * 
+     * <p>
      * 参考表:unit_service
      *
      * @return service_id - 核设施营运单位，外键
-     * 
-     *         参考表:unit_service
+     * <p>
+     * 参考表:unit_service
      */
     public String getServiceId() {
         return serviceId;
@@ -132,11 +133,11 @@ public class DailyMonitor {
 
     /**
      * 设置核设施营运单位，外键
-     * 
+     * <p>
      * 参考表:unit_service
      *
      * @param serviceId 核设施营运单位，外键
-     * 
+     *                  <p>
      *                  参考表:unit_service
      */
     public void setServiceId(String serviceId) {
@@ -145,12 +146,12 @@ public class DailyMonitor {
 
     /**
      * 获取军工核设施名称,外键
-     * 
+     * <p>
      * 参考表:unit_fac
      *
      * @return fac_id - 军工核设施名称,外键
-     * 
-     *         参考表:unit_fac
+     * <p>
+     * 参考表:unit_fac
      */
     public String getFacId() {
         return facId;
@@ -158,11 +159,11 @@ public class DailyMonitor {
 
     /**
      * 设置军工核设施名称,外键
-     * 
+     * <p>
      * 参考表:unit_fac
      *
      * @param facId 军工核设施名称,外键
-     * 
+     *              <p>
      *              参考表:unit_fac
      */
     public void setFacId(String facId) {
@@ -171,12 +172,12 @@ public class DailyMonitor {
 
     /**
      * 获取核设施状态，外键
-     * 
+     * <p>
      * 参考表：config_fac_status
      *
      * @return status_id - 核设施状态，外键
-     * 
-     *         参考表：config_fac_status
+     * <p>
+     * 参考表：config_fac_status
      */
     public String getStatusId() {
         return statusId;
@@ -184,11 +185,11 @@ public class DailyMonitor {
 
     /**
      * 设置核设施状态，外键
-     * 
+     * <p>
      * 参考表：config_fac_status
      *
      * @param statusId 核设施状态，外键
-     * 
+     *                 <p>
      *                 参考表：config_fac_status
      */
     public void setStatusId(String statusId) {

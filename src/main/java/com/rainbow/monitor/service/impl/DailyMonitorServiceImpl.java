@@ -2,6 +2,7 @@ package com.rainbow.monitor.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rainbow.attachment.service.FileInfoService;
 import com.rainbow.common.annotation.SystemLog;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
@@ -73,12 +74,16 @@ public class DailyMonitorServiceImpl extends BaseService<DailyMonitor> implement
     @Autowired
     private FacMapper facMapper;
 
+    @Autowired
+    FileInfoService fileInfoService;
+
     @Override
-    public int addDailyMonitor(DailyMonitor activityCheck) {
-        activityCheck.setId(GuidHelper.getGuid());
-        activityCheck.setCreateDate(new Date());
-        activityCheck.setModifyDate(new Date());
-        return dailyMonitorMapper.insert(activityCheck);
+    public int addDailyMonitor(DailyMonitor data) {
+        data.setId(GuidHelper.getGuid());
+        data.setCreateDate(new Date());
+        data.setModifyDate(new Date());
+        fileInfoService.updateFileInfoByIds(data.getAttachmentList(), data.getId());
+        return dailyMonitorMapper.insert(data);
     }
 
     @Override
@@ -119,15 +124,15 @@ public class DailyMonitorServiceImpl extends BaseService<DailyMonitor> implement
         if (list != null && list.size() > 0) {
 
             for (DailyMonitorExtend dailyMonitorExtend : list) {
-                String[] strs = new String[] { dailyMonitorExtend.getServiceDepartName(),
+                String[] strs = new String[]{dailyMonitorExtend.getServiceDepartName(),
                         dailyMonitorExtend.getFacName(), dailyMonitorExtend.getStatusValue(),
                         dailyMonitorExtend.getOrgName(), dailyMonitorExtend.getFileTypeValue(),
-                        dailyMonitorExtend.getFileName(), DateUtils.DateToString(dailyMonitorExtend.getFileDate()) };
+                        dailyMonitorExtend.getFileName(), DateUtils.DateToString(dailyMonitorExtend.getFileDate())};
                 cloumnValues.add(strs);
             }
         }
 
-        String[] cloumnNames = new String[] { "营运单位", "设施名称", "设施状态", "授权监管机构", "文件类型", "文件名称", "文件时间" };
+        String[] cloumnNames = new String[]{"营运单位", "设施名称", "设施状态", "授权监管机构", "文件类型", "文件名称", "文件时间"};
 
         HSSFWorkbook wb = new HSSFWorkbook();
         wb = ExportExcel.getHssfWorkBook(wb, "日常监督信息列表", cloumnNames, cloumnValues);
