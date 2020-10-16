@@ -1,10 +1,11 @@
 spring:
   servlet:
-       multipart:
-         max-file-size: 100MB
-         max-request-size: 100MB
-
-
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  devtools:
+    restart:
+      enabled=false:
 
   datasource:
     druid:
@@ -75,7 +76,7 @@ rainbow:
   # 上传路径
   uploadFolder: C://Attachment/
 
-  openoffice : C:\\Program Files (x86)\\OpenOffice 4
+  openoffice: C:\\Program Files (x86)\\OpenOffice 4
 
   shiro:
     #shiro redis缓存时长,默认1800秒
@@ -113,4 +114,5 @@ pagehelper:
   support-methods-arguments: true
   params: count=countSql
 
-
+server:
+  connection-timeout: 180000

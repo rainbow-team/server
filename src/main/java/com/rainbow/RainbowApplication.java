@@ -18,13 +18,17 @@ import tk.mybatis.spring.annotation.MapperScan;
 @EnableCaching
 public class RainbowApplication extends SpringBootServletInitializer {
 
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-		return builder.sources(RainbowApplication.class);
-	}
+    public RainbowApplication() {
+        setRegisterErrorPageFilter(false);
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(RainbowApplication.class, args);
-	}
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(RainbowApplication.class);
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(RainbowApplication.class, args);
+    }
 
 }
