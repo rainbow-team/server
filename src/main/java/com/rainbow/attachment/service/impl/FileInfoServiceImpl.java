@@ -13,16 +13,17 @@ import com.rainbow.common.util.UserUtils;
 import com.rainbow.common.util.office2PDF;
 import com.rainbow.config.dao.SystemLogMapper;
 import com.rainbow.config.domain.SystemLog;
-import com.rainbow.system.domain.SysLog;
 import com.rainbow.system.domain.SystemUser;
 import net.sf.ehcache.CacheManager;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import tk.mybatis.mapper.entity.Example;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -46,10 +47,10 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
     private RainbowProperties rainbowProperties;
 
     @Autowired
-    CacheManager cacheManager;
+    private CacheManager cacheManager;
 
     @Autowired
-    SystemLogMapper systemLogMapper;
+    private SystemLogMapper systemLogMapper;
 
     @Override
     public ResponseBo upload(MultipartFile multifile, HttpServletRequest request) {
@@ -57,7 +58,7 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
         String guid = UUID.randomUUID().toString();
 
         String fromID = request.getParameter("refid");
-        String moduleName =  request.getParameter("moduleName");
+        String moduleName = request.getParameter("moduleName");
 
 //        Multipart part = new Multipart();
 //        MultipartFile multifile = part.getUploadFile(request);
@@ -68,7 +69,7 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
         String storeFile = null;
         String fileName = null;
         String fileSavePath = "";
-        String storageFolder="";
+        String storageFolder = "";
 
         try {
             fileName = StrUtil.isNullOrEmpty(fileName) ? multifile.getOriginalFilename() : fileName;
@@ -104,15 +105,15 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
 
         fileInfoMapper.insert(fileInfo);
 
-        Map<String,String> map = new HashMap<>();
-        map.put("id",guid);
-        map.put("type","上传");
-        map.put("moduleName",moduleName);
+        Map<String, String> map = new HashMap<>();
+        map.put("id", guid);
+        map.put("type", "上传");
+        map.put("moduleName", moduleName);
         saveFileLog(map);
 
-        if(isDocFile(ext)){
+        if (isDocFile(ext)) {
             //转化office pdf
-            office2PDF.office2PDF(fileSavePath,storageFolder+guid+".pdf",rainbowProperties.getOpenoffice());
+            office2PDF.office2OFD(fileSavePath, storageFolder + guid + ".ofd", rainbowProperties.getOfdagent());
         }
 
         return ResponseBo.ok(guid);
@@ -147,26 +148,32 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
     }
 
     @Override
-    public void downloadAccessoryByid(String id, int type,HttpServletResponse response) {
+    public void downloadAccessoryByid(String id, int type, HttpServletResponse response) {
 
         FileInfo fileInfo = fileInfoMapper.selectByPrimaryKey(id);
+        String fileName = fileInfo.getFileinfoClientFileName();
 
         if (fileInfo != null) {
             String path = fileInfo.getFileinfoServerPath();
-
-            //pdf
-            if(type==2){
-                path = path.substring(0,path.lastIndexOf("."))+".pdf";
-            }
-
-            File file = new File(path);
-
-            if (!file.exists()) {
-                return;
+            File file = null;
+            //预览下载
+            if (type == 2) {
+//                path = path.substring(0,path.lastIndexOf("."))+".ofd";
+                path = GetFileStorageFolder(id) + ".ofd";
+                fileName = fileName.substring(0, fileName.lastIndexOf('.')) + ".ofd";
+                file = new File(path);
+                if (!file.exists()) {
+                    path = GetFileStorageFolder(id) + ".pdf";
+                    fileName = fileName.substring(0, fileName.lastIndexOf('.')) + ".pdf";
+                    file = new File(path);
+                    if (!file.exists()) {
+                        return;//找不到ofd且不是pdf文件则返回空，不支持预览
+                    }
+                }
             }
 
             try {
-                response.setHeader("content-disposition", "Attachment;filename=" + URLEncoder.encode(fileInfo.getFileinfoClientFileName(), "utf-8"));
+                response.setHeader("content-disposition", "Attachment;filename=" + URLEncoder.encode(fileName, "utf-8"));
                 OutputStream out = response.getOutputStream();
                 out.write(FileUtils.readFileToByteArray(file));
                 out.close();
@@ -189,7 +196,7 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
     }
 
     @Override
-    public void saveFileLog(Map<String,String> map){
+    public void saveFileLog(Map<String, String> map) {
         String id = map.get("id");
         String moduleName = map.get("moduleName");
         String type = map.get("type");
@@ -201,7 +208,7 @@ public class FileInfoServiceImpl extends BaseService<FileInfo> implements FileIn
         //日志对象
         SystemLog log = new SystemLog();
         log.setId(GuidHelper.getGuid());
-        log.setOperContent(type+"-"+moduleName+"-附件:"+fileInfo.getFileinfoClientFileName());
+        log.setOperContent(type + "-" + moduleName + "-附件:" + fileInfo.getFileinfoClientFileName());
         log.setUserId(user.getId());
         log.setUserName(user.getUsername());
         log.setOperTime(new Date());

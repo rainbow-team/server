@@ -74,15 +74,15 @@
     </if>
 
     <if test="start_date != null and start_date != ''">
-      and DATE(t.file_date)
+      and substr(t.file_date,0,10)
       <![CDATA[  >=  ]]>
-      DATE(#{start_date})
+      substr(#{start_date},0,10)
     </if>
 
     <if test="end_date != null and end_date != ''">
-      and DATE(t.file_date)
+      and substr(t.file_date,0,10)
       <![CDATA[  <=  ]]>
-      DATE(#{end_date})
+      substr(#{end_date},0,10)
     </if>
 
     <if test="servicedepartId != null and servicedepartId != ''">
@@ -98,7 +98,7 @@
         order by t.modify_date desc
       </when>
       <otherwise>
-        order by CONVERT(sd.name using gbk) ,CONVERT(f.name using gbk),CONVERT(s.value using gbk)
+        order by sd.name,f.name,s.value
       </otherwise>
     </choose>
 

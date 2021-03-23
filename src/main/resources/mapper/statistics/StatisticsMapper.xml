@@ -11,7 +11,7 @@
 
 
     <select id="searchResultByCommonConditon" parameterType="com.rainbow.statistics.domain.SearchCondition" resultMap="BaseResultMap">
-         select a.`value` as name, ifnull(b.value,0) as value
+         select a.value as name, ifnull(b.value,0) as value
          from ${configTableName} a
          left join
          (select c.${propertyName} as rid ,count(id) as value  from ${tableName} c group by ${propertyName}) b
@@ -30,28 +30,28 @@
     </select>
 
     <select id="getStatisticsResultByBoolean" parameterType="com.rainbow.statistics.domain.SearchCondition" resultType="com.rainbow.statistics.domain.ResultObj">
-         select if(t.${propertyName}=0,"否","是") as name, count(id) as value from ${tableName} t group by t.${propertyName}
+         select if(t.${propertyName}=0,'否','是') as name, count(id) as value from ${tableName} t group by t.${propertyName}
     </select>
 
 
     <select id="searchResultByPermitStageConditon" parameterType="com.rainbow.statistics.domain.SearchCondition" resultMap="BaseResultMap">
-         select a.`value` as name, ifnull(b.value,0) as value
+         select a.value as name, ifnull(b.value,0) as value
          from ${configTableName} a
          left join
          (select c.${propertyName} as rid ,count(id) as value  from ${tableName} c
                 where year(c.${dateProperty}) between year(#{startDate}) and year(#{endDate}) group by ${propertyName}) b
          on a.id = b.rid
-         order by a.order
+         order by a."ORDER"
   </select>
 
     <select id="searchResultByPermitDateConditon" parameterType="com.rainbow.statistics.domain.SearchCondition" resultType="com.rainbow.statistics.domain.PermitReportDomainResult">
-        select a.id id,a.`value`,b.reportYear,b.sumNum  from ${configTableName} a
+        select a.id id,a.value,b.reportYear,b.sumNum  from ${configTableName} a
 
         left join (select year(t.${dateProperty}) reportYear, t.${propertyName}, count(t.id) sumNum from  ${tableName} t group by year(t.${dateProperty}), t.${propertyName}) b
 
         on a.id=b.${propertyName}
 
-      order by a.`order`
+      order by a."ORDER"
 
   </select>
 
@@ -66,7 +66,7 @@
 
 
     <select id="searchResultByDateConditon" parameterType="com.rainbow.statistics.domain.SearchCondition" resultType="com.rainbow.statistics.domain.PermitReportDomainResult">
-        select a.id id,a.`value`,b.reportYear,b.sumNum  from ${configTableName} a
+        select a.id id,a.value,b.reportYear,b.sumNum  from ${configTableName} a
 
         left join (select year(t.${dateProperty}) reportYear, t.${propertyName}, count(t.id) sumNum from  ${tableName} t
         <if test="ids != null ">
@@ -88,13 +88,13 @@
 
         on a.id=b.${propertyName}
 
-        order by a.`order`
+        order by a."ORDER"
     </select>
 
 
     <!--根据问题性质进行统计，横轴为性质，纵轴为所选年度性质的总和-->
     <select id="searchResultByTypeConditon" parameterType="com.rainbow.statistics.domain.SearchCondition" resultMap="BaseResultMap">
-        select a.`value` as name, ifnull(b.value,0) as value
+        select a.value as name, ifnull(b.value,0) as value
         from ${configTableName} a
         left join
         (select t.${propertyName} as rid ,count(id) as value  from ${tableName} t
@@ -115,15 +115,15 @@
         </if>
         group by ${propertyName}) b
         on a.id = b.rid
-        order by a.order
+        order by a."ORDER"
     </select>
 
 
     <!--整改状态作为横轴，问题类别及数量作为纵轴-->
     <select id="searchResultByStatusAndType" parameterType="com.rainbow.statistics.domain.SearchCondition" resultType="com.rainbow.statistics.domain.PermitReportDomainResult">
-        select a.id id,a.`value`,b.reportYear,b.sumNum from ${configTableName} a
+        select a.id id,a.value,b.reportYear,b.sumNum from ${configTableName} a
 
-        left join  (select s.value reportYear, t.${propertyName}, count(t.id) sumNum  from ${tableName} t
+        left join  (select t.${dateProperty} as reportYear, t.${propertyName}, count(t.id) sumNum  from ${tableName} t
 
         left join  config_security_reform_status s on s.id = t.reform_status_id
         <if test="ids != null">
@@ -131,7 +131,7 @@
         </if>
 
         <if test="ids == null">
-            where year(t.find_date) between year(#{startDate}) and year(#{endDate})
+            where year(t.${dateProperty}) between year(#{startDate}) and year(#{endDate})
         </if>
 
         <if test="isService !=null and isService == 'true'">
@@ -141,9 +141,9 @@
         <if test="isService !=null and isService == 'false'">
             and t.fac_id != ''
         </if>
-        group by t.reform_status_id,t.question_type_id) b
+        group by t.reform_status_id,t.${dateProperty},t.${propertyName}) b
         on a.id = b.question_type_id
-        order by a.`order`
+        order by a."ORDER"
     </select>
     <select id="statisticsFacilitiesByRegion" resultMap="BaseResultMap">
         select ua.province as name, count(uhr.id) as value from unit_hot_region uhr left join unit_address ua on uhr.address_id=ua.id WHERE ua.unit_type='0' and ua.province is not null  GROUP BY ua.province
@@ -151,7 +151,7 @@
 
 
     <select id="getStatisticsResultByTypeAndDate" parameterType="com.rainbow.statistics.domain.SearchCondition" resultType="com.rainbow.statistics.domain.YearResultObj">
-        select c.`value` typeName,
+        select c.value as typeName,
 
         sum(case when year(t.build_year)
         <![CDATA[  >=  ]]>
@@ -165,7 +165,7 @@
 
         left join unit_fac t on c.id = t.type_id
 
-        group by t.type_id;
+        group by t.type_id,c.value;
     </select>
 
 </mapper>

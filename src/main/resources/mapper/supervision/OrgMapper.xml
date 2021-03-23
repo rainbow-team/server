@@ -31,8 +31,8 @@
       org.leader_tel,
       org.note,
       nature.id config_id,
-      nature.value config_value,
-      nature.order config_order
+      nature.value as config_value,
+      nature."ORDER" as config_order
     from supervision_org org
     left join relation_supervision_org_nature relation on relation.org_id = org.id
     left join config_supervision_org_nature nature on nature.id = relation.nature_id
@@ -58,7 +58,7 @@
         order by org.modify_date desc
       </when>
       <otherwise>
-        order by CONVERT(org.`name` using gbk)
+        order by org.name
       </otherwise>
     </choose>
 
@@ -74,8 +74,8 @@
      org.leader_tel,
      org.note,
      nature.id config_id,
-     nature.value config_value,
-     nature.order config_order
+     nature.value as  config_value,
+     nature."ORDER" as config_order
     from supervision_org org
     left join relation_supervision_org_nature relation on relation.org_id = org.id
     left join config_supervision_org_nature nature on nature.id = relation.nature_id
@@ -84,25 +84,25 @@
   </select>
 
   <select id="getOrgIdByName" parameterType="String" resultType="String">
-    SELECT t.id from supervision_org t where t.`name`=#{name} limit 1;
+    SELECT t.id from supervision_org t where t.name=#{name} limit 1;
   </select>
 
 
   <select id="getOrgOrSastindIdByName" parameterType="String" resultType="String">
     SELECT m.id from
 (
-select t.id,t.`name` from supervision_org t
+select t.id,t.name from supervision_org t
 union all
-select t1.id,t1.`name`
+select t1.id,t1.name
 from supervision_sastind t1
-) m where m.`name` =#{name} limit 1
+) m where m.name =#{name} limit 1
   </select>
 
 
   <select id="getOrgAndSastindList"  resultMap="OrgBaseResultMap">
-select t.id,t.`name` from supervision_org t
+select t.id,t.name from supervision_org t
 union all
-select t1.id,t1.`name`
+select t1.id,t1.name
 from supervision_sastind t1
   </select>
 

@@ -7,7 +7,7 @@
     -->
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="identity" jdbcType="VARCHAR" property="identity" />
+    <result column="id_number" jdbcType="VARCHAR" property="identity" />
     <result column="employ_depart" jdbcType="VARCHAR" property="employDepart" />
     <result column="heap_name" jdbcType="VARCHAR" property="heapName" />
     <result column="license_type_id" jdbcType="VARCHAR" property="licenseTypeId" />
@@ -71,7 +71,7 @@
         order by t.modify_date desc
       </when>
       <otherwise>
-        order by CONVERT(t.heap_name using gbk),CONVERT(lt.value using gbk),t.expire_date asc
+        order by t.heap_name,lt.value,t.expire_date asc
       </otherwise>
     </choose>
 

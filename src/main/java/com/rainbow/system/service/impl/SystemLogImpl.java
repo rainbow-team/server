@@ -35,26 +35,26 @@ public class SystemLogImpl {
 
     //保存日志
     @Pointcut("execution(* com.rainbow.*.controller.*.*(..))")
-    public void  SaveLog(){
+    public void SaveLog() {
     }
 
     //保存登陆日志
     @Pointcut("execution(* com.rainbow.system.controller.LoginController.login(..))")
-    public void  SaveLoginLog(){
+    public void SaveLoginLog() {
     }
 
-    @After( "SaveLog()")
-    public void  SaveFgLog(JoinPoint point){
+    @After("SaveLog()")
+    public void SaveFgLog(JoinPoint point) {
 
         String comment = getServiceMthodDescription(point);
-        if(StrUtil.isNullOrEmpty(comment)){
+        if (StrUtil.isNullOrEmpty(comment)) {
             return;
         }
 
-        Object[] args=point.getArgs();
+        Object[] args = point.getArgs();
         SystemUser user = EHCacheUtils.getCurrentUser(cacheManager);
 
-        if(user!=null){
+        if (user != null) {
             //日志对象
             SystemLog log = new SystemLog();
             log.setId(GuidHelper.getGuid());
@@ -69,13 +69,13 @@ public class SystemLogImpl {
     }
 
     @AfterReturning(pointcut = "SaveLoginLog()", returning = "returnValue")
-    public void SaveLoginLog(JoinPoint point,Object returnValue){
+    public void SaveLoginLog(JoinPoint point, Object returnValue) {
         ResponseBo responseBo = (ResponseBo) returnValue;
 
-        if(responseBo!=null){
-            if(responseBo.get("msg")!=null&&responseBo.get("code")=="200"){
+        if (responseBo != null) {
+            if (responseBo.get("msg") != null && responseBo.get("code") == "200") {
 
-                Map<String,Object> mapUser = (Map<String,Object>)responseBo.get("msg");
+                Map<String, Object> mapUser = (Map<String, Object>) responseBo.get("msg");
                 SystemUser user = (SystemUser) mapUser.get("userinfo");
                 //日志对象
                 SystemLog log = new SystemLog();
@@ -92,6 +92,7 @@ public class SystemLogImpl {
 
     /**
      * 查询方法描述
+     *
      * @param joinPoint
      * @return
      */
@@ -109,7 +110,7 @@ public class SystemLogImpl {
                 if (method.getName().equals(methodName)) {
                     Class[] clazzs = method.getParameterTypes();
                     if (clazzs.length == arguments.length) {
-                        if(method.getAnnotation(com.rainbow.common.annotation.SystemLog.class)!=null){
+                        if (method.getAnnotation(com.rainbow.common.annotation.SystemLog.class) != null) {
                             description = method.getAnnotation(com.rainbow.common.annotation.SystemLog.class).description();
                         }
                         break;

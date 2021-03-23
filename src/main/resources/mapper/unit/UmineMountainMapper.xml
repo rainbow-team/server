@@ -101,7 +101,7 @@
         order by t.modify_date desc
       </when>
       <otherwise>
-        order by CONVERT(u.name using gbk),t.build_year desc,CONVERT(t.name using gbk)
+        order by u.name,t.build_year desc,t.name
       </otherwise>
     </choose>
 

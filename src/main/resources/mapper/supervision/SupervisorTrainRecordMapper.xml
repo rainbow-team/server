@@ -1,51 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.supervision.dao.SupervisionTrainRecordMapper">
-  <resultMap id="BaseTrainRecordResultMap" type="com.rainbow.supervision.domain.SupervisorTrainRecord">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="supervisor_id" jdbcType="VARCHAR" property="supervisorId" />
-    <result column="class_id" jdbcType="VARCHAR" property="classId" />
-    <result column="score" jdbcType="VARCHAR" property="score" />
-    <result column="number" jdbcType="VARCHAR" property="number" />
-    <result column="issue_date" jdbcType="DATE" property="issueDate" />
-    <result column="expire_date" jdbcType="DATE" property="expireDate" />
-  </resultMap>
+    <resultMap id="BaseTrainRecordResultMap" type="com.rainbow.supervision.domain.SupervisorTrainRecord">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="supervisor_id" jdbcType="VARCHAR" property="supervisorId"/>
+        <result column="class_id" jdbcType="VARCHAR" property="classId"/>
+        <result column="score" jdbcType="VARCHAR" property="score"/>
+        <result column="number" jdbcType="VARCHAR" property="number"/>
+        <result column="issue_date" jdbcType="DATE" property="issueDate"/>
+        <result column="expire_date" jdbcType="DATE" property="expireDate"/>
+    </resultMap>
 
-  <resultMap id="TrainRecordExtendMap" extends="BaseTrainRecordResultMap" type="com.rainbow.supervision.domain.SupervisionTrainRecordExtend">
-    <result column="trainClass" jdbcType="VARCHAR" property="trainClass" />
-    <result column="trainStartDate" jdbcType="DATE" property="trainStartDate" />
-    <result column="trainEndDate" jdbcType="DATE" property="trainEndDate" />
-    <result column="identity" jdbcType="VARCHAR" property="identity"/>
-  </resultMap>
+    <resultMap id="TrainRecordExtendMap" extends="BaseTrainRecordResultMap"
+               type="com.rainbow.supervision.domain.SupervisionTrainRecordExtend">
+        <result column="trainClass" jdbcType="VARCHAR" property="trainClass"/>
+        <result column="trainStartDate" jdbcType="DATE" property="trainStartDate"/>
+        <result column="trainEndDate" jdbcType="DATE" property="trainEndDate"/>
+        <result column="id_number" jdbcType="VARCHAR" property="identity"/>
+    </resultMap>
 
-  <select id="getTrainRecordList" parameterType="map" resultMap="TrainRecordExtendMap">
+    <select id="getTrainRecordList" parameterType="map" resultMap="TrainRecordExtendMap">
+        select
+        t.id,
+        t.supervisor_id,
+        t.class_id,
+        t.score,
+        t.number,
+        t.issue_date,
+        t.expire_date,
+        mt.batch trainClass,
+        mt.begin_date as trainStartDate,
+        mt.end_date as trainEndDate,
+        ss.id_number
+        from supervisor_train_records t
+        left join supervision_monitor_train mt on t.class_id = mt.id
+        left join supervision_supervisor ss on ss.id = t.supervisor_id
+        where t.supervisor_id = #{supervisorId}
 
-    select
-     t.id,
-     t.supervisor_id,
-     t.class_id,
-     t.score,
-     t.number,
-     t.issue_date,
-     t.expire_date,
-     mt.batch trainClass,
-     mt.begin_date trainStartDate,
-     mt.end_date trainEndDate,
-     ss.identity
-    from supervisor_train_records t
-    left join supervision_monitor_train mt on t.class_id = mt.id
-    left join supervision_supervisor ss on ss.id = t.supervisor_id
-    where t.supervisor_id = #{supervisorId}
+        <if test="batch != null and batch != ''">
+            and instr(mt.batch,#{batch})>0
+        </if>
 
-    <if test="batch != null and batch != ''">
-      and instr(mt.batch,#{batch})>0
-    </if>
-
-      order by mt.begin_date DESC
-  </select>
+        order by mt.begin_date DESC
+    </select>
 
     <select id="getMaxExpireDateBySupervisorId" parameterType="java.lang.String" resultType="java.util.Date">
 

@@ -108,15 +108,15 @@
     </if>
 
     <if test="start_date != null and start_date != ''">
-      and DATE(t.occur_date)
+      and t.occur_date
       <![CDATA[  >=  ]]>
-      DATE(#{start_date})
+      substr(#{start_date},0,10)
     </if>
 
     <if test="end_date != null and end_date != ''">
-      and DATE(t.occur_date)
+      and substr(t.occur_date,0,10)
       <![CDATA[  <=  ]]>
-      DATE(#{end_date})
+      substr(#{end_date},0,10)
     </if>
 
     <if test="typeIds != null">
@@ -148,7 +148,7 @@
         order by t.modify_date desc
       </when>
       <otherwise>
-        order by CONVERT(sd.name using gbk) ,CONVERT(u.name using gbk),CONVERT(f.name using gbk),CONVERT(up.name using gbk),t.occur_date desc
+        order by sd.name,u.name,f.name,up.name,t.occur_date desc
       </otherwise>
     </choose>
 
@@ -184,6 +184,6 @@
   <select id="verifyDuplication" resultType="int" parameterType="java.util.Map">
     select count(1) from security_accident WHERE service_id=#{serviceId} and umine_id=#{umineId} and fac_id=#{facId} and 
     umine_place_id=#{uminePlaceId}  and fac_status_id=#{facStatusId} and umine_place_status_id=#{uminePlaceStatusId} and 
-    `name`=#{name} and occur_date=#{occurDate};
+    name=#{name} and occur_date=#{occurDate};
   </select>
 </mapper>

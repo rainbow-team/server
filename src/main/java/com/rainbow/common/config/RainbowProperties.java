@@ -31,6 +31,8 @@ public class RainbowProperties {
 
     private String openoffice;
 
+    private String ofdagent;
+
     public String getUploadFolder() {
         return uploadFolder;
     }
@@ -61,5 +63,13 @@ public class RainbowProperties {
 
     public void setOpenoffice(String openoffice) {
         this.openoffice = openoffice;
+    }
+
+    public String getOfdagent() {
+        return ofdagent;
+    }
+
+    public void setOfdagent(String ofdagent) {
+        this.ofdagent = ofdagent;
     }
 }

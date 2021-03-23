@@ -1,86 +1,87 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.supervision.dao.WelderMapper">
-  <resultMap id="WelderBaseResultMap" type="com.rainbow.supervision.domain.Welder">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="identity" jdbcType="VARCHAR" property="identity" />
-    <result column="sex" jdbcType="INTEGER" property="sex" />
-    <result column="employ_depart" jdbcType="VARCHAR" property="employDepart" />
-    <result column="cert_depart" jdbcType="VARCHAR" property="certDepart" />
-    <result column="cert_number" jdbcType="VARCHAR" property="certNumber" />
-    <result column="steel_number" jdbcType="VARCHAR" property="steelNumber" />
-    <result column="expire_date" jdbcType="DATE" property="expireDate" />
-    <result column="exam_score" jdbcType="VARCHAR" property="examScore" />
-    <result column="exam_place_id" jdbcType="VARCHAR" property="examPlaceId" />
-    <result column="is_import" jdbcType="INTEGER" property="isImport" />
-    <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
-    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
-    <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
-    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
-    <result column="exam_project" jdbcType="LONGVARCHAR" property="examProject" />
-    <result column="note" jdbcType="LONGVARCHAR" property="note" />
-  </resultMap>
+    <resultMap id="WelderBaseResultMap" type="com.rainbow.supervision.domain.Welder">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="id_number" jdbcType="VARCHAR" property="identity"/>
+        <result column="sex" jdbcType="INTEGER" property="sex"/>
+        <result column="employ_depart" jdbcType="VARCHAR" property="employDepart"/>
+        <result column="cert_depart" jdbcType="VARCHAR" property="certDepart"/>
+        <result column="cert_number" jdbcType="VARCHAR" property="certNumber"/>
+        <result column="steel_number" jdbcType="VARCHAR" property="steelNumber"/>
+        <result column="expire_date" jdbcType="DATE" property="expireDate"/>
+        <result column="exam_score" jdbcType="VARCHAR" property="examScore"/>
+        <result column="exam_place_id" jdbcType="VARCHAR" property="examPlaceId"/>
+        <result column="is_import" jdbcType="INTEGER" property="isImport"/>
+        <result column="creator_id" jdbcType="VARCHAR" property="creatorId"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="modify_id" jdbcType="VARCHAR" property="modifyId"/>
+        <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate"/>
+        <result column="exam_project" jdbcType="LONGVARCHAR" property="examProject"/>
+        <result column="note" jdbcType="LONGVARCHAR" property="note"/>
+    </resultMap>
 
-  <resultMap id="WelderExtendMap" extends="WelderBaseResultMap" type="com.rainbow.supervision.domain.extend.WelderExtend">
-    <result column="examPlaceValue" jdbcType="VARCHAR" property="examPlaceValue" />
-  </resultMap>
+    <resultMap id="WelderExtendMap" extends="WelderBaseResultMap"
+               type="com.rainbow.supervision.domain.extend.WelderExtend">
+        <result column="examPlaceValue" jdbcType="VARCHAR" property="examPlaceValue"/>
+    </resultMap>
 
-  <select id="getWelderList" parameterType="map" resultMap="WelderExtendMap">
-    select
-      t.*,
-      ep.value examPlaceValue
-    from supervision_welder t
-    left join config_welder_exam_place ep on t.exam_place_id = ep.id
-    where 1=1
-    <if test="name != null and name != ''">
-      and instr(t.name,#{name})>0
-    </if>
+    <select id="getWelderList" parameterType="map" resultMap="WelderExtendMap">
+        select
+        t.*,
+        ep.value examPlaceValue
+        from supervision_welder t
+        left join config_welder_exam_place ep on t.exam_place_id = ep.id
+        where 1=1
+        <if test="name != null and name != ''">
+            and instr(t.name,#{name})>0
+        </if>
 
-    <if test="employ_depart != null and employ_depart != ''">
-      and instr(t.employ_depart,#{employ_depart})>0
-    </if>
+        <if test="employ_depart != null and employ_depart != ''">
+            and instr(t.employ_depart,#{employ_depart})>0
+        </if>
 
-    <if test="exam_project != null and exam_project != ''">
-      and instr(t.exam_project,#{exam_project})>0
-    </if>
+        <if test="exam_project != null and exam_project != ''">
+            and instr(t.exam_project,#{exam_project})>0
+        </if>
 
-    <if test="start_date != null and start_date != ''">
-      and DATE(t.expire_date)
-      <![CDATA[  >=  ]]>
-      DATE(#{start_date})
-    </if>
+        <if test="start_date != null and start_date != ''">
+            and substr(t.expire_date  ,0,10)
+            <![CDATA[  >=  ]]>
+            substr(#{start_date}  ,0,10)
+        </if>
 
-    <if test="end_date != null and end_date != ''">
-      and DATE(t.expire_date)
-      <![CDATA[  <=  ]]>
-      DATE(#{end_date})
-    </if>
+        <if test="end_date != null and end_date != ''">
+            and substr(t.expire_date,0,10)
+            <![CDATA[  <=  ]]>
+            substr(#{end_date},0,10)
+        </if>
 
-    <if test="examPlaceIds != null">
-      and t.exam_place_id in (
-      <foreach item="item" index="index" collection="examPlaceIds" separator=",">
-        #{item}
-      </foreach>
-      )
-    </if>
+        <if test="examPlaceIds != null">
+            and t.exam_place_id in (
+            <foreach item="item" index="index" collection="examPlaceIds" separator=",">
+                #{item}
+            </foreach>
+            )
+        </if>
 
-    <choose>
-      <when test="checked != null and checked != ''">
-        order by t.modify_date desc
-      </when>
-      <otherwise>
-        order by CONVERT(t.exam_project using gbk),t.expire_date desc,CONVERT(t.name using gbk)
-      </otherwise>
-    </choose>
+        <choose>
+            <when test="checked != null and checked != ''">
+                order by t.modify_date desc
+            </when>
+            <otherwise>
+                order by t.exam_project ,t.expire_date desc,t.name
+            </otherwise>
+        </choose>
 
-  </select>
+    </select>
 
 
-  <select id="getWelderById" parameterType="map" resultMap="WelderExtendMap">
+    <select id="getWelderById" parameterType="map" resultMap="WelderExtendMap">
 
     select
       t.*,

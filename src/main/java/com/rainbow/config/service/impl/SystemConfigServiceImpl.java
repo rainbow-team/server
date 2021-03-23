@@ -26,6 +26,7 @@ public class SystemConfigServiceImpl extends BaseService<SystemConfig> implement
 
     /**
      * 获取所有的配置，表名是key，值列表是List
+     *
      * @return
      */
     @Override
@@ -36,9 +37,9 @@ public class SystemConfigServiceImpl extends BaseService<SystemConfig> implement
         List<String> tables = systemConfigMapper.getAllTables();
 
         tables.forEach(table -> {
-            if (table.contains("config")) {
+            if (table.toLowerCase().contains("config")) {
                 List<SystemConfig> systemConfigs = systemConfigMapper.getSystemConfigByTableName(table.toString());
-                map.put(table.toString(), systemConfigs);
+                map.put(table.toString().toLowerCase(), systemConfigs);
             }
         });
         return map;
@@ -46,6 +47,7 @@ public class SystemConfigServiceImpl extends BaseService<SystemConfig> implement
 
     /**
      * 根据表名和值，插入数据
+     *
      * @param insertMap
      * @return
      */
@@ -63,6 +65,7 @@ public class SystemConfigServiceImpl extends BaseService<SystemConfig> implement
 
     /**
      * 根据表名，ID和值，修改数据
+     *
      * @param map
      */
     @Override
@@ -71,11 +74,11 @@ public class SystemConfigServiceImpl extends BaseService<SystemConfig> implement
     }
 
     @Override
-    public ResponseBo getDicItemsByTable(String tableName){
+    public ResponseBo getDicItemsByTable(String tableName) {
 
-        Map<String,String> map = new HashMap<>();
-        map.put("tableName",tableName);
-        List<SystemConfig> list =  systemConfigMapper.getDicItemsByTable(map);
+        Map<String, String> map = new HashMap<>();
+        map.put("tableName", tableName);
+        List<SystemConfig> list = systemConfigMapper.getDicItemsByTable(map);
 
         return ResponseBo.ok(list);
     }

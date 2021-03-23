@@ -16,7 +16,7 @@
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
     <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
-    <result column="note" jdbcType="LONGVARCHAR" property="note" />
+    <result column="note" jdbcType="CLOB" property="note" />
   </resultMap>
 
   <resultMap id="FacCheckExtendMap" extends="FacCheckBaseResultMap" type="com.rainbow.check.domain.FacCheckExtend">
@@ -74,7 +74,7 @@
         order by t.modify_date desc
       </when>
       <otherwise>
-        order by CONVERT(us.name using gbk) ,CONVERT(f.name using gbk),CONVERT(ft.value using gbk),CONVERT(fs.value using gbk)
+        order by us.name,f.name,ft.value,fs.value
       </otherwise>
     </choose>
 

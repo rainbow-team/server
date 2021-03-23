@@ -67,7 +67,7 @@
   </select>
 
   <select id="getPermissionByUserId" resultType="java.lang.String">
-    select  m.`code`
+    select  m.code
     from system_user u
     inner join system_user_role ur on u.id = ur.user_id
     inner join system_role r on r.id = ur.role_id
@@ -75,7 +75,7 @@
     inner join system_menu m on m.id=rm.menu_id
     where u.id = #{id}
     and (SELECT COUNT(1) FROM system_menu sm where sm.parent_id = m.id)=0
-    group by m.id
+    group by m.id,m.code
 
   </select>
 

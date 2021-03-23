@@ -20,6 +20,7 @@ public class Expert {
     /**
      * 身份证号
      */
+    @Column(name = "id_number")
     private String identity;
 
     /**

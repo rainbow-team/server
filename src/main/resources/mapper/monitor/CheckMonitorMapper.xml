@@ -45,9 +45,9 @@
     left join unit_umine u on t.umine_id = u.id
     left join unit_equip_depart ed on t.equip_depart_id = ed.id
     left join config_monitor_check_type ty on t.type_id = ty.id
-    left join (select t.id,t.`name` from supervision_org t
+    left join (select t.id,t.name from supervision_org t
     union all
-    select t1.id,t1.`name`
+    select t1.id,t1.name
     from supervision_sastind t1) f on t.org_id = f.id
     where 1=1
     <if test="name != null and name != ''">
@@ -67,15 +67,15 @@
     </if>
 
     <if test="start_date != null and start_date != ''">
-      and DATE(t.start_date)
+      and substr(t.start_date,0,10)
       <![CDATA[  <=  ]]>
-      DATE(#{start_date})
+      substr(#{start_date},0,10)
     </if>
 
     <if test="end_date != null and end_date != ''">
-      and DATE(t.end_date)
+      and substr(t.end_date,0,10)
       <![CDATA[  >=  ]]>
-      DATE(#{start_date})
+      substr(#{start_date},0,10)
     </if>
 
     <if test="servicedepartId != null and servicedepartId != ''">
@@ -95,7 +95,7 @@
         order by t.modify_date desc
       </when>
       <otherwise>
-        order by CONVERT(sd.name using gbk) ,CONVERT(u.name using gbk),CONVERT(ed.name using gbk),CONVERT(ty.value using gbk),t.start_date desc
+        order by sd.name,u.name,ed.name,ty.value,t.start_date desc
       </otherwise>
     </choose>
 
@@ -116,9 +116,9 @@
     left join unit_umine u on t.umine_id = u.id
     left join unit_equip_depart ed on t.equip_depart_id = ed.id
     left join config_monitor_check_type ty on t.type_id = ty.id
-    left join (select t.id,t.`name` from supervision_org t
+    left join (select t.id,t.name from supervision_org t
     union all
-    select t1.id,t1.`name`
+    select t1.id,t1.name
     from supervision_sastind t1) f on t.org_id = f.id
     where t.id = #{id}
 

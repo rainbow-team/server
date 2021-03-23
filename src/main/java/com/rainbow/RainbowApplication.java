@@ -12,7 +12,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import tk.mybatis.spring.annotation.MapperScan;
 
 @SpringBootApplication
-@EnableConfigurationProperties({RainbowProperties.class})
+@EnableConfigurationProperties({ RainbowProperties.class })
 @MapperScan("com.rainbow.*.dao")
 @EnableAsync
 @EnableCaching

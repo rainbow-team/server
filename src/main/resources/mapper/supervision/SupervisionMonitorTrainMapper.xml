@@ -24,15 +24,15 @@
     select  * from supervision_monitor_train t
      where 1=1
     <if test="beginDate != null and beginDate != ''">
-      and DATE(t.begin_date)
+      and substr(t.begin_date,0,10)
       <![CDATA[  >=  ]]>
-      DATE(#{beginDate})
+      substr(#{beginDate},0,10)
     </if>
 
     <if test="endDate != null and endDate != ''">
-      and DATE(t.begin_date)
+      and substr(t.begin_date,0,10)
       <![CDATA[  <=  ]]>
-      DATE(#{endDate})
+      substr(#{endDate},0,10)
     </if>
 
     <if test="batch != null and batch != ''">
@@ -60,7 +60,7 @@
         order by t.modify_date desc
       </when>
       <otherwise>
-        order by t.begin_date desc,CONVERT(t.batch using gbk)
+        order by t.begin_date desc,t.batch
       </otherwise>
     </choose>
 

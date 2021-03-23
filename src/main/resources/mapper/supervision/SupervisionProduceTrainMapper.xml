@@ -24,15 +24,15 @@
     select  * from supervision_produce_train t
     where 1=1
     <if test="begin_date != null and begin_date != ''">
-      and DATE(t.begin_date)
+      and substr(t.begin_date,0,10)
       <![CDATA[  >=  ]]>
-      DATE(#{begin_date})
+      substr(#{begin_date},0,10)
     </if>
 
     <if test="end_date != null and end_date != ''">
-      and DATE(t.begin_date)
+      and substr(t.begin_date,0,10)
       <![CDATA[  <=  ]]>
-      DATE(#{end_date})
+      substr(#{end_date},0,10)
     </if>
 
     <if test="batch != null and batch != ''">
@@ -48,7 +48,7 @@
         order by t.modify_date desc
       </when>
       <otherwise>
-        order by t.begin_date desc,CONVERT(t.batch using gbk)
+        order by t.begin_date desc,t.batch
       </otherwise>
     </choose>
 

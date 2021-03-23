@@ -29,11 +29,11 @@
     where t.monitor_check_id = #{departId}
 
     <if test="start_date != null and start_date != ''">
-      and DATE(t.file_date) <![CDATA[  >=  ]]> DATE(#{start_date})
+      and substr(t.file_date,0,10) <![CDATA[  >=  ]]> substr(#{start_date},0,10)
     </if>
 
     <if test="end_date != null and end_date != ''">
-      and  DATE(t.file_date) <![CDATA[  <=  ]]> DATE(#{end_date})
+      and  substr(t.file_date,0,10) <![CDATA[  <=  ]]> substr(#{end_date},0,10)
     </if>
 
     <if test="typeIds != null">

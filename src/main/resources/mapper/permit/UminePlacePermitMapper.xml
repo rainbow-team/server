@@ -58,15 +58,15 @@
     </if>
 
     <if test="start_date != null and start_date != ''">
-      and DATE(t.permit_date)
+      and substr(t.permit_date,0,10)
       <![CDATA[  >=  ]]>
-      DATE(#{start_date})
+      substr(#{start_date},0,10)
     </if>
 
     <if test="end_date != null and end_date != ''">
-      and DATE(t.permit_date)
+      and substr(t.permit_date,0,10)
       <![CDATA[  <=  ]]>
-      DATE(#{end_date})
+      substr(#{end_date},0,10)
     </if>
 
     <if test="umineplaceId != null and umineplaceId != ''">
@@ -78,7 +78,7 @@
         order by t.modify_date desc
       </when>
       <otherwise>
-        order by CONVERT(u.name using gbk) ,CONVERT(up.name using gbk),t.permit_date desc
+        order by u.name,up.name,t.permit_date desc
       </otherwise>
     </choose>
 

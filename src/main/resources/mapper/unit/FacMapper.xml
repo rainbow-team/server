@@ -142,7 +142,7 @@
         order by t.modify_date desc
       </when>
       <otherwise>
-        order by CONVERT(us.name using gbk),t.build_year desc,CONVERT(t.name using gbk)
+        order by us.name,t.build_year desc,t.name
       </otherwise>
     </choose>
 
@@ -203,7 +203,7 @@
   </select>
 
   <select id="getFacIdByName" parameterType="java.lang.String" resultType="java.lang.String">
-    select t.id from unit_fac t where t.`name`=#{name} limit 1;
+    select t.id from unit_fac t where t.name=#{name} limit 1;
   </select>
 
   <select id="verifyDuplication" resultType="int" parameterType="java.util.Map">

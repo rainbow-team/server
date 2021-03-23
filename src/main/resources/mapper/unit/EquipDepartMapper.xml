@@ -42,7 +42,7 @@
         order by t.modify_date desc
       </when>
       <otherwise>
-        order by CONVERT(t.name using gbk)
+        order by t.name
       </otherwise>
     </choose>
 
@@ -75,6 +75,6 @@
   </select>
 
   <select id="getEquipDepartIdByName" parameterType="java.lang.String" resultType="java.lang.String">
-    select t.id from unit_equip_depart t where t.`name`=#{name} limit 1;
+    select t.id from unit_equip_depart t where t.name=#{name} limit 1;
   </select>
 </mapper>

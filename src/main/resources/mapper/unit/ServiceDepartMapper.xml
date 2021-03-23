@@ -57,7 +57,7 @@
         order by t.modify_date desc
       </when>
       <otherwise>
-        order by CONVERT(g.name using gbk),CONVERT(t.name using gbk)
+        order by g.name,t.name
       </otherwise>
     </choose>
 
@@ -112,7 +112,7 @@
   </select>
 
   <select id="getServiceDepartIdByName" parameterType="String" resultType="String">
-    select id from unit_service_depart t WHERE t.`name`=#{name} limit 1;
+    select id from unit_service_depart t WHERE t.name=#{name} limit 1;
   </select>
 
 </mapper>

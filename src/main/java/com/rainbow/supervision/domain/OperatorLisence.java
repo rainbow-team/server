@@ -22,6 +22,7 @@ public class OperatorLisence extends BaseExtendEntity {
     /**
      * 身份证号
      */
+    @Column(name = "id_number")
     private String identity;
 
     /**
@@ -38,7 +39,7 @@ public class OperatorLisence extends BaseExtendEntity {
 
     /**
      * 操纵员执照种类外键
-参考表：config_operator_license_type
+     * 参考表：config_operator_license_type
      */
     @Column(name = "license_type_id")
     private String licenseTypeId;
@@ -194,10 +195,10 @@ public class OperatorLisence extends BaseExtendEntity {
 
     /**
      * 获取操纵员执照种类外键
-参考表：config_operator_license_type
+     * 参考表：config_operator_license_type
      *
      * @return license_type_id - 操纵员执照种类外键
-参考表：config_operator_license_type
+     * 参考表：config_operator_license_type
      */
     public String getLicenseTypeId() {
         return licenseTypeId;
@@ -205,10 +206,10 @@ public class OperatorLisence extends BaseExtendEntity {
 
     /**
      * 设置操纵员执照种类外键
-参考表：config_operator_license_type
+     * 参考表：config_operator_license_type
      *
      * @param licenseTypeId 操纵员执照种类外键
-参考表：config_operator_license_type
+     *                      参考表：config_operator_license_type
      */
     public void setLicenseTypeId(String licenseTypeId) {
         this.licenseTypeId = licenseTypeId == null ? null : licenseTypeId.trim();

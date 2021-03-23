@@ -7,7 +7,7 @@
     -->
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="identity" jdbcType="VARCHAR" property="identity" />
+    <result column="id_number" jdbcType="VARCHAR" property="identity" />
     <result column="birthday" jdbcType="DATE" property="birthday" />
     <result column="sex" jdbcType="INTEGER" property="sex" />
     <result column="major" jdbcType="VARCHAR" property="major" />
@@ -58,7 +58,7 @@
         order by t.modify_date desc
       </when>
       <otherwise>
-        order by CONVERT(t.major using gbk),t.birthday asc,CONVERT(t.name using gbk)
+        order by t.major ,t.birthday asc,t.name
       </otherwise>
     </choose>
 

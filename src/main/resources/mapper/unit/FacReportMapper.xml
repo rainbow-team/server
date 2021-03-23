@@ -36,15 +36,15 @@
     </if>
 
     <if test="start_date != null and start_date != ''">
-      and date(t.report_date)
+      and substr(t.report_date,0,10)
       <![CDATA[  >=  ]]>
-      date(#{start_date})
+      substr(#{start_date},0,10)
     </if>
 
     <if test="end_date != null and end_date != ''">
-      and date(t.report_date)
+      and substr(t.report_date,0,10)
       <![CDATA[  <=  ]]>
-      date(#{end_date})
+      substr(#{end_date},0,10)
     </if>
     order by t.report_date desc
   </select>

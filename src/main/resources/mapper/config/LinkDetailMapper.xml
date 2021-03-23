@@ -12,6 +12,6 @@
   </resultMap>
 
   <select id="getAllLinkList" resultMap="BaseResultMap">
-      select t.* from link_detail t ORDER BY t.`linkorder`
+      select t.* from link_detail t ORDER BY t.linkorder
   </select>
 </mapper>

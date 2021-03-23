@@ -48,27 +48,27 @@
     </if>
 
     <if test="record_start_date != null and record_start_date != ''">
-      and DATE(t.record_date)
+      and substr(t.record_date  ,0,10)
       <![CDATA[  >=  ]]>
-      DATE(#{record_start_date})
+      substr(#{record_start_date},0,10)
     </if>
 
     <if test="record_end_date != null and record_end_date != ''">
-      and DATE(t.record_date)
+      and substr(t.record_date,0,10)
       <![CDATA[  <=  ]]>
-      DATE(#{record_end_date})
+      substr(#{record_end_date},0,10)
     </if>
 
     <if test="accept_start_date != null and accept_start_date != ''">
-      and DATE(t.accept_date)
+      and substr(t.accept_date,0,10)
       <![CDATA[  >=  ]]>
-      DATE(#{accept_start_date})
+      substr(#{accept_start_date},0,10)
     </if>
 
     <if test="accept_end_date != null and accept_end_date != ''">
-      and DATE(t.accept_date)
+      and substr(t.accept_date,0,10)
       <![CDATA[  <=  ]]>
-      DATE(#{accept_end_date})
+      substr(#{accept_end_date},0,10)
     </if>
 
     <if test="uminemountainId != null and uminemountainId != ''">
@@ -80,7 +80,7 @@
         order by t.modify_date desc
       </when>
       <otherwise>
-        order by CONVERT(u.name using gbk) ,CONVERT(um.name using gbk),t.record_date desc
+        order by u.name ,um.name,t.record_date desc
       </otherwise>
     </choose>
 

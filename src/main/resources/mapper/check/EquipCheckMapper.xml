@@ -100,7 +100,7 @@
         order by t.modify_date desc
       </when>
       <otherwise>
-        order by CONVERT(ed.name using gbk) ,CONVERT(sd.name using gbk),CONVERT(f.name using gbk),CONVERT(t.name using gbk),CONVERT(st.value using gbk)
+        order by ed.name,sd.name,f.name,t.name,st.value
       </otherwise>
     </choose>
 

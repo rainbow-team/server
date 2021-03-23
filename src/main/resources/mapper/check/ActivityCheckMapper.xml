@@ -86,7 +86,7 @@
         order by t.modify_date desc
       </when>
       <otherwise>
-        order by CONVERT(sd.name using gbk) ,CONVERT(ud.name using gbk),CONVERT(f.name using gbk),CONVERT(ty.value using gbk)
+        order by sd.name ,ud.name,f.name,ty.value
       </otherwise>
     </choose>
 

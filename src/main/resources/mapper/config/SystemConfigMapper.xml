@@ -11,27 +11,27 @@
   </resultMap>
 
   <select id="getAllTables" resultType="java.lang.String">
-       select TABLE_NAME from information_schema.TABLES where TABLE_SCHEMA=(select database())
+       SELECT TABLE_NAME FROM USER_TABLES
   </select>
 
   <select id="getSystemConfigByTableName" resultType="SystemConfig" statementType="STATEMENT">
-    select * from ${_parameter} order by `order`
+    select * from ${_parameter} order by "order"
   </select>
 
   <select id="getSystemConfigByTableNameAndID" resultType="SystemConfig" statementType="STATEMENT">
-    select * from ${_parameter} order by `order`
+    select * from ${_parameter} order by "ORDER"
   </select>
 
   <insert id="saveConfigByTableNameAndValues" parameterType="java.util.Map">
-    insert into ${tableName}(id,`value`,`order`) values(#{id},#{value},#{order})
+    insert into ${tableName}(id,value,"ORDER") values(#{id},#{value},#{order})
   </insert>
 
   <select id="getOrderByTableName" resultType="java.lang.Integer" statementType="STATEMENT">
-    select max(`order`) from ${_parameter}
+    select max("ORDER") from ${_parameter}
   </select>
 
   <update id="modifyConfigByTableNameAndValue" parameterType="java.util.Map">
-    update ${map.tableName} set `value`= #{map.value},`order`=#{map.order} where id = #{map.id}
+    update ${map.tableName} set value= #{map.value},"ORDER"=#{map.order} where id = #{map.id}
   </update>
 
   <select id="getConfigIdByName" parameterType="map" resultType="String">
@@ -39,7 +39,7 @@
   </select>
 
   <select id="getDicItemsByTable" parameterType="map" resultMap="SystemConfigResultMap">
-      SELECT * from ${tableName} order by `order`
+      SELECT * from ${tableName} order by "ORDER"
   </select>
 
 

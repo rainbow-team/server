@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.config.dao.SystemLogMapper">
-  <resultMap id="BaseResultMap" type="com.rainbow.config.domain.SystemLog">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="user_id" jdbcType="VARCHAR" property="userId" />
-    <result column="user_name" jdbcType="VARCHAR" property="userName" />
-    <result column="oper_time" jdbcType="TIMESTAMP" property="operTime" />
-    <result column="oper_content" jdbcType="VARCHAR" property="operContent" />
-  </resultMap>
+    <resultMap id="BaseResultMap" type="com.rainbow.config.domain.SystemLog">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="oper_time" jdbcType="TIMESTAMP" property="operTime"/>
+        <result column="oper_content" jdbcType="VARCHAR" property="operContent"/>
+    </resultMap>
 
 
-  <select id="getSystemLogList" parameterType="map" resultMap="BaseResultMap">
+    <select id="getSystemLogList" parameterType="map" resultMap="BaseResultMap">
 
-    SELECT t.* from system_log t
-    WHERE  1=1
-    <if test="userId!=null and userId!=''">
-      and t.user_id = #{userId}
-    </if>
+        SELECT t.* from system_log t
+        WHERE 1=1
+        <if test="userId!=null and userId!=''">
+            and t.user_id = #{userId}
+        </if>
 
-    <if test="starttime != null and starttime != ''">
-      and DATE(t.oper_time)
-      <![CDATA[  >=  ]]>
-      DATE(#{starttime})
-    </if>
+        <if test="starttime != null and starttime != ''">
+            and substr(t.oper_time,0,10)
+            <![CDATA[  >=  ]]>
+            substr(#{starttime},0,10)
+        </if>
 
-    <if test="endtime != null and endtime != ''">
-      and DATE(t.oper_time)
-      <![CDATA[  <=  ]]>
-      DATE(#{endtime})
-    </if>
+        <if test="endtime != null and endtime != ''">
+            and substr(t.oper_time,0,10)
+            <![CDATA[  <=  ]]>
+            substr(#{endtime},0,10)
+        </if>
 
-    order by t.oper_time desc
-  </select>
+        order by t.oper_time desc
+    </select>
 
-  <delete id="deleteSystemLog">
+    <delete id="deleteSystemLog">
     delete from system_log
   </delete>
 

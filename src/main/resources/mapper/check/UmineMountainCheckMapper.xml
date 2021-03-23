@@ -56,7 +56,7 @@
         order by t.modify_date desc
       </when>
       <otherwise>
-        order by CONVERT(u.name using gbk) ,CONVERT(um.name using gbk),CONVERT(t.content using gbk)
+        order by u.name,um.name,substr(t.content,0,100)
       </otherwise>
     </choose>
 

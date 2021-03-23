@@ -26,6 +26,7 @@ public class Supervisor {
      * 身份证号
      */
     @BeanFieldAnnotation(order = 2)
+    @Column(name = "id_number")
     public String identity;
 
     /**
@@ -36,16 +37,16 @@ public class Supervisor {
 
     /**
      * 核安全授权监管机构外键
-
-     参考表：supervision_org
+     * <p>
+     * 参考表：supervision_org
      */
     @Column(name = "org_id")
     public String orgId;
 
     /**
      * 核安全监督员类别
-
-     参考表：config_supervisor_type
+     * <p>
+     * 参考表：config_supervisor_type
      */
     @Column(name = "type_id")
     public String typeId;
@@ -78,7 +79,7 @@ public class Supervisor {
 
     /**
      * 性别
-0表示男，1表示女
+     * 0表示男，1表示女
      */
     public Integer sex;
 
@@ -262,12 +263,12 @@ public class Supervisor {
 
     /**
      * 获取核安全授权监管机构外键
-
-参考表：supervision_org
+     * <p>
+     * 参考表：supervision_org
      *
      * @return org_id - 核安全授权监管机构外键
-
-参考表：supervision_org
+     * <p>
+     * 参考表：supervision_org
      */
     public String getOrgId() {
         return orgId;
@@ -275,12 +276,12 @@ public class Supervisor {
 
     /**
      * 设置核安全授权监管机构外键
-
-参考表：supervision_org
+     * <p>
+     * 参考表：supervision_org
      *
      * @param orgId 核安全授权监管机构外键
-
-参考表：supervision_org
+     *              <p>
+     *              参考表：supervision_org
      */
     public void setOrgId(String orgId) {
         this.orgId = orgId == null ? null : orgId.trim();
@@ -368,10 +369,10 @@ public class Supervisor {
 
     /**
      * 获取性别
-0表示男，1表示女
+     * 0表示男，1表示女
      *
      * @return sex - 性别
-0表示男，1表示女
+     * 0表示男，1表示女
      */
     public Integer getSex() {
         return sex;
@@ -379,10 +380,10 @@ public class Supervisor {
 
     /**
      * 设置性别
-0表示男，1表示女
+     * 0表示男，1表示女
      *
      * @param sex 性别
-0表示男，1表示女
+     *            0表示男，1表示女
      */
     public void setSex(Integer sex) {
         this.sex = sex;

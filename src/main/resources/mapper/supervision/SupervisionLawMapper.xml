@@ -21,15 +21,15 @@
     select  * from supervision_law t
     where 1=1
     <if test="startTime != null and startTime != ''">
-      and DATE(t.release_date)
+      and substr(t.release_date,0,10)
       <![CDATA[  >=  ]]>
-      DATE(#{startTime})
+      substr(#{startTime},0,10)
     </if>
 
     <if test="endTime != null and endTime != ''">
-      and DATE(t.release_date)
+      and substr(t.release_date,0,10)
       <![CDATA[  <=  ]]>
-      DATE(#{endTime})
+      substr(#{endTime},0,10)
     </if>
 
     <if test="code != null and code != ''">
@@ -45,7 +45,7 @@
         order by t.modify_date desc
       </when>
       <otherwise>
-        order by CONVERT(t.code using gbk),t.release_date desc,CONVERT(t.name using gbk)
+        order by t.code,t.release_date desc,t.name
       </otherwise>
     </choose>
 

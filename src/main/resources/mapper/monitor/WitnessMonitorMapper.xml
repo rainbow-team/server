@@ -69,15 +69,15 @@
     </if>
 
     <if test="start_date != null and start_date != ''">
-      and DATE_FORMAT(t.witness_date,'%Y-%m')
+      and substr(t.witness_date,0,7)
       <![CDATA[  >=  ]]>
-      DATE_FORMAT(#{start_date},'%Y-%m')
+      substr(#{start_date},0,7)
     </if>
 
     <if test="end_date != null and end_date != ''">
-      and DATE_FORMAT(t.witness_date,'%Y-%m')
+      and substr(t.witness_date,0,7)
       <![CDATA[  <=  ]]>
-      DATE_FORMAT(#{end_date},'%Y-%m')
+      substr(#{end_date},0,7)
     </if>
 
     <if test="servicedepartId != null and servicedepartId != ''">
@@ -96,7 +96,7 @@
         order by t.modify_date desc
       </when>
       <otherwise>
-        order by t.witness_date desc, CONVERT(sd.name using gbk) ,CONVERT(u.name using gbk),CONVERT(ed.name using gbk),CONVERT(t.witness_object using gbk)
+        order by t.witness_date desc, sd.name,u.name,ed.name,t.witness_object
       </otherwise>
     </choose>
 

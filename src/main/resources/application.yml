@@ -6,15 +6,14 @@ spring:
   devtools:
     restart:
       enabled=false:
-
   datasource:
     druid:
       # 数据库访问配置, 使用druid数据源
       db-type: com.alibaba.druid.pool.DruidDataSource
-      driverClassName: com.mysql.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/rainbow?useUnicode=true&characterEncoding=utf8&&serverTimezone=Asia/Shanghai
-      username: root
-      password: 123456
+      driverClassName: dm.jdbc.driver.DmDriver
+      url: jdbc:dm://localhost:5236/rainbow?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+      username: rainbow
+      password: 123456789
       # 连接池配置
       initial-size: 5
       min-idle: 5
@@ -64,9 +63,6 @@ spring:
       filter:
         stat:
           log-slow-sql: true
-
-
-rainbow:
   # 是否在控制台打印SQL语句
   showsql: true
   # 时间类型参数在前端页面的展示格式，默认各位为yyyy-MM-dd HH:mm:ss
@@ -74,9 +70,12 @@ rainbow:
   # 是否开启AOP日志，默认开启
   openAOPLog: true
   # 上传路径
-  uploadFolder: C://Attachment/
+  uploadFolder: /Attachment/
 
   openoffice: C:\\Program Files (x86)\\OpenOffice 4
+
+  ofdagent: http://127.0.0.1:8086/convert-issuer/
+
 
   shiro:
     #shiro redis缓存时长,默认1800秒
@@ -95,6 +94,10 @@ rainbow:
     logoutUrl: /logout
     # 未授权跳转 url
     unauthorizedUrl: /403
+  cache:
+    ehcache:
+      config: classpath:ehcache.xml
+    type: ehcache
 
 
 mybatis:
@@ -102,12 +105,14 @@ mybatis:
   type-aliases-package: com.rainbow.*.domain
   # mapper xml实现扫描路径
   mapper-locations: classpath:mapper/*/*.xml
+  configuration:
+    use-generated-keys: false
 
 #mappers 多个接口时逗号隔开
 mapper:
   mappers: com.rainbow.common.config.MyMapper
   not-empty: false
-  identity: mysql
+  identity: sybase
 pagehelper:
   helper-dialect: mysql
   reasonable: true

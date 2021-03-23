@@ -120,7 +120,7 @@
         order by t.modify_date desc
       </when>
       <otherwise>
-        order by CONVERT(u.name using gbk),CONVERT(ul.value using gbk),CONVERT(t.name using gbk)
+        order by u.name,ul.value,t.name
       </otherwise>
     </choose>
 
@@ -171,7 +171,7 @@
   </select>
 
   <select id="getUminePlaceIdByName" parameterType="String" resultType="java.lang.String">
-    select id from unit_umine_place t WHERE t.`name`=#{name} limit 1;
+    select id from unit_umine_place t WHERE t.name=#{name} limit 1;
   </select>
   <select id="verifyDuplication" resultType="int" parameterType="java.util.Map">
     select count(1) from unit_umine_place t where t.umine_id=#{umineId} and t.name=#{name}

@@ -75,7 +75,7 @@
         order by t.modify_date desc
       </when>
       <otherwise>
-        order by CONVERT(u.name using gbk) ,CONVERT(up.name using gbk),CONVERT(ct.value using gbk),CONVERT(cs.value using gbk)
+        order by u.name,up.name,ct.value,cs.value
       </otherwise>
     </choose>
 
