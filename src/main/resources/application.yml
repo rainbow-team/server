@@ -63,6 +63,7 @@ spring:
       filter:
         stat:
           log-slow-sql: true
+rainbow:
   # 是否在控制台打印SQL语句
   showsql: true
   # 时间类型参数在前端页面的展示格式，默认各位为yyyy-MM-dd HH:mm:ss
@@ -74,8 +75,7 @@ spring:
 
   openoffice: C:\\Program Files (x86)\\OpenOffice 4
 
-  ofdagent: http://127.0.0.1:8086/convert-issuer/
-
+  ofdagent: http://47.98.155.140:8080/convert-issuer/
 
   shiro:
     #shiro redis缓存时长,默认1800秒
@@ -121,3 +121,9 @@ pagehelper:
 
 server:
   connection-timeout: 180000
+  servlet:
+    context-path: /rainbow
+logging:
+  config: classpath:config/logback.xml
+  level:
+    root: error

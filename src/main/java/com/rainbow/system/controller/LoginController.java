@@ -41,9 +41,9 @@ import org.springframework.web.bind.annotation.PostMapping;
  * @Date:2019/4/29 18:09
  * @Description:
  **/
-@CrossOrigin(allowCredentials="true")
+@CrossOrigin
 @RestController
-public class LoginController extends BaseController{
+public class LoginController extends BaseController {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -59,7 +59,7 @@ public class LoginController extends BaseController{
     RainbowProperties rainbowProperties;
 
     @PostMapping("/login")
-    public ResponseBo login(@RequestBody Map<String,String> map, HttpServletRequest  request) {
+    public ResponseBo login(@RequestBody Map<String, String> map, HttpServletRequest request) {
 
 //        String code = request.getSession(true).getAttribute(CODE_KEY).toString();
 //        String idyCode = map.get("code").toString();
@@ -86,23 +86,23 @@ public class LoginController extends BaseController{
             office2PDF.startCommand(rainbowProperties.getOpenoffice());
 
             //去掉之前该用户的缓存(一个用户不能多次登录)
-            EHCacheUtils.deleteCacheByUserId(cacheManager,systemUser.getId());
-            EHCacheUtils.setCache(cacheManager,ticket,systemUser);
+            EHCacheUtils.deleteCacheByUserId(cacheManager, systemUser.getId());
+            EHCacheUtils.setCache(cacheManager, ticket, systemUser);
 
             return ResponseBo.ok(result);
         }
     }
 
     @RequestMapping("/loginout")
-    @SystemLog(description="登出")
-    public ResponseBo Loginout(){
+    @SystemLog(description = "登出")
+    public ResponseBo Loginout() {
         EHCacheUtils.deleteCache(cacheManager);
         return ResponseBo.ok();
     }
 
     /* 获取验证码图片*/
     @RequestMapping("/getVerifyCode")
-    public void getVerificationCode(HttpServletResponse response, HttpServletRequest  request) {
+    public void getVerificationCode(HttpServletResponse response, HttpServletRequest request) {
 
         try {
 
@@ -132,7 +132,7 @@ public class LoginController extends BaseController{
     }
 
     @GetMapping("/test")
-    public String index(){
+    public String index() {
         return "test";
     }
 }

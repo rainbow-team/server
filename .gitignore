@@ -923,3 +923,8 @@ src/main/resources/static/styles.js
 src/main/resources/static/styles.js.map
 src/main/resources/static/vendor.js
 src/main/resources/static/vendor.js.map
+{
+logs/rainbow/debug.log
+logs/rainbow/error.log
+logs/rainbow/info.log
+logs/rainbow/warn.log
