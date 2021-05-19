@@ -1,105 +1,132 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainbow.permit.dao.FacPermitMapper">
-  <resultMap id="FacPermitBaseResultMap" type="com.rainbow.permit.domain.FacPermit">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="service_id" jdbcType="VARCHAR" property="serviceId" />
-    <result column="fac_id" jdbcType="VARCHAR" property="facId" />
-    <result column="stage_id" jdbcType="VARCHAR" property="stageId" />
-    <result column="permit_date" jdbcType="DATE" property="permitDate" />
-    <result column="licence" jdbcType="VARCHAR" property="licence" />
-    <result column="is_import" jdbcType="INTEGER" property="isImport" />
-    <result column="creator_id" jdbcType="VARCHAR" property="creatorId" />
-    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
-    <result column="modify_id" jdbcType="VARCHAR" property="modifyId" />
-    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
-    <result column="scope" jdbcType="LONGVARCHAR" property="scope" />
-    <result column="permit_condition" jdbcType="LONGVARCHAR" property="condition" />
-    <result column="promise" jdbcType="LONGVARCHAR" property="promise" />
-    <result column="note" jdbcType="LONGVARCHAR" property="note" />
-  </resultMap>
+    <resultMap id="FacPermitBaseResultMap" type="com.rainbow.permit.domain.FacPermit">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="service_id" jdbcType="VARCHAR" property="serviceId"/>
+        <result column="fac_id" jdbcType="VARCHAR" property="facId"/>
+        <result column="stage_id" jdbcType="VARCHAR" property="stageId"/>
+        <result column="permit_date" jdbcType="DATE" property="permitDate"/>
+        <result column="licence" jdbcType="VARCHAR" property="licence"/>
+        <result column="is_import" jdbcType="INTEGER" property="isImport"/>
+        <result column="creator_id" jdbcType="VARCHAR" property="creatorId"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="modify_id" jdbcType="VARCHAR" property="modifyId"/>
+        <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate"/>
+        <result column="scope" jdbcType="LONGVARCHAR" property="scope"/>
+        <result column="permit_condition" jdbcType="LONGVARCHAR" property="condition"/>
+        <result column="promise" jdbcType="LONGVARCHAR" property="promise"/>
+        <result column="note" jdbcType="LONGVARCHAR" property="note"/>
+        <result column="security_level" jdbcType="VARCHAR" property="securityLevel"/>
+        <result column="security_gist" jdbcType="VARCHAR" property="securityGist"/>
+        <result column="security_time_limit" jdbcType="INTEGER" property="securityTimeLimit"/>
+        <result column="state" jdbcType="VARCHAR" property="state"/>
+    </resultMap>
 
-  <resultMap id="FacPermitExtendMap" extends="FacPermitBaseResultMap" type="com.rainbow.permit.domain.FacPermitExtend">
-    <result column="serviceDepartName" jdbcType="VARCHAR" property="serviceDepartName" />
-    <result column="facName" jdbcType="VARCHAR" property="facName" />
-    <result column="permitStageValue" jdbcType="VARCHAR" property="permitStageValue" />
-  </resultMap>
+    <resultMap id="FacPermitExtendMap" extends="FacPermitBaseResultMap"
+               type="com.rainbow.permit.domain.FacPermitExtend">
+        <result column="serviceDepartName" jdbcType="VARCHAR" property="serviceDepartName"/>
+        <result column="facName" jdbcType="VARCHAR" property="facName"/>
+        <result column="permitStageValue" jdbcType="VARCHAR" property="permitStageValue"/>
+        <result column="securityLevelValue" jdbcType="VARCHAR" property="securityLevelValue"/>
+        <result column="stateValue" jdbcType="VARCHAR" property="stateValue"/>
+    </resultMap>
 
+    <select id="getFacPermitList" parameterType="map" resultMap="FacPermitExtendMap">
+        select
+        t.*,
+        sd.name serviceDepartName,
+        f.name facName,
+        ps.value permitStageValue,
+        cs.value as securityLevelValue,
+        cas.value as stateValue
+        from
+        permit_fac t
+        left join unit_service_depart sd on t.service_id = sd.id
+        left join unit_fac f on t.fac_id = f.id
+        left join config_fac_permit_stage ps on t.stage_id = ps.id
+        left join config_info_security_level cs on cs.id = t.security_level
+        left join  config_audit_state cas on t.state=cas.id
+        where 1 = 1
+        and t.id in (select distinct(t.id) from permit_fac as t left join permit_publish_scope as pps on pps.permit_id = t.id
+            where  t.security_level in ('0', '64') or t.creator_id = #{userId}
+            or (pps.user_id = #{userId}
+            <if test="userLevel == 3">
+                and t.security_level in ('128', '192')
+            </if>
+            <if test="userLevel == 2">
+                and t.security_level = '128'
+            </if>
+            ))
+        <if test="serviceDepartName != null and serviceDepartName != ''">
+            and instr(sd.name,#{serviceDepartName})>0
+        </if>
 
-  <select id="getFacPermitList" parameterType="map" resultMap="FacPermitExtendMap">
+        <if test="facName != null and facName != ''">
+            and instr(f.name,#{facName})>0
+        </if>
+
+        <if test="permitStageIds != null">
+            and t.stage_id in (
+            <foreach item="item" index="index" collection="permitStageIds" separator=",">
+                #{item}
+            </foreach>
+            )
+        </if>
+
+        <if test="start_date != null and start_date != ''">
+            and substr(t.permit_date,0,10)
+            <![CDATA[  >=  ]]>
+            substr(#{start_date},0,10)
+        </if>
+
+        <if test="end_date != null and end_date != ''">
+            and substr(t.permit_date,0,10)
+            <![CDATA[  <=  ]]>
+            substr(#{end_date},0,10)
+        </if>
+
+        <if test="facId != null and facId != ''">
+            and t.fac_id = #{facId}
+        </if>
+
+        <if test="state != null and state != ''">
+            and t.state = #{state}
+        </if>
+
+        <choose>
+            <when test="checked != null and checked != ''">
+                order by t.modify_date desc
+            </when>
+            <otherwise>
+                order by t.permit_date desc,sd.name ,f.name
+            </otherwise>
+        </choose>
+
+    </select>
+
+    <select id="getFacPermitById" parameterType="java.lang.String" resultMap="FacPermitExtendMap">
     select
     t.*,
     sd.name serviceDepartName,
     f.name facName,
-    ps.value permitStageValue
+    ps.value permitStageValue,
+    cs.value as securityLevelValue,
+    cas.value as stateValue
     from permit_fac t
     left join  unit_service_depart sd on t.service_id = sd.id
     left join  unit_fac f on t.fac_id = f.id
     left join  config_fac_permit_stage ps on t.stage_id = ps.id
-    where 1=1
-    <if test="serviceDepartName != null and serviceDepartName != ''">
-      and instr(sd.name,#{serviceDepartName})>0
-    </if>
-
-    <if test="facName != null and facName != ''">
-      and instr(f.name,#{facName})>0
-    </if>
-
-    <if test="permitStageIds != null">
-      and t.stage_id in (
-      <foreach item="item" index="index" collection="permitStageIds" separator=",">
-        #{item}
-      </foreach>
-      )
-    </if>
-
-    <if test="start_date != null and start_date != ''">
-      and substr(t.permit_date,0,10)
-      <![CDATA[  >=  ]]>
-      substr(#{start_date},0,10)
-    </if>
-
-    <if test="end_date != null and end_date != ''">
-      and substr(t.permit_date,0,10)
-      <![CDATA[  <=  ]]>
-      substr(#{end_date},0,10)
-    </if>
-
-    <if test="facId != null and facId != ''">
-      and t.fac_id = #{facId}
-    </if>
-
-    <choose>
-      <when test="checked != null and checked != ''">
-        order by t.modify_date desc
-      </when>
-      <otherwise>
-        order by t.permit_date desc,sd.name ,f.name
-      </otherwise>
-    </choose>
-
-  </select>
-
-  <select id="getFacPermitById" parameterType="java.lang.String" resultMap="FacPermitExtendMap">
-
-
-    select
-    t.*,
-    sd.name serviceDepartName,
-    f.name facName,
-    ps.value permitStageValue
-    from permit_fac t
-    left join  unit_service_depart sd on t.service_id = sd.id
-    left join  unit_fac f on t.fac_id = f.id
-    left join  config_fac_permit_stage ps on t.stage_id = ps.id
+    left join  config_info_security_level cs on t.security_level = cs.id
+    left join  config_audit_state cas on t.state=cas.id
     where t.id = #{id}
 
   </select>
 
-  <select id="verifyDuplication" resultType="int" parameterType="java.util.Map">
+    <select id="verifyDuplication" resultType="int" parameterType="java.util.Map">
     select count(1) from permit_fac t WHERE t.service_id=#{serviceId} and t.fac_id=#{facId} and t.stage_id=#{stageId}
      and t.permit_date=#{permitDate};
   </select>

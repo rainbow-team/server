@@ -38,7 +38,7 @@ public class UserController extends BaseController {
 
     /*
      * @RequestMapping("user")
-     * 
+     *
      * @RequiresPermissions("user:list") public String index(Model model) {
      * SystemUser user = super.getCurrentUser(); model.addAttribute("user", user);
      * return "system/user/user"; }
@@ -93,7 +93,7 @@ public class UserController extends BaseController {
 
     /**
      * 获取用户(包含他的角色)
-     * 
+     *
      * @param userId
      * @return
      */
@@ -110,7 +110,7 @@ public class UserController extends BaseController {
 
     /**
      * 获取用户(不包含他的角色)
-     * 
+     *
      * @param userId
      * @return
      */
@@ -128,7 +128,7 @@ public class UserController extends BaseController {
 
     /**
      * 获取用户所有权限
-     * 
+     *
      * @param userId
      * @return
      */
@@ -145,7 +145,7 @@ public class UserController extends BaseController {
 
     /**
      * 获取用户列表
-     * 
+     *
      * @param page
      * @return
      */
@@ -156,9 +156,9 @@ public class UserController extends BaseController {
     }
 
     /**
-     * 获取用户列表
-     * 
-     * @param page
+     * 修改密码
+     *
+     * @param user
      * @return
      */
     @PostMapping("/changePassword")
@@ -181,6 +181,6 @@ public class UserController extends BaseController {
 
     @PostMapping("/getAllUser")
     public ResponseBo getAllUser() {
-        return ResponseBo.ok(userService.selectAll());
+        return ResponseBo.ok(userService.getAllUser());
     }
 }

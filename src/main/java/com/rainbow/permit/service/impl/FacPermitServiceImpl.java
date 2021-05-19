@@ -3,6 +3,7 @@ package com.rainbow.permit.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.rainbow.attachment.service.FileInfoService;
+import com.rainbow.common.cache.EHCacheUtils;
 import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.PagingEntity;
 import com.rainbow.common.domain.ResponseBo;
@@ -11,8 +12,10 @@ import com.rainbow.common.util.*;
 import com.rainbow.config.dao.SystemConfigMapper;
 import com.rainbow.monitor.domain.extend.ReportMonitorExtend;
 import com.rainbow.permit.dao.FacPermitMapper;
+import com.rainbow.permit.dao.PermitPublishScopeMapper;
 import com.rainbow.permit.domain.FacPermit;
 import com.rainbow.permit.domain.FacPermitExtend;
+import com.rainbow.permit.domain.PermitPublishScope;
 import com.rainbow.permit.service.FacPermitService;
 import com.rainbow.system.domain.SystemUser;
 import com.rainbow.unit.dao.EquipDepartMapper;
@@ -35,6 +38,7 @@ import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,20 +75,51 @@ public class FacPermitServiceImpl extends BaseService<FacPermit> implements FacP
     FacPermitMapper facPermitMapper;
 
     @Autowired
+    PermitPublishScopeMapper scopeMappers;
+
+    @Autowired
     FileInfoService fileInfoService;
 
     @Override
     public int addFacPermit(FacPermit facPermit) {
-        facPermit.setId(GuidHelper.getGuid());
-        facPermit.setCreateDate(new Date());
-        facPermit.setModifyDate(new Date());
+        String permitId = GuidHelper.getGuid();
+        facPermit.setId(permitId);
+        facPermit.setState("1");//用户新建数据默认“发布/待审”状态
+        SystemUser user = EHCacheUtils.getCurrentUser(cacheManager);
+        facPermit.setCreatorId(user.getId());
+        Date now = new Date();
+        facPermit.setCreateDate(now);
+        facPermit.setModifyDate(now);
         fileInfoService.updateFileInfoByIds(facPermit.getAttachmentList(), facPermit.getId());
+
+        List<PermitPublishScope> list = facPermit.getPublishScopes().stream().map(item -> {
+            PermitPublishScope pps = new PermitPublishScope();
+            pps.setId(GuidHelper.getGuid());
+            pps.setPermitId(permitId);
+            pps.setUserId(item);
+            return pps;
+        }).collect(Collectors.toList());
+        scopeMappers.add(list);
         return facPermitMapper.insert(facPermit);
     }
 
     @Override
     public int modifyFacPermit(FacPermit facPermit) {
+        SystemUser user = EHCacheUtils.getCurrentUser(cacheManager);
+        facPermit.setModifyId(user.getId());
         facPermit.setModifyDate(new Date());
+
+        //删除知悉范围后再新增
+        scopeMappers.deleteByPermitId(facPermit.getId());
+        List<PermitPublishScope> list = facPermit.getPublishScopes().stream().map(item -> {
+            PermitPublishScope pps = new PermitPublishScope();
+            pps.setId(GuidHelper.getGuid());
+            pps.setPermitId(facPermit.getId());
+            pps.setUserId(item);
+            return pps;
+        }).collect(Collectors.toList());
+        scopeMappers.add(list);
+
         return facPermitMapper.updateByPrimaryKey(facPermit);
     }
 
@@ -92,6 +127,8 @@ public class FacPermitServiceImpl extends BaseService<FacPermit> implements FacP
     public ResponseBo getFacPermitList(Page page) {
         PageHelper.startPage(page.getPageNo(), page.getPageSize());
         Map<String, Object> map = page.getQueryParameter();
+        SystemUser user = EHCacheUtils.getCurrentUser(cacheManager);
+        map.put("userId", user.getId());
         List<FacPermitExtend> list = facPermitMapper.getFacPermitList(map);
 
         PageInfo<FacPermitExtend> pageInfo = new PageInfo<FacPermitExtend>(list);
@@ -113,6 +150,8 @@ public class FacPermitServiceImpl extends BaseService<FacPermit> implements FacP
     @Override
     public void exportFacPermit(Page page, HttpServletResponse response) {
         Map<String, Object> map = page.getQueryParameter();
+        SystemUser user = EHCacheUtils.getCurrentUser(cacheManager);
+        map.put("userId", user.getId());
         List<FacPermitExtend> list = facPermitMapper.getFacPermitList(map);
 
         List<String[]> cloumnValues = new ArrayList<>();
@@ -120,15 +159,18 @@ public class FacPermitServiceImpl extends BaseService<FacPermit> implements FacP
         if (list != null && list.size() > 0) {
 
             for (FacPermitExtend facPermitExtend : list) {
-                String[] strs = new String[] { facPermitExtend.getServiceDepartName(), facPermitExtend.getFacName(),
+                String[] strs = new String[]{facPermitExtend.getServiceDepartName(), facPermitExtend.getFacName(),
                         facPermitExtend.getPermitStageValue(), facPermitExtend.getScope(),
                         DateUtils.DateToString(facPermitExtend.getPermitDate()), facPermitExtend.getLicence(),
-                        facPermitExtend.getCondition(), facPermitExtend.getPromise() };
+                        facPermitExtend.getCondition(), facPermitExtend.getPromise(),
+                        facPermitExtend.getSecurityLevelValue(), facPermitExtend.getSecurityGist(),
+                        String.valueOf(facPermitExtend.getSecurityTimeLimit())};
                 cloumnValues.add(strs);
             }
         }
 
-        String[] cloumnNames = new String[] { "营运单位", "设施名称", "许可阶段", "许可范围", "许可时间", "许可文号", "许可条件", "审评承诺" };
+        String[] cloumnNames = new String[]{"营运单位", "设施名称", "许可阶段", "许可范围", "许可时间", "许可文号", "许可条件",
+                "审评承诺", "保密等级", "定密依据", "保密期限"};
 
         HSSFWorkbook wb = new HSSFWorkbook();
         wb = ExportExcel.getHssfWorkBook(wb, "核设施许可信息列表", cloumnNames, cloumnValues);
@@ -150,21 +192,19 @@ public class FacPermitServiceImpl extends BaseService<FacPermit> implements FacP
     @Override
     public ResponseBo importData(HttpServletRequest request) {
         Multipart part = new Multipart();
-        // ????????file
+        // 获取前端传过来的file
         MultipartFile file = part.getUploadFile(request);
         FileInputStream inputStream = null;
-        // FileInputStream inputStream1 = null;
 
         String msg = "";
         try {
             if (file != null) {
-                // ??????????
+                // 转化文件名，避免乱码
                 String fileName = new String(file.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8");
                 inputStream = (FileInputStream) file.getInputStream();
-                // inputStream1 = (FileInputStream) file.getInputStream();
-                // ????excel?????
+                // 将导入的excel转化为实体
                 List<FacPermitExtend> list = ExcelHelper.convertToList(FacPermitExtend.class, fileName, inputStream, 1,
-                        8, 0);
+                        11, 0);
 
                 if (list.size() == 0) {
                     return ResponseBo.error("文件内容为空");
@@ -172,7 +212,7 @@ public class FacPermitServiceImpl extends BaseService<FacPermit> implements FacP
 
                 Map<String, String> map = new HashMap<>();
                 Map<String, String> mapConfig = new HashMap<>();
-                // ??
+                // 校验及字典转换
                 for (int i = 0; i < list.size(); i++) {
                     FacPermitExtend item = list.get(i);
                     item.setId(GuidHelper.getGuid());
@@ -187,7 +227,6 @@ public class FacPermitServiceImpl extends BaseService<FacPermit> implements FacP
                         } else {
                             item.setServiceId(serviceDepartId);
                         }
-
                     }
 
                     if (!StrUtil.isNullOrEmpty(item.getFacName())) {
@@ -213,6 +252,20 @@ public class FacPermitServiceImpl extends BaseService<FacPermit> implements FacP
                         }
                     }
 
+                    if (StrUtil.isNullOrEmpty(item.getSecurityLevelValue())) {
+                        msg += "第" + (i + 2) + "行保密等级为空,";
+                    } else {
+                        mapConfig.put("tablename", "config_info_security_level");
+                        mapConfig.put("value", item.getSecurityLevelValue());
+                        String level = systemConfigMapper.getConfigIdByName(mapConfig);
+
+                        if (StrUtil.isNullOrEmpty(level)) {
+                            msg += "第" + (i + 2) + "行保密等级在数据库中不存在,";
+                        } else {
+                            item.setSecurityLevel(level);
+                        }
+                    }
+
                     if (item.getPermitDate() == null) {
                         msg += "第" + (i + 2) + "行许可时间为空,";
                     }
@@ -221,7 +274,7 @@ public class FacPermitServiceImpl extends BaseService<FacPermit> implements FacP
                         msg += "第" + (i + 2) + "行许可文号为空,";
                     }
 
-                    // Excel??????
+                    // Excel数据重复判断
                     if (map.containsKey(
                             item.getServiceId() + item.getFacId() + item.getStageId() + item.getPermitDate())) {
                         msg += "第" + (i + 2) + "行【单位名称】+【核设施名称】+【许可阶段】+【许可时间】在数据库中重复,";
@@ -230,7 +283,7 @@ public class FacPermitServiceImpl extends BaseService<FacPermit> implements FacP
                                 item.toString());
                     }
 
-                    // ???????
+                    // 数据库重复判断
                     Map<String, Object> params = new HashMap<String, Object>();
                     params.put("serviceId", item.getServiceId());
                     params.put("facId", item.getFacId());
@@ -249,20 +302,18 @@ public class FacPermitServiceImpl extends BaseService<FacPermit> implements FacP
                 if (!msg.isEmpty()) {
                     return ResponseBo.error(msg);
                 } else {
-                    // ?????
+                    // 插入数据库
                     SystemUser user = UserUtils.getCurrentUser(cacheManager);
                     if (user == null) {
                         user = new SystemUser();
                     }
-
                     for (FacPermitExtend data : list) {
-
                         data.setIsImport(1);
+                        data.setState("0");//用户新建数据默认“发布/待审”状态
                         data.setCreateDate(new Date());
                         data.setModifyDate(new Date());
                         data.setCreatorId(user.getId());
                         data.setModifyId(user.getId());
-
                         facPermitMapper.insert(data);
 
                     }
@@ -275,6 +326,14 @@ public class FacPermitServiceImpl extends BaseService<FacPermit> implements FacP
         }
 
         return ResponseBo.ok();
+    }
+
+    @Override
+    public int audit(String id, String state) {
+        FacPermit permit = new FacPermit();
+        permit.setId(id);
+        permit.setState(state);
+        return this.updateNotNull(permit);
     }
 
 }

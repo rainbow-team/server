@@ -2,6 +2,7 @@ package com.rainbow.permit.domain;
 
 import com.rainbow.common.annotation.BeanFieldAnnotation;
 import com.rainbow.common.domain.BaseExtendEntity;
+import com.sun.star.resource.XStringResourcePersistence;
 
 import java.util.Date;
 import javax.persistence.*;
@@ -94,6 +95,40 @@ public class FacPermit extends BaseExtendEntity {
      */
     @BeanFieldAnnotation(order = 8)
     public String promise;
+
+    /**
+     * 保密等级
+     */
+    @Column(name = "security_level")
+    private String securityLevel;
+
+    /**
+     * 定密依据
+     */
+    @Column(name = "security_gist")
+    @BeanFieldAnnotation(order = 10)
+    public String securityGist;
+
+    /**
+     * 保密期限
+     */
+    @Column(name = "security_time_limit")
+    @BeanFieldAnnotation(order = 11)
+    public Integer securityTimeLimit;
+
+    /**
+     * 状态，0-草稿，1-提交/待审核，2-审核打回，3-审核通过
+     */
+    @Column(name = "state")
+    public String state;
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 
     /**
      * 备注
@@ -368,5 +403,38 @@ public class FacPermit extends BaseExtendEntity {
      */
     public void setNote(String note) {
         this.note = note == null ? null : note.trim();
+    }
+
+    /**
+     * 保密等级
+     */
+    public String getSecurityLevel() {
+        return securityLevel;
+    }
+
+    public void setSecurityLevel(String securityLevel) {
+        this.securityLevel = securityLevel;
+    }
+
+    /**
+     * 定密依据
+     */
+    public String getSecurityGist() {
+        return securityGist;
+    }
+
+    public void setSecurityGist(String securityGist) {
+        this.securityGist = securityGist;
+    }
+
+    /**
+     * 保密期限
+     */
+    public Integer getSecurityTimeLimit() {
+        return securityTimeLimit;
+    }
+
+    public void setSecurityTimeLimit(Integer securityTimeLimit) {
+        this.securityTimeLimit = securityTimeLimit;
     }
 }

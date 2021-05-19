@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainbow.permit.dao.PermitPublishScopeMapper">
+    <resultMap id="BaseResultMap" type="com.rainbow.permit.domain.PermitPublishScope">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="permit_id" jdbcType="VARCHAR" property="permitId"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+    </resultMap>
+
+
+    <select id="getListByPermitId" parameterType="String" resultMap="BaseResultMap">
+    select t.*
+    from permit_publish_scope t
+    where 1=1 and t.PERMIT_ID=#{permitId}
+    </select>
+
+    <delete id="deleteByPermitId" parameterType="java.lang.String">
+    delete from permit_publish_scope where PERMIT_ID=#{permitId}
+    </delete>
+
+    <insert id="add" parameterType="java.util.List">
+        insert into permit_publish_scope
+        (id, permit_id,user_id)
+        values
+        <foreach collection="list" item="permit" index="index" separator=",">
+            (
+            #{permit.id}, #{permit.permitId},#{permit.userId}
+            )
+        </foreach>
+    </insert>
+</mapper>

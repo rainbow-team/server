@@ -1,10 +1,11 @@
 package com.rainbow.system.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "system_user")
-public class SystemUser {
+public class SystemUser implements Serializable {
     /**
      * 主键id
      */
@@ -78,6 +79,20 @@ public class SystemUser {
      */
     @Column(name = "modify_date")
     private Date modifyDate;
+
+    /**
+     * 保密等级（-1：非涉密；1：一般；2：重要；3：核心）
+     */
+    @Column(name = "security_level")
+    private String securityLevel;
+
+    public String getSecurityLevel() {
+        return securityLevel;
+    }
+
+    public void setSecurityLevel(String securityLevel) {
+        this.securityLevel = securityLevel;
+    }
 
     /**
      * 获取主键id

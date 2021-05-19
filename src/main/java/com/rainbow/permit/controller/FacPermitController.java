@@ -6,7 +6,9 @@ import com.rainbow.common.domain.Page;
 import com.rainbow.common.domain.ResponseBo;
 import com.rainbow.common.util.DateUtils;
 import com.rainbow.permit.domain.FacPermit;
+import com.rainbow.permit.domain.PermitPublishScope;
 import com.rainbow.permit.service.FacPermitService;
+import com.rainbow.permit.service.PermitPublishScopeService;
 import com.rainbow.unit.domain.Umine;
 import com.rainbow.unit.domain.UminePlaceImprove;
 import com.rainbow.unit.service.UmineService;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +38,9 @@ public class FacPermitController {
 
     @Autowired
     FacPermitService facPermitService;
+
+    @Autowired
+    PermitPublishScopeService scopeService;
 
     /**
      * 添加核设施许可信息
@@ -72,9 +78,28 @@ public class FacPermitController {
         }
     }
 
+
+    /**
+     * 核设施许可信息审核
+     *
+     * @param id    核设施许可信息的id
+     * @param state 状态，0-草稿，1-提交/待审核，2-审核打回，3-审核通过
+     * @return: com.rainbow.common.domain.ResponseBo
+     **/
+    @PostMapping("/audit")
+    @SystemLog(description = "修改核设施许可信息")
+    public ResponseBo audit(@RequestBody FacPermit facPermit) {
+        int result = facPermitService.audit(facPermit.getId(), facPermit.getState());
+        if (result == 1) {
+            return ResponseBo.ok("操作成功");
+        } else {
+            return ResponseBo.error("操作失败");
+        }
+    }
+
     /**
      * 获取核设施许可信息列表
-     * 
+     *
      * @param page
      * @return
      */
@@ -86,7 +111,7 @@ public class FacPermitController {
 
     /**
      * 获取核设施许可信息详情
-     * 
+     *
      * @param id
      * @return
      */
@@ -97,7 +122,7 @@ public class FacPermitController {
 
     /**
      * 删除核设施许可信息
-     * 
+     *
      * @param ids
      * @return
      */
@@ -106,6 +131,7 @@ public class FacPermitController {
     public ResponseBo deleteFacPermitByIds(@RequestBody List<String> ids) {
         if ((ids != null) && (ids.size() > 0)) {
             facPermitService.batchDelete(ids, "id", FacPermit.class);
+            scopeService.batchDelete(ids, "permitId", PermitPublishScope.class);
         }
         return ResponseBo.ok();
     }
@@ -148,7 +174,7 @@ public class FacPermitController {
 
     /**
      * 导入
-     * 
+     *
      * @param request
      * @return
      */

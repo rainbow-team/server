@@ -27,4 +27,6 @@ public interface FacPermitService extends IService<FacPermit> {
     void exportFacPermit(Page page, HttpServletResponse response);
 
     ResponseBo importData(HttpServletRequest request);
+
+    int audit(String id, String state);
 }

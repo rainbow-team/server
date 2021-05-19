@@ -14,4 +14,13 @@ public class SystemUserExtend extends SystemUser {
         this.department = department;
     }
 
+    public String getSecurityLevelValue() {
+        return securityLevelValue;
+    }
+
+    public void setSecurityLevelValue(String securityLevelValue) {
+        this.securityLevelValue = securityLevelValue;
+    }
+
+    private String securityLevelValue;
 }

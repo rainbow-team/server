@@ -17,13 +17,13 @@ public interface UserMapper extends MyMapper<SystemUser> {
 
     /*
      * List<SystemUser> findSystemUserWithDept(SystemUser user);
-     * 
+     *
      * //List<SystemUserWithRole> findSystemUserWithRole(Long userId);
-     * 
+     *
      * SystemUser findSystemUserProfile(SystemUser user);
-     * 
-     * 
-     * 
+     *
+     *
+     *
      * String getSystemUserNameById(String id);
      */
 
@@ -42,4 +42,6 @@ public interface UserMapper extends MyMapper<SystemUser> {
     List<SystemUserExtend> getUserList(Map<String, Object> map);
 
     int changePassword(SystemUser user);
+
+    List<SystemUser> getAllUser();
 }

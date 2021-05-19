@@ -19,37 +19,37 @@ import java.util.Map;
  **/
 public interface UserService extends IService<SystemUser> {
     /*    *//**
-             * 根据用户名查找用户
-             * 
-             * @param userName
-             * @return
-             *//*
-                * User findByName(String userName);
-                * 
-                */
+     * 根据用户名查找用户
+     *
+     * @param userName
+     * @return
+     *//*
+     * User findByName(String userName);
+     *
+     */
 
     /**
      * 更新用户的最后登录时间
      *
      * @param userName
      *//*
-        * void updateLoginTime(String userName);
-        * 
-        * UserWithRole findById(Long userId);
-        * 
-        * 
-        * @Cacheable(key = "#p0.toString() + (#p1 != null ? #p1.toString() : '')")
-        * List<User> findUserWithDept(User user, QueryRequest request);
-        * 
-        * @CacheEvict(key = "#p0", allEntries = true) void registUser(User user);
-        * 
-        * void updateTheme(String theme, String userName);
-        * 
-        * 
-        * 
-        * @CacheEvict(key = "#p0", allEntries = true) void updateUser(User user, Long[]
-        * roles);
-        */
+     * void updateLoginTime(String userName);
+     *
+     * UserWithRole findById(Long userId);
+     *
+     *
+     * @Cacheable(key = "#p0.toString() + (#p1 != null ? #p1.toString() : '')")
+     * List<User> findUserWithDept(User user, QueryRequest request);
+     *
+     * @CacheEvict(key = "#p0", allEntries = true) void registUser(User user);
+     *
+     * void updateTheme(String theme, String userName);
+     *
+     *
+     *
+     * @CacheEvict(key = "#p0", allEntries = true) void updateUser(User user, Long[]
+     * roles);
+     */
 
     // @CacheEvict(allEntries = true)
     int addUser(UserWithRole user);
@@ -65,9 +65,9 @@ public interface UserService extends IService<SystemUser> {
 
     /*
      * void updatePassword(String password);
-     * 
+     *
      * User findUserProfile(User user);
-     * 
+     *
      * void updateUserProfile(User user);
      */
     SystemUser login(Map<String, String> map);
@@ -77,5 +77,7 @@ public interface UserService extends IService<SystemUser> {
     ResponseBo getUserList(Page page);
 
     int changePassword(SystemUser user);
+
+    List<SystemUser> getAllUser();
 
 }
